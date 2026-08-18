@@ -67,17 +67,39 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
 
   return (
     <div 
-      className="min-h-screen flex items-center justify-center relative overflow-hidden"
+      className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden py-10"
       style={{
         backgroundImage: 'url("/astrikos_login_page.png")',
         backgroundSize: 'cover',
-        backgroundPosition: 'center top',
+        backgroundPosition: 'center bottom',
         backgroundRepeat: 'no-repeat'
       }}
     >
       {/* Dark overlay for better visibility */}
       <div className="absolute inset-0 bg-black/50 backdrop-blur-[2px]" />
-      
+
+      {/* Dell Technologies Branding */}
+      <div className="relative z-10 flex justify-center mb-10">
+        <div className="relative">
+          {/* Soft shadow / glow behind the Dell logo */}
+          <div
+            className="absolute -inset-x-16 -inset-y-10 rounded-full pointer-events-none"
+            style={{
+              background: 'radial-gradient(ellipse at center, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.35) 45%, rgba(0,0,0,0) 75%)',
+              filter: 'blur(18px)'
+            }}
+          />
+          <img
+            src="/dell_technologies-logo.png"
+            alt="Dell Technologies"
+            className="h-32 w-auto relative z-10"
+            style={{
+              filter: 'brightness(1.3) contrast(1.2) saturate(1.1) drop-shadow(0 6px 18px rgba(0,0,0,0.75))'
+            }}
+          />
+        </div>
+      </div>
+
       <div className="relative z-10 w-full max-w-6xl mx-4">
         <AnimatePresence mode="wait">
           {!selectedRole ? (
@@ -92,11 +114,6 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
             >
               {/* Logo and Title */}
               <div className="text-center mb-12">
-                <img 
-                  src="/Astrikos Logo Transparent perfect.png" 
-                  alt="Astrikos Logo" 
-                  className="h-20 w-auto mx-auto mb-6"
-                />
                 <h1 className="text-4xl font-bold text-white mb-3 font-condensed tracking-wider">
                   Total Airport Management System
                 </h1>
@@ -301,6 +318,19 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
             </motion.div>
           )}
         </AnimatePresence>
+      </div>
+
+      {/* Powered by Astrikos */}
+      <div className="relative z-10 flex flex-col items-center space-y-2 mt-10">
+        <span className="text-[11px] uppercase tracking-widest text-gray-400">Powered by</span>
+        <img
+          src="/Astrikos Logo Transparent Horizontal.png"
+          alt="Astrikos"
+          className="h-28 w-auto max-w-[460px] object-contain opacity-95 hover:opacity-100 transition-opacity"
+          style={{
+            filter: 'brightness(1.9) contrast(1.15) drop-shadow(0 2px 6px rgba(0,0,0,0.5))'
+          }}
+        />
       </div>
     </div>
   );
