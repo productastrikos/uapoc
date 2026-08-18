@@ -1,0 +1,566 @@
+/* ==========================================================================
+ * Simulation styles
+ * --------------------------------------------------------------------------
+ * Port of the AirOps stylesheet used by the three simulation screens
+ * (Flight Operations / Security Systems / Baggage Systems).
+ *
+ * Two deliberate differences from the original:
+ *   1. Every rule is scoped under `.sim-root` so the simulation overlay can
+ *      never restyle the rest of the UPOC/TAMS application. The original
+ *      sheet shipped global `!important` overrides on `.h-full`, `.flex-1`,
+ *      `.grid`, `.bg-white`, ... which would otherwise break every module.
+ *   2. The colour variables are re-toned to the TAMS palette (navy panels,
+ *      teal + gold accents) instead of the original black/blue AirOps theme.
+ * ========================================================================== */
+
+.sim-root {
+  /* Surfaces - TAMS navy ramp */
+  --bg-primary: #071028;
+  --bg-secondary: #08203a;
+  --bg-tertiary: #0a3a52;
+  --bg-card: #08203a;
+  --bg-surface: #0e556a;
+
+  /* Text */
+  --text-primary: #e6eef6;
+  --text-secondary: #b8c5d1;
+  --text-tertiary: #b8c5d1;
+  --text-muted: #8a9ba8;
+
+  /* Accents - teal primary, gold secondary */
+  --accent-blue: #01a3a4;
+  --accent-blue-dark: #018587;
+  --accent-emerald: #10b981;
+  --accent-emerald-dark: #059669;
+  --accent-purple: #e6b85c;
+  --accent-purple-dark: #c09429;
+  --accent-amber: #e6b85c;
+  --accent-amber-dark: #c09429;
+  --accent-red: #ef4444;
+  --accent-red-dark: #dc2626;
+
+  /* Status - identical to the TAMS status tokens */
+  --status-success: #10b981;
+  --status-warning: #f59e0b;
+  --status-error: #ef4444;
+  --status-info: #01a3a4;
+
+  /* Borders */
+  --border-primary: #0e556a;
+  --border-secondary: #14708a;
+  --border-accent: #01a3a4;
+
+  --shadow-primary: rgba(0, 0, 0, 0.8);
+  --shadow-accent: rgba(1, 163, 164, 0.3);
+
+  color: var(--text-primary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.sim-root *,
+.sim-root {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-secondary) transparent;
+  color-scheme: dark;
+}
+
+.sim-root *::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.sim-root *::-webkit-scrollbar-track {
+  background: var(--bg-tertiary);
+}
+
+.sim-root *::-webkit-scrollbar-thumb {
+  background: var(--border-secondary);
+  border-radius: 3px;
+}
+
+.sim-root *::-webkit-scrollbar-thumb:hover {
+  background: var(--border-accent);
+}
+
+.sim-root .no-scrollbar,
+.sim-root .no-scrollbar * {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.sim-root .no-scrollbar::-webkit-scrollbar,
+.sim-root .no-scrollbar *::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* --------------------------------------------------------------------------
+ * Backgrounds
+ * -------------------------------------------------------------------------- */
+
+.sim-root.sim-surface {
+  background:
+    radial-gradient(ellipse at top left, rgba(1, 163, 164, 0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at top right, rgba(230, 184, 92, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom left, rgba(14, 85, 106, 0.35) 0%, transparent 55%),
+    radial-gradient(ellipse at bottom right, rgba(1, 163, 164, 0.08) 0%, transparent 50%),
+    var(--bg-primary);
+}
+
+.sim-root .bg-gradient-digital-twin {
+  background:
+    radial-gradient(circle at 25% 25%, rgba(1, 163, 164, 0.14) 0%, transparent 60%),
+    radial-gradient(circle at 75% 75%, rgba(230, 184, 92, 0.1) 0%, transparent 60%),
+    linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+}
+
+/* --------------------------------------------------------------------------
+ * Glass panels
+ * -------------------------------------------------------------------------- */
+
+.sim-root .glass-morphism {
+  background: rgba(8, 32, 58, 0.95);
+  backdrop-filter: blur(24px) saturate(200%);
+  border: 1px solid rgba(1, 163, 164, 0.18);
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.sim-root .glass-card {
+  background: linear-gradient(158deg, rgba(14, 85, 106, 0.4) 0%, rgba(8, 32, 58, 0.88) 100%);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(1, 163, 164, 0.2);
+  border-radius: 14px;
+  box-shadow:
+    0 10px 34px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Section headings inside the simulation panels. */
+.sim-root h2,
+.sim-root h3 {
+  letter-spacing: -0.005em;
+}
+
+/* Scenario / chart / log list rows share one hover treatment. */
+.sim-root .sim-row {
+  border-radius: 10px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.sim-root .sim-row:hover {
+  background: rgba(1, 163, 164, 0.08);
+  border-color: rgba(1, 163, 164, 0.4);
+}
+
+/* --------------------------------------------------------------------------
+ * Animations
+ * -------------------------------------------------------------------------- */
+
+@keyframes sim-pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 8px var(--accent-blue), 0 0 16px var(--accent-blue), 0 0 24px var(--accent-blue);
+    opacity: 1;
+  }
+  50% {
+    box-shadow: 0 0 12px var(--accent-blue), 0 0 24px var(--accent-blue), 0 0 36px var(--accent-blue);
+    opacity: 0.8;
+  }
+}
+
+@keyframes sim-flow {
+  0% {
+    transform: translateX(-100%) scale(0.5);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    transform: translateX(100%) scale(0.5);
+    opacity: 0;
+  }
+}
+
+@keyframes sim-fade-pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+}
+
+/* --------------------------------------------------------------------------
+ * Interactive digital-twin elements
+ * -------------------------------------------------------------------------- */
+
+.sim-root .digital-twin-zone {
+  position: relative;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sim-root .digital-twin-zone::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 8px;
+  background: conic-gradient(
+    from 180deg,
+    var(--accent-blue),
+    var(--accent-purple),
+    var(--accent-emerald),
+    var(--accent-blue)
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: -1;
+}
+
+.sim-root .digital-twin-zone:hover::before {
+  opacity: 0.4;
+  animation: sim-pulse-glow 2s infinite;
+}
+
+.sim-root .digital-twin-zone:hover {
+  transform: scale(1.05);
+  z-index: 10;
+}
+
+/* --------------------------------------------------------------------------
+ * Status indicators
+ * -------------------------------------------------------------------------- */
+
+.sim-root .hbms-status-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sim-root .hbms-status-dot.operational {
+  background-color: var(--status-success);
+  box-shadow: 0 0 12px var(--status-success);
+}
+
+.sim-root .hbms-status-dot.warning {
+  background-color: var(--status-warning);
+  box-shadow: 0 0 12px var(--status-warning);
+  animation: sim-pulse-glow 1.5s infinite;
+}
+
+.sim-root .hbms-status-dot.critical {
+  background-color: var(--status-error);
+  box-shadow: 0 0 12px var(--status-error);
+  animation: sim-pulse-glow 1s infinite;
+}
+
+.sim-root .hbms-status-dot.offline {
+  background-color: #8a9ba8;
+  box-shadow: none;
+}
+
+.sim-root .hbms-status-dot.operational::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: var(--status-success);
+  opacity: 0.2;
+  animation: pulse 2s infinite;
+}
+
+/* --------------------------------------------------------------------------
+ * Flight timeline
+ * -------------------------------------------------------------------------- */
+
+.sim-root .flight-phase-indicator {
+  position: relative;
+  width: 100%;
+  height: 8px;
+  background: var(--bg-tertiary);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.sim-root .flight-phase-progress {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+  border-radius: 4px;
+  transition: width 1s ease-in-out;
+  position: relative;
+}
+
+.sim-root .flight-phase-progress::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -10px;
+  width: 20px;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: sim-flow 2s infinite;
+}
+
+/* --------------------------------------------------------------------------
+ * Digital twin container
+ * -------------------------------------------------------------------------- */
+
+.sim-root .digital-twin-container {
+  background:
+    radial-gradient(circle at 25% 25%, rgba(1, 163, 164, 0.14) 0%, transparent 60%),
+    radial-gradient(circle at 75% 75%, rgba(230, 184, 92, 0.1) 0%, transparent 60%),
+    linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+  border-radius: 20px;
+  border: 2px solid var(--border-primary);
+  overflow: hidden;
+  position: relative;
+  min-height: 600px;
+  /* No `perspective` here. Nothing inside uses a 3D transform, and perspective
+     makes this box the containing block for `position: fixed` descendants -
+     which meant every detail popup rendered inside a digital twin was measured
+     against this panel and then clipped away by its `overflow: hidden`. */
+}
+
+.sim-root .digital-twin-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(1, 163, 164, 0.05) 3px,
+      rgba(1, 163, 164, 0.05) 6px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 3px,
+      rgba(1, 163, 164, 0.05) 3px,
+      rgba(1, 163, 164, 0.05) 6px
+    );
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+ * Control panels
+ * -------------------------------------------------------------------------- */
+
+.sim-root .hbms-control-panel {
+  position: relative;
+  background: linear-gradient(160deg, rgba(10, 58, 82, 0.62) 0%, rgba(7, 16, 40, 0.86) 100%);
+  border: 1px solid rgba(1, 163, 164, 0.22);
+  border-radius: 14px;
+  backdrop-filter: blur(18px) saturate(140%);
+  box-shadow:
+    0 10px 34px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+/* Hairline accent along the top edge of every panel. */
+.sim-root .hbms-control-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 14px;
+  right: 14px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(1, 163, 164, 0.55) 20%,
+    rgba(230, 184, 92, 0.4) 80%,
+    transparent
+  );
+  pointer-events: none;
+}
+
+.sim-root .hbms-metric-card {
+  position: relative;
+  background: linear-gradient(155deg, rgba(14, 85, 106, 0.34) 0%, rgba(8, 32, 58, 0.9) 100%);
+  border: 1px solid rgba(1, 163, 164, 0.18);
+  border-radius: 12px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.sim-root .hbms-metric-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 90% at 0% 0%, rgba(1, 163, 164, 0.12), transparent 60%);
+  pointer-events: none;
+}
+
+.sim-root .hbms-metric-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(1, 163, 164, 0.28);
+  border-color: rgba(1, 163, 164, 0.55);
+}
+
+/* Numeric readouts line up column-wise across panels. */
+.sim-root .hbms-metric-card .text-3xl,
+.sim-root .hbms-metric-card .text-2xl {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+.sim-root select:focus {
+  z-index: 30;
+}
+
+.sim-root .hbms-control-panel select {
+  position: relative;
+  z-index: 15;
+}
+
+/* --------------------------------------------------------------------------
+ * "No light surfaces" overrides.
+ * A handful of the ported screens still use light utility classes; these keep
+ * them dark, exactly as the original AirOps sheet did.
+ * -------------------------------------------------------------------------- */
+
+.sim-root .bg-white,
+.sim-root .bg-sim-50,
+.sim-root .bg-sim-100,
+.sim-root .bg-simteal-50,
+.sim-root .bg-simteal-100,
+.sim-root .bg-simgold-50,
+.sim-root .bg-simgold-100,
+.sim-root .bg-emerald-50,
+.sim-root .bg-emerald-100,
+.sim-root .bg-red-50,
+.sim-root .bg-red-100,
+.sim-root .bg-green-50,
+.sim-root .bg-pink-50 {
+  background-color: var(--bg-card) !important;
+}
+
+.sim-root .text-black,
+.sim-root .text-sim-900,
+.sim-root .text-simteal-900,
+.sim-root .text-simgold-900,
+.sim-root .text-emerald-900,
+.sim-root .text-red-900 {
+  color: var(--text-primary) !important;
+}
+
+.sim-root .text-sim-700,
+.sim-root .text-simteal-700,
+.sim-root .text-simgold-700,
+.sim-root .text-emerald-700,
+.sim-root .text-red-800,
+.sim-root .text-simgold-800,
+.sim-root .text-simteal-800,
+.sim-root .text-emerald-800 {
+  color: var(--text-secondary) !important;
+}
+
+.sim-root .text-sim-600,
+.sim-root .text-simteal-600,
+.sim-root .text-simgold-600,
+.sim-root .text-emerald-600 {
+  color: var(--text-tertiary) !important;
+}
+
+.sim-root .border-sim-200,
+.sim-root .border-white,
+.sim-root .border-simteal-200,
+.sim-root .border-emerald-200,
+.sim-root .border-simgold-200 {
+  border-color: var(--border-primary) !important;
+}
+
+.sim-root .border-sim-300,
+.sim-root .border-simteal-300,
+.sim-root .border-emerald-300,
+.sim-root .border-simgold-300 {
+  border-color: var(--border-secondary) !important;
+  position: relative;
+  z-index: 20;
+}
+
+/* --------------------------------------------------------------------------
+ * Layout helpers the ported screens rely on
+ * -------------------------------------------------------------------------- */
+
+.sim-root .gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.sim-root .h-full {
+  height: 100% !important;
+}
+
+.sim-root .flex-1 {
+  flex: 1 !important;
+  min-height: 0 !important;
+}
+
+.sim-root .no-spacing {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.sim-root .grid {
+  min-height: 0;
+}
+
+.sim-root .grid > * {
+  min-height: 0;
+}
+
+@media (max-width: 768px) {
+  .sim-root .digital-twin-container {
+    min-height: 400px;
+  }
+
+  .sim-root .glass-morphism {
+    backdrop-filter: blur(16px) saturate(150%);
+  }
+
+  .sim-root .space-y-6 > * + * {
+    margin-top: 1rem !important;
+  }
+
+  .sim-root .space-y-4 > * + * {
+    margin-top: 0.75rem !important;
+  }
+
+  .sim-root .gap-6 {
+    gap: 1rem !important;
+  }
+
+  .sim-root .gap-4 {
+    gap: 0.75rem !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sim-root *,
+  .sim-root *::before,
+  .sim-root *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

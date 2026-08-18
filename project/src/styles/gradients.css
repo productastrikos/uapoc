@@ -1,0 +1,175 @@
+/* Enhanced Gradient Design System */
+
+/* Primary irregular gradients */
+.gradient-mesh-1 {
+  background: radial-gradient(circle at 20% 30%, #223CAC 0%, #4F71B8 25%, #2D64C8 45%, #1E3A8A 70%, #0F172A 100%);
+}
+
+.gradient-mesh-2 {
+  background: conic-gradient(from 45deg at 30% 70%, #0EA5E9 0%, #3B82F6 25%, #6366F1 50%, #8B5CF6 75%, #0EA5E9 100%);
+}
+
+.gradient-mesh-3 {
+  background: linear-gradient(135deg, #1E293B 0%, #334155 20%, #475569 40%, #64748B 60%, #94A3B8 80%);
+}
+
+.gradient-mesh-4 {
+  background: radial-gradient(ellipse at 70% 20%, #1e40af 0%, #3730a3 30%, #312e81 60%, #1e1b4b 100%);
+}
+
+.gradient-mesh-5 {
+  background: conic-gradient(from 180deg at 50% 50%, #0f172a 0%, #1e293b 25%, #334155 50%, #475569 75%, #0f172a 100%);
+}
+
+/* Airport-themed patterns */
+.runway-stripe-gradient {
+  background: 
+    repeating-linear-gradient(
+      90deg,
+      #0F172A 0px,
+      #0F172A 8px,
+      #1E293B 8px,
+      #1E293B 12px
+    ),
+    linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+}
+
+.taxiway-pattern {
+  background: 
+    radial-gradient(ellipse at center, #374151 0%, #1F2937 50%, #111827 100%),
+    linear-gradient(45deg, transparent 30%, rgba(59, 130, 246, 0.1) 50%, transparent 70%);
+}
+
+.apron-pattern {
+  background: 
+    radial-gradient(circle at 25% 25%, #1e40af 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, #059669 0%, transparent 50%),
+    linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+}
+
+.terminal-gradient {
+  background: 
+    linear-gradient(45deg, #0f172a 0%, #1e293b 25%, #334155 50%, #475569 75%, #64748b 100%),
+    radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.3) 0%, transparent 50%);
+}
+
+/* Dynamic status gradients */
+.status-normal-gradient {
+  background: linear-gradient(135deg, #059669 0%, #10B981 50%, #34D399 100%);
+}
+
+.status-warning-gradient {
+  background: linear-gradient(135deg, #D97706 0%, #F59E0B 50%, #FCD34D 100%);
+}
+
+.status-critical-gradient {
+  background: linear-gradient(135deg, #DC2626 0%, #EF4444 50%, #F87171 100%);
+}
+
+.status-info-gradient {
+  background: linear-gradient(135deg, #2563EB 0%, #3B82F6 50%, #60A5FA 100%);
+}
+
+/* Module-specific gradients */
+.airside-gradient {
+  background: 
+    radial-gradient(ellipse at 30% 70%, rgba(14, 165, 233, 0.2) 0%, transparent 50%),
+    linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}
+
+.terminal-flow-gradient {
+  background: 
+    conic-gradient(from 90deg at 50% 50%, #1e293b 0%, #334155 25%, #475569 50%, #64748b 75%, #1e293b 100%),
+    radial-gradient(circle at center, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+}
+
+.landside-gradient {
+  background: 
+    linear-gradient(45deg, #1e293b 0%, #334155 50%, #475569 100%),
+    radial-gradient(circle at 80% 20%, rgba(245, 158, 11, 0.2) 0%, transparent 60%);
+}
+
+.security-gradient {
+  background: 
+    linear-gradient(135deg, #7c2d12 0%, #dc2626 25%, #ef4444 50%, #f87171 75%),
+    radial-gradient(ellipse at center, rgba(220, 38, 38, 0.3) 0%, transparent 70%);
+}
+
+.maintenance-gradient {
+  background: 
+    conic-gradient(from 45deg at 70% 30%, #f59e0b 0%, #eab308 25%, #facc15 50%, #fde047 75%, #f59e0b 100%),
+    linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+}
+
+.commercial-gradient {
+  background: 
+    radial-gradient(ellipse at 40% 60%, rgba(16, 185, 129, 0.3) 0%, transparent 50%),
+    linear-gradient(225deg, #065f46 0%, #047857 25%, #059669 50%, #10b981 100%);
+}
+
+.sustainability-gradient {
+  background: 
+    linear-gradient(135deg, #14532d 0%, #166534 25%, #15803d 50%, #16a34a 75%, #22c55e 100%),
+    radial-gradient(circle at 20% 80%, rgba(34, 197, 94, 0.2) 0%, transparent 60%);
+}
+
+.sop-gradient {
+  background: 
+    conic-gradient(from 180deg at 50% 50%, #1e1b4b 0%, #312e81 25%, #3730a3 50%, #1e40af 75%, #1e1b4b 100%),
+    radial-gradient(ellipse at center, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+}
+
+/* Interactive states */
+.hover-gradient-enhance {
+  transition: all 0.3s ease;
+}
+
+.hover-gradient-enhance:hover {
+  background-size: 110% 110%;
+  transform: scale(1.02);
+}
+
+/* Card gradients */
+.kpi-card-gradient {
+  background: 
+    linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(51, 65, 85, 0.6) 100%),
+    radial-gradient(circle at top right, rgba(1, 163, 164, 0.1) 0%, transparent 50%);
+}
+
+.modal-gradient {
+  background: 
+    linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%),
+    radial-gradient(circle at 30% 70%, rgba(59, 130, 246, 0.05) 0%, transparent 70%);
+}
+
+/* Animation gradients */
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 8s ease infinite;
+}
+
+/* Utility classes */
+.gradient-border {
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  position: relative;
+}
+
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  margin: -2px;
+  border-radius: inherit;
+  background: linear-gradient(45deg, #01A3A4, #E6B85C, #01A3A4);
+}
