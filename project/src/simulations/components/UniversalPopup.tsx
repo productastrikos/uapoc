@@ -265,7 +265,7 @@ const UniversalPopup: React.FC<UniversalPopupProps> = ({ isOpen, data, onClose, 
                   );
                 })}
               </div>
-              <div className="flex justify-between text-[10px] text-sim-500 mt-1.5">
+              <div className="flex justify-between text-[length:calc(10px*var(--fs))] text-sim-500 mt-1.5">
                 <span>{data.historicalTrends.labels[0]}</span>
                 <span>{data.historicalTrends.labels[data.historicalTrends.labels.length - 1]}</span>
               </div>
@@ -291,7 +291,7 @@ const UniversalPopup: React.FC<UniversalPopupProps> = ({ isOpen, data, onClose, 
                     }`}
                   >
                     <p className="text-xs text-sim-200">{alert.message}</p>
-                    <p className="text-[10px] text-sim-400 mt-0.5">{new Date(alert.timestamp).toLocaleString()}</p>
+                    <p className="text-[length:calc(10px*var(--fs))] text-sim-400 mt-0.5">{new Date(alert.timestamp).toLocaleString()}</p>
                   </div>
                 ))}
               </div>
@@ -301,7 +301,7 @@ const UniversalPopup: React.FC<UniversalPopupProps> = ({ isOpen, data, onClose, 
 
         {/* Footer */}
         <div className="px-4 py-2.5 border-t border-sim-700/50 bg-sim-800/30 flex-shrink-0">
-          <div className="flex justify-between items-center text-[10px] text-sim-500">
+          <div className="flex justify-between items-center text-[length:calc(10px*var(--fs))] text-sim-500">
             <span>Updated {new Date().toLocaleTimeString()}</span>
             <span className="truncate ml-3">ID: {data.id}</span>
           </div>

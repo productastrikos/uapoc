@@ -1062,7 +1062,7 @@ export const BaggageOperations: React.FC<BaggageOperationsProps> = ({
           },
         ].map(stat => (
           <div key={stat.label} className="hbms-control-panel p-3 text-center">
-            <p className="text-[10px] uppercase tracking-wide text-sim-400">{stat.label}</p>
+            <p className="text-[length:calc(10px*var(--fs))] uppercase tracking-wide text-sim-400">{stat.label}</p>
             <p className={`text-lg font-bold tabular-nums ${stat.tone}`}>{stat.value}</p>
           </div>
         ))}
@@ -1149,7 +1149,7 @@ export const BaggageOperations: React.FC<BaggageOperationsProps> = ({
                     >
                       <div className="min-w-0">
                         <div className="text-xs text-sim-200 font-medium truncate">{machine.name}</div>
-                        <div className="text-[10px] text-sim-400">
+                        <div className="text-[length:calc(10px*var(--fs))] text-sim-400">
                           {machine.type}
                           {machine.aiConfidence ? ` · AI ${machine.aiConfidence}%` : ''}
                         </div>
@@ -1160,7 +1160,7 @@ export const BaggageOperations: React.FC<BaggageOperationsProps> = ({
                           : machine.status === 'failed' ? 'bg-red-400'
                           : 'bg-simgold-400'
                         }`} />
-                        <span className="text-[10px] capitalize text-sim-400">{machine.status}</span>
+                        <span className="text-[length:calc(10px*var(--fs))] capitalize text-sim-400">{machine.status}</span>
                       </div>
                     </div>
                   ))}

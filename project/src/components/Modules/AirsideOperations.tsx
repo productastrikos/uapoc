@@ -34,9 +34,13 @@ import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, RadialBarChart, Rad
 import InfoButton from "../UI/InfoButton";
 import DetailModal from '../UI/DetailModal';
 import { useToast } from "../../hooks/useToast";
+import AiInsightPanel from '../../ai/components/AiInsightPanel';
+import { useAiDomain } from '../../ai/store';
 
 // Trend Arrow Component
 const TrendArrow: React.FC<{ trend: 'up' | 'down' | 'stable'; value?: number }> = ({ trend, value }) => {
+  // Scopes the AI Advisory drawer to this console.
+  useAiDomain('airside');
   if (trend === 'up') {
     return <TrendingUp className="w-4 h-4 text-green-400 inline ml-1" />;
   } else if (trend === 'down') {
@@ -1465,6 +1469,10 @@ useEffect(() => {
             </motion.div>
           ))}
         </div>
+
+        {/* Airside AI recommendations. The advisory strip above summarises the
+              models; this is what they are actually asking for. */}
+        <AiInsightPanel domain="airside" />
 
         <div className="grid grid-cols-12 gap-6">
           {/* Left Column */}

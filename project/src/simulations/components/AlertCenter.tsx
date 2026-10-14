@@ -150,12 +150,12 @@ const AlertCenter: React.FC<AlertCenterProps> = ({
                       <div className="flex items-center flex-wrap gap-2 mb-1.5">
                         <AlertTriangle className="w-4 h-4 text-simgold-400 flex-shrink-0" />
                         <h4 className="font-semibold text-sim-100 text-sm">{alert.title}</h4>
-                        <span className={`text-[10px] uppercase tracking-wide px-2 py-0.5 rounded-full ${getSeverityBadge(alert.severity)}`}>
+                        <span className={`text-[length:calc(10px*var(--fs))] uppercase tracking-wide px-2 py-0.5 rounded-full ${getSeverityBadge(alert.severity)}`}>
                           {alert.severity}
                         </span>
                       </div>
                       <p className="text-xs text-sim-300 leading-snug">{alert.description}</p>
-                      <p className="text-[10px] text-sim-500 mt-1">
+                      <p className="text-[length:calc(10px*var(--fs))] text-sim-500 mt-1">
                         {new Date(alert.timestamp).toLocaleTimeString()}
                       </p>
                     </div>
@@ -169,12 +169,12 @@ const AlertCenter: React.FC<AlertCenterProps> = ({
                       <div className="flex items-center flex-wrap gap-2 mb-1.5">
                         <Bot className="w-4 h-4 text-simteal-400" />
                         <span className="text-xs font-medium text-simteal-300">Recommended action</span>
-                        <span className="text-[10px] bg-simteal-500/20 text-simteal-300 px-2 py-0.5 rounded border border-simteal-400/30">
+                        <span className="text-[length:calc(10px*var(--fs))] bg-simteal-500/20 text-simteal-300 px-2 py-0.5 rounded border border-simteal-400/30">
                           {alert.aiRecommendation.confidence}% confidence
                         </span>
                       </div>
                       <p className="text-xs text-simteal-100">{alert.aiRecommendation.action}</p>
-                      <div className="text-[10px] text-simteal-300/80 mt-1">
+                      <div className="text-[length:calc(10px*var(--fs))] text-simteal-300/80 mt-1">
                         Impact: {alert.aiRecommendation.estimatedImpact}
                       </div>
                     </div>
@@ -219,7 +219,7 @@ const AlertCenter: React.FC<AlertCenterProps> = ({
                   <h4 className="font-semibold text-emerald-200 text-sm">{alert.title}</h4>
                 </div>
                 <p className="text-xs text-sim-300">{alert.description}</p>
-                <div className="text-[10px] text-sim-500 mt-1.5">
+                <div className="text-[length:calc(10px*var(--fs))] text-sim-500 mt-1.5">
                   Resolved {new Date(alert.timestamp).toLocaleString()}
                 </div>
               </div>
@@ -259,7 +259,7 @@ const AlertCenter: React.FC<AlertCenterProps> = ({
                 <div className="flex items-center flex-wrap gap-2 mb-1.5">
                   <History className="w-4 h-4 text-simteal-400" />
                   <h4 className="font-semibold text-simteal-200 text-sm">Plan executed</h4>
-                  <span className={`text-[10px] px-2 py-0.5 rounded-full border ${
+                  <span className={`text-[length:calc(10px*var(--fs))] px-2 py-0.5 rounded-full border ${
                     solution.success
                       ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/40'
                       : 'bg-red-500/15 text-red-300 border-red-500/40'
@@ -276,7 +276,7 @@ const AlertCenter: React.FC<AlertCenterProps> = ({
                   ].map(([v, l]) => (
                     <div key={l} className="text-center bg-sim-900/40 rounded-lg py-1.5 border border-sim-700/40">
                       <div className="font-semibold text-simteal-200 text-xs">{v}</div>
-                      <div className="text-[10px] text-sim-500">{l}</div>
+                      <div className="text-[length:calc(10px*var(--fs))] text-sim-500">{l}</div>
                     </div>
                   ))}
                 </div>

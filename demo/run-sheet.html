@@ -1,0 +1,910 @@
+<title>U-APOC Demo Run-Sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<style>
+  :root{
+    --ground:#EFF3F2; --surface:#FFFFFF; --surface-2:#E5ECEB; --sunken:#E9EFEE;
+    --ink:#0C1E20; --ink-2:#3C5457; --ink-3:#6C8386;
+    --rule:#CCD9D8; --rule-strong:#A9BEBC;
+    --teal:#00726F; --teal-soft:#D6E9E7;
+    --gold:#8A5D08; --gold-soft:#F4E6C6;
+    --alarm:#A81F18; --alarm-soft:#F6DDDA;
+    --shadow:0 1px 2px rgba(12,30,32,.06), 0 8px 24px rgba(12,30,32,.05);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#07171A; --surface:#0E2225; --surface-2:#142C30; --sunken:#0A1D20;
+      --ink:#E4EDEC; --ink-2:#A7BFBE; --ink-3:#7B9695;
+      --rule:#1D383B; --rule-strong:#2C5155;
+      --teal:#4FD5D2; --teal-soft:#0E3937;
+      --gold:#E6B85C; --gold-soft:#382C11;
+      --alarm:#FF7E6F; --alarm-soft:#3D1612;
+      --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#07171A; --surface:#0E2225; --surface-2:#142C30; --sunken:#0A1D20;
+    --ink:#E4EDEC; --ink-2:#A7BFBE; --ink-3:#7B9695;
+    --rule:#1D383B; --rule-strong:#2C5155;
+    --teal:#4FD5D2; --teal-soft:#0E3937;
+    --gold:#E6B85C; --gold-soft:#382C11;
+    --alarm:#FF7E6F; --alarm-soft:#3D1612;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px rgba(0,0,0,.35);
+  }
+
+  *{box-sizing:border-box}
+  body{
+    background:var(--ground); color:var(--ink);
+    font-family:"Archivo","Helvetica Neue",Arial,sans-serif;
+    font-size:16px; line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:960px; margin:0 auto; padding:0 24px 96px}
+
+  /* ---------- masthead ---------- */
+  .mast{padding:40px 0 24px; border-bottom:2px solid var(--ink); display:flex; flex-direction:column; gap:18px}
+  .eyebrow{
+    font-size:11px; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--teal); font-family:"IBM Plex Mono",ui-monospace,monospace;
+  }
+  h1{font-size:clamp(30px,5vw,46px); line-height:1.04; font-weight:700; letter-spacing:-.02em; margin:0; text-wrap:balance}
+  .standfirst{font-family:"Source Serif 4",Georgia,serif; font-size:17px; line-height:1.55; color:var(--ink-2); max-width:62ch; margin:0}
+  .focus{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:12px}
+  .focus > div{
+    background:var(--surface); border:1px solid var(--rule); border-left:3px solid var(--teal);
+    padding:12px 14px; display:flex; flex-direction:column; gap:4px;
+  }
+  .focus b{font-size:14px; font-weight:600}
+  .focus span{font-size:13px; color:var(--ink-3); line-height:1.4}
+
+  /* ---------- sticky control bar ---------- */
+  .bar{
+    position:sticky; top:0; z-index:20; background:var(--ground);
+    border-bottom:1px solid var(--rule); margin-bottom:36px;
+    display:flex; align-items:center; gap:8px; flex-wrap:wrap; padding:10px 0;
+  }
+  .bar nav{display:flex; gap:2px; flex-wrap:wrap}
+  .bar a{
+    font-size:12.5px; font-weight:600; letter-spacing:.02em; text-decoration:none;
+    color:var(--ink-2); padding:6px 11px; border:1px solid transparent; border-radius:2px;
+  }
+  .bar a:hover{color:var(--ink); background:var(--surface-2)}
+  .bar a:focus-visible{outline:2px solid var(--teal); outline-offset:1px}
+  .clock{
+    margin-left:auto; display:flex; align-items:center; gap:8px;
+    font-family:"IBM Plex Mono",ui-monospace,monospace;
+  }
+  .clock output{font-size:19px; font-weight:600; font-variant-numeric:tabular-nums; min-width:68px; text-align:right; color:var(--ink)}
+  .clock button{
+    font:inherit; font-size:11px; font-weight:600; letter-spacing:.06em; text-transform:uppercase;
+    background:var(--surface); color:var(--ink-2); border:1px solid var(--rule-strong);
+    padding:5px 9px; border-radius:2px; cursor:pointer;
+  }
+  .clock button:hover{color:var(--ink); border-color:var(--teal)}
+  .clock button:focus-visible{outline:2px solid var(--teal); outline-offset:1px}
+  .clock button[data-on="1"]{background:var(--teal-soft); border-color:var(--teal); color:var(--teal)}
+
+  /* ---------- sections ---------- */
+  section{margin-bottom:56px; scroll-margin-top:64px}
+  .shead{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; border-bottom:1px solid var(--rule-strong); padding-bottom:8px; margin-bottom:22px}
+  .shead h2{font-size:23px; font-weight:700; letter-spacing:-.01em; margin:0}
+  .shead .meta{font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:12px; color:var(--ink-3); margin-left:auto}
+  .lede{font-family:"Source Serif 4",Georgia,serif; font-size:16px; line-height:1.6; color:var(--ink-2); max-width:66ch; margin:0 0 22px}
+
+  /* ---------- steps ---------- */
+  .steps{display:flex; flex-direction:column; gap:14px}
+  .step{
+    background:var(--surface); border:1px solid var(--rule); border-radius:3px;
+    display:grid; grid-template-columns:44px 1fr; overflow:hidden;
+  }
+  .step.key{border-color:var(--gold); box-shadow:var(--shadow)}
+  .step.hot{border-color:var(--alarm); box-shadow:var(--shadow)}
+  .tick{
+    border:0; border-right:1px solid var(--rule); background:var(--sunken); cursor:pointer;
+    font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:14px; font-weight:600;
+    color:var(--ink-3); display:flex; align-items:flex-start; justify-content:center; padding:14px 0;
+  }
+  .tick:hover{color:var(--teal); background:var(--teal-soft)}
+  .tick:focus-visible{outline:2px solid var(--teal); outline-offset:-2px}
+  .step[data-done="1"]{opacity:.45}
+  .step[data-done="1"] .tick{color:var(--teal); background:var(--teal-soft)}
+  .step[data-done="1"] .tick::after{content:"✓"}
+  .step[data-done="1"] .tick span{display:none}
+  .body{padding:13px 16px 15px; display:flex; flex-direction:column; gap:10px; min-width:0}
+  .top{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap}
+  .top h3{font-size:15.5px; font-weight:600; margin:0; letter-spacing:-.005em}
+  .time{
+    font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:11.5px; font-weight:600;
+    color:var(--ink-3); margin-left:auto; white-space:nowrap; font-variant-numeric:tabular-nums;
+  }
+  .flag{
+    font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+    padding:2px 6px; border-radius:2px; white-space:nowrap;
+  }
+  .flag.gold{background:var(--gold-soft); color:var(--gold)}
+  .flag.red{background:var(--alarm-soft); color:var(--alarm)}
+
+  .do{
+    display:flex; gap:9px; align-items:baseline; font-size:13.5px; color:var(--ink-2);
+    background:var(--sunken); border:1px solid var(--rule); padding:8px 11px; border-radius:2px;
+  }
+  .do::before{
+    content:"DO"; font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:10px; font-weight:600;
+    letter-spacing:.12em; color:var(--teal); flex:none; padding-top:1px;
+  }
+  .ui{
+    font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:12.5px; font-weight:600;
+    background:var(--teal-soft); color:var(--teal); padding:1px 5px; border-radius:2px; white-space:nowrap;
+  }
+  .say{
+    font-family:"Source Serif 4",Georgia,serif; font-size:16.5px; line-height:1.62;
+    border-left:3px solid var(--teal); padding-left:15px; display:flex; flex-direction:column; gap:11px;
+  }
+  .say p{margin:0}
+  .say ul{margin:0; padding-left:20px; display:flex; flex-direction:column; gap:5px}
+  .say em{font-style:italic; color:var(--ink-2)}
+  .say strong{font-weight:600}
+  .say .punch{color:var(--alarm); font-weight:600; font-style:italic}
+  .note{
+    font-size:13px; color:var(--ink-3); font-style:italic;
+    font-family:"Source Serif 4",Georgia,serif; line-height:1.5;
+  }
+
+  /* ---------- tables ---------- */
+  .tablewrap{overflow-x:auto; border:1px solid var(--rule); border-radius:3px; background:var(--surface)}
+  table{border-collapse:collapse; width:100%; min-width:520px}
+  th,td{text-align:left; padding:11px 14px; border-bottom:1px solid var(--rule); vertical-align:top; font-size:14px; line-height:1.5}
+  th{
+    font-size:10.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--ink-3); background:var(--sunken); white-space:nowrap;
+  }
+  tr:last-child td{border-bottom:0}
+  td:first-child{font-weight:600; width:34%}
+  td.serif, .qa td:last-child{font-family:"Source Serif 4",Georgia,serif; font-size:15px; font-weight:400}
+  .qa td:first-child{font-family:"Archivo",sans-serif; font-weight:600}
+
+  /* ---------- prep list ---------- */
+  .prep{display:flex; flex-direction:column; gap:0; border:1px solid var(--rule); border-radius:3px; background:var(--surface); overflow:hidden}
+  .prep label{
+    display:flex; gap:12px; align-items:flex-start; padding:11px 14px;
+    border-bottom:1px solid var(--rule); cursor:pointer; font-size:14.5px; line-height:1.5;
+  }
+  .prep label:last-child{border-bottom:0}
+  .prep label:hover{background:var(--sunken)}
+  .prep input{margin:3px 0 0; accent-color:var(--teal); width:15px; height:15px; flex:none}
+  .prep input:checked + span{opacity:.45; text-decoration:line-through}
+
+  /* ---------- cheat sheet ---------- */
+  pre{
+    font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:12.5px; line-height:1.65;
+    background:var(--sunken); border:1px solid var(--rule-strong); border-radius:3px;
+    padding:18px; overflow-x:auto; margin:0; color:var(--ink);
+  }
+
+  .callout{
+    background:var(--alarm-soft); border:1px solid var(--alarm); border-radius:3px;
+    padding:14px 16px; font-family:"Source Serif 4",Georgia,serif; font-size:15px; line-height:1.6;
+    margin-bottom:22px;
+  }
+  .callout b{font-family:"Archivo",sans-serif; font-weight:600; font-size:14px}
+
+  footer{border-top:1px solid var(--rule); padding-top:18px; font-size:13px; color:var(--ink-3)}
+  footer code{font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:12px}
+
+  @media (prefers-reduced-motion: reduce){*{animation:none!important; transition:none!important; scroll-behavior:auto!important}}
+  html{scroll-behavior:smooth}
+  @media (max-width:640px){
+    .wrap{padding:0 16px 64px}
+    .clock{width:100%; margin-left:0; justify-content:flex-end}
+    td:first-child{width:auto}
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="mast">
+    <div class="eyebrow">Palu &amp; Samarinda AMS · POC walkthrough</div>
+    <h1>U-APOC Demo Run-Sheet</h1>
+    <p class="standfirst">Technical discussion with DBU &amp; Eltran. You are running the POC walkthrough only — not the deep technical session. Two client asks, both marked <em>live demonstration highly preferred</em>.</p>
+    <div class="focus">
+      <div><b>1 · Real-Time Airfield Lighting Monitoring</b><span>Every lighting asset, in detail, in real time — on top of the existing ADB SAFEGATE infrastructure.</span></div>
+      <div><b>3 · Passenger Experience &amp; Operational Efficiency</b><span>Aircraft arrival and disembarkation → baggage claim → exit. Flow, congestion, queues, service.</span></div>
+    </div>
+  </header>
+
+  <div class="bar">
+    <nav>
+      <a href="#context">Context</a>
+      <a href="#prep">Prep</a>
+      <a href="#short">Short · 12 min</a>
+      <a href="#long">Long · +18 min</a>
+      <a href="#qa">Q&amp;A</a>
+      <a href="#words">Words</a>
+      <a href="#cheat">Cheat sheet</a>
+    </nav>
+    <div class="clock">
+      <output id="t">00:00</output>
+      <button id="go" type="button">Start</button>
+      <button id="rs" type="button">Reset</button>
+    </div>
+  </div>
+
+  <!-- ============ CONTEXT ============ -->
+  <section id="context">
+    <div class="shead"><h2>What they actually want to hear</h2><span class="meta">from the first call</span></div>
+    <p class="lede">The written points are polite. The transcript tells you what is really behind them. Aim at the second column.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>They wrote</th><th>What they mean</th></tr></thead>
+        <tbody>
+          <tr><td>“Monitor the status of each airfield lighting asset in detail and in real time”</td><td class="serif"><em>Click one light. Show me its data like a real device page.</em> Sayaji asked for a “light template” — the same way we show the AHU faceplate.</td></tr>
+          <tr><td>“Considering the existing airport lighting infrastructure”</td><td class="serif"><em>We are not replacing ADB SAFEGATE. Show me you can sit on top of it.</em> Palu and Samarinda use ADB for airfield lighting and for VDGS.</td></tr>
+          <tr><td>(unwritten — the real driver)</td><td class="serif"><strong>The cable-cut incident.</strong> A cable between the controller and the runway lights was cut. They suspected the PLC. <strong>The runway was closed 5–6 hours</strong> because nobody knew where the fault was — and a standby path existed that nobody noticed had not switched over.</td></tr>
+          <tr><td>“Improve passenger comfort, service quality, operational efficiency”</td><td class="serif"><em>Show the system doing something about a problem</em> — not drawing another graph.</td></tr>
+          <tr><td>“From aircraft arrival and disembarkation to baggage claim and exit”</td><td class="serif">They want the <strong>arrival</strong> side, not only departures. Start at the stand, not at check-in.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="lede" style="margin-top:22px">Also carried over from that call: these are small airports — one runway, 10–15 flights a day. Palu and Samarinda are the trial; success means 8 more, then 5 large airports, potentially ~200 across Indonesia. Cyber security <strong>will</strong> come up (Ajit has slides — park it). A-CDM will come up (not needed at this size; the platform extends to it; Sayaji is writing that note).</p>
+  </section>
+
+  <!-- ============ PREP ============ -->
+  <section id="prep">
+    <div class="shead"><h2>Before you start</h2><span class="meta">5 minutes</span></div>
+    <div class="prep">
+      <label><input type="checkbox"><span>Run the app — <code class="ui">cd project &amp;&amp; npm run dev</code>. Full screen, browser zoom 100%.</span></label>
+      <label><input type="checkbox"><span>Login: <code class="ui">admin</code> / <code class="ui">Astrikos2026</code></span></label>
+      <label><input type="checkbox"><span><span class="ui">Airside Operations</span> → <span class="ui">Airfield Ground Lighting</span> → click <span class="ui">Reset</span>. Serviceability must read <strong>100.0%</strong>.</span></label>
+      <label><input type="checkbox"><span>Set <span class="ui">Speed</span> to <strong>4×</strong>. At 1× an aircraft takes minutes to taxi across the field.</span></label>
+      <label><input type="checkbox"><span><span class="ui">Apron Management</span> → confirm at least one stand is free, so you can dock an aircraft live.</span></label>
+      <label><input type="checkbox"><span>Close any faceplate panel left open. A stray panel ruins the first impression.</span></label>
+      <label><input type="checkbox"><span>This run-sheet on a second screen or phone — never on the demo screen.</span></label>
+    </div>
+    <p class="note" style="margin-top:14px">If the live demo fails: screenshots are in <code>project/_shots/</code>. Say “Let me show you the captured screens, and we will do the live session right after.” Do not debug on the call.</p>
+  </section>
+
+  <!-- ============ SHORT ============ -->
+  <section id="short">
+    <div class="shead"><h2>Short script</h2><span class="meta">10–12 min · run this first, then stop</span></div>
+    <p class="lede">Simple, fast, confident. Ask “any questions before I move on?” after each of the two points — the answer tells you whether to open the long script.</p>
+
+    <div class="steps">
+
+      <article class="step">
+        <button class="tick" type="button"><span>00</span></button>
+        <div class="body">
+          <div class="top"><h3>Opening — what they are looking at</h3><span class="time">0:45</span></div>
+          <div class="say">
+            <p>“Thank you. Before the two points you asked for, one line about what you are looking at.</p>
+            <p>This is <strong>U-APOC — the Unified Airport Operations Center</strong>. Today an airport runs on many separate systems. Airfield lighting is one system. The building is another. Baggage is another. Security is another. Each one has its own screen, its own vendor, its own room.</p>
+            <p>U-APOC puts all of them on <strong>one screen, one login, one URL</strong>. The operator does not change systems. The operator changes tabs.</p>
+            <p>On the left you see the areas — Airside, Terminal, Landside, Security, Maintenance, Commercial. Let me start with airfield lighting, which is your first question.”</p>
+          </div>
+          <div class="do"><span>Click <span class="ui">Airside Operations</span> → tab <span class="ui">Airfield Ground Lighting</span></span></div>
+        </div>
+      </article>
+
+      <article class="step">
+        <button class="tick" type="button"><span>01</span></button>
+        <div class="body">
+          <div class="top"><h3>The whole airfield at once</h3><span class="flag gold">Point 1</span><span class="time">0:45</span></div>
+          <div class="say">
+            <p>“This is the airfield. One runway, 3000 metres. Taxiways. Three aprons with the parking stands.</p>
+            <p>Every dot you see is <strong>one real light</strong>. Not a group. Not an average. One light.</p>
+            <p>At the top it says <strong>898 addressable fixtures on 12 series circuits</strong>. On the right, <strong>overall serviceability is 100 percent</strong> — everything is working right now.</p>
+            <p>Very important: we are <strong>not replacing your lighting system</strong>. Your airfield uses <strong>ADB SAFEGATE</strong>. We read from the ADB control system — CORTEX, and the LINC 360 lamp monitoring. Your lighting keeps working exactly as today. We sit on top and give you the picture.”</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="step key">
+        <button class="tick" type="button"><span>02</span></button>
+        <div class="body">
+          <div class="top"><h3>One light, in detail</h3><span class="flag gold">This is what they asked for</span><span class="time">1:00</span></div>
+          <div class="do"><span>Click any light on the runway edge — the faceplate panel opens</span></div>
+          <div class="say">
+            <p>“You asked to see each lighting asset in detail. This is one light.</p>
+            <p>This is its tag name — the same name your ADB system uses. Here is the type, and the actual ADB product.</p>
+            <p>Real-time values:</p>
+            <ul>
+              <li><strong>Light Status</strong> — is it on.</li>
+              <li><strong>LINC 360 Comms</strong> — is the light still answering. This is different from ‘on’. A light can be dead, or a light can simply stop talking. Those are two different problems.</li>
+              <li><strong>Luminous Intensity</strong> — how bright it actually is, in candela. Not the command. The measurement.</li>
+              <li><strong>Burn Hours</strong> — how many hours this lamp has run. This is how we predict a failure before it happens.</li>
+            </ul>
+            <p>And we do not only read. From here the operator can switch it <strong>on or off</strong>, change the <strong>brightness setpoint</strong>, or put it in <strong>maintenance mode</strong> so it stops raising alarms while a technician works on it.</p>
+            <p>Below, the <strong>alarm settings for this single light</strong> — the limits, and the delay before an alarm is raised.</p>
+            <p>At the bottom, the <strong>series circuit</strong>: which regulator feeds it, which ACE3 unit monitors it, the current, and the <strong>insulation resistance</strong>. I will come back to that number — it is important for you.”</p>
+          </div>
+          <div class="do"><span>Close the panel</span></div>
+        </div>
+      </article>
+
+      <article class="step">
+        <button class="tick" type="button"><span>03</span></button>
+        <div class="body">
+          <div class="top"><h3>Lighting is a sequence, not a picture</h3><span class="time">1:00</span></div>
+          <div class="do"><span>Click <span class="ui">Arrival RWY 09</span> — speed already on <span class="ui">4×</span></span></div>
+          <div class="say">
+            <p>“One more thing before faults. Airfield lighting is not a static status board. It is a <strong>sequence</strong>. Let me show you an aircraft.</p>
+            <p>The aircraft is on approach. Watch the <strong>PAPI</strong> — the glide slope indicator for the pilot.</p>
+            <p>Touchdown. Rollout. It vacates the runway.</p>
+            <p>Now watch the <strong>green lights ahead of the aircraft</strong>, and the lights <strong>going off behind it</strong>. This is <strong>follow-the-green</strong>. The taxiway lighting guides the aircraft to the stand and closes behind it.</p>
+            <p>So we are not only telling you which lamp is broken. We show the lighting <strong>doing its job</strong>.”</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="step">
+        <button class="tick" type="button"><span>04</span></button>
+        <div class="body">
+          <div class="top"><h3>Break something — alarm to work order</h3><span class="time">0:45</span></div>
+          <div class="do"><span>Click <span class="ui">Fail Threshold Lighting</span></span></div>
+          <div class="say">
+            <p>“Now let us break something. I have failed the threshold lighting — the green bar at the start of the runway.</p>
+            <p>Three things happened at the same time, with no delay:</p>
+            <ul>
+              <li>The lights turned <strong>red on the map</strong>. You see exactly which ones and exactly where.</li>
+              <li>On the right, <strong>Runway Threshold Lighting</strong> dropped below its target. The target is <strong>100 percent</strong>, because that is the ICAO Annex 14 requirement. It is now below.</li>
+              <li>At the bottom, the <strong>alarms</strong> came in.</li>
+            </ul>
+            <p>And the operator does not just look at it —”</p>
+          </div>
+          <div class="do"><span>Click <span class="ui">Escalate</span> on one alarm</span></div>
+          <div class="say">
+            <p>“— one click, and it becomes a <strong>work order</strong> with a number. Now it is somebody’s job, not just a red light on a screen.”</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="step hot">
+        <button class="tick" type="button"><span>05</span></button>
+        <div class="body">
+          <div class="top"><h3>The cable-cut story</h3><span class="flag red">The 90 seconds that matter most</span><span class="time">1:30</span></div>
+          <div class="do"><span>Click <span class="ui">Reset</span>, then click <span class="ui">CCR Output Failure</span></span></div>
+          <div class="say">
+            <p>“Now the case you told us about.</p>
+            <p>You had a cable cut between the controller and the runway lights. Your team thought it was the PLC. <strong>The runway was closed for five to six hours</strong>, because nobody knew where the problem was.</p>
+            <p>Look at the screen now. A whole group of lights went dark <strong>at the same second</strong>. Look at the alarm list — it is full. If I am the operator at 2 a.m., I am now reading a hundred and fifty alarms and I do not know where to start.</p>
+            <p>This is where the system helps.”</p>
+          </div>
+          <div class="do"><span>Click <span class="ui">AI Advisory</span> in the top bar</span></div>
+          <div class="say">
+            <p>“One card. In plain language:</p>
+            <p><em>‘These lights went dark together on this circuit. That usually means the power supply feeding them has failed — not this many separate bulbs.’</em></p>
+            <p>And it shows <strong>why</strong> it thinks so:</p>
+            <ul>
+              <li>The regulator is reporting an output failure.</li>
+              <li>Every light lost communication in the <strong>same second</strong> — they lost the signal together with the power.</li>
+              <li><strong>Not one light</strong> reported a lamp failure of its own first.</li>
+              <li>The insulation reading is normal — so this is probably <strong>not</strong> a cable fault.</li>
+              <li>The other circuits are fine — so it is <strong>not</strong> a whole-vault power problem.</li>
+            </ul>
+            <p>Then the recommendation — this is the part that answers your incident directly:</p>
+            <p class="punch">‘Check whether the standby regulator actually took over. A changeover that did not happen looks exactly the same as having no backup at all, from this screen.’</p>
+            <p>That is the five hours. Not the repair — the <strong>searching</strong>. The system does not fix the cable. It tells the crew <strong>where to look first</strong>, in the first minute instead of the fifth hour.”</p>
+          </div>
+          <div class="do"><span>Click the action button on the card — the console moves to that circuit</span></div>
+          <div class="say">
+            <p>“And it is not just text. One click puts the circuit on the map and selects it. The operator always confirms. The system advises. The human decides.”</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="step">
+        <button class="tick" type="button"><span>06</span></button>
+        <div class="body">
+          <div class="top"><h3>Close point 1 — prevention</h3><span class="time">0:30</span></div>
+          <div class="do"><span>Click <span class="ui">Reset</span></span></div>
+          <div class="say">
+            <p>“Two last things quickly.</p>
+            <p><strong>Burn hours</strong> — the system tells you which lamps are near the end of their life, so you replace them in a planned night shift, not during an aircraft movement.</p>
+            <p><strong>Insulation resistance</strong> — the number I mentioned. Cable insulation falls slowly before a cable actually fails. We watch that trend on every circuit. That is how you catch the next cable problem <strong>before</strong> it closes your runway.</p>
+            <p>That is airfield lighting. Any questions before I move to passengers?”</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="step">
+        <button class="tick" type="button"><span>07</span></button>
+        <div class="body">
+          <div class="top"><h3>The aircraft arrives</h3><span class="flag gold">Point 3</span><span class="time">1:00</span></div>
+          <div class="do"><span>Stay in <span class="ui">Airside Operations</span> → tab <span class="ui">Apron Management</span></span></div>
+          <div class="say">
+            <p>“Your second point is the passenger journey — from the aircraft arriving, to the passenger leaving the airport. Let me follow one arriving passenger.</p>
+            <p>The journey does not start in the terminal. It starts here, at the stand.</p>
+            <p>These are the parking stands with their <strong>ADB Safedock</strong> docking displays — the screen the pilot looks at. Same vendor as the lighting, so one integration covers both.”</p>
+          </div>
+          <div class="do"><span>Select a free stand → aircraft type <span class="ui">A320</span> → <span class="ui">Dock</span></span></div>
+          <div class="say">
+            <p>“Watch the docking display. It is capturing the aircraft, aligning it, counting the metres to the stop point. Now — <strong>STOP</strong>. The aircraft is on the stand.</p>
+            <p>The moment the chocks go on, that time is recorded. <strong>That timestamp is the clock everybody works to</strong> — the bridge, the fuel, the ground power, the baggage team.</p>
+            <p>Around the stand: passenger boarding bridge, ground power, pre-conditioned air, fuel, floodlights, emergency stop. All live.”</p>
+          </div>
+          <div class="do"><span>Click <span class="ui">PBB Disconnect</span> — then <span class="ui">Reset all</span> before moving on</span></div>
+          <div class="say">
+            <p>“Now the airbridge has a problem. The stand goes red immediately.</p>
+            <p>Why does this matter for passenger experience? The passengers are sitting inside the aircraft. Nobody in the terminal knows yet. Here, the operations centre knows <strong>now</strong> — and can tell the terminal team before 180 people start waiting.”</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="step">
+        <button class="tick" type="button"><span>08</span></button>
+        <div class="body">
+          <div class="top"><h3>Inside the terminal — comfort is engineering</h3><span class="time">0:45</span></div>
+          <div class="do"><span><span class="ui">Terminal &amp; Passenger</span> → tab <span class="ui">Building Management</span></span></div>
+          <div class="say">
+            <p>“Now the passenger is inside the building.</p>
+            <p>Comfort is not a feeling — it is the building working properly. Here are the <strong>subsystems of the terminal</strong>: air conditioning, baggage handling, docking, electrical, SCADA, access control, public address, fire alarm, clocks, stands, screening, gate access.</p>
+            <p>Each one shows availability and open alerts. If the air conditioning in the Arrivals Hall is failing, the passenger feels it as heat — and here it appears as an alert <strong>before</strong> it becomes a complaint.</p>
+            <p>And it is not only alerts. There are tabs for <strong>Alerts, Incidents, SOPs, Work Orders and the Asset Register</strong> — so the problem becomes an action with an owner.”</p>
+          </div>
+          <div class="note">Say “Terminal Management” or “Building Management”. Never “HBMS” — Sayaji corrected this explicitly.</div>
+        </div>
+      </article>
+
+      <article class="step">
+        <button class="tick" type="button"><span>09</span></button>
+        <div class="body">
+          <div class="top"><h3>Baggage claim</h3><span class="time">0:45</span></div>
+          <div class="do"><span>Tab <span class="ui">Terminal Overview</span> → click <span class="ui">Baggage Simulation</span></span></div>
+          <div class="say">
+            <p>“Next: baggage. This is where passengers judge an airport, because they are standing and waiting.</p>
+            <p>This is the baggage system live. You see the flight, the carousel, and the bags moving — bags tracked, in transit, screened, cleared.</p>
+            <p>If a jam happens, we do not wait for a phone call. The system raises it and runs the SOP.”</p>
+          </div>
+          <div class="do"><span>Close the simulation</span></div>
+        </div>
+      </article>
+
+      <article class="step key">
+        <button class="tick" type="button"><span>10</span></button>
+        <div class="body">
+          <div class="top"><h3>Queues and congestion</h3><span class="flag gold">The efficiency proof</span><span class="time">1:00</span></div>
+          <div class="do"><span><span class="ui">Passenger Journey</span> in the left menu</span></div>
+          <div class="say">
+            <p>“Now the whole journey in one view. Every checkpoint the passenger passes.</p>
+            <p>Green is fine. Yellow is getting busy. Red is a problem now.</p>
+            <p>Look at <strong>Security Screening</strong> — red. <strong>67 people in the queue, 18 minutes waiting, SLA at 68 percent</strong> — and the important number: <strong>12 staff on duty, 16 recommended</strong>.</p>
+            <p>That last line is the difference between a dashboard and an operations system. A dashboard tells you the queue is long. This tells you <strong>why</strong>, and <strong>what to do</strong>.</p>
+            <p>Same at <strong>Baggage Drop</strong> — 42 waiting, 12 minutes, 4 staff where 6 are needed. And at the <strong>Boarding Gate</strong> — 89 waiting.”</p>
+          </div>
+          <div class="do"><span>Click <span class="ui">Security Screening</span> — show the five tabs — then <span class="ui">Execute AI Recommendations</span></span></div>
+          <div class="say">
+            <p>“Click any checkpoint and you get the detail: current numbers, trends over time, what the system thinks, the recommended actions, and the evidence behind it.</p>
+            <p>When the operator accepts, the numbers move. Flow efficiency up, journey time down, SLA up. The operator stays in control — the system only proposes.”</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="step">
+        <button class="tick" type="button"><span>11</span></button>
+        <div class="body">
+          <div class="top"><h3>Out of the airport</h3><span class="time">0:30</span></div>
+          <div class="do"><span><span class="ui">Landside &amp; Transport</span></span></div>
+          <div class="say">
+            <p>“Last step — the passenger leaves. Parking zones, how full each one is, and how people are actually leaving: private car, taxi, ride-share, bus.</p>
+            <p>The average time to find a parking space is here too. This is the last thing the passenger remembers about your airport.</p>
+            <p>So that is the full journey — <strong>aircraft on the stand, into the terminal, through baggage, and out the door</strong> — on one screen, in one system.”</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="step key">
+        <button class="tick" type="button"><span>12</span></button>
+        <div class="body">
+          <div class="top"><h3>Closing</h3><span class="time">0:45</span></div>
+          <div class="say">
+            <p>“To summarise the two points.</p>
+            <p><strong>Airfield lighting</strong> — every single light monitored in real time, on top of your existing ADB system. One click gives you the full detail of one light. When something fails, the system does not give you two hundred alarms. It tells you the one thing that is probably wrong, and where to look first.</p>
+            <p><strong>Passenger experience</strong> — the full journey from the aircraft to the exit door, with queue and congestion visible live, and the system recommending the action, not only showing the problem.</p>
+            <p>Everything you saw is <strong>one platform, one login</strong>. It is not integrated later. It is one system.</p>
+            <p>This same platform is already being deployed in <strong>Vietnam</strong>.</p>
+            <p>Happy to go deeper on any screen you would like to see again.”</p>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ============ LONG ============ -->
+  <section id="long">
+    <div class="shead"><h2>Long script</h2><span class="meta">+18 min · only if they ask for more</span></div>
+    <p class="lede">Same order as the short script. Everything here is <strong>additional depth to layer in</strong>, not a replacement. Pick the blocks they lean toward.</p>
+
+    <div class="steps">
+
+      <article class="step">
+        <button class="tick" type="button"><span>L0</span></button>
+        <div class="body">
+          <div class="top"><h3>Extended opening — the operations problem</h3><span class="time">2:00</span></div>
+          <div class="say">
+            <p>“One minute of context before the screens, because it explains every design choice you will see.</p>
+            <p>A small airport today has maybe fifteen to twenty separate systems. Lighting has a system. The building has a system. Baggage, access control, fire, public address, docking — every one has a vendor, a screen, often its own room and its own operator.</p>
+            <p>Three problems come from this.</p>
+            <p><strong>One — nobody sees the whole airport.</strong> When something goes wrong, three people in three rooms each see one piece.</p>
+            <p><strong>Two — alarms, not answers.</strong> Every one of those systems can produce hundreds of alarms. None of them can tell you which alarm is the cause and which are the effects.</p>
+            <p><strong>Three — nothing becomes a job.</strong> An alarm is seen, acknowledged, forgotten. No work order, no owner, no record.</p>
+            <p>U-APOC is built for exactly these three: <strong>one picture, one cause, one owner.</strong> And an operator’s role decides what they can see and do — every action recorded with the user and the time.”</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="step">
+        <button class="tick" type="button"><span>L1</span></button>
+        <div class="body">
+          <div class="top"><h3>Name the airfield, part by part</h3><span class="time">2:00</span></div>
+          <div class="do"><span>Point at each part of the map as you name it</span></div>
+          <div class="say">
+            <p>“Let me name what you are looking at, because this is your airfield, not a generic picture.</p>
+            <p>The runway, 09 and 27 at the two ends, 3000 by 45 metres.</p>
+            <p><strong>Approach lighting</strong> at both ends — the lights the pilot sees before the runway. <strong>PAPI</strong> at both ends — four lights that tell the pilot if the approach angle is correct.</p>
+            <p>On the runway: <strong>edge lighting</strong> in white down both sides, <strong>centreline</strong> down the middle, <strong>touchdown zone</strong> lighting, <strong>threshold</strong> in green at the start, <strong>runway end</strong> in red.</p>
+            <p>Then the <strong>taxiways</strong> — green centreline, blue edge — with <strong>stop bars</strong> in red where a taxiway meets the runway. And three aprons with the parking stands.</p>
+            <p>Every one of these is a separate light in the system, on its own address.”</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="step">
+        <button class="tick" type="button"><span>L2</span></button>
+        <div class="body">
+          <div class="top"><h3>The serviceability rail — the compliance answer</h3><span class="time">1:30</span></div>
+          <div class="say">
+            <p>“On the right is the part your regulator cares about.</p>
+            <p>Each category has a <strong>target</strong> and a <strong>present value</strong>. The targets are not our numbers — they are <strong>ICAO Annex 14</strong>. Runway edge and centreline: 95 percent. Threshold, runway end, PAPI, stop bars: <strong>100 percent</strong> — safety-critical patterns, where one failure matters.</p>
+            <p>Below that, the count: how many lights exist in each category, and how many have failed.</p>
+            <p>This matters because of one question: <strong>is my runway still legal to operate right now?</strong> Today that is answered by a person walking the runway with a checklist. Here it is answered continuously — and the moment it stops being true, you know.”</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="step">
+        <button class="tick" type="button"><span>L3</span></button>
+        <div class="body">
+          <div class="top"><h3>The four overlays</h3><span class="time">2:00</span></div>
+          <div class="do"><span>Click each: <span class="ui">Status</span> <span class="ui">Circuit</span> <span class="ui">Comms</span> <span class="ui">Intensity</span> <span class="ui">Service</span></span></div>
+          <div class="say">
+            <p>“The same map answers four different questions.</p>
+            <p><strong>Status</strong> — the normal view. What is on, what is off, what has failed.</p>
+            <p><strong>Circuit</strong> — colour the lights by which regulator feeds them. The maintenance view. When a whole colour goes dark, you are not looking at lamps. You are looking at one supply.</p>
+            <p><strong>Comms</strong> — who is still answering. The diagnostic view, and the important distinction. A <strong>failed</strong> light says ‘I am broken’. A <strong>silent</strong> light says nothing at all. Silent lights in a group means the problem is <strong>upstream</strong>, not in the lamps.</p>
+            <p><strong>Intensity</strong> — how bright each light actually is against what was commanded. Lights get dirty and old. They dim slowly and nobody notices, until the day the runway is below its category. Here you see the drift.</p>
+            <p><strong>Service</strong> — which categories are below their ICAO target.”</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="step">
+        <button class="tick" type="button"><span>L4</span></button>
+        <div class="body">
+          <div class="top"><h3>The faceplate, section by section</h3><span class="time">2:30</span></div>
+          <div class="say">
+            <p>“Let me go through the whole page.</p>
+            <p><strong>The header</strong> — the tag name exactly as it exists in your ADB system, the description, the category, the ADB product family. So when your maintenance team reads this and when they read the ADB system, it is the same name.</p>
+            <p><strong>Realtime Values</strong> — light status; LINC 360 communication, meaning is this light still answering the poll on the power line; luminous intensity in candela, a measurement not a command; maintenance mode; burn hours.</p>
+            <p><strong>Control</strong> — a real control, not a display. On and off command. Brightness setpoint in candela. Maintenance mode, so a technician working on this light does not flood the control room with alarms.</p>
+            <p><strong>Alarms</strong> — what is active on this specific light.</p>
+            <p><strong>Alarm Configuration</strong> — the part your engineers will ask about. For each alarm type: the limit, the unit, and the <strong>time delay</strong> before it is raised. So one flicker does not become an alarm. You tune it per light.</p>
+            <p><strong>Series Circuit</strong> — the regulator model feeding this light; the ACE3 monitoring unit; the brightness step, 1 to 5, which is what your operators actually use; rated current against measured current, standard 6.6 amps; and the <strong>insulation resistance</strong> in megohms.”</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="step key">
+        <button class="tick" type="button"><span>L5</span></button>
+        <div class="body">
+          <div class="top"><h3>Insulation — preventing the next cable cut</h3><span class="flag gold">Ties back to their incident</span><span class="time">1:00</span></div>
+          <div class="say">
+            <p>“Insulation resistance is the health of the cable itself.</p>
+            <p>A cable does not usually fail suddenly. Water gets in, the insulation degrades, the resistance falls — over weeks. Then one day it fails, and the runway closes.</p>
+            <p>We read this value on every circuit, every day. When one circuit starts falling behind the others, the system raises it as an advisory: <em>‘cable insulation is worst on this circuit.’</em></p>
+            <p>That is a planned night-shift job. Not a five-hour runway closure.”</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="step">
+        <button class="tick" type="button"><span>L6</span></button>
+        <div class="body">
+          <div class="top"><h3>Both movement sequences</h3><span class="time">2:00</span></div>
+          <div class="do"><span>Run <span class="ui">Arrival RWY 09</span>, then <span class="ui">Departure RWY 27</span></span></div>
+          <div class="say">
+            <p>“Arrival first. Approach, PAPI on the glide slope, touchdown, rollout, vacating at the rapid exit, then follow-the-green all the way to the stand.</p>
+            <p>Now the departure. The aircraft leaves the stand, taxis along the real taxiway to the runway 27 end, enters through the connector, lines up, and rolls.</p>
+            <p>I want to be precise about something. The aircraft is not following a drawn line. It is being <strong>routed across the actual taxiway centrelines</strong> of this airfield. So the lights that turn green are genuinely the lights that aircraft passes. That is why this is worth watching — it behaves like the airfield, not like an animation.”</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="step">
+        <button class="tick" type="button"><span>L7</span></button>
+        <div class="body">
+          <div class="top"><h3>The full fault set</h3><span class="time">2:00</span></div>
+          <div class="do"><span>Try several, <span class="ui">Reset</span> between each</span></div>
+          <div class="say">
+            <p>“You can break anything here, and each one behaves differently, because each one <em>is</em> different.</p>
+            <p><strong>Fail PAPI</strong> — the glide slope indicator. Target 100 percent. Immediate impact on the approach.</p>
+            <p><strong>Fail Threshold</strong> — also a 100 percent target.</p>
+            <p><strong>Fail Runway Lighting</strong> — scattered edge failures. Watch serviceability drop gradually rather than fall off a cliff. Different problem, different response.</p>
+            <p><strong>Fail Taxiway</strong> — lower target, 90 percent, because a taxiway failure is a delay, not a safety event.</p>
+            <p><strong>Fail Approach Lighting.</strong> And <strong>CCR Output Failure</strong> — a whole loop, at once.</p>
+            <p>Notice the pattern: <strong>scattered failures mean the lamps. Simultaneous failures mean the supply.</strong> That single distinction is the difference between sending a crew to a hundred and fifty lights and sending them to one cabinet.”</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="step">
+        <button class="tick" type="button"><span>L8</span></button>
+        <div class="body">
+          <div class="top"><h3>Alarm → work order → close-out</h3><span class="time">1:30</span></div>
+          <div class="say">
+            <p>“Let me follow one alarm to the end.</p>
+            <p>Here is the alarm. Priority, the tag it belongs to, the limit that was broken, the value now, and how long it has been active.</p>
+            <p>The operator <strong>acknowledges</strong> it — recorded, with who and when. Then <strong>escalate</strong> — and it becomes a work order with a number, a priority, and a status.</p>
+            <p>On the right, the work order queue: open, dispatched, in progress, closed. Each one carries its history.</p>
+            <p>One design decision worth mentioning. When a whole circuit fails, we do <strong>not</strong> raise a hundred and fifty work orders. We raise <strong>one work order for the loop</strong>. A crew visits that loop once. A hundred and fifty tickets is a worse backlog than none.”</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="step">
+        <button class="tick" type="button"><span>L9</span></button>
+        <div class="body">
+          <div class="top"><h3>The AI advisory drawer in full</h3><span class="time">2:00</span></div>
+          <div class="say">
+            <p>“It is scoped to the screen you are on. On the airfield console it shows what the <strong>airfield’s own live data</strong> says — not a written list of demo text.</p>
+            <p>Each card has the same structure, and the structure is deliberate: what it saw; the same thing in plain words, because the night operator is not an engineer; the evidence, every point it used, each one checkable on this screen; the recommendation; the confidence and which systems the data came from; and an action button that actually moves the console.</p>
+            <p>The cards include a category below its ICAO target; a whole loop dark with the standby-changeover check; serious alarms nobody has been assigned; lamps near end of life grouped into one batch job; the cable insulation trend; lights dimmer than commanded; and circuits running too bright for daylight, which is energy and lamp life.</p>
+            <p>One principle, please note it: <strong>advisory only, operator confirms</strong>. The system never acts on the airfield by itself.”</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="step">
+        <button class="tick" type="button"><span>L10</span></button>
+        <div class="body">
+          <div class="top"><h3>The stand and the turnaround clock</h3><span class="flag gold">Point 3</span><span class="time">2:30</span></div>
+          <div class="do"><span><span class="ui">Apron Management</span> — dock an aircraft, then inject <span class="ui">PBB Disconnect</span> and <span class="ui">GPU Overload</span></span></div>
+          <div class="say">
+            <p>“Let me dock an aircraft and talk through the sequence.</p>
+            <p><strong>Capturing</strong> — the system has found the aircraft. <strong>Aligning</strong> — checking it is on the centreline of the stand. <strong>Closing</strong> — counting down the metres. <strong>Stopped</strong> — the pilot has hit the stop position. <strong>Docked</strong>.</p>
+            <p>Now the equipment around that stand: passenger boarding bridge, ground power unit, pre-conditioned air, fuel, apron floodlighting, emergency stop, fire call point.</p>
+            <p>Two of those matter directly to passenger comfort. <strong>Pre-conditioned air</strong> is the air conditioning of the aircraft while it is on the ground. <strong>Ground power</strong> keeps the lights and air on inside the cabin. If either fails, passengers feel it inside the aircraft within minutes.</p>
+            <p>And the chocks-on time. That is the start of the turnaround clock. Everything after it — disembarkation, baggage, cleaning, fuel, boarding — is measured from that moment.</p>
+            <p>Bridge disconnected. Ground power overloaded. The stand goes red, the alarm is raised, and the terminal side knows before the first passenger complains. That is what operational efficiency means in practice — not a report at the end of the month, but the terminal team knowing thirty seconds after the apron team.”</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="step">
+        <button class="tick" type="button"><span>L11</span></button>
+        <div class="body">
+          <div class="top"><h3>The terminal building in depth</h3><span class="time">2:30</span></div>
+          <div class="say">
+            <p>“Passenger comfort in a terminal comes from three things: temperature, information, and not standing in a queue. Let me take the first.</p>
+            <p>These are the terminal subsystems, each with availability and open alerts: <strong>HVAC</strong>, the air conditioning; <strong>Baggage Handling</strong>; <strong>Visual Docking Guidance</strong>; <strong>central electrical monitoring</strong>; <strong>SCADA</strong>, the supervisory layer; <strong>Security and Access Control</strong>; <strong>Public Address</strong>, how you speak to passengers; <strong>Fire Alarm</strong>; <strong>Master Clock</strong>; <strong>Aircraft Stand System</strong>; <strong>Security Screening</strong>; and <strong>Gate Access Control</strong>.</p>
+            <p>Click into any one and you get its KPIs against target, its alerts, its equipment list, its work orders, and its communication log with the field devices.</p>
+            <p>The zone map shows the terminal by area and by floor — Kerbside, Check-in halls, Security, Departure Lounge, Boarding Gates, Arrivals Hall, Baggage Reclaim, Immigration, Customs, and the plant rooms.</p>
+            <p>So when a passenger says ‘the arrivals hall is hot’, you do not send someone to walk around. You look at the zone, find the air handling unit serving it, and see whether it is running, what it is delivering, and whether it has an open alert.</p>
+            <p>Across the top: <strong>Alerts, Incidents, SOPs, Work Orders, Asset Register.</strong> An alert becomes an incident, an incident runs an SOP, the SOP produces a work order. That chain is the whole point.”</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="step">
+        <button class="tick" type="button"><span>L12</span></button>
+        <div class="body">
+          <div class="top"><h3>Baggage in depth</h3><span class="time">2:00</span></div>
+          <div class="say">
+            <p>“Baggage. This is where an airport is judged, because it is the only part of the journey where the passenger has nothing to do but wait.</p>
+            <p>You see the arriving flights, which carousel each one is assigned to, and the bags moving through the system. The counters: bags tracked, in transit, screened, cleared, on chute, and SOPs fired. Screening is here too — the scanners and their status.</p>
+            <p>If a bag is flagged, or a conveyor jams, or a bag is unattended, the SOP fires automatically and you can watch the steps being executed. That was a specific point raised earlier — an alarm must escalate into a workflow, not just sit in a list. It does.”</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="step hot">
+        <button class="tick" type="button"><span>L13</span></button>
+        <div class="body">
+          <div class="top"><h3>Read the journey board as a story</h3><span class="flag red">Strongest efficiency argument</span><span class="time">3:00</span></div>
+          <div class="say">
+            <p>“Every checkpoint, with the same five numbers: how many people are in the queue <strong>now</strong>; the average wait; <strong>SLA compliance</strong> — are we meeting our own service promise; throughput, people per hour; and staff on duty <strong>against staff recommended</strong>.</p>
+            <p>Let me read the board as an operator would.</p>
+            <ul>
+              <li><strong>Terminal Entry</strong> — green. 15 waiting, 2 minutes. Fine.</li>
+              <li><strong>Check-in</strong> — green. 23 waiting, 8 minutes, 94 percent SLA.</li>
+              <li><strong>Baggage Drop</strong> — yellow. 42 waiting, 12 minutes, SLA down to 78 percent. Four staff, six recommended. <em>This is where it started.</em></li>
+              <li><strong>Security Screening</strong> — red. 67 waiting, 18 minutes, SLA 68 percent, twelve staff against sixteen. Trend down 15 percent.</li>
+              <li><strong>Immigration</strong> — green, because it has the staff it needs.</li>
+              <li><strong>Boarding Gate</strong> — yellow. 89 people.</li>
+            </ul>
+            <p>Now read it as a story instead of six numbers. Baggage drop was slow. That pushed people late into security. Security is now the bottleneck. And that will hit the boarding gates in twenty minutes.</p>
+            <p class="punch">One under-staffed position at 6 a.m. becomes a delayed departure at 8 a.m.</p>
+            <p>That is what congestion management means, and it is why the staffing recommendation sits on the same card as the queue length.</p>
+            <p>And when the operator accepts the recommendations, the board responds. Flow efficiency up. Journey time down. SLA up. And nothing happened until a person clicked.”</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="step">
+        <button class="tick" type="button"><span>L14</span></button>
+        <div class="body">
+          <div class="top"><h3>The systems behind the journey</h3><span class="time">1:30</span></div>
+          <div class="do"><span><span class="ui">Passenger Systems</span> in the left menu</span></div>
+          <div class="say">
+            <p>“One level down, for completeness. These are the IT systems the journey depends on: <strong>CUPPS</strong>, the common-use check-in desks; <strong>CUSS</strong>, the self-service kiosks; <strong>PTS</strong>, passenger tracking; <strong>BHS</strong>, baggage; <strong>SACS</strong>, security access; <strong>PCDS</strong>, the passport control displays.</p>
+            <p>Look at this one — passport control is <strong>offline</strong>, and it has lost the connection to the immigration database.</p>
+            <p>This is why we show it. The queue at immigration will grow in the next ten minutes, and the reason is not staffing and not passengers. It is a system. The operations centre sees the cause and the effect on the same screen.”</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="step">
+        <button class="tick" type="button"><span>L15</span></button>
+        <div class="body">
+          <div class="top"><h3>Landside, analytics, and the extended close</h3><span class="time">2:30</span></div>
+          <div class="do"><span><span class="ui">Landside &amp; Transport</span>, then <span class="ui">Analytics &amp; Reporting</span></span></div>
+          <div class="say">
+            <p>“The passenger leaves. Parking by zone, how full each one is, and the revenue. How people actually leave: private car 45 percent, taxi 28, ride-share 18, bus and shuttle 9. That mix decides how you design the kerbside. And the average time to find a parking space — currently 4.6 minutes, and rising.</p>
+            <p>Finally, the layer above the operator. Everything you have seen is recorded — every alarm, every acknowledgement, every work order, every queue reading. So the monthly management question stops being an opinion. How many times was the runway lighting below its ICAO target? How long did we take to close work orders? What was the actual average wait at security last Tuesday between six and eight in the morning?</p>
+            <p>The operations screen answers ‘what is happening now’. This answers ‘are we getting better’.</p>
+            <p>Let me close with three things.</p>
+            <p><strong>One platform, not an integration project.</strong> Airfield lighting, the apron, the terminal building, baggage, passengers, landside. One login, one URL. You are not buying six systems and a middleware layer.</p>
+            <p><strong>We sit on top of what you already own.</strong> ADB SAFEGATE for lighting and docking. Your SCADA. Your existing controllers. Nothing gets replaced.</p>
+            <p><strong>The system tells you the cause, not the symptoms.</strong> Two hundred alarms is not information. ‘This one regulator failed and your standby may not have taken over’ is information. That is the difference between a dashboard and an operations centre.</p>
+            <p>And this is running today, being deployed in Vietnam. Palu and Samarinda would not be an experiment.</p>
+            <p>What would you like to see again?”</p>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ============ QA ============ -->
+  <section id="qa">
+    <div class="shead"><h2>Questions they will ask</h2><span class="meta">short answers · park the deep technical</span></div>
+    <div class="callout"><b>Rule for this meeting:</b> if it turns deep technical, hand it to Ajit or park it. You are the POC walkthrough. Saying “let me take that offline with the right person” costs you nothing and protects the room.</div>
+    <div class="tablewrap">
+      <table class="qa">
+        <thead><tr><th>They ask</th><th>You say</th></tr></thead>
+        <tbody>
+          <tr><td>Is this real data or a simulation?</td><td>“Today it is a simulation, because your lighting system is not connected yet. But the data model is built on the real ADB SAFEGATE structure — the tags, the circuits, the ACE3 units, the LINC 360 monitoring. When we connect to your system, the screens do not change. Only the source of the numbers changes.”</td></tr>
+          <tr><td>Will you integrate with ADB SAFEGATE?</td><td>“Yes. That is the design. We read from the ADB CORTEX control system. Same for the Safedock docking displays. One vendor, one integration.”</td></tr>
+          <tr><td>Can you detect exactly where a cable is cut?</td><td><strong>Be honest — honesty scored well on this last time.</strong> “Not the exact metre. Finding the exact point on a cable needs a special instrument — a physical test, and no monitoring software can do it. What we do is narrow it down, and more importantly tell you the fault is <em>in the supply, not in the lamps</em>, in the first minute. And we check whether your standby actually took over. In your incident, that is where the hours went.”</td></tr>
+          <tr><td>Do you control, or only monitor?</td><td>“Both. From the light faceplate you can switch on and off, change the brightness setpoint, and set maintenance mode. But every AI recommendation is advisory — the operator confirms. We do not let a model command the airfield.”</td></tr>
+          <tr><td>What about centralised HMI control?</td><td>“Control screens are here at the asset level. For a full centralised HMI, that is a scope discussion — Ajit and Sayaji can confirm what is included for Palu and Samarinda.” <em>Do not over-promise.</em></td></tr>
+          <tr><td>What about cyber security?</td><td>“A proper question, and we have prepared it separately. Role-based access and a full audit trail — who logged in, when, and what they changed — is built in. For network and threat protection, Ajit has slides. Can we take that as the next item?”</td></tr>
+          <tr><td>Can this do A-CDM?</td><td>“Not needed at fifteen flights a day, and we are not proposing it now. But yes, the platform extends to it — as long as we get data from the tower and the AODB, the logic can be built on top of what you saw. Sayaji is preparing a short note on that.”</td></tr>
+          <tr><td>Is this live anywhere?</td><td>“Yes. It is being deployed in Vietnam. This is not a concept.”</td></tr>
+          <tr><td>How long to deploy at Palu and Samarinda?</td><td>“That is a scoping answer, not a demo answer — it depends on how the ADB system and the terminal systems expose their data. Can we take it offline with the commercial team?”</td></tr>
+          <tr><td>Will it scale to more airports?</td><td>“Yes. Same platform, same screens, a different airfield layout and asset list. That is how ten airports become two hundred without ten different systems.”</td></tr>
+          <tr><td>What if the network goes down?</td><td>“The lighting keeps working. We are a monitoring and supervisory layer on top of the ADB system — we do not sit in the safety path. If we lose the link, your lighting is unaffected, and we show the link as lost, which is itself an alarm.”</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ WORDS ============ -->
+  <section id="words">
+    <div class="shead"><h2>Say this, not that</h2><span class="meta">audience is non-native — keep it simple</span></div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Say</th><th>Do not say</th></tr></thead>
+        <tbody>
+          <tr><td class="serif">Terminal Management / Building Management</td><td class="serif">HBMS <em>— Sayaji corrected this explicitly</em></td></tr>
+          <tr><td class="serif">Unified Airport Operations Center / U-APOC</td><td class="serif">“the tool”, “the app”</td></tr>
+          <tr><td class="serif">“We sit on top of your ADB system”</td><td class="serif">“We replace your system”</td></tr>
+          <tr><td class="serif">“The system recommends, the operator decides”</td><td class="serif">“The AI does it automatically”</td></tr>
+          <tr><td class="serif">“One light”, “one circuit”, “one regulator”</td><td class="serif">“assets”, “nodes”, “entities”</td></tr>
+          <tr><td class="serif">“It is being deployed in Vietnam”</td><td class="serif">“We could build this”</td></tr>
+          <tr><td class="serif">“That is a scoping question — let us take it offline”</td><td class="serif">Guessing at timelines or prices</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="lede" style="margin-top:18px"><strong>Delivery:</strong> short sentences, one idea each. Pause after every screen change. Do not read numbers faster than they can look at them. Ask “any questions on this before I move on?” after each of the two points — it gives them permission to engage, and it tells you whether to open the long script.</p>
+  </section>
+
+  <!-- ============ CHEAT ============ -->
+  <section id="cheat">
+    <div class="shead"><h2>Cheat sheet</h2><span class="meta">print this · keep it in your hand</span></div>
+<pre>LOGIN         admin / Astrikos2026
+BEFORE        AGL tab -> Reset -> 100.0%  ·  Speed 4x  ·  close panels
+
+POINT 1  AIRFIELD LIGHTING          Airside Operations -> Airfield Ground Lighting
+  1  Map: "898 lights, 12 circuits, on top of ADB"          0:45
+  2  Click a light -> faceplate detail                      1:00   &lt;- what they asked for
+  3  Arrival RWY 09 -> PAPI, touchdown, follow-the-green    1:00
+  4  Fail Threshold -> red map, target breach -> Escalate   0:45
+  5  Reset -> CCR Output Failure -> AI Advisory             1:30   &lt;- THE CABLE-CUT STORY
+  6  Burn hours + insulation = prevent the next one         0:30
+
+POINT 3  PASSENGER                  Airside -> Apron Mgmt, then Terminal &amp; Passenger
+  7  Dock A320 -> Safedock STOP -> chocks clock             1:00
+     PBB Disconnect -> terminal knows before passengers
+  8  Building Management -> 12 subsystems -> comfort        0:45
+  9  Terminal Overview -> Baggage Simulation                0:45
+ 10  Passenger Journey -> Security RED 67 / 18min / 12-of-16  1:00
+     -> Execute AI Recommendations -> numbers move
+ 11  Landside -> parking, taxi/bus mix, exit                0:30
+ 12  Close                                                  0:45
+
+CLOSE    one platform · on top of ADB · cause not symptoms · live in Vietnam</pre>
+  </section>
+
+  <footer>
+    Source script: <code>demo/DEMO_SCRIPT.md</code> · App: <code>cd project &amp;&amp; npm run dev</code> · Screens verified against the current build, September 2026.
+    Ticks and the timer are stored in this browser only.
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---- step ticks, remembered per browser ---- */
+  var KEY = "uapoc-runsheet-ticks";
+  var done = {};
+  try { done = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) { done = {}; }
+
+  var steps = document.querySelectorAll(".step");
+  Array.prototype.forEach.call(steps, function (step, i) {
+    var id = "s" + i;
+    if (done[id]) step.setAttribute("data-done", "1");
+    var btn = step.querySelector(".tick");
+    if (!btn) return;
+    btn.setAttribute("aria-label", "Mark step done");
+    btn.addEventListener("click", function () {
+      var isDone = step.getAttribute("data-done") === "1";
+      if (isDone) { step.removeAttribute("data-done"); delete done[id]; }
+      else { step.setAttribute("data-done", "1"); done[id] = 1; }
+      try { localStorage.setItem(KEY, JSON.stringify(done)); } catch (e) {}
+    });
+  });
+
+  /* ---- prep checkboxes ---- */
+  var PKEY = "uapoc-runsheet-prep";
+  var prep = {};
+  try { prep = JSON.parse(localStorage.getItem(PKEY) || "{}") || {}; } catch (e) { prep = {}; }
+  var boxes = document.querySelectorAll(".prep input");
+  Array.prototype.forEach.call(boxes, function (box, i) {
+    var id = "p" + i;
+    box.checked = !!prep[id];
+    box.addEventListener("change", function () {
+      if (box.checked) prep[id] = 1; else delete prep[id];
+      try { localStorage.setItem(PKEY, JSON.stringify(prep)); } catch (e) {}
+    });
+  });
+
+  /* ---- run timer ---- */
+  var out = document.getElementById("t");
+  var go = document.getElementById("go");
+  var rs = document.getElementById("rs");
+  var elapsed = 0, ticking = null;
+
+  function paint() {
+    var m = Math.floor(elapsed / 60), s = elapsed % 60;
+    out.textContent = (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
+  }
+  function stop() {
+    clearInterval(ticking); ticking = null;
+    go.textContent = "Start"; go.removeAttribute("data-on");
+  }
+  go.addEventListener("click", function () {
+    if (ticking) { stop(); return; }
+    ticking = setInterval(function () { elapsed += 1; paint(); }, 1000);
+    go.textContent = "Pause"; go.setAttribute("data-on", "1");
+  });
+  rs.addEventListener("click", function () {
+    stop(); elapsed = 0; paint();
+    Array.prototype.forEach.call(steps, function (s) { s.removeAttribute("data-done"); });
+    done = {};
+    try { localStorage.removeItem(KEY); } catch (e) {}
+  });
+  paint();
+})();
+</script>

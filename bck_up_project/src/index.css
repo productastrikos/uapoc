@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import './styles/gradients.css';
+@import './styles/animations.css';
+/* NOTE: styles/simulation.css is imported from src/simulations/SimulationOverlay.tsx.
+   It cannot be @import-ed here: CSS requires @import to precede all other rules, so
+   any @import placed after the @tailwind directives above is dropped by the bundler. */
+
+/* Hide all scrollbars globally */
+.no-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+/* Apply to all elements by default */
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
+/* Improved spacing and layout system */
+.grid-container {
+  display: grid;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.content-area {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+/* Global layout improvements */
+body {
+  overflow: hidden;
+}
+
+#root {
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ---------------------------------------------------------------------------
+ * Hide every Google Translate UI element / banner (defense in depth).
+ * A runtime copy of these rules is also injected by LanguageToggle.tsx; this
+ * global copy guarantees no Google branding flashes before the JS runs.
+ * See GOOGLE_TRANSLATE_GUIDE.md §4.
+ * ------------------------------------------------------------------------- */
+iframe.VIpgJd-ZVi9od-ORHb-OEVmcd,   /* new Google top-banner iframe */
+iframe.skiptranslate,
+.VIpgJd-ZVi9od-ORHb-OEVmcd,
+div.skiptranslate,
+div.skiptranslate iframe,
+.goog-te-banner-frame,              /* the "translated by Google" bar */
+.goog-te-banner-frame.skiptranslate,
+iframe.goog-te-banner-frame,
+.goog-te-gadget,                    /* the dropdown gadget container */
+.goog-te-combo,                     /* the <select> dropdown itself */
+.goog-te-gadget-simple,
+.goog-te-gadget-icon,               /* the little Google "G" icon */
+.goog-te-ftab,
+.goog-te-balloon-frame,             /* floating "powered by Google" balloon */
+.goog-te-menu-frame {               /* the language menu popup */
+  display: none !important;
+  visibility: hidden !important;
+  height: 0px !important;
+  width: 0px !important;
+  margin: 0px !important;
+  padding: 0px !important;
+  position: absolute !important;
+  top: -9999px !important;          /* shove off-screen as a backup to display:none */
+  left: -9999px !important;
+  z-index: -9999 !important;
+}
+
+/* Google pushes the page down to make room for its banner — undo that */
+body { top: 0 !important; margin-top: 0 !important; padding-top: 0 !important; }
+html { margin-top: 0 !important; padding-top: 0 !important; }

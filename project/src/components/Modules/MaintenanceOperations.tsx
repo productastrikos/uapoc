@@ -6,8 +6,12 @@ import { WorkOrder } from '../../types';
 import DetailModal from '../UI/DetailModal';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useToast } from '../../hooks/useToast';
+import AiInsightPanel from '../../ai/components/AiInsightPanel';
+import { useAiDomain } from '../../ai/store';
 
 const MaintenanceOperations: React.FC = () => {
+  // Scopes the AI Advisory drawer to this console.
+  useAiDomain('maintenance');
   const { t } = useLanguage();
   const { addToast } = useToast();
   const [selectedWorkOrder, setSelectedWorkOrder] = useState<WorkOrder | null>(null);
@@ -160,6 +164,11 @@ const MaintenanceOperations: React.FC = () => {
           </motion.div>
         ))}
       </div>
+
+      {/* AI recommendations for this domain. Sits under the KPI row so an
+          operator reads the numbers first and the inference drawn from them
+          second. */}
+      <AiInsightPanel domain="maintenance" />
 
       <div className="grid grid-cols-12 gap-8">
         {/* Left Column - Work Orders */}

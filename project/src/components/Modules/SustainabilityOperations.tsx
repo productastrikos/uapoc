@@ -6,8 +6,12 @@ import { SustainabilityMetric } from '../../types';
 import DetailModal from '../UI/DetailModal';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useToast } from '../../hooks/useToast';
+import AiInsightPanel from '../../ai/components/AiInsightPanel';
+import { useAiDomain } from '../../ai/store';
 
 const SustainabilityOperations: React.FC = () => {
+  // Scopes the AI Advisory drawer to this console.
+  useAiDomain('sustainability');
   const { t } = useLanguage();
   const { addToast } = useToast();
   const [selectedMetric, setSelectedMetric] = useState<SustainabilityMetric | null>(null);
@@ -143,6 +147,11 @@ const SustainabilityOperations: React.FC = () => {
           </motion.div>
         ))}
       </div>
+
+      {/* AI recommendations for this domain. Sits under the KPI row so an
+          operator reads the numbers first and the inference drawn from them
+          second. */}
+      <AiInsightPanel domain="sustainability" />
 
       <div className="grid grid-cols-12 gap-8">
         {/* Left Column - Sustainability Metrics */}

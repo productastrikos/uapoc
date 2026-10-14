@@ -3,6 +3,38 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      /* ---------------------------------------------------------------------
+       * Type scale, enlarged for control-room use.
+       *
+       * These screens are read on wall displays and on laptops the operators
+       * drive at 67-75% browser zoom to fit a whole console in view. At 67%
+       * Tailwind's stock `text-xs` lands at ~8 CSS px, which is unreadable, so
+       * the whole scale is rebuilt rather than patched per component.
+       *
+       * The working sizes (xs-xl), where every label, KPI caption and table
+       * cell lives, are a straight 1.5x. The display sizes taper — a 1.5x
+       * `text-3xl` heading would push the header and every modal title out of
+       * its row without making anything easier to read.
+       *
+       * Arbitrary sizes (`text-[10px]` and friends) were swept by the same
+       * 1.5x factor in the components themselves; they cannot be reached from
+       * here because Tailwind emits them literally.
+       * ------------------------------------------------------------------ */
+      fontSize: {
+        xs: ['calc(0.75rem*var(--fs))', { lineHeight: 'calc(1rem*var(--fs))' }],
+        sm: ['calc(0.875rem*var(--fs))', { lineHeight: 'calc(1.25rem*var(--fs))' }],
+        base: ['calc(1rem*var(--fs))', { lineHeight: 'calc(1.5rem*var(--fs))' }],
+        lg: ['calc(1.125rem*var(--fs))', { lineHeight: 'calc(1.75rem*var(--fs))' }],
+        xl: ['calc(1.25rem*var(--fs))', { lineHeight: 'calc(1.75rem*var(--fs))' }],
+        // Display sizes taper. A heading is already legible at 67% zoom; scaled
+        // at the full factor it only steals rows from the content under it.
+        '2xl': ['calc(1.5rem*var(--fs)*0.92)', { lineHeight: 'calc(2rem*var(--fs)*0.92)' }],
+        '3xl': ['calc(1.875rem*var(--fs)*0.86)', { lineHeight: 'calc(2.25rem*var(--fs)*0.86)' }],
+        '4xl': ['calc(2.25rem*var(--fs)*0.82)', { lineHeight: 'calc(2.5rem*var(--fs)*0.82)' }],
+        '5xl': ['calc(3rem*var(--fs)*0.78)', { lineHeight: '1' }],
+        '6xl': ['calc(3.75rem*var(--fs)*0.75)', { lineHeight: '1' }],
+        '7xl': ['calc(4.5rem*var(--fs)*0.72)', { lineHeight: '1' }],
+      },
       colors: {
         primary: {
           900: '#071028', // Background
@@ -14,6 +46,21 @@ export default {
         accent: {
           gold: '#E6B85C',
           teal: '#01A3A4',
+          purple: '#A855F7',
+        },
+
+        /* Everything the *model* says wears this ramp, and nothing else does.
+         * Teal is a live tag, gold is a threshold, red is a fired alarm — an
+         * inference is none of those, and an operator should be able to tell
+         * at a glance which colour is a measurement and which is an opinion. */
+        ai: {
+          200: '#E9D5FF',
+          300: '#D8B4FE',
+          400: '#C084FC',
+          500: '#A855F7',
+          600: '#9333EA',
+          700: '#7E22CE',
+          900: '#3B0764',
         },
         text: {
           primary: '#E6EEF6',

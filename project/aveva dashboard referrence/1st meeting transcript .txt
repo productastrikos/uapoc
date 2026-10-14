@@ -1,0 +1,594 @@
+1:56 - Ajit Hegde
+Hi, hi Sayaji.
+
+1:58 - Unidentified Speaker
+Hi, Jius.
+
+2:00 - Sayaji Shinde
+Yeah, with me, Kausthubh also here.
+
+2:02 - Ajit Hegde
+Kausthubh, that is what I we discussed, right? Regarding the HBMS one.
+
+2:08 - Unidentified Speaker
+Yeah.
+
+2:08 - Ajit Hegde
+And Piyush joined Kareka.
+
+2:11 - Unidentified Speaker
+I think he is joining.
+
+2:12 - Ajit Hegde
+I think he's already there.
+
+2:14 - Unidentified Speaker
+Yeah, Piyush joined. Yeah.
+
+2:16 - Ajit Hegde
+Me Pella Akko HBMS Kadika Tam.
+
+2:19 - Unidentified Speaker
+Just see that. Piyush, can you can you show that?
+
+2:23 - Ajit Hegde
+Okay, you are showing that. Okay. Coast of which.
+
+2:49 - Ajit Hegde
+Basically, this has been HBMS FRS SAB correct to queue those screen layers to showcase work.
+
+3:06 - Ajit Hegde
+Correct, sir.
+
+3:08 - Piyush Meshram
+So it's entirely HBMS, high-level building management.
+
+3:13 - Sayaji Shinde
+Actually, Piyush is HBMS. You know, it's not a correct name, okay? Because in real term, HBMS is the layer above BMS, only BMS in the SCADA.
+
+3:35 - Sayaji Shinde
+See here, just see, I'm what we have done is correct because the customer calls this project as HBMS. Correct.
+
+3:49 - Unidentified Speaker
+That's not correct. That's what I'm trying to tell you.
+
+3:51 - Sayaji Shinde
+So, in other customer places, let's not demonstrate it as a HBMS. Let's demonstrate as a terminal management. Yeah, because that's really a customer demonstration only for HBMS-related.
+
+4:10 - Ajit Hegde
+jo lab setups. Okay, screens will be like this and this is the screen.
+
+4:20 - Sayaji Shinde
+So integration we have gone beyond SCADA, right? Integration is me original.
+
+4:31 - Ajit Hegde
+So plumbing, firefighting, impact.
+
+4:37 - Sayaji Shinde
+So, these are only OT systems.
+
+4:40 - Ajit Hegde
+These are the LBMS URI coming from the LBMS.
+
+4:45 - Sayaji Shinde
+Actually, HBMS is this what you are what you are demonstrating. LBMS.
+
+4:52 - Sayaji Shinde
+That's what it's supposed to be high-level BMS. Yeah, okay, go ahead.
+
+5:03 - Piyush Meshram
+can you just log in with the super admin? I think it's LBMS admin.
+
+5:14 - Piyush Meshram
+No shoes or you can continue with the same because the UN all the functionalities is the same as like 30 subsystems are there. Can you showcase that just quickly here only?
+
+5:44 - Piyush Meshram
+Alright, so this will be the landing view for as being a super admin. He can be able to see all the light inside all the such systems.
+
+5:54 - Ajit Hegde
+So as here, all the system which we are there in the long term, here it is there actually.
+
+6:01 - Unidentified Speaker
+Ah, correct. But layer which you are seeing is the role-based access. Okay.
+
+6:08 - Ajit Hegde
+Only BMS guy can access those things. This is what I'm discussing with you regarding the data and security.
+
+6:19 - Sayaji Shinde
+I mean, cyber security was the question what they have is more from the hacking standpoint.
+
+6:27 - Unidentified Speaker
+So, what security?
+
+6:29 - Sayaji Shinde
+I mean, insider threat, you can manage to rule-based access because you have audit trail of who is logged in, what time, and all that stuff. Cybersecurity threat is unknown, right? I mean, they will just send an agent and take a control of the system or disrupt the thing. So, how do we protect our solution from that? That is what they're asking. Whether there is a risk, if there's a risk, then what additional investment needs to be done if you want to create another layer of security?
+
+ That is what they are asking for. Got it. Got it.
+
+7:00 - Ajit Hegde
+Yeah. But anyway, I'll give you the slides.
+
+7:04 - Unidentified Speaker
+Yeah, okay.
+
+7:05 - Piyush Meshram
+so yeah tell me the uh yeah yes sir so on the center there will be a map which will be uh mainly distributed zones approximately 35 zones I think we have taken so as you can see uh each zone is something that we are showing in uh six floors uh the ground floor basement uh the bus that map third and fourth so as you can see there is a dot on the third floor or 31st that uh on the 23 so clicking on this will zoom in and take you to the uh alert with within that so uh also if you can see click on the asset I can select uh the asset and select the other green assets as well which is uh healthy for now and compare like what is the difference and why it is so this was about the alert management.
+
+ So that an alert is coming from which uh set yeah it's going to break down to the air handling air handling unit air handling unit okay okay go ahead similarly below just the the math we have added all subsystem uh quick wave also we are showing how many assets are active and how many like having warning and the red bar you can see is like alerts in a specific if you click on this lbms subsystem card first thing you click on this yeah it will take you to the lbms subsystem uh where you will get the supervisor view and the operator view.
+
+ So supervisor will be mostly interested into looking all the overview kind of KPIs. So this was all the KPIs which was finalized for the LBMS supervisor. And next to that we have the operator view.
+
+9:11 - Piyush Meshram
+Of course it's when you see on the top there is supervisor and operator.
+
+9:19 - Unidentified Speaker
+Which one sorry?
+
+9:20 - Piyush Meshram
+On the top left. Oh, this one.
+
+9:23 - Unidentified Speaker
+Okay. Yeah.
+
+9:26 - Piyush Meshram
+Yeah. Here you can be able to see because the operator will be more likely to be looking at the assets and all the systems, how they are working. So we have created a demo for AHU only. So a AHU because you can see a KPI list. How many APHU how they are so can you click on the AHU?
+
+9:54 - Piyush Meshram
+Yeah, so it will show you all the AHU, how they are doing. There is a next page also. So, clicking on next page, you can see. So this is set as per the higher priority. So the whichever the AHU having the issue like critical warning based on that it will come on the top stack up basically.
+
+10:17 - Sayaji Shinde
+Okay.
+
+10:20 - Piyush Meshram
+So yeah this was about the one. Karsu can you go back to the superficial and click on any KPR?
+
+10:28 - Sayaji Shinde
+Are we showing HU uh user graphics as a user graphics?
+
+10:38 - Unidentified Speaker
+Screen?
+
+10:40 - Sayaji Shinde
+Yeah, HMI screen. I mean, if you have to control AHU, we have the AHU process. Are we including in this or you're not? In this one, no, actually.
+
+10:52 - Unidentified Speaker
+We haven't yet proved that.
+
+10:54 - Sayaji Shinde
+The project doesn't have that scope?
+
+10:57 - Unidentified Speaker
+No.
+
+10:58 - Sayaji Shinde
+Okay.
+
+11:01 - Sayaji Shinde
+But in Indonesia, we are taking centralized control wherever it's possible, huh? We have to use HMI, yeah, HMI and kind of get the integration. Sorry, the HMI centralized HMI.
+
+11:24 - Unidentified Speaker
+Okay.
+
+11:31 - Piyush Meshram
+Yeah, so clicking on each KPI will give you the overview of the KPIs. So here you can see the graph. You can see the one hour date status 24 hours, 7 days and 30 days. There's also a selectable scroll bar as well from what period you want to see and there's an additional play button there. So, based on the collected data, it will show you how it designed from the past.
+
+12:09 - Piyush Meshram
+So, it can help them to analyze and play simulations. Similarly, we can show some simulations for each KPI.
+
+12:19 - Sayaji Shinde
+I'll be showing any workflow escalation, alum escalation.
+
+12:26 - Piyush Meshram
+Yeah, we have explanations for the baggage and some securities like unattended baggage is there for working and such explanations.
+
+12:37 - Sayaji Shinde
+In a separate demo, we are probably exactly there's a separate demo, is it?
+
+12:44 - Piyush Meshram
+Yeah, we have created a separate demo.
+
+12:47 - Unidentified Speaker
+Okay.
+
+12:54 - Sayaji Shinde
+So, this is basically the status and the asset status and the KPIs.
+
+13:01 - Unidentified Speaker
+Correct.
+
+13:01 - Piyush Meshram
+They are more focused into management of assets in the LDMS and whether the data is coming or not, how the systems are working. So, entirely focused for you can say, you can say that LDMS only.
+
+13:26 - Sayaji Shinde
+So, this conveyor jam alert is not escalating. Not in a position to show the escalation workflow.
+
+13:40 - Ajit Hegde
+I think in this one they haven't added, but we can we can, right?
+
+13:44 - Unidentified Speaker
+Yeah. Yeah.
+
+13:48 - Sayaji Shinde
+Yeah, because it's a work auto management. So. Correct.
+
+13:51 - Unidentified Speaker
+Okay.
+
+13:53 - Ajit Hegde
+Then you click on create work order manual as so you can create.
+
+13:59 - Sayaji Shinde
+Oh, okay.
+
+14:51 - Piyush Meshram
+So Postgre, can we uh show them that uh AIR opts the simulation on?
+
+14:56 - Unidentified Speaker
+Yeah, monster.
+
+15:27 - Ajit Hegde
+Yeah, this is the one where we have simulations where we've taken three different use cases. So the airport lighting when the plane is landing. So the aircraft where we can choose the runway and then the gate. And then we simulate it. So the lighting, all of that happens accordingly.
+
+15:48 - Ajit Hegde
+And similarly for baggage system, for security systems, if there's any issue. If there's any anomaly like an unattended baggage, we can execute the SOP. So issuing the red alert and then activating cameras all fine.
+
+16:11 - Sayaji Shinde
+That this I've seen, we have we built it for the CV earlier.
+
+16:15 - Unidentified Speaker
+Yeah. Okay.
+
+16:16 - Sayaji Shinde
+Now, okay. So. I mean, what I see is uh this is a separate demona, what you're saying showing me, not the earlier.
+
+16:24 - Unidentified Speaker
+This is yeah, this is hosted separately. Yeah, okay.
+
+16:29 - Sayaji Shinde
+I mean, if you can merge somewhere, it is good.
+
+16:32 - Unidentified Speaker
+So, yeah.
+
+16:33 - Sayaji Shinde
+What I'm what I'm yeah, yeah, so now what I let me take a control of it. Uh so what is happening there is something like that.
+
+16:48 - Sayaji Shinde
+I'll show you the latest presentation done to the Minister of Indonesia Airport Airport Authority So what has been proposed here is unification of operation faster incidence response, operational dashboard, what you already have, KPS, maintenance, and future ready AI. So we're putting CAP there. So, you know, there are two small airports, very small. I mean, they land some 10-15 flight every day. So, but this is on the trial basis because if they succeed, then another eight will come, and then there are five big airports of Indonesia will that work will start.
+
+ So basically, what we are saying: there is a air side, terminal side, land side, and the safety, security, and the maintenance operations will be consolidated. These are very small operations, but they will be consolidated through UOC and SC up. So, this screen, what you see here, I picked it up from Aviva's demo. We had one demo created in that we have this particular screen. So, I just use AI and create it.
+
+ Using AI, I just created these screens to give them the insight in terms of how things could look once it is developed. Now, what they're looking for is this runway light. You see this runway light 6027. When the flight lands on the runway, there are runway lights. And there is a well-known vendor called ADB. So we'll be integrating with ADB's runway lighting solution and they want to see the demo.
+
+
+
+18:39 - Unidentified Speaker
+Yeah.
+
+18:41 - Sayaji Shinde
+Now, what I think, Ajit, do you have that Aviva demo which I always used to show before?
+
+18:52 - Ajit Hegde
+The access?
+
+18:54 - Unidentified Speaker
+Yeah.
+
+18:54 - Sayaji Shinde
+No, I mean, it was a video demo. Oh, they never had this one.
+
+19:05 - Unidentified Speaker
+You have that, yeah.
+
+19:07 - Sayaji Shinde
+Yes, you have this, right?
+
+19:15 - Sayaji Shinde
+So, here, uh, this is the runway. Okay, so if this, then just see whatever has been done that point in time. And we can improvise on there and create a mock-up in your own system, what you were just now showing. We can add there.
+
+19:35 - Unidentified Speaker
+Yeah.
+
+19:36 - Ajit Hegde
+So improve it and add it to the first one, the long term.
+
+19:42 - Sayaji Shinde
+So basically, if you look at the email, what they're saying is that.
+
+19:50 - Sayaji Shinde
+I was showing I will be sending you that presentation anyways.
+
+20:00 - Sayaji Shinde
+To look at the pointers.
+
+20:04 - Sayaji Shinde
+Okay, so demonstrate how the system can monitor the status of each L field. Lighting assets in details and in real time. Okay. Considering the existing airport lighting, we don't have the lighting infrastructure in front of us, but the vendor who integrate this with.
+
+20:22 - Ajit Hegde
+Okay.
+
+20:24 - Sayaji Shinde
+So, ADB Airport Airfield solution. So, this is a safeguard, right? So, this is the company ADB.
+
+20:50 - Sayaji Shinde
+So these are the I think they're controllers and these are the lights. Okay.
+
+20:54 - Unidentified Speaker
+Okay.
+
+20:57 - Sayaji Shinde
+Taxiway lighting, approach lighting. These are the lighting, lighting, approach lighting, runway lighting. The flight is approaching, a strip of different lighting, there are different colors and all those things. Then it hits the runway, and then runway lighting is there. And then, when you had to move the airport airport for sorry, plane from the gate side, then there's a taxiway which you were showing just now, right?
+
+
+
+21:24 - Unidentified Speaker
+So, there's a taxiway and apron lighting.
+
+21:26 - Sayaji Shinde
+So, these are the lightings. Now, this is a small airport, you know. I mean, there is only one. You know, one runway. I don't see, yeah, I mean, I don't see any approach to light because it's too small, you know, just 10-15 flights in the small, but airports are very good in terms of infrastructure. So, basically, they're saying that show me how you're going to monitor each asset. So, we'll be integrating with their SCADA solution.
+
+ There's a SCADA which is which controls these lights. I think this is advanced control equipment. You know, we'll be integrating with this. And so, so this is what is airfort lighting control.
+
+22:15 - Sayaji Shinde
+I think it looks something like this, if I'm not mistaken.
+
+22:20 - Unidentified Speaker
+Yeah? Okay.
+
+22:23 - Sayaji Shinde
+So if you Google it or if you do YouTube, you might find some demos on that. But there are two components. One is lighting and the other is controller.
+
+22:35 - Unidentified Speaker
+This one.
+
+22:36 - Sayaji Shinde
+And I have given the photographs of this controller to Ajit when I shared the information. I did a survey with the airport and there is a, those photographs has been taken. I don't think it will be of any use. It just looks like this. This. But basically, we need to create a good story around airfield lighting and able to mock up a demo to show the expectation they have here.
+
+23:02 - Ajit Hegde
+Okay.
+
+23:04 - Unidentified Speaker
+Yeah. Okay.
+
+23:07 - Sayaji Shinde
+Make sense?
+
+23:08 - Unidentified Speaker
+Yeah. Yeah.
+
+23:09 - Sayaji Shinde
+So basically, you know, we need to understand a little bit of how these lightings are placed and you know, you know, how they look like probably and you know. Then we can mock up showing that which light is working, which is not working, alarm coming from there, all that stuff.
+
+23:27 - Unidentified Speaker
+Yeah.
+
+23:28 - Sayaji Shinde
+And escalating that alarm, all that stuff. So, there was one incidence was told to us that from the controller to the actually on the lighting on the runway, the cable which was running, which was cut somewhere in between. And they thought it's a fault in the PLC, whatnot, right? Or the somewhere else. And the runway was closed for five, six hours because they didn't know where the fault is. So I don't know whether with our C app, we are in a position to track whether the power supply is going well or something else has gone wrong.
+
+
+
+24:04 - Unidentified Speaker
+No, it is not possible. Not possible, right? Yeah.
+
+24:08 - Ajit Hegde
+With put harder intervention, it is not possible. There will be some hardware systems are available in the market where even they check power cables and also they will check for the even the fiber kind of a monitoring. So where they what they will do, there is a particular systems they will have. They will monitor and they will check whether where where is the disconnection has happened. With the cables?
+
+ Example cable got cut or maybe faulty or some other reason. Exact location, even they will not get nobody tells you.
+
+24:44 - Unidentified Speaker
+Yeah, yeah.
+
+24:45 - Ajit Hegde
+What they will do A to D, they will run so they will get to know okay, it is reaching up to C, but it is not reaching D. Then they will what they will do, they will check from C to D. So that is the way they will check even power cables or maybe the fiber cables, but that separate instrument.
+
+25:04 - Unidentified Speaker
+Separate, I see.
+
+25:06 - Sayaji Shinde
+Okay, no problem. Um, I don't know whether we can just if there is a power system power, uh, you know, relays or something which is connected and it can tell us the power has come to the lighting or not. That's the only way we can we can check, right? Uh, if power supply is going to the lighting. If there's any other sensor, there is in the part of this ADB solution.
+
+25:29 - Unidentified Speaker
+Um, so if they have a multiple controller, we can connect multiple controllers.
+
+25:33 - Ajit Hegde
+Which controller is giving the data, which controller is not giving the data? That's what we can tell.
+
+25:39 - Unidentified Speaker
+So, this is a redundant system.
+
+25:41 - Sayaji Shinde
+So, actually, they should have realized that if they change to the redundant one, they should have worked. That means, you know, I mean, they took time to realize that there's a cable cut, you know. Probably we can give a suggestion if everything else looks good and if the signals are not coming from the light to the controller, probably that one probability we can highlight as advisory.
+
+26:07 - Unidentified Speaker
+True, true.
+
+26:09 - Ajit Hegde
+Yeah.
+
+26:09 - Unidentified Speaker
+So, yeah. So, basically, yeah.
+
+26:11 - Sayaji Shinde
+So, basically, we have to show this airfield lighting and whatever you are creating, that will be certainly used for other airport, right? So, create. With the authenticity in terms of you may need to spend some time but go to that adb site and understand a little bit of how it works find the youtube videos and all that stuff and then you'll get some idea and then you know aviva's video is also there so then you click on a faulty light you should able to share show the light template and you know some parameters about that light the way you are showing me for hvac and other things you know something like that we should we should uh yeah as our standard template.
+
+
+
+26:48 - Unidentified Speaker
+Yeah.
+
+26:49 - Sayaji Shinde
+So that's one we didn't need to do. Then so passenger experience, I think what you already have built, I think that is viable here. We don't need to do something more different than that. But if you're adding something, I mean, if you're adding HBMS into this, that will be also good because then we are covering the BMS part of it as well. So see whether that can be done quickly. But this is, I think you already have this in your current demo.
+
+ Yeah.
+
+27:21 - Unidentified Speaker
+Yeah.
+
+27:22 - Sayaji Shinde
+So just add the in this, I think somewhere there's air airside operation has been mentioned. I think I see your demo, there's airside operation mentioned. So in that, in that, yeah, in that area, you can put your redway lighting system, yeah.
+
+27:46 - Ajit Hegde
+So that yeah, there is a side up.
+
+27:59 - Unidentified Speaker
+Yeah, yeah, yeah.
+
+27:59 - Sayaji Shinde
+So here you can have the runway light, and you can create a tab for what you're showing. Something like that, right? So it makes sense. And then add HBMS, and we can always tell this is already getting deployed in Vietnam. Okay, so that is so this part we should able to cover. And a good thing is that some teams have seen this part, but the team who we are interacting, they haven't seen this, right?
+
+ So for them, it will be new plus added stuff what we have. See what else is possible in this to enhance if time permits. But add this part to it: runway lighting, real-time airfield lighting monitor. So that's what the demo requirement is as of today. Rest, I will be writing. So, Ajit, what I'm going to do is that I'm going to write a CDM short write-up that how this system can be extended for the ACDM.
+
+
+
+28:56 - Sayaji Shinde
+And we will include that as one slide. We are not saying that we are going to build ACDM because the airport is too small. Airport collaboration decision-making system is all about when the one flight is landing every minute or something like that, and you have limited gates and you have to manage the turnaround time of the flight, track the moments, and that whole cycle of landing and taking off, and different ground staff going, like baggage handling, fuel, air conditioning, all these staffs are going and doing their work and gate operation, and then the flight goes off block.
+
+ So, tracking the entire thing is about HDM. That's the HCDM. And that ensures the faster turnaround time for the, because otherwise, you must have seen in India, right? The flight keep rotating because there is no gate available yeah yeah so to avoid that these SEDM solutions are deployed and that that gives information about uh from AODB which flight is scheduled to land which flight is scheduled to take off that is estimated time but uh tower ATS will give you, will have information about real-time status of a particular flight.
+
+ And based on that, arrival time can be because estimation is one, but you need to know the real-time information when it will be actually reaching to the airport. Because that information is important for giving the landing signal, opening up the, you know, allocating the gate. All that process, right? And informing the ground staff that this flight is going to land in the next two minutes, or whatever, five minutes, or ten minutes, and five minutes, that whole sequence of when it will be landing, that has to be given to the ground staff for them to get ready for baggage handling and other stuff, right?
+
+
+
+30:56 - Sayaji Shinde
+So that's the ACDM. But these airports are so small, and there are only limited flights are landing there. It is not relevant as of today. But the question is that whether the system can be extended. So certainly we can extend this, right? As long as we get data from various sources, we can create the logics and we can use AI and other things to create that logic for SEDM. Am I right?
+
+31:28 - Unidentified Speaker
+Hello.
+
+31:31 - Unidentified Speaker
+Yeah.
+
+31:33 - Sayaji Shinde
+So there is no action atom for this. I'll be just writing a short, I'll be giving one or two slides that how the system can be extended. See, this could happen in such a way that 200 small airports under ministry. Out of that, we are handling now 10. So 2 for 2 will be given. If this succeeds, then other 8 airports will be given. These are of the similar size. Then they have those small airports across Indonesia because.
+
+ Indonesia has 150 islands.
+
+32:04 - Unidentified Speaker
+Correct?
+
+32:06 - Sayaji Shinde
+And then we can, if they give us the what is if they give us access to the ATS systems where the size flight tracking is happening, then this ACDM solution can be built for all the 150 airports or whatever 200 airports they have. Have that's the plan in future okay so that I will take care of it uh conceptually I will put forward that this is how it can be done uh rest is all I'm going to take so I just need this demo to be prepared as quickly as possible because thursday we have one discussion with the ministry online and then uh then I need this uh cyber security Ajit from you Yeah.
+
+ So for demo, any question, any doubts?
+
+32:58 - Ajit Hegde
+So everything in one URL itself, deployed together, right? So ideally. Okay, HBMS, passenger, like the existing HBMS, the one what we did for long time, plus the passenger journey, plus the new use cases, workflows.
+
+33:15 - Unidentified Speaker
+Yeah. Okay. Yeah.
+
+33:17 - Sayaji Shinde
+I mean, you have most of it on the point three, nah.
+
+33:21 - Unidentified Speaker
+I have those, yeah, which you created for a long time.
+
+33:24 - Sayaji Shinde
+Yes, yeah, of pieces, yeah, yeah, all the sits. We had to add uh runway lighting and HBMS, so it gives the impression that yeah, we know what we are talking. Okay, yeah, yeah, that's all. So, I mean, a little bit of study required for this air-filled lighting assets.
+
+33:48 - Ajit Hegde
+Yeah.
+
+33:49 - Unidentified Speaker
+Yeah.
+
+33:50 - Sayaji Shinde
+And ADB is the weather who we'll be integrating with.
+
+33:54 - Ajit Hegde
+Okay. AB.
+
+33:56 - Sayaji Shinde
+So so and even the VGDS we are integrating ADB's VGDS also we are integrating there. And I think long term, I think we are using Honeywell. They're using Honeywell if I'm not mistaken.
+
+34:09 - Unidentified Speaker
+Yeah, yeah. Correct, right? Yeah. Yeah.
+
+34:13 - Sayaji Shinde
+But here they're using ADB.
+
+34:19 - Sayaji Shinde
+Have we uh done a VGDS integration in long term?
+
+34:25 - Sayaji Shinde
+No, I think not yet, not yet or is it phase two? There is thank you.
+
+34:37 - Sayaji Shinde
+From Colins. Yeah. We done the integration?
+
+34:42 - Unidentified Speaker
+Not yet done the integration, but uh we are integrating. As of now, they haven't.
+
+34:47 - Ajit Hegde
+I think they have given some API means. Kind of a testing API kind of thing. Oh, okay.
+
+34:56 - Sayaji Shinde
+Okay.
+
+34:59 - Sayaji Shinde
+Okay. Whatever we have, we'll demonstrate.
+
+35:05 - Unidentified Speaker
+Okay.
+
+35:07 - Ajit Hegde
+Okay.
+
+35:07 - Sayaji Shinde
+Don, anything else? Any question?
+
+35:11 - Ajit Hegde
+None as of now, but I'll.
+
+35:13 - Unidentified Speaker
+we'll let you know.
+
+35:15 - Sayaji Shinde
+So by Thursday will it take Thursday is it be possible to come up with something by Wednesday or it won't be possible we can try I mean a lot of it is just uh merging different uh screens together so I'm I'm going to share this with you which I created for the minister's presentation because he won't understand but in this what i've done is that In this, I have created this video using AI. So, so this is actually, I had a video for reactor failure and the work task integration and escalation.
+
+ So, I use that video to convert for this. Airfield lighting solution just to give them some idea. So I'll share this with you.
+
+36:22 - Unidentified Speaker
+Okay.
+
+36:24 - Ajit Hegde
+Are you using video screen recording videos, or will you be giving a live?
+
+36:29 - Unidentified Speaker
+They are saying if you show live, it will be better. Okay, so we'll share the URL.
+
+36:34 - Sayaji Shinde
+So, and what we can do is that.
+
+36:42 - Sayaji Shinde
+You share, then let me see whether I can show because this will be first to their core team and then maybe extra other team members. We'll see goes on Thursday. But whatever is ready, we can show them, you know, or show me, send me some screenshot or something. And I say, I can tell them that we'll demonstrate next week or something like that.
+
+37:03 - Unidentified Speaker
+Okay.
+
+37:04 - Sayaji Shinde
+So I'll share this presentation with you. So I'm just showing the escalation procedure. For AGL ground lighting, you know, the runway lighting. And here I was showing the same thing, what you had. I mean, I, this is your POC.
+
+37:24 - Unidentified Speaker
+Yeah. Yeah.
+
+37:27 - Sayaji Shinde
+Then this is all the screens and all. This is your nest. Project in Dubai. That demo I have included, some part of it. And then there was the last one for agentic AI, I think, this one. So I just say terminal management. So it's just it's building management, terminal management, same thing. Okay, so I'll share this with you. That's all. Okay.
+
+38:04 - Ajit Hegde
+Okay. And cyber security, I'll come back with one or two slides.
+
+38:10 - Unidentified Speaker
+Yes, yes.
+
+38:13 - Sayaji Shinde
+Okay. Bye.
+
+38:15 - Unidentified Speaker
+Yeah.
+
+38:15 - Ajit Hegde
+Thank you.
+
+38:16 - Unidentified Speaker
+Thank you. Thank you.

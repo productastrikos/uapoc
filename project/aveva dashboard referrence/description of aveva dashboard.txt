@@ -1,0 +1,168 @@
+
+0 minutes 2 seconds
+Hi this is the US airports demo preview. The
+0:08
+0 minutes 8 seconds
+is the main dashboard of the airport and the home home screen and the landing screen which will have some KPS related to substation, power generation, parking, passenger terminal, building, runway plus air, ground light
+0:27
+0 minutes 27 seconds
+ING
+0:28
+0 minutes 28 seconds
+taxivate the transport, cargo and apron areas. The KPIs are listed here and the solution has 4 majority
+0:40
+0 minutes 40 seconds
+categories. One is the air side, passenger terminal, land side and system summary. We will go into each category one by one. So in the air side, first we can go to the dashboard on the air side,
+0:56
+0 minutes 56 seconds
+which would give an idea about how our airfield ground lighting is doing. Is there any intrusions,
+1:06
+1 minute 6 seconds
+Apron management system,
+1:09
+1 minute 9 seconds
+air traffic control and navigation systems, safety and security of the buildings in the air site and the substations that are powering the air site
+1:21
+1 minute 21 seconds
+ground fields.
+1:23
+1 minute 23 seconds
+After that we can go to airfield
+1:28
+1 minute 28 seconds
+ground lighting.
+4:06
+4 minutes 6 seconds
+like flight docking also. So here if I took Bay 5, so you can see the aircraft moving and the docking system will engage with the aircraft.
+4:25
+4 minutes 25 seconds
+Yeah, you can simulate certain type of alarms here
+4:31
+4 minutes 31 seconds
+and type of you can choose the type of aircraft.
+4:37
+4 minutes 37 seconds
+So thats about air site the passenger side.
+4:41
+4 minutes 41 seconds
+We have 4 major things like passenger side dashboard,
+4:51
+4 minutes 51 seconds
+so which will cover baggage handling system, energy management system and
+4:59
+4 minutes 59 seconds
+boarding gates, activity, lighting and control like in terms of electricity and utility, demand for it, safety of it and the elevators, escalators and moving walks and the what's the footfall and the energy management system of that.
+5:18
+5 minutes 18 seconds
+So, so once I have the dashboard can move to baggage handling system, the baggage handling system, you can see the baggage handling system and you can simulate
+5:34
+5 minutes 34 seconds
+the movement of the baggage
+5:41
+5 minutes 41 seconds
+next to your start.
+5:44
+5 minutes 44 seconds
+And here you can simulate a failure. Once you simulate a failure it it will come as an alarm.
+5:51
+5 minutes 51 seconds
+So there is this baggage is stuck in the handling system and that needs to be taken care of
+6:06
+6 minutes 6 seconds
+and similarly you can see some of the equipments face plates of it.
+6:12
+6 minutes 12 seconds
+So I can say stop to remove the
+6:18
+6 minutes 18 seconds
+failure.
+6:21
+6 minutes 21 seconds
+You can do start or stop here. Again
+6:29
+6 minutes 29 seconds
+the next process is
+6:36
+6 minutes 36 seconds
+baggage handling system arrival site.
+6:42
+6 minutes 42 seconds
+It has the same
+6:44
+6 minutes 44 seconds
+workflow,
+6:47
+6 minutes 47 seconds
+the passenger terminal flight information.
+6:53
+6 minutes 53 seconds
+It should display you on the board which we see in the Air Force of the Flightings of Flight display system
+7:02
+7 minutes 2 seconds
+and the landslide. Again, there will be a dashboard of all the KPIs that has to be monitored on the land side.
+7:13
+7 minutes 13 seconds
+Mostly these are the scalar systems that we will be monitoring. Chilled water,
+7:21
+7 minutes 21 seconds
+air handling, handling units, power, energy, waste management, lifes, lightning systems, smart parking,
+7:32
+7 minutes 32 seconds
+life and safety.
+7:34
+7 minutes 34 seconds
+And inside the land side again you can go and click your
+7:40
+7 minutes 40 seconds
+individual equipment
+7:43
+7 minutes 43 seconds
+online diagrams.
+7:57
+7 minutes 57 seconds
+So this is displaying building one footfall similar
+8:02
+8 minutes 2 seconds
+ly we can
+8:05
+8 minutes 5 seconds
+get get parking information about the parking
+8:11
+8 minutes 11 seconds
+lots in that building in the airports. Choosing the correct information we can get
+8:21
+8 minutes 21 seconds
+the environment
+8:23
+8 minutes 23 seconds
+readings
+8:24
+8 minutes 24 seconds
+floor wise or or the building wise.
+8:29
+8 minutes 29 seconds
+Then you can get a lot of this information. Then the system summary. This is as you get how your system are working in in a summary like in the form of,
+8:47
+8 minutes 47 seconds
+in the form of
+8:50
+8 minutes 50 seconds
+default state, in the form of a data grid kind of listed in listed information.
+8:58
+8 minutes 58 seconds
+So similarly exhaust fans,
+9:14
+9 minutes 14 seconds
+so lightning sprinklers, all
+9:18
+9 minutes 18 seconds
+the things that are related to
+9:25
+9 minutes 25 seconds
+OT kind of information.
+9:29
+9 minutes 29 seconds
+So the so thats briefly what it is. So you can see all your real time alarms, you can see historical alarms, you can get a trend analysis
+9:42
+9 minutes 42 seconds
+of any chosen tag

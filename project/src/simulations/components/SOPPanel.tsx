@@ -111,11 +111,11 @@ const SOPPanel: React.FC<SOPPanelProps> = ({
             </div>
             <div className="min-w-0">
               <h4 className="text-sm font-bold text-sim-100 truncate">{title}</h4>
-              <p className="text-[11px] text-sim-400 truncate">{trigger}</p>
+              <p className="text-[length:calc(11px*var(--fs))] text-sim-400 truncate">{trigger}</p>
             </div>
           </div>
           <span
-            className={`flex-shrink-0 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border ${
+            className={`flex-shrink-0 px-2 py-0.5 rounded-full text-[length:calc(10px*var(--fs))] font-bold uppercase tracking-wider border ${
               active ? `${tone.border} ${tone.text} ${tone.bg}` : 'border-sim-600/50 text-sim-400'
             }`}
           >
@@ -123,7 +123,7 @@ const SOPPanel: React.FC<SOPPanelProps> = ({
           </span>
         </div>
 
-        <div className="mt-3 flex items-center justify-between text-[11px]">
+        <div className="mt-3 flex items-center justify-between text-[length:calc(11px*var(--fs))]">
           <span className="text-sim-400">
             {priority ? (
               <>
@@ -145,7 +145,7 @@ const SOPPanel: React.FC<SOPPanelProps> = ({
           />
         </div>
 
-        {subtitle && <p className="mt-2 text-[11px] text-sim-400 leading-snug">{subtitle}</p>}
+        {subtitle && <p className="mt-2 text-[length:calc(11px*var(--fs))] text-sim-400 leading-snug">{subtitle}</p>}
       </div>
 
       {/* Steps */}
@@ -193,7 +193,7 @@ const SOPPanel: React.FC<SOPPanelProps> = ({
                       {step.action}
                     </p>
 
-                    <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px]">
+                    <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-[length:calc(10px*var(--fs))]">
                       {step.responsible && (
                         <span className="flex items-center gap-1 text-sim-500">
                           <User className="w-3 h-3" />

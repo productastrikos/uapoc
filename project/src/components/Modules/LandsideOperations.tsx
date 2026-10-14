@@ -5,8 +5,12 @@ import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, BarChart, Bar, PieC
 import { ParkingZone } from '../../types';
 import DetailModal from '../UI/DetailModal';
 import { useLanguage } from '../../hooks/useLanguage';
+import AiInsightPanel from '../../ai/components/AiInsightPanel';
+import { useAiDomain } from '../../ai/store';
 
 const LandsideOperations: React.FC = () => {
+  // Scopes the AI Advisory drawer to this console.
+  useAiDomain('landside');
   const { t } = useLanguage();
   const [selectedZone, setSelectedZone] = useState<ParkingZone | null>(null);
   const [showModal, setShowModal] = useState(false);
@@ -117,6 +121,11 @@ const LandsideOperations: React.FC = () => {
           </motion.div>
         ))}
       </div>
+
+      {/* AI recommendations for this domain. Sits under the KPI row so an
+          operator reads the numbers first and the inference drawn from them
+          second. */}
+      <AiInsightPanel domain="landside" />
 
       <div className="grid grid-cols-12 gap-6">
         {/* Left Column - Kerbside & Parking Management */}

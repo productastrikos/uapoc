@@ -90,9 +90,9 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
             }}
           />
           <img
-            src="/dell_technologies-logo.png"
-            alt="Dell Technologies"
-            className="h-32 w-auto relative z-10"
+            src="/white_aveva_schinder_logo.png"
+            alt="Aveva X Schinder"
+            className="h-16 w-auto relative z-10"
             style={{
               filter: 'brightness(1.3) contrast(1.2) saturate(1.1) drop-shadow(0 6px 18px rgba(0,0,0,0.75))'
             }}
@@ -322,7 +322,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
 
       {/* Powered by Astrikos */}
       <div className="relative z-10 flex flex-col items-center space-y-2 mt-10">
-        <span className="text-[11px] uppercase tracking-widest text-gray-400">Powered by</span>
+        <span className="text-[length:calc(11px*var(--fs))] uppercase tracking-widest text-gray-400">Powered by</span>
         <img
           src="/Astrikos Logo Transparent Horizontal.png"
           alt="Astrikos"

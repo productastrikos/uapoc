@@ -23,3 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 .env
+
+# local verification harness (playwright driver + screenshots)
+_*.mjs
+_shots/

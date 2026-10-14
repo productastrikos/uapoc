@@ -69,11 +69,11 @@ const KPICards: React.FC<KPICardsProps> = ({ kpis }) => {
             <div className="relative flex items-start justify-between mb-3">
               <div className="flex items-center space-x-2 min-w-0">
                 {getStatusIcon(kpi.status)}
-                <h3 className="text-[13px] font-medium text-sim-300 truncate">{kpi.name}</h3>
+                <h3 className="text-[length:calc(13px*var(--fs))] font-medium text-sim-300 truncate">{kpi.name}</h3>
               </div>
               <div className="flex items-center space-x-1 flex-shrink-0">
                 {getTrendIcon(kpi.trend)}
-                <span className={`text-[11px] font-medium uppercase tracking-wide ${
+                <span className={`text-[length:calc(11px*var(--fs))] font-medium uppercase tracking-wide ${
                   kpi.trend === 'up' ? 'text-emerald-400' :
                   kpi.trend === 'down' ? 'text-red-400' : 'text-sim-400'
                 }`}>
@@ -83,7 +83,7 @@ const KPICards: React.FC<KPICardsProps> = ({ kpis }) => {
             </div>
 
             <div className="relative flex items-baseline space-x-2 mb-4">
-              <span className="text-[34px] leading-none font-bold text-sim-100 tabular-nums">
+              <span className="text-[length:calc(34px*var(--fs))] leading-none font-bold text-sim-100 tabular-nums">
                 {kpi.value.toFixed(kpi.value < 10 ? 1 : 0)}
               </span>
               <span className="text-xs font-medium text-sim-400 uppercase tracking-wide">{kpi.unit}</span>

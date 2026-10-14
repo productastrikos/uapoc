@@ -1,0 +1,176 @@
+/* Shimmer Animation */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Pulse Glow Animation */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 5px rgba(59, 130, 246, 0.5); }
+  50% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.8), 0 0 30px rgba(59, 130, 246, 0.6); }
+}
+
+/* KPI Card Gradient Animation */
+@keyframes kpi-gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Floating Animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Fade In Up Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 40px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Slide In Right Animation */
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translate3d(30px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Utility Classes */
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+.glow-card {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.animate-kpi-gradient {
+  background: linear-gradient(-45deg, transparent, rgba(20, 184, 166, 0.1), rgba(234, 179, 8, 0.1), transparent);
+  background-size: 400% 400%;
+  animation: kpi-gradient 6s ease infinite;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.animate-slideInRight {
+  animation: slideInRight 0.4s ease-out;
+}
+
+/* Hide Scrollbars */
+.no-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+/* Animated Border */
+.animated-border {
+  position: relative;
+  overflow: hidden;
+}
+
+.animated-border::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #14b8a6, transparent);
+  animation: shimmer 2s infinite;
+}
+
+/* Interactive Hover Effects */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Loading Spinner */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin-slow {
+  animation: spin 3s linear infinite;
+}
+
+/* Gradient Backgrounds */
+.bg-gradient-mesh-1 {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.8) 50%, rgba(51, 65, 85, 0.8) 100%);
+}
+
+.bg-gradient-mesh-2 {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(51, 65, 85, 0.9) 50%, rgba(71, 85, 105, 0.9) 100%);
+}
+
+/* Status Indicators */
+.status-online {
+  background: linear-gradient(45deg, #10b981, #34d399);
+  animation: pulse 2s infinite;
+}
+
+.status-warning {
+  background: linear-gradient(45deg, #f59e0b, #fbbf24);
+  animation: pulse 2s infinite;
+}
+
+.status-critical {
+  background: linear-gradient(45deg, #ef4444, #f87171);
+  animation: pulse 2s infinite;
+}
+
+/* Modal Animations */
+.modal-backdrop {
+  backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+/* Progress Bars */
+.progress-bar {
+  background: linear-gradient(90deg, #14b8a6, #06b6d4, #3b82f6);
+  background-size: 200% 100%;
+  animation: kpi-gradient 3s ease infinite;
+}
+
+/* Emergency Button Styles */
+.emergency-button {
+  background: linear-gradient(45deg, #dc2626, #ef4444);
+  animation: pulse 2s infinite;
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+}
+
+.emergency-button:hover {
+  animation: none;
+  background: linear-gradient(45deg, #b91c1c, #dc2626);
+  box-shadow: 0 0 30px rgba(239, 68, 68, 0.5);
+}

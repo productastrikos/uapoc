@@ -7,8 +7,12 @@ import DetailModal from '../UI/DetailModal';
 import SimulationLauncher from '../../simulations/SimulationLauncher';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useToast } from '../../hooks/useToast';
+import AiInsightPanel from '../../ai/components/AiInsightPanel';
+import { useAiDomain } from '../../ai/store';
 
 const SecurityOperations: React.FC = () => {
+  // Scopes the AI Advisory drawer to this console.
+  useAiDomain('security');
   const { t } = useLanguage();
   const { addToast } = useToast();
   const [selectedIncident, setSelectedIncident] = useState<SecurityIncident | null>(null);
@@ -329,6 +333,11 @@ const SecurityOperations: React.FC = () => {
           </motion.div>
         ))}
       </div>
+
+      {/* AI recommendations for this domain. Sits under the KPI row so an
+          operator reads the numbers first and the inference drawn from them
+          second. */}
+      <AiInsightPanel domain="security" />
 
       <div className="grid grid-cols-12 gap-8">
         {/* Left Column - Incident Management */}

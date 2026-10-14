@@ -740,7 +740,7 @@ const BaggageSystemOverview: React.FC = () => {
                           style={{ width: `${Math.max(pct, 2)}%` }}
                         />
                       </div>
-                      <div className="flex justify-between text-[10px] text-sim-500 mt-0.5">
+                      <div className="flex justify-between text-[length:calc(10px*var(--fs))] text-sim-500 mt-0.5">
                         <span>{c.currentLoad}/{c.maxCapacity} bags</span>
                         <span>{c.energyConsumption.toFixed(0)} W · {c.uptime.toFixed(1)}% uptime</span>
                       </div>

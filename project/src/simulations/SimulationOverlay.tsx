@@ -134,7 +134,7 @@ const SimulationBody: React.FC<{ simulationId: SimulationId; title: string; onCl
             <div className="min-w-0">
               <div className="flex items-center space-x-3">
                 <h2 className="text-2xl font-bold text-text-primary truncate">{title}</h2>
-                <span className="flex-shrink-0 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-accent-gold/15 text-accent-gold border border-accent-gold/40">
+                <span className="flex-shrink-0 px-2.5 py-1 rounded-full text-[length:calc(10px*var(--fs))] font-bold uppercase tracking-widest bg-accent-gold/15 text-accent-gold border border-accent-gold/40">
                   Simulation
                 </span>
               </div>

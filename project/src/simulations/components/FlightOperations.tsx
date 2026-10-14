@@ -564,7 +564,7 @@ export const FlightOperations: React.FC<FlightOperationsProps> = ({
                       <span className="text-sim-400 capitalize">{key}</span>
                       <div className="flex items-center gap-2">
                         <div className={`hbms-status-dot ${value.status === 'active' ? 'operational' : 'warning'}`} />
-                        <span className="text-sim-200 text-[11px]">{value.status}</span>
+                        <span className="text-sim-200 text-[length:calc(11px*var(--fs))]">{value.status}</span>
                       </div>
                     </div>
                   ))}

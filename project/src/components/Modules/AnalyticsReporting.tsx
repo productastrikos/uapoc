@@ -5,6 +5,8 @@ import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, BarChart, Bar, Area
 import DetailModal from '../UI/DetailModal';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useToast } from '../../hooks/useToast';
+import AiInsightPanel from '../../ai/components/AiInsightPanel';
+import { useAiDomain } from '../../ai/store';
 
 interface OperationalReport {
   id: string;
@@ -18,6 +20,8 @@ interface OperationalReport {
 }
 
 const AnalyticsReporting: React.FC = () => {
+  // Scopes the AI Advisory drawer to this console.
+  useAiDomain('analytics');
   const { t } = useLanguage();
   const { addToast } = useToast();
   const [selectedReport, setSelectedReport] = useState<OperationalReport | null>(null);
@@ -163,6 +167,11 @@ const AnalyticsReporting: React.FC = () => {
           </motion.div>
         ))}
       </div>
+
+      {/* AI recommendations for this domain. Sits under the KPI row so an
+          operator reads the numbers first and the inference drawn from them
+          second. */}
+      <AiInsightPanel domain="analytics" />
 
       <div className="grid grid-cols-12 gap-8">
         {/* Left Column - Reports & Analytics */}

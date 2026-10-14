@@ -35,6 +35,8 @@ import InfoButton from "../UI/InfoButton";
 import DetailModal from '../UI/DetailModal';
 import { useLanguage } from "../../hooks/useLanguage";
 import { useToast } from "../../hooks/useToast";
+import AiInsightPanel from '../../ai/components/AiInsightPanel';
+import { useAiDomain } from '../../ai/store';
 
 // Enhanced Mock Flight Data with realistic details
 const mockFlightData = [
@@ -177,6 +179,8 @@ const mockFlightData = [
 
 // Trend Arrow Component
 const TrendArrow: React.FC<{ trend: 'up' | 'down' | 'stable' }> = ({ trend }) => {
+  // Scopes the AI Advisory drawer to this console.
+  useAiDomain('aocc');
   if (trend === 'up') {
     return <TrendingUp className="w-4 h-4 text-green-400 inline ml-1" />;
   } else if (trend === 'down') {
@@ -226,54 +230,6 @@ const InfoButtonWithPortal: React.FC<{ description: string }> = ({ description }
   );
 };
 
-// Prediction Card Component
-const PredictionCard: React.FC<{
-  icon: React.ComponentType<any>;
-  title: string;
-  detail: string;
-  color: 'yellow' | 'red' | 'green';
-  onClick?: () => void;
-}> = ({ icon: Icon, title, detail, color, onClick }) => {
-  const colorClasses = {
-    yellow: 'bg-gradient-to-br from-yellow-500/20 to-orange-500/10 border-yellow-500/40',
-    red: 'bg-gradient-to-br from-red-500/20 to-red-600/10 border-red-500/40',
-    green: 'bg-gradient-to-br from-green-500/20 to-green-600/10 border-green-500/40'
-  };
-
-  const iconColors = {
-    yellow: 'text-yellow-400',
-    red: 'text-red-400',
-    green: 'text-green-400'
-  };
-
-  return (
-    <motion.div
-      whileHover={{ 
-        scale: 1.02, 
-        y: -4,
-        boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.4)"
-      }}
-      onClick={onClick}
-      className={`relative overflow-hidden p-4 rounded-xl border cursor-pointer transition-all duration-300 group backdrop-blur-sm shadow-2xl ${colorClasses[color]}`}
-    >
-      {/* Glow effect */}
-      <div className="absolute inset-0 bg-gradient-to-tr from-white/5 via-transparent to-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl"></div>
-      
-      <div className="relative z-10">
-        <div className="flex items-center space-x-2 mb-2">
-          <Icon className={`w-5 h-5 ${iconColors[color]} drop-shadow-lg`} />
-          <span className={`font-semibold ${iconColors[color]}`}>{title}</span>
-        </div>
-        <p className="text-gray-300 text-sm">{detail}</p>
-      </div>
-      
-      {/* Shine effect */}
-      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/8 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1200"></div>
-      </div>
-    </motion.div>
-  );
-};
 
 // Enhanced KPI Grid Component
 const KPIGrid: React.FC<{
@@ -1038,50 +994,10 @@ const AOCCDashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* AI AOCC Predictions Panel */}
-        <motion.div
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="relative overflow-hidden bg-gradient-to-br from-purple-900/50 to-purple-800/50 rounded-xl p-6 border border-purple-500/30 shadow-2xl backdrop-blur-sm"
-        >
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 via-pink-600/10 to-purple-600/20 rounded-xl blur-xl"></div>
-          
-          <div className="relative z-10">
-            <div className="flex items-center space-x-2 mb-4">
-              <Brain className="w-6 h-6 text-purple-400 drop-shadow-lg" />
-              <h2 className="text-xl font-bold text-white drop-shadow-lg">AI U-APOC Predictions</h2>
-              <InfoButtonWithPortal description="AI-powered predictions and recommendations for airport operations, weather impacts, and system optimization" />
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <PredictionCard
-                icon={AlertTriangle}
-                title="Weather Impact Alert"
-                detail="Thunderstorm system approaching from southeast may cause 45-minute delays starting 16:30"
-                color="yellow"
-                onClick={() => handleKPIClick({ name: "Weather Impact", value: "High", label: "Weather Impact Risk" })}
-              />
-              <PredictionCard
-                icon={CheckCircle}
-                title="Runway Optimization"
-                detail="AI suggests runway 09/27 configuration for 18% efficiency improvement"
-                color="green"
-                onClick={() => handleKPIClick({ name: "Runway Optimization", value: "Available", label: "Runway Optimization" })}
-              />
-              <PredictionCard
-                icon={Activity}
-                title="System Performance"
-                detail="All U-APOC systems operating at 98.7% efficiency with predictive maintenance scheduled"
-                color="green"
-                onClick={() => handleKPIClick({ name: "System Performance", value: "Optimal", label: "System Performance" })}
-              />
-            </div>
-          </div>
-
-          {/* Shine effect */}
-          <div className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-700">
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/8 to-transparent transform -skew-x-12 -translate-x-full hover:translate-x-full transition-transform duration-1200"></div>
-          </div>
-        </motion.div>
+        {/* Cross-domain AI recommendations for the operations centre. The
+            copilot drawer in the header carries the same engine for every
+            other console. */}
+        <AiInsightPanel domain="aocc" title="AI U-APOC Advisory" />
 
         {/* Digital Twin & KPI Cards Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-[500px]">

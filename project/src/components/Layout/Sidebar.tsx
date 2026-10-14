@@ -45,7 +45,7 @@ const CollapsibleSidebar: React.FC<CollapsibleSidebarProps> = ({
 
   return (
     <motion.div 
-      className="bg-primary-700/80 backdrop-blur-sm border-r border-primary-500/50 transition-all duration-300 relative flex flex-col h-full"
+      className="fs-chrome bg-primary-700/80 backdrop-blur-sm border-r border-primary-500/50 transition-all duration-300 relative flex flex-col h-full"
       animate={{ width: collapsed ? 80 : 280 }}
       initial={{ width: 280 }}
     >
@@ -119,7 +119,7 @@ const CollapsibleSidebar: React.FC<CollapsibleSidebarProps> = ({
             <img 
                 src="/Astrikos Logo Transparent perfect.png" 
                 alt="Astrikos" 
-                className="h-12 w-auto relative z-10"
+                className="h-16 w-auto relative z-10"
                 style={{
                   filter: 'brightness(1.3) contrast(1.2) saturate(1.1) drop-shadow(0 2px 8px rgba(0,0,0,0.4))'
                 }}

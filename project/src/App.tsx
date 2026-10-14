@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import Header from "./components/Layout/Header";
 import CollapsibleSidebar from "./components/Layout/CollapsibleSidebar";
 import AOCCDashboard from "./components/Modules/AOCCDashboard";
 import LoginPage from "./components/LoginPage";
 import { useAuthStore } from "./store/useAuthStore";
-import AirsideOperations from "./components/Modules/AirsideOperations";
-import TerminalOperations from "./components/Modules/TerminalOperations";
+import AirsideConsole from "./components/Modules/AirsideConsole";
+import TerminalConsole from "./components/Modules/TerminalConsole";
 import LandsideOperations from "./components/Modules/LandsideOperations";
 import SecurityOperations from "./components/Modules/SecurityOperations";
 import MaintenanceOperations from "./components/Modules/MaintenanceOperations";
@@ -20,11 +20,18 @@ import { LanguageProvider, useLanguage } from "./hooks/useLanguage";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ToastProvider, useToast } from "./hooks/useToast";
 import { ToastContainer } from "./components/UI/Toast";
+import AiCopilotDrawer from "./ai/components/AiCopilotDrawer";
+import { useNavStore } from "./store/useNavStore";
 
 const AppContent: React.FC = () => {
   const { t } = useLanguage();
   const { toasts, removeToast } = useToast();
-  const [activeModule, setActiveModule] = useState("aocc");
+  // Module selection lives in a store rather than local state so the AI
+  // copilot drawer — which is rendered outside the module tree — can send an
+  // operator from a recommendation to the console it belongs to.
+  const activeModule = useNavStore((s) => s.module);
+  const go = useNavStore((s) => s.go);
+  const setActiveModule = (module: string) => go(module);
   const { isAuthenticated } = useAuthStore();
 
   const currentUser: User = {
@@ -119,9 +126,9 @@ const AppContent: React.FC = () => {
       case "passenger-systems":
         return <PassengerSystems />;
       case "airside":
-        return <AirsideOperations />;
+        return <AirsideConsole />;
       case "terminal":
-        return <TerminalOperations />;
+        return <TerminalConsole />;
       case "landside":
         return <LandsideOperations />;
       case "security":
@@ -161,6 +168,9 @@ const AppContent: React.FC = () => {
           </main>
         </div>
       </div>
+
+      {/* Cross-domain AI recommendations, reachable from any console. */}
+      <AiCopilotDrawer />
 
       {/* Toast Notifications */}
       <ToastContainer toasts={toasts} onRemove={removeToast} />

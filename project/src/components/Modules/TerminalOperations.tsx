@@ -20,6 +20,8 @@ import {
 import InfoButton from "../UI/InfoButton";
 import DetailModal from '../UI/DetailModal';
 import { useToast } from "../../hooks/useToast";
+import AiInsightPanel from '../../ai/components/AiInsightPanel';
+import { useAiDomain } from '../../ai/store';
 
 // Custom debounce hook
 const useDebounce = (callback: (...args: any[]) => void, delay: number) => {
@@ -37,6 +39,8 @@ const useDebounce = (callback: (...args: any[]) => void, delay: number) => {
 
 // Enhanced InfoButton with Portal
 const InfoButtonWithPortal: React.FC<{ description: string }> = ({ description }) => {
+  // Scopes the AI Advisory drawer to this console.
+  useAiDomain('terminal');
   const [showTooltip, setShowTooltip] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
@@ -1207,6 +1211,10 @@ const TerminalOperations: React.FC = () => {
               </div>
             </div>
           </motion.div>
+
+          {/* Terminal AI recommendations — queue forecasting, bag-connection risk
+              and BHS escalation, each with its evidence attached. */}
+          <AiInsightPanel domain="terminal" />
 
           {/* Map (70%) and Quick Actions (30%) Side by Side */}
           <motion.div 

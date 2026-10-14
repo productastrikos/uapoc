@@ -6,8 +6,12 @@ import { RevenueStream } from '../../types';
 import DetailModal from '../UI/DetailModal';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useToast } from '../../hooks/useToast';
+import AiInsightPanel from '../../ai/components/AiInsightPanel';
+import { useAiDomain } from '../../ai/store';
 
 const CommercialOperations: React.FC = () => {
+  // Scopes the AI Advisory drawer to this console.
+  useAiDomain('commercial');
   const { t } = useLanguage();
   const { addToast } = useToast();
   const [selectedRevenue, setSelectedRevenue] = useState<RevenueStream | null>(null);
@@ -136,6 +140,11 @@ const CommercialOperations: React.FC = () => {
           </motion.div>
         ))}
       </div>
+
+      {/* AI recommendations for this domain. Sits under the KPI row so an
+          operator reads the numbers first and the inference drawn from them
+          second. */}
+      <AiInsightPanel domain="commercial" />
 
       <div className="grid grid-cols-12 gap-8">
         {/* Left Column - Revenue Streams */}

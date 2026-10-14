@@ -1,9 +1,10 @@
 import React from 'react';
-import { Bell, User, Settings, Radio, LogOut } from 'lucide-react';
+import { Bell, User, Settings, Radio, LogOut, Brain } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useAuthStore } from '../../store/useAuthStore';
 import LanguageToggle from './LanguageToggle';
+import { useAiStore, usePendingCount } from '../../ai/store';
 
 interface HeaderProps {
   currentUser: {
@@ -16,6 +17,9 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
   const { t } = useLanguage();
   const [notifications, setNotifications] = React.useState(3);
   const { logout } = useAuthStore();
+  const openCopilot = useAiStore((s) => s.openDrawer);
+  // Recommendations nobody has looked at yet, across every console.
+  const pendingInsights = usePendingCount();
 
   // Button handlers - ALL FUNCTIONAL
   const handleNotificationClick = () => {
@@ -42,7 +46,7 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
   };
 
   return (
-    <header className="bg-primary-800 border-b border-primary-600 px-6 py-4">
+    <header className="relative bg-primary-800 border-b border-primary-600 px-6 py-4">
       <div className="flex items-center justify-between">
         {/* Logo and Title */}
         <div className="flex items-center space-x-4">
@@ -75,9 +79,9 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
               }}
             >
               <img
-                              src="/dell_technologies-logo.png"
-                              alt="Dell Technologies"
-                              className="h-16 w-auto relative z-10"
+                              src="/white_aveva_schinder_logo.png"
+                              alt="Aveva X Schinder"
+                              className="h-8 w-auto relative z-10"
                               style={{
                                 filter: 'brightness(1.3) contrast(1.2) saturate(1.1) drop-shadow(0 2px 8px rgba(0,0,0,0.4))'
                               }}
@@ -134,6 +138,36 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
               </span>
             </motion.button>
           </div>
+
+          {/* AI Advisory. Sits ahead of notifications because a recommendation
+              with a horizon on it decays; an alert that has already fired does
+              not. Purple throughout: it is the one control on this bar that is
+              a model talking, and it should never be mistaken for a live tag. */}
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            // No argument: the drawer scopes itself to whichever console is open.
+            onClick={() => openCopilot()}
+            className="fs-chrome relative flex items-center space-x-2 px-3 py-2 bg-ai-500/15 hover:bg-ai-500/25 rounded-lg transition-all duration-300 border border-ai-500/50"
+            style={{
+              boxShadow: '0 4px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1)'
+            }}
+          >
+            <Brain className="h-5 w-5 text-ai-300" />
+            <span className="text-sm font-semibold text-ai-200 hidden xl:inline">
+              AI Advisory
+            </span>
+            {pendingInsights > 0 && (
+              <motion.span
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                className="absolute -top-1.5 -right-1.5 bg-ai-400 text-primary-900 text-[length:calc(11px*var(--fs))] font-bold h-5 min-w-[1.25rem] px-1 rounded-full flex items-center justify-center"
+                style={{ boxShadow: '0 0 12px rgba(168, 85, 247, 0.7)' }}
+              >
+                {pendingInsights}
+              </motion.span>
+            )}
+          </motion.button>
 
           {/* Language Switcher - Google Translate (EN <-> ES) */}
           <LanguageToggle />
@@ -209,6 +243,15 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
           </motion.button>
         </div>
       </div>
+
+      {/* Slot for the active module's sub-navigation.
+          Consoles portal their tab bar in here and straddle the header's lower
+          edge, which recovers a whole row of vertical space in the content area
+          — on a console screen that row is worth more than the chrome. */}
+      <div
+        id="console-tabs"
+        className="absolute left-1/2 -translate-x-1/2 -bottom-4 z-40 flex justify-center"
+      />
     </header>
   );
 };

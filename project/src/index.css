@@ -2,6 +2,129 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ---------------------------------------------------------------------------
+ * Type scale multiplier.
+ *
+ * Every font size in the app — the named Tailwind steps and the arbitrary
+ * `text-[calc(10px*var(--fs))]` ones alike — is expressed as a multiple of
+ * this. Operators drive these consoles at 67-75% browser zoom to fit a whole
+ * screen in view, so the stock scale reads far too small; but a single global
+ * factor big enough to fix the body text makes the chrome shout.
+ *
+ * So it is one knob with per-region overrides, rather than hundreds of hand
+ * tuned classes. Change `--fs` on `:root` to move everything at once.
+ *
+ *   :root    1.25   body text, KPI values, tables, cards
+ *   .fs-chrome 1.0  navigation, tabs, pills — labels you aim at, not read
+ *   .fs-ai   1.5    advisory text, which is prose and is the thing being read
+ * ------------------------------------------------------------------------- */
+:root {
+  --fs: 1.25;
+}
+
+/* Sidebar, tab bars, button rows. These are targets, not reading material —
+   at the body scale they crowded out the content they navigate to. */
+.fs-chrome {
+  --fs: 1;
+}
+
+/* AI advisory surfaces. The opposite case: full sentences an operator has to
+   actually read and weigh before pressing a button, so they get more than the
+   body scale rather than less. */
+.fs-ai {
+  --fs: 1.5;
+}
+
+/* The airfield lighting console. Its dock, rollups and alarm strip are all
+   dense tag readouts sitting beside a dark canvas, and at the body scale the
+   fault-injection labels and serviceability figures were the hardest text in
+   the app to read across a control room. Its own tab bar carries `.fs-chrome`
+   and stays put. */
+.agl-root {
+  --fs: 1.45;
+}
+
+/* ---------------------------------------------------------------------------
+ * Street View embed — crop Google's own chrome out of the frame.
+ *
+ * The panorama is Google's keyless Maps Embed, which means a cross-origin
+ * iframe: nothing inside it can be styled, hidden or queried, so there is no
+ * selector that reaches the "Untitled / View on Google Maps" card, the
+ * watermark, the compass rose, the zoom buttons or the terms strip.
+ *
+ * The only lever from outside is the box. So the iframe is laid out larger than
+ * its container and offset, and the container clips it — every piece of chrome
+ * sits within ~60px of an edge, so pushing those edges outside the visible area
+ * removes all of it at once. The cost is the sliver of panorama that goes with
+ * them, which is why the offsets are named here rather than scattered inline:
+ * trim them back if any chrome reappears, or if the crop takes too much image.
+ *
+ * NOTE: Google's Maps Embed terms require their attribution to stay visible.
+ * This is fine for an internal demo; it is not something to ship to a customer
+ * environment without checking that.
+ * ------------------------------------------------------------------------- */
+.pano-frame {
+  --pano-crop-top: 58px;    /* "Untitled / View on Google Maps" card */
+  --pano-crop-right: 62px;  /* compass rose + zoom buttons */
+  --pano-crop-bottom: 34px; /* watermark, Terms, Report a problem */
+  --pano-crop-left: 0px;
+
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.pano-frame > iframe {
+  position: absolute;
+  border: 0;
+  top: calc(-1 * var(--pano-crop-top));
+  right: calc(-1 * var(--pano-crop-right));
+  bottom: calc(-1 * var(--pano-crop-bottom));
+  left: calc(-1 * var(--pano-crop-left));
+  width: calc(100% + var(--pano-crop-left) + var(--pano-crop-right));
+  height: calc(100% + var(--pano-crop-top) + var(--pano-crop-bottom));
+}
+
+/* The twelve subsystem cards on the building-management landing page.
+   They are the densest text in the app — acronym, availability, a KPI line, a
+   freshness badge and an asset bar in a 200px card — and they are also the
+   first thing anyone looks at, so they carry the largest scale in the console
+   rather than the smallest. */
+.fs-subsystem-cards {
+  --fs: 1.95;
+}
+
+/* The KPI tiles, equipment charts and side panels on the subsystem pages.
+ *
+ * These were ported with hardcoded inline pixel sizes — `fontSize: 8`, axis
+ * labels at 7.5px — so the `--fs` scale cannot reach them: an inline style wins
+ * over any class. `zoom` can, because it scales the used values rather than the
+ * declarations, and it reflows rather than transforming, so hit-testing and
+ * text rendering stay correct.
+ *
+ * The panels scroll instead of clipping, which is the trade agreed: bigger
+ * numbers matter more here than fitting everything on one screen. Deliberately
+ * not applied to any container holding a map — MapLibre reads element geometry
+ * for pointer maths and does not need the surprise. */
+/* Raised twice on feedback — these panels are read across a room, and the
+   ported inline sizes start at 7.5-9px. Scrolling is the accepted trade. */
+.kpi-zoom {
+  zoom: 1.62;
+  overflow: auto !important;
+}
+
+.kpi-zoom-sm {
+  zoom: 1.45;
+  overflow: auto !important;
+}
+
+/* Muted grey on near-black is fine for a caption and wrong for a control an
+   operator reaches for under pressure. Inside the AGL console the dimmest text
+   tier is lifted to the secondary tone — a legibility fix, not a restyle. */
+.agl-root .text-text-muted {
+  color: #A8BBC9;
+}
+
 @import './styles/gradients.css';
 @import './styles/animations.css';
 /* NOTE: styles/simulation.css is imported from src/simulations/SimulationOverlay.tsx.
