@@ -111,7 +111,7 @@ const ApronScreen: React.FC = () => {
         <div className="flex items-center gap-2">
           <ParkingSquare className="w-5 h-5 text-accent-blue" />
           <div>
-            <h2 className="text-lg font-bold text-text-primary leading-tight">
+            <h2 className="text-lg font-bold text-text-primary leading-tight tracking-tight">
               Apron Management System
             </h2>
             <p className="text-[length:calc(11px*var(--fs))] text-text-muted">
@@ -126,7 +126,7 @@ const ApronScreen: React.FC = () => {
           {([
             ['Available', String(available), available > 4 ? 'text-status-success' : 'text-status-warning', 'glass-pill-neutral'],
             ['Occupied', `${occupied}/${stands.length}`, 'text-accent-teal', 'glass-pill-teal'],
-            ['Utilisation', `${utilisation}%`, utilisation > 85 ? 'text-status-warning' : 'text-text-primary', 'glass-pill-blue'],
+            ['Utilisation', `${utilisation}%`, utilisation > 85 ? 'text-status-warning' : 'glow-text', 'glass-pill-blue'],
             ['Docking', String(docking), docking > 0 ? 'text-accent-blue' : 'text-text-muted', 'glass-pill-violet'],
             ['Faults', String(faults), faults > 0 ? 'text-status-error' : 'text-text-muted', 'glass-pill-neutral'],
           ] as const).map(([label, value, tone, tint]) => (
@@ -146,7 +146,7 @@ const ApronScreen: React.FC = () => {
           {/* Three stands and the fault bank, one row. Anything moving or
               broken sorts to the front, so a docking or a fault is on the first
               page rather than found by paging to it. */}
-          <div className="grid grid-cols-2 xl:grid-cols-4 gap-2 shrink-0">
+          <div className="grid grid-cols-2 xl:grid-cols-4 gap-2 shrink-0 stagger-in">
             {pageStands.map((st) => (
               <StandBay
                 key={st.id}

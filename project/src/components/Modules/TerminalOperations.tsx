@@ -1129,7 +1129,7 @@ const TerminalOperations: React.FC = () => {
               
               <div className="grid grid-cols-5 gap-4">
                 <div className="glass-pill glass-pill-blue text-center">
-                  <div className="text-xl font-bold text-text-primary flex items-center justify-center">
+                  <div className="text-xl font-bold glow-text flex items-center justify-center">
                     {aiAdvisoryData.overallEfficiency}%
                     <TrendArrow trend={aiAdvisoryData.efficiencyTrend} />
                   </div>
@@ -1157,7 +1157,7 @@ const TerminalOperations: React.FC = () => {
                   <div className="text-xs text-text-muted">Critical Alerts</div>
                 </div>
                 <div className="glass-pill glass-pill-blue text-center">
-                  <div className="text-xl font-bold text-text-primary flex items-center justify-center">
+                  <div className="text-xl font-bold glow-text flex items-center justify-center">
                     {aiAdvisoryData.biometricSuccess}
                     <TrendArrow trend={aiAdvisoryData.biometricTrend} />
                   </div>
@@ -1311,7 +1311,7 @@ const TerminalOperations: React.FC = () => {
                 </div>
 
                 {/* Quick Stats Bar */}
-                <div className="mt-4 grid grid-cols-5 gap-3">
+                <div className="mt-4 grid grid-cols-5 gap-3 stagger-in">
                   {terminalZones.map((zone) => (
                     <div key={zone.id} className="text-center p-2 bg-primary-700/30 rounded-lg backdrop-blur-sm">
                       <div className="text-sm font-medium text-white">{zone.name.split(' ')[0]}</div>
@@ -1342,9 +1342,10 @@ const TerminalOperations: React.FC = () => {
                     .slice(0, 6)
                     .map((zone) => (
                       <motion.div 
-                        key={zone.id} 
+                        key={zone.id}
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
+                        whileHover={{ y: -2 }}
                         className="p-3 bg-primary-800/60 rounded-lg cursor-pointer transition-colors duration-200 border border-primary-600/40 hover:border-accent-blue/40"
                         onClick={() => handleZoneClick(zone)}
                       >

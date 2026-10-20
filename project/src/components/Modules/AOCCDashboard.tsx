@@ -324,7 +324,7 @@ const KPIGrid: React.FC<{
           </div>
 
           <div>
-            <div className="text-xl font-bold text-white mb-1">
+            <div className="glow-text text-xl font-bold mb-1">
               {stat.value}
             </div>
             <div className="text-xs text-text-muted leading-tight">

@@ -15,7 +15,7 @@
  */
 
 import React, { useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { AlertTriangle, Boxes, FileText, Grid3x3, LayoutGrid, ShieldAlert, Wrench } from 'lucide-react';
 
 import './hbms.css';
@@ -165,38 +165,54 @@ const HbmsConsole: React.FC = () => {
       <div className="hbms-root flex flex-col h-full min-h-0 gap-2">
         <HbmsTabs active={view} onChange={go} />
 
-        {view === 'subsystems' && (
-          <div className="flex flex-col h-full min-h-0">
-            <div className="flex items-start gap-3 shrink-0">
-              <div className="flex-1 min-w-0">
-                <SubsystemStrip />
+        {/* Cross-fade between the console's own sub-tabs (Subsystems / Alerts /
+            Incidents / SOPs / Work Orders / Asset Register), matching the
+            AnimatePresence pattern the module switcher already uses one level
+            up — so switching inside HBMS reads as consistently animated as
+            switching into it. */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={view}
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.18, ease: 'easeOut' }}
+            className="flex-1 min-h-0 flex flex-col"
+          >
+            {view === 'subsystems' && (
+              <div className="flex flex-col h-full min-h-0">
+                <div className="flex items-start gap-3 shrink-0">
+                  <div className="flex-1 min-w-0">
+                    <SubsystemStrip />
+                  </div>
+                </div>
+                {/* The detail template manages its own internal scroll regions and
+                    expects to own the full remaining height, as it did in the
+                    source app's content area. With nothing selected the console
+                    lands on the full dashboard — real map, subsystem grid, alert
+                    rail and summary tiles — which is the Long Thanh landing view
+                    rebuilt here (see HbmsDashboard). */}
+                <div className="flex-1 min-h-0">
+                  {Detail && entry
+                    ? <Detail key={entry.code} />
+                    : <HbmsDashboard />}
+                </div>
               </div>
-            </div>
-            {/* The detail template manages its own internal scroll regions and
-                expects to own the full remaining height, as it did in the
-                source app's content area. With nothing selected the console
-                lands on the full dashboard — real map, subsystem grid, alert
-                rail and summary tiles — which is the Long Thanh landing view
-                rebuilt here (see HbmsDashboard). */}
-            <div className="flex-1 min-h-0">
-              {Detail && entry
-                ? <Detail key={entry.code} />
-                : <HbmsDashboard />}
-            </div>
-          </div>
-        )}
+            )}
 
-        {view === 'alerts' && (
-          <div className="flex-1 min-h-0 flex gap-3">
-            <div className="flex-1 min-w-0"><AlertManagement /></div>
-            <div className="w-[260px] shrink-0 overflow-y-auto no-scrollbar"><CommsWidget /></div>
-          </div>
-        )}
+            {view === 'alerts' && (
+              <div className="flex-1 min-h-0 flex gap-3">
+                <div className="flex-1 min-w-0"><AlertManagement /></div>
+                <div className="w-[260px] shrink-0 overflow-y-auto no-scrollbar"><CommsWidget /></div>
+              </div>
+            )}
 
-        {view === 'incidents' && <div className="flex-1 min-h-0"><IncidentManagement /></div>}
-        {view === 'sop' && <div className="flex-1 min-h-0"><SOPManagement /></div>}
-        {view === 'work-orders' && <div className="flex-1 min-h-0"><WorkOrderManager /></div>}
-        {view === 'assets' && <div className="flex-1 min-h-0"><AssetList /></div>}
+            {view === 'incidents' && <div className="flex-1 min-h-0"><IncidentManagement /></div>}
+            {view === 'sop' && <div className="flex-1 min-h-0"><SOPManagement /></div>}
+            {view === 'work-orders' && <div className="flex-1 min-h-0"><WorkOrderManager /></div>}
+            {view === 'assets' && <div className="flex-1 min-h-0"><AssetList /></div>}
+          </motion.div>
+        </AnimatePresence>
       </div>
     </AHURuntimeProvider>
   );

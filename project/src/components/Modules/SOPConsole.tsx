@@ -265,9 +265,9 @@ const SOPConsole: React.FC = () => {
           <Zap className="h-5 w-5 text-accent-blue" />
           <h2 className="text-base font-semibold text-white">AI-Powered SOP Insights</h2>
         </div>
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-3 gap-3 stagger-in">
           <div className="glass-pill glass-pill-blue rounded-lg p-3">
-            <div className="text-xl font-bold text-text-primary">94.8%</div>
+            <div className="text-xl font-bold glow-text">94.8%</div>
             <div className="text-xs text-text-muted">Automation Success Rate</div>
           </div>
           <div className="glass-pill glass-pill-violet rounded-lg p-3">

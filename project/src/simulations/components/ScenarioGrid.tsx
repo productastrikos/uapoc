@@ -78,7 +78,7 @@ const ScenarioGrid: React.FC<ScenarioGridProps> = ({ scenarios, category }) => {
       </div>
 
       <div className="p-4 flex-1 overflow-hidden">
-        <div className="space-y-3 h-full overflow-y-auto no-scrollbar">
+        <div className="space-y-3 h-full overflow-y-auto no-scrollbar stagger-in">
           {scenarios.map(scenario => {
             const isRunning = runningScenarios.has(scenario.id);
             const isCompleted = completedScenarios.has(scenario.id);

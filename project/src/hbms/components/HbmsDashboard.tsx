@@ -302,7 +302,7 @@ const HbmsDashboard: React.FC = () => {
             className="glass-pill glass-pill-teal text-left transition-all hover:brightness-110 active:scale-[0.98]"
           >
             <p className="text-xs font-semibold text-text-muted uppercase tracking-widest mb-1">Sys Health</p>
-            <p className="text-2xl font-bold text-status-success">{health.toFixed(1)}%</p>
+            <p className={`text-2xl font-bold ${health >= 95 ? 'glow-text' : health >= 90 ? 'text-status-warning' : 'text-status-error'}`}>{health.toFixed(1)}%</p>
             <div className="mt-2 w-full h-2 rounded-full overflow-hidden flex" style={{ background: 'rgba(255,255,255,0.06)' }}>
               <div style={{ width: `${(operational / total) * 100}%`, background: '#34D399' }} />
               <div style={{ width: `${(warning / total) * 100}%`, background: '#E6B85C' }} />

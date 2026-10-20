@@ -50,11 +50,11 @@ const KPICards: React.FC<KPICardsProps> = ({ kpis }) => {
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 stagger-in">
         {kpis.map(kpi => (
           <div
             key={kpi.id}
-            className={`relative bg-primary-800/60 border rounded-xl p-5 cursor-pointer ${getStatusColor(kpi.status)}`}
+            className={`relative bg-primary-800/60 border rounded-xl p-5 cursor-pointer transition-transform duration-200 hover:-translate-y-0.5 ${getStatusColor(kpi.status)}`}
             onClick={(e) => handleKPIClick(kpi, e)}
           >
             {/* status rail */}

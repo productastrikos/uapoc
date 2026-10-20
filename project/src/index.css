@@ -11,6 +11,46 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Whole-platform revamp primitives — the handful of effects the reference
+ * boards all shared, adapted to a dark operational console. */
+@layer components {
+  /* A standout number/headline — the palette's lightest step with a soft
+   * glow behind it, so a hero stat reads as lit rather than just light-grey. */
+  .glow-text {
+    color: #C1E8FF;
+    text-shadow: 0 0 24px rgba(32, 120, 207, 0.45);
+  }
+
+  /* The faint grain every reference site carried, so a flat navy panel never
+   * reads as a solid digital swatch. Applied as an overlay, not a background,
+   * so it sits above whatever gradient/blur is already there. */
+  .grain-overlay {
+    position: relative;
+  }
+  .grain-overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: theme('backgroundImage.grain');
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+
+  /* Staggered entrance for a list/grid of cards that isn't already wrapped in
+   * framer-motion — apply `.stagger-in` to the parent and nothing else; each
+   * direct child fades/slides up in sequence via animation-delay. */
+  .stagger-in > * {
+    animation: fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .stagger-in > *:nth-child(1) { animation-delay: 0ms; }
+  .stagger-in > *:nth-child(2) { animation-delay: 60ms; }
+  .stagger-in > *:nth-child(3) { animation-delay: 120ms; }
+  .stagger-in > *:nth-child(4) { animation-delay: 180ms; }
+  .stagger-in > *:nth-child(5) { animation-delay: 240ms; }
+  .stagger-in > *:nth-child(6) { animation-delay: 300ms; }
+  .stagger-in > *:nth-child(n+7) { animation-delay: 360ms; }
+}
+
 /* The one button system. Every action button in a console uses one of these,
  * so color is decided here rather than per-file:
  *   btn-secondary     default — quiet blue outline
@@ -18,14 +58,19 @@
  *   btn-danger        destructive/emergency action, idle (outline only)
  *   btn-danger-active destructive/emergency action that is currently engaged */
 @layer components {
+  /* Pill-shaped, not boxy — the one shape every reference board agreed on.
+   * A subtle lift + glow on hover (transform/shadow only, never a width or
+   * layout change, so this can never reproduce the button-resize glitch
+   * fixed earlier) is what makes the "wow, more animated" ask land on a
+   * control that already exists on every page. */
   .btn {
-    @apply inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium border transition-colors duration-150;
+    @apply inline-flex items-center justify-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-medium border transition-all duration-200 ease-out hover:-translate-y-0.5 active:translate-y-0;
   }
   .btn-secondary {
-    @apply bg-accent-blue/10 border-accent-blue/30 text-blue-200 hover:bg-accent-blue/20 hover:border-accent-blue/50;
+    @apply bg-accent-blue/10 border-accent-blue/30 text-blue-200 hover:bg-accent-blue/20 hover:border-accent-blue/50 hover:shadow-[0_4px_20px_rgba(32,120,207,0.25)];
   }
   .btn-primary {
-    @apply bg-accent-blue border-accent-blue text-white hover:bg-accent-blueHover hover:border-accent-blueHover;
+    @apply bg-accent-blue border-accent-blue text-white hover:bg-accent-blueHover hover:border-accent-blueHover hover:shadow-[0_4px_24px_rgba(32,120,207,0.45)];
   }
   .btn-danger {
     @apply bg-transparent border-status-error/30 text-red-300 hover:bg-status-error/10 hover:border-status-error/50;
@@ -39,10 +84,10 @@
    * boxes. No border at all; the state reads from fill alone, which is both
    * calmer and closer to the glass aesthetic used elsewhere. */
   .chip {
-    @apply inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors duration-150 bg-primary-700/40 text-text-secondary hover:bg-primary-600/60 hover:text-text-primary;
+    @apply inline-flex items-center justify-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-200 bg-primary-700/40 text-text-secondary hover:bg-primary-600/60 hover:text-text-primary;
   }
   .chip-active {
-    @apply bg-accent-blue/25 text-accent-blue hover:bg-accent-blue/30 hover:text-accent-blue;
+    @apply bg-accent-blue/25 text-accent-blue hover:bg-accent-blue/30 hover:text-accent-blue shadow-[0_0_16px_rgba(32,120,207,0.3)];
   }
 
   /* Frosted, color-tinted capsule for a single stat — the "glass pill" look
@@ -50,21 +95,29 @@
    * purpose: the brief was "more glass, but keep it blueish", not a new set
    * of bright hues to replace the old red/green/yellow one. */
   .glass-pill {
-    @apply relative rounded-2xl px-4 py-3 border border-white/10 overflow-hidden;
-    backdrop-filter: blur(16px) saturate(1.3);
-    -webkit-backdrop-filter: blur(16px) saturate(1.3);
+    @apply relative rounded-2xl px-4 py-3 border border-accent-blue/20 overflow-hidden transition-all duration-300;
+    backdrop-filter: blur(16px) saturate(1.4);
+    -webkit-backdrop-filter: blur(16px) saturate(1.4);
   }
+  .glass-pill:hover {
+    @apply border-accent-blue/40 -translate-y-0.5;
+    box-shadow: 0 10px 30px rgba(2, 16, 36, 0.45), 0 0 20px rgba(32, 120, 207, 0.15);
+  }
+  /* Every tint below stays inside the given palette (#2078CF..#C1E8FF) —
+   * variety comes from where on that ramp each one sits, not from reaching
+   * for a different hue family. This is what "blue throughout" means for a
+   * row of tiles that still need to read as distinct from each other. */
   .glass-pill-blue {
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.28), rgba(59, 130, 246, 0.06));
+    background: linear-gradient(135deg, rgba(32, 120, 207, 0.32), rgba(32, 120, 207, 0.06));
   }
   .glass-pill-teal {
-    background: linear-gradient(135deg, rgba(45, 212, 191, 0.26), rgba(45, 212, 191, 0.05));
+    background: linear-gradient(135deg, rgba(84, 131, 179, 0.3), rgba(84, 131, 179, 0.06));
   }
   .glass-pill-violet {
-    background: linear-gradient(135deg, rgba(129, 140, 248, 0.26), rgba(129, 140, 248, 0.05));
+    background: linear-gradient(135deg, rgba(14, 78, 178, 0.34), rgba(14, 78, 178, 0.06));
   }
   .glass-pill-neutral {
-    background: linear-gradient(135deg, rgba(148, 163, 184, 0.16), rgba(148, 163, 184, 0.04));
+    background: linear-gradient(135deg, rgba(125, 160, 202, 0.2), rgba(125, 160, 202, 0.05));
   }
 }
 

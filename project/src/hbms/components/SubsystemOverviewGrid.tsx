@@ -243,7 +243,7 @@ const SubsystemOverviewGrid: React.FC<Props> = ({ forcedDown = {} }) => {
           {operational}/{shown.length} operational
         </span>
       </div>
-      <div className="fs-subsystem-cards grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
+      <div className="fs-subsystem-cards grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 stagger-in">
         {shown.map((s) => (
           <SubsystemGridCard key={s.id} subsystem={s} forcedDown={forcedDown[s.id] === 'down'} />
         ))}

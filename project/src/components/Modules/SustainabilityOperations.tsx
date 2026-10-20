@@ -135,7 +135,9 @@ const SustainabilityOperations: React.FC = () => {
                 {stat.change}
               </span>
             </div>
-            <div className="text-xl font-bold text-text-primary">{stat.value}</div>
+            <div className={`text-xl font-bold ${
+              stat.label === t('sustainability.energy_savings') || stat.label === t('sustainability.carbon_reduction') ? 'glow-text' : 'text-text-primary'
+            }`}>{stat.value}</div>
             <div className="text-sm text-text-muted">{stat.label}</div>
           </motion.div>
         ))}

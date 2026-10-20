@@ -307,7 +307,9 @@ const SecurityOperations: React.FC = () => {
                 {stat.change}
               </span>
             </div>
-            <div className="text-xl font-bold text-text-primary">{stat.value}</div>
+            <div className={`text-xl font-bold ${
+              stat.label === t('security.cameras_online') || stat.label === t('security.response_time') ? 'glow-text' : 'text-text-primary'
+            }`}>{stat.value}</div>
             <div className="text-sm text-text-muted">{stat.label}</div>
           </motion.div>
         ))}

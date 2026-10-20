@@ -369,7 +369,7 @@ const AGLScreen: React.FC = () => {
             </div>
             <div
               className={`text-xl font-bold font-mono ${
-                overallServiceability < 95 ? 'text-status-error' : 'text-status-success'
+                overallServiceability < 95 ? 'text-status-error' : 'glow-text'
               }`}
             >
               {overallServiceability.toFixed(1)}%

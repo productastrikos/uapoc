@@ -36,24 +36,31 @@ export default {
         '7xl': ['calc(4.5rem*var(--fs)*0.72)', { lineHeight: '1' }],
       },
       colors: {
+        /* The whole-platform revamp palette — ten exact hexes the user chose
+         * (#2078CF..#C1E8FF), ordered dark-to-light and mapped onto the
+         * existing primary/accent/text roles so every component that already
+         * reads `primary-800`, `accent-blue`, `text-primary` etc. picks up
+         * the new look with no call-site changes. */
         primary: {
-          900: '#071028', // Background
-          800: '#08203A', // Panel dark
-          700: '#0A3A52', // Panel mid
-          600: '#0E556A', // Panel light
-          DEFAULT: '#01A3A4', // Accent teal
+          900: '#000521', // Page background — near-black navy
+          800: '#021024', // Panel background
+          700: '#052659', // Panel mid / hover
+          600: '#0E4EB2', // Panel light / active border
+          DEFAULT: '#2078CF', // Accent blue
         },
         accent: {
           gold: '#E6B85C',
           teal: '#01A3A4',
           purple: '#A855F7',
-          /* The standard button/action color going forward — a clean, calm
-           * blue rather than the red/amber/purple variety that was scattered
-           * across modules for no semantic reason. Red and amber stay, but
-           * only for a short, deliberate list of genuinely critical/warning
-           * actions; everything else routes through this one blue. */
-          blue: '#3B82F6',
-          blueHover: '#2563EB',
+          /* The one accent color for every button/active-state/highlight in
+           * the app. Hover is the next step down the palette (deeper, not
+           * lighter) so a press reads as "pushed in". */
+          blue: '#2078CF',
+          blueHover: '#0E4EB2',
+          /* The palette's lightest step — glow text, standout numbers, a
+           * bright edge on a glass card. Used sparingly; it is a highlight,
+           * not a body-text color. */
+          glow: '#C1E8FF',
         },
 
         /* Everything the *model* says wears this ramp, and nothing else does.
@@ -69,10 +76,13 @@ export default {
           700: '#7E22CE',
           900: '#3B0764',
         },
+        /* Blue-tinted instead of neutral grey-white — small, but it's the
+         * difference between "dark theme" and "blue platform throughout",
+         * which was the explicit ask. */
         text: {
-          primary: '#E6EEF6',
-          secondary: '#B8C5D1',
-          muted: '#8A9BA8',
+          primary: '#C1E8FF',
+          secondary: '#7DA0CA',
+          muted: '#5483B3',
         },
         /* Softer, less saturated than the stock Tailwind 500-weights, and
          * picked to sit comfortably next to accent.blue instead of fighting
@@ -95,16 +105,16 @@ export default {
          * ------------------------------------------------------------------ */
         sim: {
           50: '#F2F7FB',
-          100: '#E6EEF6', // = text.primary
-          200: '#D6E2EC',
-          300: '#B8C5D1', // = text.secondary
-          400: '#8A9BA8', // = text.muted
-          500: '#14708A',
-          600: '#0E556A', // = primary.600
-          700: '#0A3A52', // = primary.700
-          800: '#08203A', // = primary.800
-          900: '#071028', // = primary.900
-          950: '#04101F',
+          100: '#C1E8FF', // = text.primary
+          200: '#7DA0CA',
+          300: '#7DA0CA', // = text.secondary
+          400: '#5483B3', // = text.muted
+          500: '#0E4EB2',
+          600: '#0E4EB2', // = primary.600
+          700: '#052659', // = primary.700
+          800: '#021024', // = primary.800
+          900: '#000521', // = primary.900
+          950: '#000316',
         },
         simteal: {
           50: '#E6FAFA',
@@ -134,21 +144,39 @@ export default {
         },
       },
       backgroundImage: {
-        /* A single calm teal glow over the navy base, echoing the CCMS
-         * reference look, instead of three overlapping teal/gold/blue
-         * blotches competing for attention. */
-        'gradient-mesh': 'radial-gradient(circle at 50% 0%, rgba(1, 163, 164, 0.12) 0%, transparent 55%)',
+        /* Two soft blue glows instead of one flat radial — gives the page
+         * background a sense of depth/light source without reintroducing
+         * the old multi-hue blotch problem. Entirely within the palette. */
+        'gradient-mesh': 'radial-gradient(circle at 20% 0%, rgba(32, 120, 207, 0.14) 0%, transparent 50%), radial-gradient(circle at 85% 20%, rgba(14, 78, 178, 0.10) 0%, transparent 45%)',
         'runway-pattern': 'repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(230, 184, 92, 0.1) 10px, rgba(230, 184, 92, 0.1) 20px)',
+        /* A faint grain, the one texture every reference board shared — it
+         * keeps a flat navy panel from looking like a solid color swatch. */
+        'grain': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E\")",
       },
       animation: {
         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'float': 'float 6s ease-in-out infinite',
+        'fade-up': 'fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) both',
+        'glow-pulse': 'glow-pulse 3s ease-in-out infinite',
+        'shimmer': 'shimmer 2.5s linear infinite',
       },
       keyframes: {
         float: {
           '0%, 100%': { transform: 'translateY(0px)' },
           '50%': { transform: 'translateY(-10px)' },
-        }
+        },
+        'fade-up': {
+          '0%': { opacity: '0', transform: 'translateY(12px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        'glow-pulse': {
+          '0%, 100%': { boxShadow: '0 0 0px rgba(32, 120, 207, 0)' },
+          '50%': { boxShadow: '0 0 24px rgba(32, 120, 207, 0.35)' },
+        },
+        shimmer: {
+          '0%': { backgroundPosition: '-200% 0' },
+          '100%': { backgroundPosition: '200% 0' },
+        },
       }
     },
   },

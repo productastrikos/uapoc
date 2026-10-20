@@ -76,7 +76,7 @@ const ApronRail: React.FC = () => {
           <Stat
             label="Bay Serviceability"
             value={`${serviceability.toFixed(0)}%`}
-            tone={serviceability < 90 ? 'text-status-error' : 'text-status-success'}
+            tone={serviceability < 90 ? 'text-status-error' : 'glow-text'}
             tint="glass-pill-blue"
           />
           <Stat label="Incidents / Accidents" value="0" unit="today" tint="glass-pill-teal" />

@@ -948,7 +948,9 @@ const PassengerSystems: React.FC = () => {
                 { value: aiAdvisoryData.cpuUsage, trend: aiAdvisoryData.cpuUsageTrend, label: 'CPU Usage', tint: 'glass-pill-blue' },
               ].map((tile) => (
                 <div key={tile.label} className={`text-center glass-pill ${tile.tint} p-3`}>
-                  <div className="text-xl font-bold text-text-primary flex items-center justify-center">
+                  <div className={`text-xl font-bold flex items-center justify-center ${
+                    tile.label === 'API Success' || tile.label === 'Response Time' ? 'glow-text' : 'text-text-primary'
+                  }`}>
                     {tile.value}
                     <TrendArrow trend={tile.trend} />
                   </div>

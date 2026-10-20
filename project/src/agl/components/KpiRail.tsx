@@ -118,7 +118,7 @@ const KpiRail: React.FC = () => {
             Regulators (CCR)
           </h3>
         </header>
-        <div className="divide-y divide-primary-600/20">
+        <div className="divide-y divide-primary-600/20 stagger-in">
           {circuits.map((c) => (
             <div key={c.id} className="px-2 py-1.5 flex items-center justify-between text-[length:calc(11px*var(--fs))]">
               <div className="min-w-0">

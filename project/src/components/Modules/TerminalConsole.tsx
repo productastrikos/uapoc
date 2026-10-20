@@ -12,6 +12,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { LayoutDashboard, Building2 } from 'lucide-react';
 import TerminalOperations from './TerminalOperations';
 import HbmsConsole from '../../hbms/HbmsConsole';
@@ -42,17 +43,30 @@ const TerminalConsole: React.FC = () => {
     <div className="flex flex-col h-full min-h-0">
       <ConsoleTabs tabs={TABS} active={tab} onChange={setTab} layoutId="terminal-tab" />
 
-      {tab === 'overview' && (
-        <div className="-mx-6 -mt-6">
-          <TerminalOperations />
-        </div>
-      )}
+      {/* Same cross-fade the module switcher one level up already uses, so the
+          sub-tab switch within this console reads as consistently animated. */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={tab}
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -6 }}
+          transition={{ duration: 0.18, ease: 'easeOut' }}
+          className="flex-1 min-h-0 flex flex-col"
+        >
+          {tab === 'overview' && (
+            <div className="-mx-6 -mt-6">
+              <TerminalOperations />
+            </div>
+          )}
 
-      {tab === 'bms' && (
-        <div className="h-[calc(100vh-9rem)] min-h-0">
-          <HbmsConsole />
-        </div>
-      )}
+          {tab === 'bms' && (
+            <div className="h-[calc(100vh-9rem)] min-h-0">
+              <HbmsConsole />
+            </div>
+          )}
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 };

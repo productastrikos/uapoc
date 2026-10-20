@@ -109,7 +109,8 @@ const LandsideOperations: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
-            className={`glass-pill ${['glass-pill-blue', 'glass-pill-teal', 'glass-pill-violet', 'glass-pill-neutral'][index % 4]} p-4 cursor-pointer`}
+            whileHover={{ y: -2 }}
+            className={`glass-pill ${['glass-pill-blue', 'glass-pill-teal', 'glass-pill-violet', 'glass-pill-neutral'][index % 4]} p-4 cursor-pointer transition-colors duration-200`}
             onClick={() => handleZoneClick(parkingZones[0])}
           >
             <div className="flex items-center justify-between mb-2">
@@ -118,7 +119,7 @@ const LandsideOperations: React.FC = () => {
                 {stat.change}
               </span>
             </div>
-            <div className="text-xl font-bold text-text-primary">{stat.value}</div>
+            <div className={`text-xl font-bold ${index === 0 || index === 1 ? 'glow-text' : 'text-text-primary'}`}>{stat.value}</div>
             <div className="text-sm text-text-muted">{stat.label}</div>
           </motion.div>
         ))}
@@ -392,11 +393,11 @@ const LandsideOperations: React.FC = () => {
               <div className="w-2 h-2 bg-accent-blue rounded-full"></div>
               <h3 className="text-base font-semibold text-text-primary">Revenue Optimization</h3>
             </div>
-            <div className="space-y-3">
+            <div className="space-y-3 stagger-in">
               {[
-                { 
-                  priority: 'High', 
-                  action: 'Increase Zone A pricing to $30K', 
+                {
+                  priority: 'High',
+                  action: 'Increase Zone A pricing to $30K',
                   impact: '+$2.4K revenue', 
                   confidence: 89 
                 },

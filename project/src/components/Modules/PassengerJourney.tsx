@@ -1308,7 +1308,9 @@ const PassengerJourney: React.FC = () => {
                 { value: aiAdvisoryData.bottleneckAlerts, trend: aiAdvisoryData.bottleneckTrend, label: 'Bottlenecks' },
               ].map((tile) => (
                 <div key={tile.label} className="text-center p-3 bg-primary-800/60 rounded-lg border border-primary-600/40">
-                  <div className="text-xl font-bold text-text-primary flex items-center justify-center">
+                  <div className={`text-xl font-bold flex items-center justify-center ${
+                    tile.label === 'Flow Efficiency' || tile.label === 'SLA Compliance' ? 'glow-text' : 'text-text-primary'
+                  }`}>
                     {tile.value}
                     <TrendArrow trend={tile.trend} />
                   </div>

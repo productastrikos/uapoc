@@ -1104,7 +1104,7 @@ useEffect(() => {
             
             <div className="grid grid-cols-5 gap-3">
               <div className="text-center glass-pill glass-pill-blue p-3">
-                <div className="text-xl font-bold text-text-primary flex items-center justify-center">
+                <div className="glow-text text-xl font-bold flex items-center justify-center">
                   {aiAdvisoryData.runwayEfficiency}%
                   <TrendArrow trend={aiAdvisoryData.runwayEfficiencyTrend} />
                 </div>
@@ -1205,7 +1205,7 @@ useEffect(() => {
                 <div className="flex items-center space-x-3">
                   <stat.icon className={`h-5 w-5 ${stat.color}`} />
                   <div>
-                    <div className="text-xl font-bold text-text-primary flex items-center">
+                    <div className={`text-xl font-bold flex items-center ${index === 0 ? 'glow-text' : 'text-text-primary'}`}>
                       {stat.value}
                       <TrendArrow trend={stat.trend} />
                       {stat.change !== 0 && (

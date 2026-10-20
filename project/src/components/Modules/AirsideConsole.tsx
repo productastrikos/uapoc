@@ -8,6 +8,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { LayoutDashboard, Lightbulb, ParkingSquare } from 'lucide-react';
 import AirsideOperations from './AirsideOperations';
 import AGLScreen from '../../agl/AGLScreen';
@@ -42,26 +43,39 @@ const AirsideConsole: React.FC = () => {
     <div className="flex flex-col h-full min-h-0">
       <ConsoleTabs tabs={TABS} active={tab} onChange={setTab} layoutId="airside-tab" />
 
-      {tab === 'overview' && (
-        <div className="-mx-6 -mt-6">
-          <AirsideOperations />
-        </div>
-      )}
+      {/* Same cross-fade the module switcher one level up already uses, so the
+          sub-tab switch within this console reads as consistently animated. */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={tab}
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -6 }}
+          transition={{ duration: 0.18, ease: 'easeOut' }}
+          className="flex-1 min-h-0 flex flex-col"
+        >
+          {tab === 'overview' && (
+            <div className="-mx-6 -mt-6">
+              <AirsideOperations />
+            </div>
+          )}
 
-      {/* The AGL and apron consoles manage their own internal scroll regions,
-          so each is given the full remaining viewport rather than growing the
-          page. */}
-      {tab === 'agl' && (
-        <div className="h-[calc(100vh-9rem)] min-h-0">
-          <AGLScreen />
-        </div>
-      )}
+          {/* The AGL and apron consoles manage their own internal scroll regions,
+              so each is given the full remaining viewport rather than growing the
+              page. */}
+          {tab === 'agl' && (
+            <div className="h-[calc(100vh-9rem)] min-h-0">
+              <AGLScreen />
+            </div>
+          )}
 
-      {tab === 'apron' && (
-        <div className="h-[calc(100vh-9rem)] min-h-0">
-          <ApronScreen />
-        </div>
-      )}
+          {tab === 'apron' && (
+            <div className="h-[calc(100vh-9rem)] min-h-0">
+              <ApronScreen />
+            </div>
+          )}
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 };

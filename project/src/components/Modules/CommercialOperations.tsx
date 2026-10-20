@@ -128,7 +128,7 @@ const CommercialOperations: React.FC = () => {
                 {stat.change}
               </span>
             </div>
-            <div className="text-xl font-bold text-text-primary">{stat.value}</div>
+            <div className={`text-xl font-bold ${index === 0 || index === 2 ? 'glow-text' : 'text-text-primary'}`}>{stat.value}</div>
             <div className="text-sm text-text-muted">{stat.label}</div>
           </motion.div>
         ))}

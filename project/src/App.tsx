@@ -1,4 +1,5 @@
 import React from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import Header from "./components/Layout/Header";
 import CollapsibleSidebar from "./components/Layout/CollapsibleSidebar";
 import AOCCDashboard from "./components/Modules/AOCCDashboard";
@@ -153,7 +154,7 @@ const AppContent: React.FC = () => {
   }
 
   return (
-    <div className="h-screen bg-primary-900 bg-gradient-mesh overflow-hidden flex flex-col">
+    <div className="grain-overlay h-screen bg-primary-900 bg-gradient-mesh overflow-hidden flex flex-col">
       <Header currentUser={currentUser} />
       <div className="flex flex-1 overflow-hidden">
         <CollapsibleSidebar
@@ -162,9 +163,25 @@ const AppContent: React.FC = () => {
           user={currentUser}
         />
         <div className="flex-1 flex flex-col overflow-hidden">
-          {/* Dynamic Module Content */}
+          {/* Dynamic Module Content. A cross-fade + slight rise on every
+              module switch — previously an instant swap, which read as
+              flat/static no matter how polished each individual screen was.
+              key={activeModule} is what tells AnimatePresence a new screen
+              has mounted rather than the same one re-rendering. */}
           <main className="flex-1 overflow-y-auto no-scrollbar px-6 py-6">
-            <ErrorBoundary>{renderActiveModule()}</ErrorBoundary>
+            <ErrorBoundary>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeModule}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  {renderActiveModule()}
+                </motion.div>
+              </AnimatePresence>
+            </ErrorBoundary>
           </main>
         </div>
       </div>
