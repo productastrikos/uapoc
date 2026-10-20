@@ -80,8 +80,8 @@ const HBMSNetworkTopology: React.FC<HBMSNetworkTopologyProps> = ({ subsystems, c
 
   return (
     <div
-      className={`rounded-xl border p-3 flex-shrink-0 ${className ?? ''}`}
-      style={{ background: 'var(--app-surface)', borderColor: 'rgba(255,255,255,0.14)', minWidth: 0, maxWidth: '100%' }}
+      className={`rounded-xl border p-2 flex-shrink-0 ${className ?? ''}`}
+      style={{ background: 'var(--app-surface)', borderColor: 'rgba(32, 120, 207,0.14)', minWidth: 0, maxWidth: '100%' }}
     >
       <div className="flex items-center justify-between mb-2 gap-2">
         <div className="flex items-center gap-1.5 min-w-0">
@@ -151,7 +151,7 @@ const HBMSNetworkTopology: React.FC<HBMSNetworkTopologyProps> = ({ subsystems, c
       </div>
 
       {/* Selected-node detail / legend footer */}
-      <div className="flex items-center justify-between gap-2 mt-2 pt-2 flex-wrap" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+      <div className="flex items-center justify-between gap-2 mt-2 pt-2 flex-wrap" style={{ borderTop: '1px solid rgba(32, 120, 207,0.08)' }}>
         {selected ? (
           <span className="text-[length:calc(9px*var(--fs))] font-semibold" style={{ color: HEALTH_COLOR[selected.health] }}>
             {selected.sub.acronym} — {selected.sub.name} · {selected.health === 'ok' ? 'Healthy' : 'Down'}

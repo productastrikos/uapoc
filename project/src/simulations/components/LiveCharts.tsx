@@ -71,11 +71,11 @@ const LiveCharts: React.FC<LiveChartsProps> = ({ subsystemId, alerts }) => {
 
   return (
     <>
-      <div className="space-y-4 h-full flex flex-col">
+      <div className="space-y-3 h-full flex flex-col">
         {/* Temperature Monitoring */}
         <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl">
-          <div className="p-6 border-b border-primary-600/40">
-            <div className="flex items-center space-x-3">
+          <div className="p-4 border-b border-primary-600/40">
+            <div className="flex items-center space-x-2">
               <div className="p-2 bg-accent-blue/15 rounded-lg border border-accent-blue/30">
                 <Thermometer className="w-5 h-5 text-accent-blue" />
               </div>
@@ -85,9 +85,9 @@ const LiveCharts: React.FC<LiveChartsProps> = ({ subsystemId, alerts }) => {
               </div>
             </div>
           </div>
-          <div className="p-6">
+          <div className="p-4">
             <div
-              className="h-40 flex items-end space-x-1 bg-primary-900/40 rounded-lg p-4 cursor-pointer hover:bg-primary-800/40 transition-colors overflow-hidden"
+              className="h-40 flex items-end space-x-1 bg-primary-900/40 rounded-lg p-3 cursor-pointer hover:bg-primary-800/40 transition-colors overflow-hidden"
               onClick={(e) => handleChartClick('Temperature Control', { current: temperatureData[temperatureData.length - 1], data: temperatureData }, e)}
             >
               {temperatureData.map((value, index) => (
@@ -98,7 +98,7 @@ const LiveCharts: React.FC<LiveChartsProps> = ({ subsystemId, alerts }) => {
                 />
               ))}
             </div>
-            <div className="mt-4 flex items-center justify-between text-sm">
+            <div className="mt-3 flex items-center justify-between text-sm">
               <span className="text-text-muted">Zone temperature readings</span>
               <span className="font-medium text-text-primary">
                 Current: <span className="text-accent-blue">{temperatureData[temperatureData.length - 1]?.toFixed(1) || 0}°C</span>
@@ -106,23 +106,23 @@ const LiveCharts: React.FC<LiveChartsProps> = ({ subsystemId, alerts }) => {
             </div>
 
             {/* Temperature Metrics */}
-            <div className="mt-4 grid grid-cols-3 gap-4">
+            <div className="mt-3 grid grid-cols-3 gap-3">
               <div
-                className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-3 text-center cursor-pointer hover:bg-primary-700/40 transition-colors"
+                className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-2.5 text-center cursor-pointer hover:bg-primary-700/40 transition-colors"
                 onClick={(e) => handleChartClick('Target Temperature', { target: 22 }, e)}
               >
                 <div className="text-accent-blue font-bold text-lg">22°C</div>
                 <div className="text-xs text-text-muted">Target</div>
               </div>
               <div
-                className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-3 text-center cursor-pointer hover:bg-primary-700/40 transition-colors"
+                className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-2.5 text-center cursor-pointer hover:bg-primary-700/40 transition-colors"
                 onClick={(e) => handleChartClick('Temperature Variance', { variance: '±0.5°C' }, e)}
               >
                 <div className="text-status-success font-bold text-lg">±0.5°C</div>
                 <div className="text-xs text-text-muted">Variance</div>
               </div>
               <div
-                className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-3 text-center cursor-pointer hover:bg-primary-700/40 transition-colors"
+                className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-2.5 text-center cursor-pointer hover:bg-primary-700/40 transition-colors"
                 onClick={(e) => handleChartClick('Humidity Control', { percentage: 45 }, e)}
               >
                 <div className="text-accent-blue font-bold text-lg">45%</div>
@@ -134,8 +134,8 @@ const LiveCharts: React.FC<LiveChartsProps> = ({ subsystemId, alerts }) => {
 
         {/* Alert Distribution */}
         <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl">
-          <div className="p-6 border-b border-primary-600/40">
-            <div className="flex items-center space-x-3">
+          <div className="p-4 border-b border-primary-600/40">
+            <div className="flex items-center space-x-2">
               <div className="p-2 bg-status-error/15 rounded-lg border border-status-error/30">
                 <Activity className="w-5 h-5 text-status-error" />
               </div>
@@ -145,12 +145,12 @@ const LiveCharts: React.FC<LiveChartsProps> = ({ subsystemId, alerts }) => {
               </div>
             </div>
           </div>
-          <div className="p-6">
-            <div className="space-y-4">
+          <div className="p-4">
+            <div className="space-y-3">
               {Object.entries(alertHeatmap).map(([type, count]) => (
                 <div
                   key={type}
-                  className="flex items-center space-x-4 cursor-pointer hover:bg-primary-700/30 p-2 rounded transition-colors"
+                  className="flex items-center space-x-3 cursor-pointer hover:bg-primary-700/30 p-2 rounded transition-colors"
                   onClick={(e) => handleChartClick(`Alert Type: ${type}`, { type, count, alerts: alerts.filter(a => a.type === type) }, e)}
                 >
                   <div className="w-24 text-sm text-text-secondary capitalize font-medium">{type.replace('-', ' ')}</div>
@@ -174,7 +174,7 @@ const LiveCharts: React.FC<LiveChartsProps> = ({ subsystemId, alerts }) => {
                 className="text-center py-12 cursor-pointer hover:bg-primary-700/30 rounded transition-colors"
                 onClick={(e) => handleChartClick('Alert System', { status: 'no-alerts' }, e)}
               >
-                <Activity className="w-12 h-12 text-text-muted mx-auto mb-4" />
+                <Activity className="w-10 h-10 text-text-muted mx-auto mb-3" />
                 <p className="text-text-secondary text-lg">No recent alerts</p>
                 <p className="text-text-muted text-sm">All systems operating normally</p>
               </div>

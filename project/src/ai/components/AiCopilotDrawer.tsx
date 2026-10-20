@@ -42,34 +42,40 @@ const SEVERITY_LABEL: Record<AiSeverity, string> = {
   opportunity: 'Opportunity',
 };
 
+const SEVERITY_BADGE: Record<AiSeverity, string> = {
+  critical: 'bg-status-error/15 text-status-error',
+  warning: 'bg-status-warning/15 text-status-warning',
+  opportunity: 'bg-accent-blue/15 text-accent-blue',
+};
+
 /** One recommendation, closed until asked. */
 const Row: React.FC<{ insight: AiInsight; showDomain?: boolean }> = ({ insight, showDomain }) => {
   const [open, setOpen] = useState(false);
   const disposition = useAiStore((s) => s.dispositions[insight.id] ?? 'pending');
 
   return (
-    <li className="border-b border-primary-600/50 last:border-0">
+    <li className="border-b border-accent-blue/10 last:border-0">
       <button
         onClick={() => setOpen((v) => !v)}
-        className="w-full flex items-start gap-3 px-4 py-3 text-left transition-colors hover:bg-primary-800/60"
+        className="w-full flex items-start gap-3 px-4 py-2.5 text-left transition-colors hover:bg-accent-blue/10"
         aria-expanded={open}
       >
-        <span className={`mt-1.5 w-2.5 h-2.5 rounded-full shrink-0 ${SEVERITY_DOT[insight.severity]}`} />
+        <span className={`mt-1.5 w-2 h-2 rounded-full shrink-0 ${SEVERITY_DOT[insight.severity]}`} />
 
         <span className="flex-1 min-w-0">
           <span className="block text-sm font-semibold text-text-primary leading-snug">
             {insight.title}
           </span>
-          <span className="mt-0.5 flex items-center gap-2 flex-wrap text-xs text-text-muted">
-            <span>{SEVERITY_LABEL[insight.severity]}</span>
-            <span>·</span>
+          <span className="mt-1 flex items-center gap-1.5 flex-wrap text-xs text-text-muted">
+            <span className={`inline-flex items-center px-1.5 py-0.5 rounded-full font-semibold uppercase tracking-wide text-[10px] ${SEVERITY_BADGE[insight.severity]}`}>
+              {SEVERITY_LABEL[insight.severity]}
+            </span>
             <span>{insight.horizon}</span>
             {showDomain && (<><span>·</span><span>{DOMAIN_LABEL[insight.domain]}</span></>)}
             {disposition !== 'pending' && (
-              <>
-                <span>·</span>
-                <span className="text-accent-teal capitalize">{disposition}</span>
-              </>
+              <span className="inline-flex items-center px-1.5 py-0.5 rounded-full bg-accent-blue/10 text-accent-blue capitalize">
+                {disposition}
+              </span>
             )}
           </span>
         </span>
@@ -149,9 +155,9 @@ const AiCopilotDrawer: React.FC = () => {
             className="fs-ai modal-surface fixed top-0 right-0 bottom-0 w-full max-w-[560px] z-[61] flex flex-col shadow-2xl"
           >
             {/* Header: what this is, and what it is about. Nothing to operate. */}
-            <header className="shrink-0 px-4 py-3 border-b border-primary-600 bg-primary-800">
+            <header className="shrink-0 px-4 py-3 border-b border-accent-blue/15 bg-primary-800">
               <div className="flex items-center gap-2.5">
-                <div className="p-1.5 bg-accent-blue/20 rounded-lg">
+                <div className="p-1.5 bg-accent-blue/15 rounded-full">
                   <Brain className="w-5 h-5 text-accent-blue" />
                 </div>
                 <div className="min-w-0">
@@ -163,7 +169,7 @@ const AiCopilotDrawer: React.FC = () => {
                 <div className="flex-1" />
                 <button
                   onClick={close}
-                  className="p-1.5 rounded hover:bg-primary-700 text-text-muted hover:text-text-primary transition-colors"
+                  className="p-1.5 rounded-full hover:bg-accent-blue/15 text-text-muted hover:text-text-primary transition-colors"
                   aria-label="Close AI Advisory"
                 >
                   <X className="w-5 h-5" />
@@ -178,7 +184,7 @@ const AiCopilotDrawer: React.FC = () => {
                   {scope ? `On this screen — ${DOMAIN_LABEL[scope]}` : 'All recommendations'}
                 </h3>
                 <div className="flex-1" />
-                <span className="text-xs text-text-muted">
+                <span className="px-2 py-0.5 rounded-full bg-accent-blue/10 text-xs text-accent-blue font-medium">
                   {pendingHere} awaiting review
                 </span>
               </div>
@@ -198,23 +204,23 @@ const AiCopilotDrawer: React.FC = () => {
               {/* Everywhere else — one line, closed. The operator asked about
                   this screen; the rest of the estate is available, not offered. */}
               {scope && elsewhere.length > 0 && (
-                <div className="mt-2 border-t border-primary-600">
+                <div className="mt-2 border-t border-accent-blue/15">
                   <button
                     onClick={() => setShowOthers((v) => !v)}
-                    className="w-full flex items-center gap-2 px-4 py-3 text-left hover:bg-primary-800/60 transition-colors"
+                    className="w-full flex items-center gap-2 px-4 py-2.5 text-left hover:bg-accent-blue/10 transition-colors"
                   >
                     <ChevronRight className={`w-4 h-4 text-text-muted transition-transform ${showOthers ? 'rotate-90' : ''}`} />
                     <span className="text-sm text-text-secondary">Other consoles</span>
                     <div className="flex-1" />
-                    <span className="text-xs text-text-muted">{pendingElsewhere} awaiting review</span>
+                    <span className="px-2 py-0.5 rounded-full bg-primary-700/60 text-xs text-text-muted">{pendingElsewhere} awaiting review</span>
                   </button>
                   {showOthers && <ul>{elsewhere.map((i) => <Row key={i.id} insight={i} showDomain />)}</ul>}
                 </div>
               )}
             </div>
 
-            <footer className="shrink-0 px-4 py-2.5 border-t border-primary-600 bg-primary-800 flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-text-muted shrink-0" />
+            <footer className="shrink-0 px-4 py-2.5 border-t border-accent-blue/15 bg-primary-800 flex items-center gap-2">
+              <ShieldCheck className="w-4 h-4 text-accent-blue shrink-0" />
               <p className="text-xs text-text-muted">
                 Every recommendation is advisory. Nothing here changes the airfield until an
                 operator confirms it.

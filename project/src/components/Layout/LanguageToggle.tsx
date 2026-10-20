@@ -183,10 +183,10 @@ const LanguageToggle: React.FC = () => {
         whileTap={{ scale: 0.95 }}
         onClick={handleToggle}
         title={isSpanish ? 'Switch to English' : 'Translate page to Spanish'}
-        className="flex items-center space-x-2 p-2 bg-primary-700 hover:bg-primary-600 rounded-lg transition-all duration-300 border border-primary-500/50"
+        className="flex items-center space-x-1.5 px-2.5 py-1.5 bg-primary-700 hover:bg-primary-600 rounded-lg transition-all duration-300 border border-accent-blue/20"
         style={{
           boxShadow:
-            '0 4px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1)',
+            '0 4px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(96,165,250,0.12)',
         }}
       >
         <Globe className="h-4 w-4 text-text-primary" />

@@ -172,7 +172,7 @@ const SubsystemGridCard: React.FC<CardProps> = ({ subsystem, forcedDown }) => {
           <span style={{ color: '#8A9BA8' }}>Avail.</span>
           <span className="font-bold" style={{ color: av.color }}>{subsystem.availability}%</span>
         </div>
-        <div className="w-full rounded-full h-1.5" style={{ background: 'rgba(255,255,255,0.06)' }}>
+        <div className="w-full rounded-full h-1.5" style={{ background: 'rgba(32, 120, 207,0.06)' }}>
           <div className="h-1.5 rounded-full" style={{ width: `${subsystem.availability}%`, background: av.bar }} />
         </div>
       </div>
@@ -190,8 +190,8 @@ const SubsystemGridCard: React.FC<CardProps> = ({ subsystem, forcedDown }) => {
         <span
           className="mt-2 pt-2 rounded-lg px-1.5 py-1.5 transition-all hover:brightness-125 block"
           style={{
-            borderTop: '1px solid rgba(255,255,255,0.05)',
-            background: 'rgba(255,255,255,0.03)',
+            borderTop: '1px solid rgba(32, 120, 207,0.05)',
+            background: 'rgba(32, 120, 207,0.03)',
             marginLeft: -4,
             marginRight: -4,
           }}
@@ -202,7 +202,7 @@ const SubsystemGridCard: React.FC<CardProps> = ({ subsystem, forcedDown }) => {
             <span style={{ color: '#8A9BA8' }}>Assets</span>
             <span className="font-bold" style={{ color: '#22C7C6' }}>{ac.active}/{ac.total} →</span>
           </span>
-          <span className="w-full h-2 rounded-full overflow-hidden flex" style={{ background: 'rgba(255,255,255,0.06)' }}>
+          <span className="w-full h-2 rounded-full overflow-hidden flex" style={{ background: 'rgba(32, 120, 207,0.06)' }}>
             <span style={{ width: `${pct(ac.active)}%`, background: '#10b981' }} />
             <span style={{ width: `${pct(ac.warning)}%`, background: '#f59e0b' }} />
             <span style={{ width: `${pct(ac.inactive)}%`, background: '#ef4444' }} />

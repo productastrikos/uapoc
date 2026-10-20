@@ -125,7 +125,7 @@ const MaintenanceOperations: React.FC = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="space-y-8"
+      className="space-y-6"
     >
       {/* Header */}
       <div className="flex items-center space-x-4">
@@ -152,7 +152,7 @@ const MaintenanceOperations: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
             whileHover={{ y: -2 }}
-            className={`glass-pill ${['glass-pill-blue', 'glass-pill-teal', 'glass-pill-violet', 'glass-pill-neutral'][index % 4]} hover:border-white/20 transition-colors duration-200 cursor-pointer`}
+            className={`glass-pill ${['glass-pill-blue', 'glass-pill-teal', 'glass-pill-violet', 'glass-pill-neutral'][index % 4]} hover:border-accent-blue/30 transition-colors duration-200 cursor-pointer`}
             onClick={() => handleWorkOrderClick(workOrders[0])}
           >
             <div className="flex items-center justify-between mb-2">
@@ -172,12 +172,12 @@ const MaintenanceOperations: React.FC = () => {
           second. */}
       <AiInsightPanel domain="maintenance" />
 
-      <div className="grid grid-cols-12 gap-8">
+      <div className="grid grid-cols-12 gap-6">
         {/* Left Column - Work Orders */}
-        <div className="col-span-8 space-y-8">
+        <div className="col-span-8 space-y-6">
           {/* Active Work Orders */}
-          <div className="glass-panel-strong rounded-xl p-6">
-            <div className="flex items-center justify-between mb-4">
+          <div className="glass-panel-strong rounded-xl p-4">
+            <div className="flex items-center justify-between mb-3">
               <h2 className="text-base font-semibold text-text-primary">{t('maintenance.work_order_management')}</h2>
               <div className="flex items-center space-x-4 text-sm">
                 <div className="flex items-center space-x-2">
@@ -195,19 +195,19 @@ const MaintenanceOperations: React.FC = () => {
               </div>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-3">
               {workOrders.map((workOrder, index) => (
                 <motion.div
                   key={workOrder.id}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className="p-4 bg-primary-800/60 rounded-xl border border-primary-600/40 hover:border-accent-blue/40 transition-colors duration-200 cursor-pointer group"
+                  className="p-3 bg-primary-800/60 rounded-xl border border-primary-600/40 hover:border-accent-blue/40 transition-colors duration-200 cursor-pointer group"
                   onClick={() => handleWorkOrderClick(workOrder)}
                 >
                   <div className="flex items-start justify-between">
-                    <div className="flex items-start space-x-4">
-                      <div className={`p-3 rounded-lg ${
+                    <div className="flex items-start space-x-3">
+                      <div className={`p-2.5 rounded-lg ${
                         workOrder.priority === 'critical' ? 'bg-status-error bg-opacity-20' :
                         workOrder.priority === 'high' ? 'bg-status-warning bg-opacity-20' :
                         'bg-status-info bg-opacity-20'
@@ -234,7 +234,7 @@ const MaintenanceOperations: React.FC = () => {
                         
                         <p className="text-text-secondary mb-3">{workOrder.description}</p>
                         
-                        <div className="flex items-center space-x-6 text-sm text-text-muted mb-3">
+                        <div className="flex items-center space-x-4 text-sm text-text-muted mb-3">
                           <div className="flex items-center space-x-1">
                             <Tool className="h-4 w-4" />
                             <span>{workOrder.workType}</span>
@@ -297,17 +297,17 @@ const MaintenanceOperations: React.FC = () => {
           </div>
 
           {/* Asset Health Dashboard */}
-          <div className="glass-panel rounded-xl p-6">
-            <h2 className="text-base font-semibold text-text-primary mb-4">{t('maintenance.asset_health_monitoring')}</h2>
-            
-            <div className="grid grid-cols-1 gap-4">
+          <div className="glass-panel rounded-xl p-4">
+            <h2 className="text-base font-semibold text-text-primary mb-3">{t('maintenance.asset_health_monitoring')}</h2>
+
+            <div className="grid grid-cols-1 gap-3">
               {assetHealth.map((asset, index) => (
                 <motion.div
                   key={asset.name}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className="p-4 bg-primary-800/60 rounded-xl border border-primary-600/40 hover:border-accent-blue/40 transition-colors duration-200 cursor-pointer"
+                  className="p-3 bg-primary-800/60 rounded-xl border border-primary-600/40 hover:border-accent-blue/40 transition-colors duration-200 cursor-pointer"
                   onClick={() => addToast({
                     type: 'info',
                     title: t('maintenance.asset_selected'),
@@ -357,10 +357,10 @@ const MaintenanceOperations: React.FC = () => {
         </div>
 
         {/* Right Column - Analytics */}
-        <div className="col-span-4 space-y-8">
+        <div className="col-span-4 space-y-6">
           {/* Maintenance Cost Trends */}
-          <div className="glass-panel rounded-xl p-6">
-            <h3 className="text-base font-semibold text-text-primary mb-4">{t('maintenance.cost_analysis')}</h3>
+          <div className="glass-panel rounded-xl p-4">
+            <h3 className="text-base font-semibold text-text-primary mb-3">{t('maintenance.cost_analysis')}</h3>
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={maintenanceCosts}>
@@ -372,7 +372,7 @@ const MaintenanceOperations: React.FC = () => {
                 </LineChart>
               </ResponsiveContainer>
             </div>
-            <div className="flex items-center space-x-4 mt-4 text-sm">
+            <div className="flex items-center space-x-4 mt-3 text-sm">
               <div className="flex items-center space-x-1">
                 <div className="w-3 h-3 bg-status-success rounded-full"></div>
                 <span className="text-text-muted">{t('maintenance.preventive')}</span>
@@ -389,12 +389,12 @@ const MaintenanceOperations: React.FC = () => {
           </div>
 
           {/* Predictive Alerts */}
-          <div className="glass-panel rounded-xl p-6">
-            <div className="flex items-center space-x-2 mb-4">
+          <div className="glass-panel rounded-xl p-4">
+            <div className="flex items-center space-x-2 mb-3">
               <Zap className="h-5 w-5 text-accent-blue" />
               <h3 className="text-base font-semibold text-text-primary">{t('maintenance.predictive_alerts')}</h3>
             </div>
-            <div className="space-y-3">
+            <div className="space-y-2.5">
               {[
                 { asset: 'Chiller Unit 2', prediction: 'Filter replacement in 3 days', confidence: 94, priority: 'medium' },
                 { asset: 'Gate Motor B5', prediction: 'Bearing failure within 48h', confidence: 87, priority: 'high' },
@@ -405,7 +405,7 @@ const MaintenanceOperations: React.FC = () => {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: index * 0.1 }}
-                  className="p-4 bg-primary-800/60 rounded-lg border border-primary-600/40 hover:border-accent-blue/40 transition-colors duration-200 cursor-pointer"
+                  className="p-3 bg-primary-800/60 rounded-lg border border-primary-600/40 hover:border-accent-blue/40 transition-colors duration-200 cursor-pointer"
                   onClick={() => addToast({
                     type: 'info',
                     title: t('maintenance.alert_details'),

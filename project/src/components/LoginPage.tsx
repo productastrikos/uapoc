@@ -133,8 +133,8 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
                       whileHover={{ scale: 1.05, y: -5 }}
                       whileTap={{ scale: 0.98 }}
                       className={`
-                        glass-panel relative p-8 rounded-2xl border-2 ${config.borderColor}
-                        hover:bg-white/[0.08] transition-all duration-300
+                        glass-panel relative p-6 rounded-2xl border-2 ${config.borderColor}
+                        hover:bg-accent-blue/[0.08] transition-all duration-300
                         group cursor-pointer overflow-hidden
                         w-full max-w-sm
                       `}
@@ -148,13 +148,13 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
                       {/* Content */}
                       <div className="relative z-10 text-center space-y-4">
                         <div className={`
-                          w-20 h-20 mx-auto rounded-full 
+                          w-16 h-16 mx-auto rounded-full
                           bg-gradient-to-br ${config.gradient}
                           flex items-center justify-center
                           group-hover:shadow-lg group-hover:shadow-${config.color}-500/50
                           transition-shadow duration-300
                         `}>
-                          <Icon className="w-10 h-10 text-white" />
+                          <Icon className="w-8 h-8 text-white" />
                         </div>
                         
                         <h3 className="text-2xl font-bold text-white group-hover:text-cyan-300 transition-colors">
@@ -195,11 +195,11 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
               <div className="hexagon-container">
                 <div className="hexagon-border">
                   <div className="hexagon-content glass-panel-strong">
-                    <div className="p-8">
+                    <div className="p-5">
                       {/* Back Button */}
                       <button
                         onClick={handleBack}
-                        className="flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition-colors mb-6"
+                        className="flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition-colors mb-4"
                       >
                         <ChevronRight className="w-4 h-4 rotate-180" />
                         <span className="text-sm">Change Role</span>
@@ -209,16 +209,16 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
                       {selectedRole && (
                         <>
                           <div className={`
-                            w-16 h-16 mx-auto mb-4 rounded-full 
+                            w-14 h-14 mx-auto mb-3 rounded-full
                             bg-gradient-to-br ${roleConfigs[selectedRole].gradient}
                             flex items-center justify-center
                           `}>
                             {React.createElement(roleConfigs[selectedRole].icon, {
-                              className: 'w-8 h-8 text-white'
+                              className: 'w-7 h-7 text-white'
                             })}
                           </div>
-                          
-                          <div className="text-center mb-8">
+
+                          <div className="text-center mb-6">
                             <h2 className="text-2xl font-bold text-white mb-2 font-condensed tracking-wider">
                               {roleConfigs[selectedRole].title}
                             </h2>
@@ -230,7 +230,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
                       )}
 
                       {/* Form */}
-                      <form onSubmit={handleSubmit} className="space-y-6">
+                      <form onSubmit={handleSubmit} className="space-y-4">
                         <div>
                           <label className="block text-cyan-300 text-sm font-medium mb-2 uppercase tracking-wide">
                             User ID
@@ -294,7 +294,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
                           >
                             {isLoading ? (
                               <>
-                                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                <div className="w-5 h-5 border-2 border-accent-blue/25 border-t-white rounded-full animate-spin" />
                                 Authenticating...
                               </>
                             ) : (

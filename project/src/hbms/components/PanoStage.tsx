@@ -60,7 +60,7 @@ const angleDelta = (from: number, to: number) => {
 const norm = (deg: number) => ((deg % 360) + 360) % 360;
 
 const HUD_BG = 'rgba(7,16,40,0.82)';
-const HUD_BORDER = '1px solid rgba(255,255,255,0.16)';
+const HUD_BORDER = '1px solid rgba(32, 120, 207,0.16)';
 const HUD_FG = '#B8C5D1';
 
 interface Props {
@@ -216,7 +216,7 @@ const PanoStage: React.FC<Props> = ({ scene, heading, pitch, onPov, selected, on
         className="absolute right-2 bottom-2 z-30 flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold hover:brightness-125"
         style={{
           background: showAssets ? 'rgba(37,99,235,0.28)' : HUD_BG,
-          border: `1px solid ${showAssets ? 'rgba(59,130,246,0.7)' : 'rgba(255,255,255,0.16)'}`,
+          border: `1px solid ${showAssets ? 'rgba(59,130,246,0.7)' : 'rgba(32, 120, 207,0.16)'}`,
           color: showAssets ? '#93C5FD' : HUD_FG,
         }}
       >

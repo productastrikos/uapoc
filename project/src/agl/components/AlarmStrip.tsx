@@ -81,9 +81,9 @@ const AlarmStrip: React.FC<Props> = ({
   const unack = visible.filter((a) => a.state === 'UNACK').length;
 
   return (
-    <div className="border-t border-white/10 glass-panel-strong">
-      <div className="flex items-center justify-between px-3 py-1.5 border-b border-primary-600/40">
-        <div className="flex items-center gap-3">
+    <div className="border-t border-accent-blue/10 glass-panel-strong">
+      <div className="flex items-center justify-between px-2 py-1.5 border-b border-primary-600/40">
+        <div className="flex items-center gap-2">
           <span className="flex items-center gap-1.5 text-xs font-semibold text-text-primary">
             <Bell className={`w-3.5 h-3.5 ${unack > 0 ? 'text-status-error' : 'text-text-muted'}`} />
             Alarms &amp; Events
@@ -119,7 +119,7 @@ const AlarmStrip: React.FC<Props> = ({
       {!collapsed && (
         <div className="max-h-[168px] overflow-y-auto no-scrollbar">
           {visible.length === 0 ? (
-            <p className="px-3 py-4 text-xs text-text-muted text-center">
+            <p className="px-2 py-3 text-xs text-text-muted text-center">
               No active alarms. Inject a fault from the simulation dock to raise one.
             </p>
           ) : (

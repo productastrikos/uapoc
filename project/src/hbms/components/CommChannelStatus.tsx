@@ -106,15 +106,15 @@ const CommChannelStatus: React.FC<CommChannelStatusProps> = ({ lbmsAvailability,
 
   return (
     <div
-      className={`rounded-xl border p-3 flex-shrink-0 ${className ?? ''}`}
-      style={{ background: 'var(--app-surface)', borderColor: 'rgba(255,255,255,0.14)', minWidth: 0, maxWidth: '100%' }}
+      className={`rounded-xl border p-2 flex-shrink-0 ${className ?? ''}`}
+      style={{ background: 'var(--app-surface)', borderColor: 'rgba(32, 120, 207,0.14)', minWidth: 0, maxWidth: '100%' }}
     >
       <div className="flex items-center justify-between mb-2 gap-2 flex-wrap">
         <div className="flex items-center gap-1.5 min-w-0">
           <Radio className="w-3.5 h-3.5 flex-shrink-0" style={{ color: diagnosis?.color ?? '#10b981' }} />
           <span className="text-xs font-bold text-text-primary truncate">Comm. Channel</span>
         </div>
-        <div className="flex items-center gap-0.5 rounded-md p-0.5 flex-shrink-0" style={{ background: 'rgba(255,255,255,0.03)' }}>
+        <div className="flex items-center gap-0.5 rounded-md p-0.5 flex-shrink-0" style={{ background: 'rgba(32, 120, 207,0.03)' }}>
           {SCENARIOS.map((opt) => (
             <button
               key={opt.key}
@@ -122,7 +122,7 @@ const CommChannelStatus: React.FC<CommChannelStatusProps> = ({ lbmsAvailability,
               title={opt.title}
               className="px-1 py-0.5 rounded text-[length:calc(7px*var(--fs))] font-bold uppercase tracking-wide transition-all leading-none"
               style={{
-                background: scenario === opt.key ? 'rgba(255,255,255,0.14)' : 'transparent',
+                background: scenario === opt.key ? 'rgba(32, 120, 207,0.14)' : 'transparent',
                 color: scenario === opt.key ? '#E6EEF6' : '#8A9BA8',
               }}
             >
@@ -195,7 +195,7 @@ const CommChannelStatus: React.FC<CommChannelStatusProps> = ({ lbmsAvailability,
       </div>
 
       {/* ── Diagnosis footer — names exactly which segment has the issue ───── */}
-      <div className="flex items-start justify-between gap-2 mt-2 pt-2 flex-wrap" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+      <div className="flex items-start justify-between gap-2 mt-2 pt-2 flex-wrap" style={{ borderTop: '1px solid rgba(32, 120, 207,0.08)' }}>
         {diagnosis ? (
           <span className="flex items-start gap-1 text-[length:calc(9px*var(--fs))] font-semibold min-w-0" style={{ color: diagnosis.color }}>
             <AlertTriangle className="w-3 h-3 flex-shrink-0 mt-px" />

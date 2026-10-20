@@ -86,7 +86,7 @@ const ManualControl: React.FC<{ on: boolean; size: number; labelSize: number; on
           fontSize: Math.round(labelSize * 1.2), fontWeight: 700,
           padding: `${Math.round(size * 0.22)}px ${Math.round(size * 0.55)}px`,
           borderRadius: 999, whiteSpace: 'nowrap',
-          border: `1px solid ${on ? 'rgba(59,130,246,0.5)' : 'rgba(255,255,255,0.15)'}`,
+          border: `1px solid ${on ? 'rgba(59,130,246,0.5)' : 'rgba(32, 120, 207,0.15)'}`,
           color: on ? '#3B82F6' : 'var(--ds-text-muted)',
           background: on ? 'rgba(59,130,246,0.12)' : 'transparent',
         }}
@@ -113,7 +113,7 @@ const MiniBarChart: React.FC<{ raTemp: number; saTemp: number; scale: number }> 
       {bars.map(b => (
         <div key={b.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: Math.round(3 * scale) }}>
           <span style={{ fontSize: Math.round(10.5 * scale), fontWeight: 800, color: '#E6EEF6' }}>{b.value}°</span>
-          <div style={{ width: Math.round(26 * scale), height: h, display: 'flex', alignItems: 'flex-end', borderLeft: '1px solid rgba(255,255,255,0.2)', borderBottom: '1px solid rgba(255,255,255,0.2)' }}>
+          <div style={{ width: Math.round(26 * scale), height: h, display: 'flex', alignItems: 'flex-end', borderLeft: '1px solid rgba(32, 120, 207,0.2)', borderBottom: '1px solid rgba(32, 120, 207,0.2)' }}>
             <div style={{ width: '100%', height: `${Math.min(100, (b.value / max) * 100)}%`, background: 'linear-gradient(180deg,#4ade80,#16a34a)', borderRadius: '2px 2px 0 0' }} />
           </div>
           <span style={{ fontSize: Math.round(8.5 * scale), color: 'var(--ds-text-muted)', fontWeight: 600 }}>{b.label}</span>
@@ -180,7 +180,7 @@ const MiniGauge: React.FC<{ label: string; pct: number; scale: number }> = ({ la
         {(() => {
           const [x1, y1] = arcPoint(0, r);
           const [x2, y2] = arcPoint(100, r);
-          return <path d={`M${x1.toFixed(1)} ${y1.toFixed(1)}A${r} ${r} 0 0 1 ${x2.toFixed(1)} ${y2.toFixed(1)}`} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth={strokeW} strokeLinecap="round" />;
+          return <path d={`M${x1.toFixed(1)} ${y1.toFixed(1)}A${r} ${r} 0 0 1 ${x2.toFixed(1)} ${y2.toFixed(1)}`} fill="none" stroke="rgba(32, 120, 207,0.08)" strokeWidth={strokeW} strokeLinecap="round" />;
         })()}
         {GAUGE_BANDS.map((band, i) => {
           const from = i === 0 ? 0 : GAUGE_BANDS[i - 1].to;
@@ -246,7 +246,7 @@ const AHUParamsPanel: React.FC<AHUParamsPanelProps> = ({ asset, scale = 1, onTog
           against its full height, which used to read as uneven/unaligned. */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', alignItems: 'end', justifyItems: 'center', gap: Math.round(4 * scale) }}>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
-          <span style={{ fontSize: f, fontWeight: 800, color: '#E6EEF6', fontVariantNumeric: 'tabular-nums', border: '1px solid rgba(255,255,255,0.18)', borderRadius: 6, padding: `${Math.round(2*scale)}px ${Math.round(7*scale)}px` }}>{fanRpmLabel}</span>
+          <span style={{ fontSize: f, fontWeight: 800, color: '#E6EEF6', fontVariantNumeric: 'tabular-nums', border: '1px solid rgba(32, 120, 207,0.18)', borderRadius: 6, padding: `${Math.round(2*scale)}px ${Math.round(7*scale)}px` }}>{fanRpmLabel}</span>
           <span style={{ fontSize: Math.round(7.5 * scale), color: 'var(--ds-text-muted)', fontWeight: 600 }}>FAN RPM</span>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>

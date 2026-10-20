@@ -24,7 +24,7 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
       <div className="flex items-center justify-between">
         {/* Logo and Title */}
         <div className="flex items-center space-x-3">
-          <div className="relative p-2 rounded-xl overflow-hidden bg-primary-700/40 border border-white/10">
+          <div className="relative p-1.5 rounded-xl overflow-hidden bg-primary-700/40 border border-accent-blue/15">
             <img
               src="/white_aveva_schinder_logo.png"
               alt="Aveva X Schinder"

@@ -57,11 +57,11 @@ const DetailModal: React.FC<DetailModalProps> = ({ isOpen, onClose, title, data 
         </div>
 
         <div className="grid grid-cols-2 gap-4">
-          <div className="bg-primary-700/60 rounded-lg p-4 border border-primary-600">
+          <div className="glass-panel rounded-lg p-3">
             <div className="text-3xl font-bold text-accent-teal">{overview.currentValue}</div>
             <div className="text-sm text-text-muted">{overview.unit}</div>
           </div>
-          <div className="bg-primary-700/60 rounded-lg p-4 border border-primary-600">
+          <div className="glass-panel rounded-lg p-3">
             <div className="text-lg font-semibold text-text-primary">Status</div>
             <div className={`text-sm capitalize ${
               overview.status === 'normal' ? 'text-status-success' :
@@ -70,7 +70,7 @@ const DetailModal: React.FC<DetailModalProps> = ({ isOpen, onClose, title, data 
           </div>
         </div>
 
-        <div className="bg-primary-700/60 rounded-lg p-4 border border-primary-600">
+        <div className="glass-panel rounded-lg p-3">
           <h4 className="text-lg font-semibold text-text-primary mb-2">Description</h4>
           <p className="text-text-secondary">{overview.description}</p>
         </div>
@@ -101,7 +101,7 @@ const DetailModal: React.FC<DetailModalProps> = ({ isOpen, onClose, title, data 
 
   const renderTrendsAnalysis = () => (
     <div className="space-y-6">
-      <div className="bg-primary-700/60 rounded-lg p-4 border border-primary-600">
+      <div className="glass-panel rounded-lg p-3">
         <h4 className="text-lg font-semibold text-text-primary mb-4">24-Hour Trend</h4>
         <div className="h-64">
           <ResponsiveContainer width="100%" height="100%">
@@ -121,14 +121,14 @@ const DetailModal: React.FC<DetailModalProps> = ({ isOpen, onClose, title, data 
       </div>
 
       <div className="grid grid-cols-2 gap-4">
-        <div className="bg-primary-700/60 rounded-lg p-4 border border-primary-600">
+        <div className="glass-panel rounded-lg p-3">
           <h4 className="text-lg font-semibold text-text-primary mb-2">Trend Direction</h4>
           <div className="flex items-center space-x-2">
             <TrendingUp className="h-5 w-5 text-status-success" />
             <span className="text-status-success">Improving</span>
           </div>
         </div>
-        <div className="bg-primary-700/60 rounded-lg p-4 border border-primary-600">
+        <div className="glass-panel rounded-lg p-3">
           <h4 className="text-lg font-semibold text-text-primary mb-2">Forecast</h4>
           <div className="text-accent-teal">95.2% (±2.1%)</div>
         </div>
@@ -138,7 +138,7 @@ const DetailModal: React.FC<DetailModalProps> = ({ isOpen, onClose, title, data 
 
   const renderAIInsights = () => (
     <div className="space-y-6">
-      <div className="bg-primary-700/60 rounded-lg p-4 border border-primary-600">
+      <div className="glass-panel rounded-lg p-3">
         <div className="flex items-center justify-between mb-4">
           <h4 className="text-lg font-semibold text-text-primary">AI Confidence Score</h4>
           <div className="text-2xl font-bold text-accent-teal">87%</div>
@@ -148,7 +148,7 @@ const DetailModal: React.FC<DetailModalProps> = ({ isOpen, onClose, title, data 
         </div>
       </div>
 
-      <div className="bg-primary-700/60 rounded-lg p-4 border border-primary-600">
+      <div className="glass-panel rounded-lg p-3">
         <h4 className="text-lg font-semibold text-text-primary mb-2">Model Explanation</h4>
         <p className="text-text-secondary">
           Based on historical patterns, current weather conditions, and flight schedule analysis, 
@@ -157,7 +157,7 @@ const DetailModal: React.FC<DetailModalProps> = ({ isOpen, onClose, title, data 
         </p>
       </div>
 
-      <div className="bg-primary-700/60 rounded-lg p-4 border border-primary-600">
+      <div className="glass-panel rounded-lg p-3">
         <h4 className="text-lg font-semibold text-text-primary mb-3">Contributing Factors</h4>
         <div className="space-y-2">
           {[
@@ -187,7 +187,7 @@ const DetailModal: React.FC<DetailModalProps> = ({ isOpen, onClose, title, data 
     <div className="space-y-6">
       <div className="space-y-3">
         <h4 className="text-lg font-semibold text-text-primary">Primary Actions</h4>
-        <div className="bg-primary-700/60 rounded-lg p-4 border border-primary-600">
+        <div className="glass-panel rounded-lg p-3">
           <div className="flex items-center justify-between mb-3">
             <h5 className="font-semibold text-text-primary">Execute Optimization SOP</h5>
             <div className="flex items-center space-x-2">
@@ -239,7 +239,7 @@ const DetailModal: React.FC<DetailModalProps> = ({ isOpen, onClose, title, data 
 
   const renderEvidence = () => (
     <div className="space-y-6">
-      <div className="bg-primary-700/60 rounded-lg p-4 border border-primary-600">
+      <div className="glass-panel rounded-lg p-3">
         <h4 className="text-lg font-semibold text-text-primary mb-3">Data Sources</h4>
         <div className="space-y-2">
           {[
@@ -261,7 +261,7 @@ const DetailModal: React.FC<DetailModalProps> = ({ isOpen, onClose, title, data 
         </div>
       </div>
 
-      <div className="bg-primary-700/60 rounded-lg p-4 border border-primary-600">
+      <div className="glass-panel rounded-lg p-3">
         <h4 className="text-lg font-semibold text-text-primary mb-3">Audit Trail</h4>
         <div className="space-y-2">
           {[
@@ -316,36 +316,36 @@ const DetailModal: React.FC<DetailModalProps> = ({ isOpen, onClose, title, data 
             className="relative w-full max-w-6xl max-h-[90vh] mx-4 modal-surface rounded-xl shadow-2xl overflow-hidden"
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-6 border-b border-primary-600 border-opacity-50 bg-primary-800">
-              <h2 className="text-2xl font-bold text-text-primary">{title}</h2>
+            <div className="flex items-center justify-between px-4 py-3 border-b border-accent-blue/15 bg-primary-800">
+              <h2 className="text-xl font-bold text-text-primary">{title}</h2>
               <button
                 onClick={onClose}
-                className="p-2 hover:bg-primary-600 rounded-lg transition-colors"
+                className="p-1.5 hover:bg-accent-blue/15 rounded-full transition-colors"
               >
                 <X className="h-5 w-5 text-text-muted" />
               </button>
             </div>
 
             {/* Tabs */}
-            <div className="flex space-x-1 p-6 pb-0">
+            <div className="flex gap-1 px-4 pt-3">
               {tabs.map(({ key, label, icon: Icon }) => (
                 <button
                   key={key}
                   onClick={() => setActiveTab(key as keyof DetailModalType)}
-                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm transition-colors ${
                     activeTab === key
                       ? 'bg-accent-blue text-white'
-                      : 'text-text-muted hover:bg-primary-600 hover:text-text-primary'
+                      : 'text-text-muted hover:bg-accent-blue/10 hover:text-text-primary'
                   }`}
                 >
-                  <Icon className="h-4 w-4" />
-                  <span className="text-sm">{label}</span>
+                  <Icon className="h-3.5 w-3.5" />
+                  <span>{label}</span>
                 </button>
               ))}
             </div>
 
             {/* Content */}
-            <div className="p-6 overflow-y-auto" style={{ maxHeight: 'calc(90vh - 140px)' }}>
+            <div className="p-4 overflow-y-auto" style={{ maxHeight: 'calc(90vh - 120px)' }}>
               {renderActiveTab()}
             </div>
           </motion.div>

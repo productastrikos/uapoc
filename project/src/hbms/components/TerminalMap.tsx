@@ -431,7 +431,7 @@ const TerminalMap: React.FC<Props> = ({ subsystem = 'LBMS', compact = false }) =
     : undefined;
 
   const chip = 'px-2.5 py-1 rounded-lg text-xs font-bold transition-colors';
-  const hud = { background: 'rgba(8,12,32,0.92)', borderColor: 'rgba(255,255,255,0.14)', backdropFilter: 'blur(14px)' };
+  const hud = { background: 'rgba(8,12,32,0.92)', borderColor: 'rgba(32, 120, 207,0.14)', backdropFilter: 'blur(14px)' };
 
   return (
     <div className="relative w-full h-full overflow-hidden rounded-xl">
@@ -541,7 +541,7 @@ const TerminalMap: React.FC<Props> = ({ subsystem = 'LBMS', compact = false }) =
             All zones
           </button>
         )}
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl border text-xs font-semibold text-text-primary" style={hud}>
+        <div className="flex items-center gap-2 px-2 py-1.5 rounded-xl border text-xs font-semibold text-text-primary" style={hud}>
           <span className="w-2 h-2 rounded-full bg-accent-teal" />
           {stage === 'terminal' && `${area?.name} · ${spec.label}`}
           {stage === 'zone' && `${zone?.name} · ${spec.label}`}
@@ -565,7 +565,7 @@ const TerminalMap: React.FC<Props> = ({ subsystem = 'LBMS', compact = false }) =
 
       {/* ── Legend ──────────────────────────────────────────────────────── */}
       {!compact && (
-        <div className="fs-chrome absolute bottom-3 left-3 z-[40] rounded-xl border px-3 py-2" style={hud}>
+        <div className="fs-chrome absolute bottom-3 left-3 z-[40] rounded-xl border px-2 py-2" style={hud}>
           <p className="text-xs font-bold uppercase tracking-wider text-text-muted mb-1.5">
             {stage === 'terminal' ? 'Zones' : 'Assets'}
           </p>
@@ -619,7 +619,7 @@ const TerminalMap: React.FC<Props> = ({ subsystem = 'LBMS', compact = false }) =
       */}
       {openAsset && !showPano && (
         <div
-          className="absolute top-3 right-3 z-[90] w-[270px] rounded-xl border p-3"
+          className="absolute top-3 right-3 z-[90] w-[270px] rounded-xl border p-2"
           style={{ ...hud, borderColor: `${STATUS_COLOR[openAsset.status]}66` }}
         >
           <div className="flex items-start gap-2">

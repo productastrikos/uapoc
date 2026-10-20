@@ -64,7 +64,7 @@ const ScenarioGrid: React.FC<ScenarioGridProps> = ({ scenarios, category }) => {
 
   return (
     <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl h-full flex flex-col">
-      <div className="p-6 border-b border-primary-600/40">
+      <div className="p-4 border-b border-primary-600/40">
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-lg font-semibold text-text-primary">AO-S Simulation Scenarios</h3>
@@ -77,8 +77,8 @@ const ScenarioGrid: React.FC<ScenarioGridProps> = ({ scenarios, category }) => {
         </div>
       </div>
 
-      <div className="p-4 flex-1 overflow-hidden">
-        <div className="space-y-3 h-full overflow-y-auto no-scrollbar stagger-in">
+      <div className="p-3 flex-1 overflow-hidden">
+        <div className="space-y-2 h-full overflow-y-auto no-scrollbar stagger-in">
           {scenarios.map(scenario => {
             const isRunning = runningScenarios.has(scenario.id);
             const isCompleted = completedScenarios.has(scenario.id);
@@ -86,23 +86,23 @@ const ScenarioGrid: React.FC<ScenarioGridProps> = ({ scenarios, category }) => {
             return (
               <div
                 key={scenario.id}
-                className={`border rounded-xl p-6 transition-colors duration-200 ${
+                className={`border rounded-xl p-4 transition-colors duration-200 ${
                   isCompleted ? 'border-status-success/50 bg-primary-800/60' :
                   isRunning ? 'border-accent-blue/50 bg-primary-800/60' :
                   getImpactColor(scenario.impact)
                 }`}
               >
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex items-start space-x-4 flex-1">
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex items-start space-x-3 flex-1">
                     <div className="text-3xl">{getScenarioIcon(scenario.id)}</div>
                     <div className="flex-1">
-                      <div className="flex items-center space-x-3 mb-2">
+                      <div className="flex items-center space-x-2 mb-2">
                         <h4 className="font-semibold text-text-primary text-lg">{scenario.name}</h4>
                         {isCompleted && <CheckCircle className="w-5 h-5 text-status-success" />}
                       </div>
                       <p className="text-text-muted mb-3 leading-relaxed">{scenario.description}</p>
 
-                      <div className="flex flex-wrap gap-3 text-xs">
+                      <div className="flex flex-wrap gap-2.5 text-xs">
                         <div className="flex items-center space-x-1 px-2 py-1 bg-primary-900/50 rounded-full border border-primary-600/40">
                           <Clock className="w-3 h-3 text-accent-blue" />
                           <span className="text-text-secondary">{scenario.estimatedDuration}min</span>
@@ -156,8 +156,8 @@ const ScenarioGrid: React.FC<ScenarioGridProps> = ({ scenarios, category }) => {
                 </div>
 
                 {/* Metrics preview */}
-                <div className="grid grid-cols-3 gap-4 mt-4">
-                  <div className="bg-primary-900/50 border border-primary-600/40 rounded-lg p-3 text-center">
+                <div className="grid grid-cols-3 gap-3 mt-3">
+                  <div className="bg-primary-900/50 border border-primary-600/40 rounded-lg p-2.5 text-center">
                     <div className="flex items-center justify-center space-x-1 mb-1">
                       <DollarSign className="w-4 h-4 text-status-success" />
                       <span className="text-lg font-bold text-status-success">
@@ -166,7 +166,7 @@ const ScenarioGrid: React.FC<ScenarioGridProps> = ({ scenarios, category }) => {
                     </div>
                     <div className="text-xs text-text-muted">Cost Impact</div>
                   </div>
-                  <div className="bg-primary-900/50 border border-primary-600/40 rounded-lg p-3 text-center">
+                  <div className="bg-primary-900/50 border border-primary-600/40 rounded-lg p-2.5 text-center">
                     <div className="flex items-center justify-center space-x-1 mb-1">
                       <Zap className="w-4 h-4 text-accent-blue" />
                       <span className="text-lg font-bold text-accent-blue">
@@ -175,7 +175,7 @@ const ScenarioGrid: React.FC<ScenarioGridProps> = ({ scenarios, category }) => {
                     </div>
                     <div className="text-xs text-text-muted">Energy Impact</div>
                   </div>
-                  <div className="bg-primary-900/50 border border-primary-600/40 rounded-lg p-3 text-center">
+                  <div className="bg-primary-900/50 border border-primary-600/40 rounded-lg p-2.5 text-center">
                     <div className="flex items-center justify-center space-x-1 mb-1">
                       <TrendingUp className="w-4 h-4 text-status-warning" />
                       <span className="text-lg font-bold text-status-warning">
@@ -188,12 +188,12 @@ const ScenarioGrid: React.FC<ScenarioGridProps> = ({ scenarios, category }) => {
 
                 {/* Running actions */}
                 {isRunning && (
-                  <div className="mt-4 pt-4 border-t border-accent-blue/30">
+                  <div className="mt-3 pt-3 border-t border-accent-blue/30">
                     <div className="mb-3">
                       <h5 className="text-sm font-medium text-accent-blue mb-2">AO-S Actions Executing:</h5>
                       <div className="space-y-2">
                         {scenario.actions.slice(0, 3).map((action, index) => (
-                          <div key={index} className="flex items-center space-x-3 text-sm">
+                          <div key={index} className="flex items-center space-x-2 text-sm">
                             <div className="hbms-status-dot operational"></div>
                             <span className="text-text-secondary">{action}</span>
                           </div>
@@ -210,7 +210,7 @@ const ScenarioGrid: React.FC<ScenarioGridProps> = ({ scenarios, category }) => {
 
                 {/* Completion status */}
                 {isCompleted && (
-                  <div className="mt-4 pt-4 border-t border-status-success/30">
+                  <div className="mt-3 pt-3 border-t border-status-success/30">
                     <div className="flex items-center space-x-2 text-status-success">
                       <CheckCircle className="w-4 h-4" />
                       <span className="text-sm font-medium">Scenario executed successfully</span>

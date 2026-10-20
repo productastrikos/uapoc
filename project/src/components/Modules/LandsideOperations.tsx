@@ -83,10 +83,10 @@ const LandsideOperations: React.FC = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="space-y-6"
+      className="space-y-4"
     >
       {/* Header */}
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center space-x-3">
         <div className="p-2 bg-accent-blue/15 rounded-lg">
           <Car className="w-5 h-5 text-accent-blue" />
         </div>
@@ -97,7 +97,7 @@ const LandsideOperations: React.FC = () => {
       </div>
 
       {/* Quick Stats */}
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-4 gap-3">
         {[
           { label: 'Total Vehicles', value: '2,847', icon: Car, change: '+18%' },
           { label: 'Parking Revenue', value: '$39.9K', icon: DollarSign, change: '+12%' },
@@ -110,10 +110,10 @@ const LandsideOperations: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
             whileHover={{ y: -2 }}
-            className={`glass-pill ${['glass-pill-blue', 'glass-pill-teal', 'glass-pill-violet', 'glass-pill-neutral'][index % 4]} p-4 cursor-pointer transition-colors duration-200`}
+            className={`glass-pill ${['glass-pill-blue', 'glass-pill-teal', 'glass-pill-violet', 'glass-pill-neutral'][index % 4]} p-3 cursor-pointer transition-colors duration-200`}
             onClick={() => handleZoneClick(parkingZones[0])}
           >
-            <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center justify-between mb-1.5">
               <stat.icon className="h-5 w-5 text-text-muted" />
               <span className={`text-sm font-medium ${stat.change.startsWith('+') ? 'text-status-success' : 'text-status-warning'}`}>
                 {stat.change}
@@ -130,12 +130,12 @@ const LandsideOperations: React.FC = () => {
           second. */}
       <AiInsightPanel domain="landside" />
 
-      <div className="grid grid-cols-12 gap-6">
+      <div className="grid grid-cols-12 gap-4">
         {/* Left Column - Kerbside & Parking Management */}
-        <div className="col-span-8 space-y-6">
+        <div className="col-span-8 space-y-4">
           {/* Kerbside Congestion Map */}
-          <div className="glass-panel rounded-lg p-6">
-            <div className="flex items-center justify-between mb-6">
+          <div className="glass-panel rounded-lg p-4">
+            <div className="flex items-center justify-between mb-4">
               <h2 className="text-base font-semibold text-text-primary">Kerbside Operations & Dynamic Pricing</h2>
               <div className="flex items-center space-x-4 text-sm">
                 <div className="flex items-center space-x-2">
@@ -157,7 +157,7 @@ const LandsideOperations: React.FC = () => {
             <div className="relative h-80 bg-primary-900 rounded-lg overflow-hidden">
               <div className="absolute inset-4">
                 {/* Terminal building */}
-                <div className="absolute top-4 left-1/3 right-1/3 h-16 bg-primary-700 rounded-lg border border-primary-500 flex items-center justify-center">
+                <div className="absolute top-4 left-1/3 right-1/3 h-16 bg-primary-700 rounded-lg border border-accent-blue/25 flex items-center justify-center">
                   <span className="text-text-primary font-semibold">Terminal Building</span>
                 </div>
 
@@ -183,10 +183,10 @@ const LandsideOperations: React.FC = () => {
                 </div>
 
                 {/* Transport areas */}
-                <div className="absolute bottom-4 left-4 w-28 h-12 bg-primary-700 rounded-lg border border-primary-500 flex items-center justify-center">
+                <div className="absolute bottom-4 left-4 w-28 h-12 bg-primary-700 rounded-lg border border-accent-blue/25 flex items-center justify-center">
                   <span className="text-text-primary font-semibold text-sm">Taxi Queue</span>
                 </div>
-                <div className="absolute bottom-4 right-4 w-32 h-12 bg-primary-700 rounded-lg border border-primary-500 flex items-center justify-center">
+                <div className="absolute bottom-4 right-4 w-32 h-12 bg-primary-700 rounded-lg border border-accent-blue/25 flex items-center justify-center">
                   <span className="text-text-primary font-semibold text-sm">Ride-share Hub</span>
                 </div>
 
@@ -213,17 +213,17 @@ const LandsideOperations: React.FC = () => {
           </div>
 
           {/* Parking Zone Management */}
-          <div className="glass-panel rounded-lg p-6">
-            <h2 className="text-base font-semibold text-text-primary mb-4">Parking Zone Performance & Optimization</h2>
-            
-            <div className="space-y-4">
+          <div className="glass-panel rounded-lg p-4">
+            <h2 className="text-base font-semibold text-text-primary mb-3">Parking Zone Performance & Optimization</h2>
+
+            <div className="space-y-3">
               {parkingZones.map((zone, index) => (
                 <motion.div
                   key={zone.id}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.2 }}
-                  className="p-4 bg-primary-800/60 rounded-lg border border-primary-600/40 hover:border-accent-blue/40 transition-colors cursor-pointer"
+                  className="p-3 bg-primary-800/60 rounded-lg border border-primary-600/40 hover:border-accent-blue/40 transition-colors cursor-pointer"
                   onClick={() => handleZoneClick(zone)}
                 >
                   <div className="flex items-center justify-between">
@@ -284,10 +284,10 @@ const LandsideOperations: React.FC = () => {
         </div>
 
         {/* Right Column - Analytics & Transport */}
-        <div className="col-span-4 space-y-6">
+        <div className="col-span-4 space-y-4">
           {/* Revenue Trends */}
-          <div className="glass-panel rounded-lg p-6">
-            <h3 className="text-base font-semibold text-text-primary mb-4">Revenue by Service (24h)</h3>
+          <div className="glass-panel rounded-lg p-4">
+            <h3 className="text-base font-semibold text-text-primary mb-3">Revenue by Service (24h)</h3>
             <div className="h-48">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={revenueData}>
@@ -316,8 +316,8 @@ const LandsideOperations: React.FC = () => {
           </div>
 
           {/* Traffic Flow Analysis */}
-          <div className="glass-panel rounded-lg p-6">
-            <h3 className="text-base font-semibold text-text-primary mb-4">Traffic Flow Analysis</h3>
+          <div className="glass-panel rounded-lg p-4">
+            <h3 className="text-base font-semibold text-text-primary mb-3">Traffic Flow Analysis</h3>
             <div className="space-y-3">
               {trafficData.map((traffic, index) => (
                 <motion.div
@@ -354,8 +354,8 @@ const LandsideOperations: React.FC = () => {
           </div>
 
           {/* Transport Mode Distribution */}
-          <div className="glass-panel rounded-lg p-6">
-            <h3 className="text-base font-semibold text-text-primary mb-4">Transport Mode Mix</h3>
+          <div className="glass-panel rounded-lg p-4">
+            <h3 className="text-base font-semibold text-text-primary mb-3">Transport Mode Mix</h3>
             <div className="h-48">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
@@ -388,12 +388,12 @@ const LandsideOperations: React.FC = () => {
           </div>
 
           {/* AI Optimization Recommendations */}
-          <div className="glass-panel-strong rounded-lg p-6">
-            <div className="flex items-center space-x-2 mb-4">
+          <div className="glass-panel-strong rounded-lg p-4">
+            <div className="flex items-center space-x-2 mb-3">
               <div className="w-2 h-2 bg-accent-blue rounded-full"></div>
               <h3 className="text-base font-semibold text-text-primary">Revenue Optimization</h3>
             </div>
-            <div className="space-y-3 stagger-in">
+            <div className="space-y-2 stagger-in">
               {[
                 {
                   priority: 'High',

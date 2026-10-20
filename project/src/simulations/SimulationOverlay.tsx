@@ -126,13 +126,13 @@ const SimulationBody: React.FC<{ simulationId: SimulationId; title: string; onCl
     <>
       {/* Title bar - matches the main app's console header chrome */}
       <div className="flex-shrink-0 border-b border-primary-600/60 bg-primary-800">
-        <div className="flex items-center justify-between px-6 py-4">
-          <div className="flex items-center space-x-4 min-w-0">
-            <div className="p-3 rounded-xl bg-primary-700/60 border border-primary-600/40">
+        <div className="flex items-center justify-between px-4 py-3">
+          <div className="flex items-center space-x-3 min-w-0">
+            <div className="p-2.5 rounded-xl bg-primary-700/60 border border-primary-600/40">
               <span className="text-2xl leading-none">{subsystem.icon}</span>
             </div>
             <div className="min-w-0">
-              <div className="flex items-center space-x-3">
+              <div className="flex items-center space-x-2">
                 <h2 className="text-2xl font-bold text-text-primary truncate">{title}</h2>
                 <span className="flex-shrink-0 px-2.5 py-1 rounded-full text-[length:calc(10px*var(--fs))] font-bold uppercase tracking-widest bg-accent-blue/15 text-accent-blue border border-accent-blue/40">
                   Simulation
@@ -144,7 +144,7 @@ const SimulationBody: React.FC<{ simulationId: SimulationId; title: string; onCl
             </div>
           </div>
 
-          <div className="flex items-center space-x-3 flex-shrink-0">
+          <div className="flex items-center space-x-2 flex-shrink-0">
             <button
               onClick={handleTriggerEvent}
               title="Raise an incident for this subsystem and open the alert centre"
@@ -182,8 +182,8 @@ const SimulationBody: React.FC<{ simulationId: SimulationId; title: string; onCl
 
       {/* Simulation content - identical composition to the AirOps subsystem page */}
       <div className="flex-1 overflow-y-auto">
-        <div className="p-4">
-          <div className="w-full space-y-4 h-full">
+        <div className="p-3">
+          <div className="w-full space-y-3 h-full">
             <KPICards kpis={subsystem.kpis} />
 
             {subsystem.id === "flight-ops" && (
@@ -205,7 +205,7 @@ const SimulationBody: React.FC<{ simulationId: SimulationId; title: string; onCl
                 <BaggageSystemOverview />
                 {/* Paired rather than stacked - the event log on its own left
                     half the row empty under a very tall page. */}
-                <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-3">
                   <EventLog />
                   <LiveCharts subsystemId={subsystem.id} alerts={alerts} />
                 </div>
@@ -219,7 +219,7 @@ const SimulationBody: React.FC<{ simulationId: SimulationId; title: string; onCl
               <NodeFlowView nodeFlow={subsystem.nodeFlow} subsystemName={subsystem.name} />
             ) : (
               subsystem.id !== "baggage" && (
-                <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 h-full">
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-3 h-full">
                   <ScenarioGrid scenarios={subsystem.scenarios} category={subsystem.id} />
                   <LiveCharts subsystemId={subsystem.id} alerts={alerts} />
                 </div>

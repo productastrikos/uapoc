@@ -295,12 +295,12 @@ const BaggageSystemOverview: React.FC = () => {
     // already owns the viewport. Forcing a full screen here is what left a
     // band of empty gradient under every tab.
     <div className="w-full">
-      <div className="w-full space-y-4">
+      <div className="w-full space-y-3">
 
         {/* Header Section */}
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-2.5">
           <div>
-            <h1 className="text-xl md:text-2xl font-bold text-text-primary mb-1 flex items-center space-x-3">
+            <h1 className="text-xl md:text-2xl font-bold text-text-primary mb-1 flex items-center space-x-2">
               <div className="p-2 bg-accent-blue/10 rounded-lg border border-accent-blue/30">
                 <Package className="h-6 w-6 text-accent-blue" />
               </div>
@@ -315,7 +315,7 @@ const BaggageSystemOverview: React.FC = () => {
           <div className="flex bg-primary-800/50 rounded-lg p-1 border border-primary-600/40">
             <button
               onClick={() => setActiveTab('overview')}
-              className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+              className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
                 activeTab === 'overview'
                   ? 'bg-accent-blue text-white shadow-lg'
                   : 'text-text-secondary hover:text-text-primary hover:bg-primary-700/50'
@@ -326,7 +326,7 @@ const BaggageSystemOverview: React.FC = () => {
             </button>
             <button
               onClick={() => setActiveTab('operations')}
-              className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+              className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
                 activeTab === 'operations'
                   ? 'bg-accent-blue text-white shadow-lg'
                   : 'text-text-secondary hover:text-text-primary hover:bg-primary-700/50'
@@ -337,7 +337,7 @@ const BaggageSystemOverview: React.FC = () => {
             </button>
             <button
               onClick={() => setActiveTab('monitoring')}
-              className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+              className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
                 activeTab === 'monitoring'
                   ? 'bg-accent-blue text-white shadow-lg'
                   : 'text-text-secondary hover:text-text-primary hover:bg-primary-700/50'
@@ -350,8 +350,8 @@ const BaggageSystemOverview: React.FC = () => {
         </div>
 
         {/* System Status Cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-4 md:p-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+          <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-3 md:p-4">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-lg font-semibold text-text-primary">Total Processed</h3>
               <Package className="h-6 w-6 text-status-success" />
@@ -368,7 +368,7 @@ const BaggageSystemOverview: React.FC = () => {
             </div>
           </div>
 
-          <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-4 md:p-6">
+          <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-3 md:p-4">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-lg font-semibold text-text-primary">System Efficiency</h3>
               <Activity className="h-6 w-6 text-accent-blue" />
@@ -387,7 +387,7 @@ const BaggageSystemOverview: React.FC = () => {
             </div>
           </div>
 
-          <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-4 md:p-6">
+          <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-3 md:p-4">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-lg font-semibold text-text-primary">Active Carousels</h3>
               <RotateCcw className={`h-6 w-6 text-accent-blue ${activeCarousels > 0 ? 'animate-spin' : ''}`} />
@@ -403,7 +403,7 @@ const BaggageSystemOverview: React.FC = () => {
             </div>
           </div>
 
-          <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-4 md:p-6">
+          <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-3 md:p-4">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-lg font-semibold text-text-primary">Maintenance</h3>
               <AlertTriangle className={`h-6 w-6 ${totalMaintenanceAlerts > 0 ? 'text-status-warning animate-pulse' : 'text-text-muted'}`} />
@@ -422,21 +422,21 @@ const BaggageSystemOverview: React.FC = () => {
 
         {/* Main Content Area - Tab Based */}
         {activeTab === 'overview' && (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
             {/* Carousel Status Panel */}
-            <div className="lg:col-span-2 space-y-4">
-              <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-6">
-                <h3 className="text-xl font-semibold text-text-primary mb-4 flex items-center space-x-2">
+            <div className="lg:col-span-2 space-y-3">
+              <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-4">
+                <h3 className="text-xl font-semibold text-text-primary mb-3 flex items-center space-x-2">
                   <RotateCcw className="w-5 h-5 text-accent-blue" />
                   <span>Carousel Management</span>
                 </h3>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {carousels.map((carousel) => (
                     <div
                       key={carousel.id}
                       onClick={(e) => handleCarouselSelect(carousel, e)}
-                      className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-300 hover:bg-primary-700/40 ${
+                      className={`p-3 rounded-lg border-2 cursor-pointer transition-all duration-300 hover:bg-primary-700/40 ${
                         selectedCarousel.id === carousel.id
                           ? 'border-accent-blue bg-accent-blue/10'
                           : 'border-primary-600/40 bg-primary-800/20'
@@ -499,13 +499,13 @@ const BaggageSystemOverview: React.FC = () => {
             </div>
 
             {/* Selected Carousel Details */}
-            <div className="space-y-4">
-              <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-6">
-                <h3 className="text-xl font-semibold text-text-primary mb-4">
+            <div className="space-y-3">
+              <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-4">
+                <h3 className="text-xl font-semibold text-text-primary mb-3">
                   Carousel {selectedCarousel.id} Details
                 </h3>
 
-                <div className="space-y-4">
+                <div className="space-y-3">
                   <div className="text-center">
                     <div className={`text-3xl font-bold mb-2 ${getStatusColor(selectedCarousel.status)}`}>
                       {selectedCarousel.status.toUpperCase()}
@@ -518,14 +518,14 @@ const BaggageSystemOverview: React.FC = () => {
                     )}
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4 text-sm">
-                    <div className="text-center p-3 bg-primary-900/40 rounded-lg">
+                  <div className="grid grid-cols-2 gap-3 text-sm">
+                    <div className="text-center p-2.5 bg-primary-900/40 rounded-lg">
                       <p className="text-text-muted">Power</p>
                       <p className="text-lg font-bold text-accent-blue">
                         {selectedCarousel.energyConsumption.toFixed(1)}W
                       </p>
                     </div>
-                    <div className="text-center p-3 bg-primary-900/40 rounded-lg">
+                    <div className="text-center p-2.5 bg-primary-900/40 rounded-lg">
                       <p className="text-text-muted">Uptime</p>
                       <p className="text-lg font-bold text-status-success">
                         {selectedCarousel.uptime.toFixed(1)}%
@@ -549,7 +549,7 @@ const BaggageSystemOverview: React.FC = () => {
                   </div>
 
                   {selectedCarousel.alerts.length > 0 && (
-                    <div className="bg-status-warning/10 border border-status-warning/30 rounded-lg p-3">
+                    <div className="bg-status-warning/10 border border-status-warning/30 rounded-lg p-2.5">
                       <h4 className="text-status-warning font-medium mb-2 flex items-center">
                         <AlertTriangle className="w-4 h-4 mr-2" />
                         Active Alerts
@@ -565,7 +565,7 @@ const BaggageSystemOverview: React.FC = () => {
                     </div>
                   )}
 
-                  <div className="text-center text-xs text-text-muted border-t border-primary-600/40 pt-3">
+                  <div className="text-center text-xs text-text-muted border-t border-primary-600/40 pt-2.5">
                     Carousel is under {selectedCarousel.status === 'maintenance' ? 'maintenance' : 'automated'} control.
                     {selectedCarousel.status === 'maintenance' ? ' Manual operation required.' : ' Automated systems enabled.'}
                   </div>
@@ -573,15 +573,15 @@ const BaggageSystemOverview: React.FC = () => {
               </div>
 
               {/* Flight Schedule */}
-              <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-6">
-                <h3 className="text-lg font-semibold text-text-primary mb-4 flex items-center space-x-2">
+              <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-4">
+                <h3 className="text-lg font-semibold text-text-primary mb-3 flex items-center space-x-2">
                   <Plane className="w-5 h-5 text-accent-blue" />
                   <span>Flight Schedule</span>
                 </h3>
 
-                <div className="space-y-3 max-h-80 overflow-y-auto">
+                <div className="space-y-2 max-h-80 overflow-y-auto">
                   {flightSchedule.map((flight) => (
-                    <div key={flight.flightNumber} className="p-3 bg-primary-800/40 rounded-lg border border-primary-600/40">
+                    <div key={flight.flightNumber} className="p-2.5 bg-primary-800/40 rounded-lg border border-primary-600/40">
                       <div className="flex justify-between items-start mb-2">
                         <div>
                           <h4 className="font-medium text-text-secondary">{flight.flightNumber}</h4>
@@ -632,11 +632,11 @@ const BaggageSystemOverview: React.FC = () => {
 
         {/* Operations Tab - Integrated BaggageOperations Component */}
         {activeTab === 'operations' && (
-          <div className="space-y-4">
+          <div className="space-y-3">
 
             {/* What this simulation shows */}
-            <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-4">
-              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+            <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-3">
+              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-2.5">
                 <h3 className="text-base font-semibold text-text-primary flex items-center space-x-2">
                   <Target className="w-5 h-5 text-accent-blue" />
                   <span>Baggage Operations Simulation</span>
@@ -662,18 +662,18 @@ const BaggageSystemOverview: React.FC = () => {
 
         {/* Real-time Monitoring Tab */}
         {activeTab === 'monitoring' && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3">
 
             {/* System Metrics Chart */}
-            <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-text-primary mb-4 flex items-center space-x-2">
+            <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-4">
+              <h3 className="text-lg font-semibold text-text-primary mb-3 flex items-center space-x-2">
                 <Activity className="w-5 h-5 text-accent-blue" />
                 <span>Real-time Metrics</span>
               </h3>
 
-              <div className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="text-center p-4 bg-primary-900/40 rounded-lg">
+              <div className="space-y-3">
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="text-center p-3 bg-primary-900/40 rounded-lg">
                     <div className="text-2xl font-bold text-accent-blue">{systemMetrics.bagsInSystem}</div>
                     <div className="text-sm text-text-muted">Bags in System</div>
                     <div className="w-full bg-primary-900/50 rounded-full h-2 mt-2">
@@ -681,7 +681,7 @@ const BaggageSystemOverview: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="text-center p-4 bg-primary-900/40 rounded-lg">
+                  <div className="text-center p-3 bg-primary-900/40 rounded-lg">
                     <div className="text-2xl font-bold text-accent-blue">{systemMetrics.averageProcessingTime.toFixed(1)}min</div>
                     <div className="text-sm text-text-muted">Avg Processing</div>
                     <div className="w-full bg-primary-900/50 rounded-full h-2 mt-2">
@@ -690,16 +690,16 @@ const BaggageSystemOverview: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-3 gap-3 text-sm">
-                  <div className="text-center p-3 bg-primary-900/30 rounded-lg">
+                <div className="grid grid-cols-3 gap-2.5 text-sm">
+                  <div className="text-center p-2.5 bg-primary-900/30 rounded-lg">
                     <div className="text-lg font-bold text-accent-blue">{Math.round(systemMetrics.energyConsumption)}kW</div>
                     <div className="text-xs text-text-muted">Power Usage</div>
                   </div>
-                  <div className="text-center p-3 bg-primary-900/30 rounded-lg">
+                  <div className="text-center p-2.5 bg-primary-900/30 rounded-lg">
                     <div className="text-lg font-bold text-accent-blue">{systemMetrics.customerSatisfaction}</div>
                     <div className="text-xs text-text-muted">Satisfaction</div>
                   </div>
-                  <div className="text-center p-3 bg-primary-900/30 rounded-lg">
+                  <div className="text-center p-2.5 bg-primary-900/30 rounded-lg">
                     <div className="text-lg font-bold text-accent-blue">{totalMaintenanceAlerts}</div>
                     <div className="text-xs text-text-muted">Alerts</div>
                   </div>
@@ -710,13 +710,13 @@ const BaggageSystemOverview: React.FC = () => {
 
 
             {/* Per-carousel load, so the numbers above have somewhere to land */}
-            <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-text-primary mb-4 flex items-center space-x-2">
+            <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-4">
+              <h3 className="text-lg font-semibold text-text-primary mb-3 flex items-center space-x-2">
                 <RotateCcw className="w-5 h-5 text-accent-blue" />
                 <span>Carousel Load</span>
               </h3>
 
-              <div className="space-y-3">
+              <div className="space-y-2">
                 {carousels.map((c) => {
                   const pct = Math.round((c.currentLoad / c.maxCapacity) * 100);
                   return (
@@ -751,14 +751,14 @@ const BaggageSystemOverview: React.FC = () => {
             </div>
 
             {/* Live Activity Feed */}
-            <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-text-primary mb-4 flex items-center space-x-2">
+            <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-4">
+              <h3 className="text-lg font-semibold text-text-primary mb-3 flex items-center space-x-2">
                 <Clock className="w-5 h-5 text-accent-blue" />
                 <span>Live Activity</span>
               </h3>
 
-              <div className="space-y-3 max-h-80 overflow-y-auto">
-                <div className="p-3 bg-status-success/10 border border-status-success/30 rounded-lg">
+              <div className="space-y-2 max-h-80 overflow-y-auto">
+                <div className="p-2.5 bg-status-success/10 border border-status-success/30 rounded-lg">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <div className="w-2 h-2 bg-status-success rounded-full animate-pulse"></div>
@@ -769,7 +769,7 @@ const BaggageSystemOverview: React.FC = () => {
                   <p className="text-xs text-text-muted mt-1 ml-4">Flight AI348 - 156 bags remaining</p>
                 </div>
 
-                <div className="p-3 bg-accent-blue/10 border border-accent-blue/30 rounded-lg">
+                <div className="p-2.5 bg-accent-blue/10 border border-accent-blue/30 rounded-lg">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <div className="w-2 h-2 bg-accent-blue rounded-full animate-pulse"></div>
@@ -780,7 +780,7 @@ const BaggageSystemOverview: React.FC = () => {
                   <p className="text-xs text-text-muted mt-1 ml-4">Departure processing active</p>
                 </div>
 
-                <div className="p-3 bg-status-warning/10 border border-status-warning/30 rounded-lg">
+                <div className="p-2.5 bg-status-warning/10 border border-status-warning/30 rounded-lg">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <div className="w-2 h-2 bg-status-warning rounded-full animate-pulse"></div>
@@ -791,7 +791,7 @@ const BaggageSystemOverview: React.FC = () => {
                   <p className="text-xs text-text-muted mt-1 ml-4">Carousel 4 - Motor bearing replacement</p>
                 </div>
 
-                <div className="p-3 bg-status-success/10 border border-status-success/30 rounded-lg">
+                <div className="p-2.5 bg-status-success/10 border border-status-success/30 rounded-lg">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <div className="w-2 h-2 bg-status-success rounded-full animate-pulse"></div>

@@ -100,7 +100,7 @@ const StandBay: React.FC<Props> = ({ stand, selected, onSelect }) => {
         className="relative mx-1.5 mb-1.5 rounded-md h-44 overflow-hidden border border-black/40"
         style={{
           boxShadow:
-            'inset 0 1px 0 rgba(255,255,255,0.05), inset 0 0 0 1px rgba(255,255,255,0.03)',
+            'inset 0 1px 0 rgba(32, 120, 207,0.05), inset 0 0 0 1px rgba(32, 120, 207,0.03)',
         }}
       >
         <StandScene stand={stand} travel={travel} pbbFault={pbbFault} beaconOn={beaconOn} />

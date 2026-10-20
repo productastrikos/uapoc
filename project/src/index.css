@@ -142,7 +142,10 @@
  *   .fs-ai   1.2    advisory text, which is prose and is the thing being read
  * ------------------------------------------------------------------------- */
 :root {
-  --fs: 1;
+  /* Nudged below 1 on top of the earlier full rescale — still "normal
+   * desktop" sized, just a notch tighter so cards and numbers read as
+   * refined rather than oversized. */
+  --fs: 0.92;
 }
 
 /* Sidebar, tab bars, button rows. These are targets, not reading material —

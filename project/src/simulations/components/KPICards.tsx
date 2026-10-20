@@ -50,11 +50,11 @@ const KPICards: React.FC<KPICardsProps> = ({ kpis }) => {
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 stagger-in">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 stagger-in">
         {kpis.map(kpi => (
           <div
             key={kpi.id}
-            className={`relative bg-primary-800/60 border rounded-xl p-5 cursor-pointer transition-transform duration-200 hover:-translate-y-0.5 ${getStatusColor(kpi.status)}`}
+            className={`relative bg-primary-800/60 border rounded-xl p-4 cursor-pointer transition-transform duration-200 hover:-translate-y-0.5 ${getStatusColor(kpi.status)}`}
             onClick={(e) => handleKPIClick(kpi, e)}
           >
             {/* status rail */}
@@ -82,7 +82,7 @@ const KPICards: React.FC<KPICardsProps> = ({ kpis }) => {
               </div>
             </div>
 
-            <div className="relative flex items-baseline space-x-2 mb-4">
+            <div className="relative flex items-baseline space-x-2 mb-3">
               <span className="text-[length:calc(34px*var(--fs))] leading-none font-bold text-text-primary tabular-nums">
                 {kpi.value.toFixed(kpi.value < 10 ? 1 : 0)}
               </span>
@@ -120,7 +120,7 @@ const KPICards: React.FC<KPICardsProps> = ({ kpis }) => {
             )}
 
             {/* Performance Indicator */}
-            <div className="mt-3 pt-3 border-t border-primary-600/40">
+            <div className="mt-3 pt-2.5 border-t border-primary-600/40">
               <div className="flex items-center justify-between text-xs">
                 <span className="text-text-muted">Performance</span>
                 <span className={`px-2 py-1 rounded-full text-xs font-medium border ${

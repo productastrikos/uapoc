@@ -126,7 +126,7 @@ const ProgressPill: React.FC<{ pct: number; height: number }> = ({ pct, height }
   return (
     <div style={{
       width: '100%', height, borderRadius: 99,
-      background: 'rgba(255,255,255,0.08)',
+      background: 'rgba(32, 120, 207,0.08)',
       boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.4)',
       overflow: 'hidden', position: 'relative',
     }}>
@@ -139,7 +139,7 @@ const ProgressPill: React.FC<{ pct: number; height: number }> = ({ pct, height }
       }}>
         <div style={{
           position: 'absolute', inset: 0, borderRadius: 99,
-          background: 'linear-gradient(180deg, rgba(255,255,255,0.35), rgba(255,255,255,0) 55%)',
+          background: 'linear-gradient(180deg, rgba(32, 120, 207,0.35), rgba(32, 120, 207,0) 55%)',
         }} />
       </div>
     </div>
@@ -154,7 +154,7 @@ const StackedBarMini: React.FC<{ ok: number; total: number; height: number }> = 
   return (
     <div style={{
       width: '100%', height, borderRadius: 99, overflow: 'hidden', display: 'flex',
-      background: 'rgba(255,255,255,0.08)', boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.4)',
+      background: 'rgba(32, 120, 207,0.08)', boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.4)',
     }}>
       {okPct > 0 && <div style={{ width: `${okPct}%`, height: '100%', background: 'linear-gradient(90deg,#059669,#34d399)' }} />}
       {failPct > 0 && <div style={{ width: `${failPct}%`, height: '100%', background: 'linear-gradient(90deg,#b91c1c,#f87171)' }} />}
@@ -282,9 +282,9 @@ const AxisBarRow: React.FC<{
         {/* Track with gridlines + stacked ok/fail fill, scaled to THIS row's own total */}
         <div style={{
           flex: 1, height: barHeight, borderRadius: 3, position: 'relative', overflow: 'hidden',
-          backgroundColor: 'rgba(255,255,255,0.05)',
-          backgroundImage: 'repeating-linear-gradient(90deg, rgba(255,255,255,0.12) 0, rgba(255,255,255,0.12) 1px, transparent 1px, transparent 25%)',
-          borderLeft: '1px solid rgba(255,255,255,0.25)',
+          backgroundColor: 'rgba(32, 120, 207,0.05)',
+          backgroundImage: 'repeating-linear-gradient(90deg, rgba(32, 120, 207,0.12) 0, rgba(32, 120, 207,0.12) 1px, transparent 1px, transparent 25%)',
+          borderLeft: '1px solid rgba(32, 120, 207,0.25)',
         }}>
           <div style={{ position: 'absolute', inset: 0, display: 'flex' }}>
             <div style={{ width: `${okShareOfBar}%`, height: '100%', background: 'linear-gradient(90deg,#059669,#34d399)' }} />
@@ -311,7 +311,7 @@ const AxisBarRow: React.FC<{
         <span style={{ width: BAR_LABEL_W, flexShrink: 0 }} />
         <div style={{
           flex: 1, minWidth: 0, display: 'flex', justifyContent: 'space-between',
-          borderTop: '1px solid rgba(255,255,255,0.2)', paddingTop: 1,
+          borderTop: '1px solid rgba(32, 120, 207,0.2)', paddingTop: 1,
         }}>
           <span style={{ fontSize: 9.5, fontWeight: 600, color: 'var(--ds-text-muted)' }}>0</span>
           <span style={{ fontSize: 9.5, fontWeight: 600, color: 'var(--ds-text-muted)' }}>{p.total}</span>
@@ -399,8 +399,8 @@ const VerticalBarChartMini: React.FC<{
         {/* Plot area: Y gridlines + double-stacked columns rising from the baseline */}
         <div style={{
           flex: 1, minWidth: 0, display: 'flex', alignItems: 'flex-end', justifyContent: 'space-evenly', gap: 10,
-          borderLeft: '1px solid rgba(255,255,255,0.25)', borderBottom: '1px solid rgba(255,255,255,0.25)',
-          backgroundImage: 'repeating-linear-gradient(0deg, rgba(255,255,255,0.12) 0, rgba(255,255,255,0.12) 1px, transparent 1px, transparent 50%)',
+          borderLeft: '1px solid rgba(32, 120, 207,0.25)', borderBottom: '1px solid rgba(32, 120, 207,0.25)',
+          backgroundImage: 'repeating-linear-gradient(0deg, rgba(32, 120, 207,0.12) 0, rgba(32, 120, 207,0.12) 1px, transparent 1px, transparent 50%)',
         }}>
           {params.map((p, i) => {
             const fail = p.total - p.ok;
@@ -460,7 +460,7 @@ const DeviceCard: React.FC<{ d: DeviceRow; onSelect: (type: string, issue?: stri
       style={{
         flex: `${slotCount} 1 0%`,
         borderRadius: 10, padding: '4px 10px 7px', overflow: 'hidden', minWidth: 0, minHeight: 0,
-        background: 'var(--app-surface)', border: '1px solid rgba(255,255,255,0.08)',
+        background: 'var(--app-surface)', border: '1px solid rgba(32, 120, 207,0.08)',
         display: 'flex', flexDirection: 'column', gap: 4,
       }}
     >

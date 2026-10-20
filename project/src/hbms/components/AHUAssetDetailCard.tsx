@@ -22,7 +22,7 @@ const AHUAssetDetailCard: React.FC<{ asset: AHUAsset; onClose: () => void }> = (
       className="fixed inset-y-0 right-0 z-[2200] flex flex-col animate-slide-in-right"
       style={{ width: 'min(340px, 92vw)', background: 'rgba(5,8,18,0.98)', borderLeft: `1px solid ${color}55`, boxShadow: '-20px 0 50px rgba(0,0,0,0.5)' }}
     >
-      <div className="flex-shrink-0 px-5 pt-5 pb-3" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+      <div className="flex-shrink-0 px-4 pt-4 pb-2" style={{ borderBottom: '1px solid rgba(32, 120, 207,0.08)' }}>
         <div className="flex items-start justify-between gap-2">
           <div>
             <p className="text-sm font-extrabold text-text-primary">{asset.id}</p>
@@ -38,7 +38,7 @@ const AHUAssetDetailCard: React.FC<{ asset: AHUAsset; onClose: () => void }> = (
           </button>
         </div>
       </div>
-      <div className="flex-1 overflow-y-auto px-5 py-4" style={{ scrollbarWidth: 'thin' }}>
+      <div className="flex-1 overflow-y-auto px-4 py-3" style={{ scrollbarWidth: 'thin' }}>
         <AHUParamsPanel asset={asset} scale={1.15} onToggleRunStop={toggleRunStop} onToggleManual={toggleManual} />
       </div>
     </div>,

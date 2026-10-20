@@ -57,7 +57,7 @@ const TrendArrow: React.FC<{ trend: 'up' | 'down' | 'stable'; value?: number }> 
   } else if (trend === 'down') {
     return <TrendingDown className="w-4 h-4 text-red-400 inline ml-1" />;
   }
-  return <Minus className="w-4 h-4 text-gray-400 inline ml-1" />;
+  return <Minus className="w-4 h-4 text-text-muted inline ml-1" />;
 };
 
 // Enhanced InfoButton with Portal
@@ -79,21 +79,21 @@ const InfoButtonWithPortal: React.FC<{ description: string }> = ({ description }
       <button
         onMouseEnter={handleMouseEnter}
         onMouseLeave={() => setShowTooltip(false)}
-        className="text-gray-400 hover:text-white transition-colors p-1"
+        className="text-text-muted hover:text-text-primary transition-colors p-1"
       >
         <Info className="w-4 h-4" />
       </button>
-      
+
       {showTooltip && createPortal(
         <div
-          className="fixed z-[99999] bg-gray-800 text-white text-sm px-3 py-2 rounded-lg shadow-2xl pointer-events-none transform -translate-x-1/2 -translate-y-full max-w-xs"
+          className="fixed z-[99999] glass-panel-strong text-text-primary text-sm px-3 py-2 rounded-lg shadow-2xl pointer-events-none transform -translate-x-1/2 -translate-y-full max-w-xs"
           style={{
             left: position.x,
             top: position.y,
           }}
         >
           {description}
-          <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-800"></div>
+          <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-primary-800"></div>
         </div>,
         document.body
       )}
@@ -457,7 +457,7 @@ const PassengerJourney: React.FC = () => {
       case 'optimal': return 'text-green-400';
       case 'congested': return 'text-yellow-400';
       case 'critical': return 'text-red-400';
-      default: return 'text-gray-400';
+      default: return 'text-text-muted';
     }
   };
 
@@ -476,27 +476,27 @@ const PassengerJourney: React.FC = () => {
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="bg-primary-800 rounded-xl p-6 max-w-6xl w-full max-h-[90vh] overflow-hidden border border-primary-600 shadow-2xl"
+            className="modal-surface rounded-xl p-5 max-w-6xl w-full max-h-[90vh] overflow-hidden shadow-2xl"
             onClick={(e) => e.stopPropagation()}
             style={{
               boxShadow: `
                 0 25px 50px -12px rgba(0, 0, 0, 0.6),
-                0 0 0 1px rgba(255, 255, 255, 0.05),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1)
+                0 0 0 1px rgba(96, 165, 250, 0.08),
+                inset 0 1px 0 rgba(147, 197, 253, 0.12)
               `
             }}
           >
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between mb-4">
               <h2 className="text-2xl font-bold text-white drop-shadow-lg">{selectedCheckpoint.name}</h2>
               <button
                 onClick={() => setShowModal(false)}
-                className="text-gray-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/10"
+                className="text-text-muted hover:text-text-primary transition-colors p-2 rounded-lg hover:bg-accent-blue/10"
               >
                 <X className="w-6 h-6" />
               </button>
             </div>
 
-            <div className="flex space-x-1 mb-6 bg-primary-700/30 p-1 rounded-lg backdrop-blur-sm">
+            <div className="flex space-x-1 mb-4 bg-primary-700/30 p-1 rounded-lg backdrop-blur-sm">
               {['overview', 'trends', 'insights', 'actions', 'evidence'].map((tab) => (
                 <button
                   key={tab}
@@ -504,12 +504,12 @@ const PassengerJourney: React.FC = () => {
                   className={`flex-1 py-3 px-4 text-sm font-medium rounded-lg transition-all duration-300 relative overflow-hidden ${
                     activeTab === tab
                       ? 'bg-accent-blue text-white shadow-2xl'
-                      : 'text-gray-400 hover:text-white hover:bg-primary-600/50'
+                      : 'text-text-muted hover:text-text-primary hover:bg-primary-600/50'
                   }`}
                   style={activeTab === tab ? {
                     boxShadow: `
                       0 4px 20px rgba(59, 130, 246, 0.4),
-                      inset 0 1px 0 rgba(255, 255, 255, 0.2)
+                      inset 0 1px 0 rgba(191, 219, 254, 0.22)
                     `
                   } : {}}
                 >
@@ -524,8 +524,8 @@ const PassengerJourney: React.FC = () => {
               {activeTab === 'overview' && (
                 <div className="space-y-6">
                   <div className="grid grid-cols-3 gap-4">
-                    <div className="bg-primary-700/40 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
-                      <h4 className="text-sm font-semibold text-gray-400 mb-2">Status</h4>
+                    <div className="bg-primary-700/40 p-3 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                      <h4 className="text-sm font-semibold text-text-muted mb-2">Status</h4>
                       <div className="flex items-center space-x-2">
                         <div className={`w-3 h-3 rounded-full ${getStatusTextColor(selectedCheckpoint.status).replace('text-', 'bg-')} animate-pulse`}></div>
                         <span className={`font-medium ${getStatusTextColor(selectedCheckpoint.status)}`}>
@@ -533,15 +533,15 @@ const PassengerJourney: React.FC = () => {
                         </span>
                       </div>
                     </div>
-                    <div className="bg-primary-700/40 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
-                      <h4 className="text-sm font-semibold text-gray-400 mb-2">Queue Length</h4>
+                    <div className="bg-primary-700/40 p-3 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                      <h4 className="text-sm font-semibold text-text-muted mb-2">Queue Length</h4>
                       <span className="text-white font-medium flex items-center">
                         {selectedCheckpoint.currentQueue}
                         <TrendArrow trend={selectedCheckpoint.currentQueue > 30 ? 'up' : 'stable'} />
                       </span>
                     </div>
-                    <div className="bg-primary-700/40 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
-                      <h4 className="text-sm font-semibold text-gray-400 mb-2">SLA Compliance</h4>
+                    <div className="bg-primary-700/40 p-3 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                      <h4 className="text-sm font-semibold text-text-muted mb-2">SLA Compliance</h4>
                       <span className={`font-medium flex items-center ${getSlaColor(selectedCheckpoint.slaCompliance)}`}>
                         {selectedCheckpoint.slaCompliance}%
                         <TrendArrow trend={selectedCheckpoint.performance.trend} />
@@ -549,46 +549,46 @@ const PassengerJourney: React.FC = () => {
                     </div>
                   </div>
                   
-                  <div className="bg-primary-700/40 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
-                    <h4 className="text-sm font-semibold text-gray-400 mb-2">Description</h4>
-                    <p className="text-gray-300">{selectedCheckpoint.description}</p>
+                  <div className="bg-primary-700/40 p-3 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                    <h4 className="text-sm font-semibold text-text-muted mb-2">Description</h4>
+                    <p className="text-text-secondary">{selectedCheckpoint.description}</p>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-primary-700/40 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
-                      <h4 className="text-sm font-semibold text-gray-400 mb-3">Performance Metrics</h4>
+                    <div className="bg-primary-700/40 p-3 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                      <h4 className="text-sm font-semibold text-text-muted mb-3">Performance Metrics</h4>
                       <div className="space-y-3 text-sm">
                         <div className="flex justify-between items-center">
-                          <span className="text-gray-400">Throughput Rate:</span>
+                          <span className="text-text-muted">Throughput Rate:</span>
                           <span className="text-white font-medium">{selectedCheckpoint.throughputRate} pax/hr</span>
                         </div>
                         <div className="flex justify-between items-center">
-                          <span className="text-gray-400">Passengers Processed:</span>
+                          <span className="text-text-muted">Passengers Processed:</span>
                           <span className="text-white font-medium">{selectedCheckpoint.passengersProcessed.toLocaleString()}</span>
                         </div>
                         <div className="flex justify-between items-center">
-                          <span className="text-gray-400">Error Rate:</span>
+                          <span className="text-text-muted">Error Rate:</span>
                           <span className={selectedCheckpoint.errorRate > 3 ? 'text-red-400' : 'text-green-400'}>
                             {selectedCheckpoint.errorRate}%
                           </span>
                         </div>
                       </div>
                     </div>
-                    <div className="bg-primary-700/40 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
-                      <h4 className="text-sm font-semibold text-gray-400 mb-3">Staffing Information</h4>
+                    <div className="bg-primary-700/40 p-3 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                      <h4 className="text-sm font-semibold text-text-muted mb-3">Staffing Information</h4>
                       <div className="space-y-3 text-sm">
                         <div className="flex justify-between items-center">
-                          <span className="text-gray-400">Current Staff:</span>
+                          <span className="text-text-muted">Current Staff:</span>
                           <span className="text-white font-medium">{selectedCheckpoint.staffingLevel}</span>
                         </div>
                         <div className="flex justify-between items-center">
-                          <span className="text-gray-400">Recommended:</span>
+                          <span className="text-text-muted">Recommended:</span>
                           <span className={selectedCheckpoint.recommendedStaffing > selectedCheckpoint.staffingLevel ? 'text-yellow-400' : 'text-green-400'}>
                             {selectedCheckpoint.recommendedStaffing}
                           </span>
                         </div>
                         <div className="flex justify-between items-center">
-                          <span className="text-gray-400">Last Maintenance:</span>
+                          <span className="text-text-muted">Last Maintenance:</span>
                           <span className="text-white font-medium">{selectedCheckpoint.lastMaintenance}</span>
                         </div>
                       </div>
@@ -599,57 +599,57 @@ const PassengerJourney: React.FC = () => {
 
               {activeTab === 'trends' && (
                 <div className="space-y-6">
-                  <div className="grid grid-cols-2 gap-6">
-                    <div className="bg-primary-700/40 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-primary-700/40 p-3 rounded-lg backdrop-blur-sm border border-primary-600/30">
                       <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
                         <LineChart className="w-5 h-5 mr-2 text-teal-400" />
                         Performance Trends (7 Days)
                       </h4>
                       <div className="space-y-4">
                         <div className="flex justify-between items-center p-3 bg-primary-600/30 rounded-lg">
-                          <span className="text-gray-300">Queue Length</span>
+                          <span className="text-text-secondary">Queue Length</span>
                           <div className="flex items-center">
                             <span className="text-white font-medium mr-2">{selectedCheckpoint.currentQueue}</span>
                             <TrendArrow trend={selectedCheckpoint.currentQueue > 30 ? 'up' : selectedCheckpoint.currentQueue < 10 ? 'down' : 'stable'} />
-                            <span className="text-xs text-gray-400 ml-2">vs. avg 28</span>
+                            <span className="text-xs text-text-muted ml-2">vs. avg 28</span>
                           </div>
                         </div>
                         <div className="flex justify-between items-center p-3 bg-primary-600/30 rounded-lg">
-                          <span className="text-gray-300">Wait Time</span>
+                          <span className="text-text-secondary">Wait Time</span>
                           <div className="flex items-center">
                             <span className="text-white font-medium mr-2">{selectedCheckpoint.avgWaitTime}</span>
                             <TrendArrow trend={selectedCheckpoint.performance.trend} />
-                            <span className="text-xs text-gray-400 ml-2">-{Math.abs(selectedCheckpoint.performance.changePercent)}%</span>
+                            <span className="text-xs text-text-muted ml-2">-{Math.abs(selectedCheckpoint.performance.changePercent)}%</span>
                           </div>
                         </div>
                         <div className="flex justify-between items-center p-3 bg-primary-600/30 rounded-lg">
-                          <span className="text-gray-300">SLA Compliance</span>
+                          <span className="text-text-secondary">SLA Compliance</span>
                           <div className="flex items-center">
                             <span className={`font-medium mr-2 ${getSlaColor(selectedCheckpoint.slaCompliance)}`}>
                               {selectedCheckpoint.slaCompliance}%
                             </span>
                             <TrendArrow trend={selectedCheckpoint.slaCompliance > 90 ? 'up' : selectedCheckpoint.slaCompliance < 80 ? 'down' : 'stable'} />
-                            <span className="text-xs text-gray-400 ml-2">vs. target 95%</span>
+                            <span className="text-xs text-text-muted ml-2">vs. target 95%</span>
                           </div>
                         </div>
                       </div>
                     </div>
                     
-                    <div className="bg-primary-700/40 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                    <div className="bg-primary-700/40 p-3 rounded-lg backdrop-blur-sm border border-primary-600/30">
                       <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
                         <BarChart3 className="w-5 h-5 mr-2 text-accent-blue" />
                         Operational Metrics
                       </h4>
                       <div className="space-y-4">
                         <div className="flex justify-between items-center p-3 bg-primary-600/30 rounded-lg">
-                          <span className="text-gray-300">Throughput</span>
+                          <span className="text-text-secondary">Throughput</span>
                           <div className="flex items-center">
                             <span className="text-white font-medium mr-2">{selectedCheckpoint.throughputRate}/hr</span>
                             <TrendArrow trend={selectedCheckpoint.throughputRate > 300 ? 'up' : selectedCheckpoint.throughputRate < 150 ? 'down' : 'stable'} />
                           </div>
                         </div>
                         <div className="flex justify-between items-center p-3 bg-primary-600/30 rounded-lg">
-                          <span className="text-gray-300">Error Rate</span>
+                          <span className="text-text-secondary">Error Rate</span>
                           <div className="flex items-center">
                             <span className={`font-medium mr-2 ${selectedCheckpoint.errorRate > 3 ? 'text-red-400' : 'text-green-400'}`}>
                               {selectedCheckpoint.errorRate}%
@@ -658,7 +658,7 @@ const PassengerJourney: React.FC = () => {
                           </div>
                         </div>
                         <div className="flex justify-between items-center p-3 bg-primary-600/30 rounded-lg">
-                          <span className="text-gray-300">Efficiency</span>
+                          <span className="text-text-secondary">Efficiency</span>
                           <div className="flex items-center">
                             <span className="text-white font-medium mr-2">{100 - selectedCheckpoint.errorRate * 10}%</span>
                             <TrendArrow trend={selectedCheckpoint.errorRate < 2 ? 'up' : selectedCheckpoint.errorRate > 4 ? 'down' : 'stable'} />
@@ -672,7 +672,7 @@ const PassengerJourney: React.FC = () => {
 
               {activeTab === 'insights' && (
                 <div className="space-y-6">
-                  <div className="bg-accent-blue/10 p-6 rounded-lg backdrop-blur-sm border border-accent-blue/30">
+                  <div className="bg-accent-blue/10 p-5 rounded-lg backdrop-blur-sm border border-accent-blue/30">
                     <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
                       <Brain className="w-5 h-5 mr-2 text-accent-blue" />
                       AI-Powered Insights
@@ -681,7 +681,7 @@ const PassengerJourney: React.FC = () => {
                     <div className="space-y-4">
                       <div className="bg-accent-blue/10 p-4 rounded-lg">
                         <h5 className="text-accent-blue font-medium mb-2">Predictive Analysis</h5>
-                        <p className="text-gray-300 text-sm mb-3">
+                        <p className="text-text-secondary text-sm mb-3">
                           {selectedCheckpoint.status === 'critical' 
                             ? `Critical bottleneck detected. Queue length expected to increase by 45% in next 2 hours without intervention. Immediate staffing increase recommended.`
                             : selectedCheckpoint.status === 'congested'
@@ -697,7 +697,7 @@ const PassengerJourney: React.FC = () => {
 
                       <div className="bg-blue-800/30 p-4 rounded-lg">
                         <h5 className="text-blue-300 font-medium mb-2">Optimization Opportunities</h5>
-                        <ul className="text-gray-300 text-sm space-y-2">
+                        <ul className="text-text-secondary text-sm space-y-2">
                           <li className="flex items-start">
                             <CheckCircle className="w-3 h-3 text-blue-400 mt-1 mr-2 flex-shrink-0" />
                             {selectedCheckpoint.recommendedStaffing > selectedCheckpoint.staffingLevel 
@@ -724,11 +724,11 @@ const PassengerJourney: React.FC = () => {
                         <div className="grid grid-cols-2 gap-4 mt-3">
                           <div className="text-center">
                             <div className="text-2xl font-bold text-green-400">{selectedCheckpoint.slaCompliance}%</div>
-                            <div className="text-xs text-gray-400">SLA Compliance</div>
+                            <div className="text-xs text-text-muted">SLA Compliance</div>
                           </div>
                           <div className="text-center">
                             <div className="text-2xl font-bold text-green-400">{selectedCheckpoint.throughputRate}</div>
-                            <div className="text-xs text-gray-400">Hourly Throughput</div>
+                            <div className="text-xs text-text-muted">Hourly Throughput</div>
                           </div>
                         </div>
                       </div>
@@ -739,7 +739,7 @@ const PassengerJourney: React.FC = () => {
 
               {activeTab === 'actions' && (
                 <div className="space-y-6">
-                  <div className="bg-primary-700/40 p-6 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                  <div className="bg-primary-700/40 p-5 rounded-lg backdrop-blur-sm border border-primary-600/30">
                     <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
                       <Zap className="w-5 h-5 mr-2 text-yellow-400" />
                       Available Actions
@@ -755,7 +755,7 @@ const PassengerJourney: React.FC = () => {
                             <span className="text-xs text-green-400 bg-green-400/20 px-2 py-1 rounded-full">Safe</span>
                           </div>
                         </div>
-                        <p className="text-sm text-gray-400 mb-4">
+                        <p className="text-sm text-text-muted mb-4">
                           {selectedCheckpoint.status === 'critical' 
                             ? `Deploy emergency staffing and activate backup processing lanes. Expected 40% improvement in queue processing.`
                             : `Apply AI-recommended optimization for ${selectedCheckpoint.name}. Expected ${selectedCheckpoint.status === 'congested' ? '25%' : '8%'} performance improvement.`
@@ -775,7 +775,7 @@ const PassengerJourney: React.FC = () => {
                             style={!executedSOPs[selectedCheckpoint.id] ? {
                               boxShadow: `
                                 0 4px 20px rgba(59, 130, 246, 0.3),
-                                inset 0 1px 0 rgba(255, 255, 255, 0.2)
+                                inset 0 1px 0 rgba(191, 219, 254, 0.22)
                               `
                             } : {}}
                           >
@@ -791,7 +791,7 @@ const PassengerJourney: React.FC = () => {
 
               {activeTab === 'evidence' && (
                 <div className="space-y-6">
-                  <div className="bg-primary-700/40 p-6 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                  <div className="bg-primary-700/40 p-5 rounded-lg backdrop-blur-sm border border-primary-600/30">
                     <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
                       <FileText className="w-5 h-5 mr-2 text-accent-blue" />
                       System Evidence & Logs
@@ -805,21 +805,21 @@ const PassengerJourney: React.FC = () => {
                         </h5>
                         <div className="space-y-2 text-sm">
                           <div className="flex justify-between items-center p-2 bg-primary-600/30 rounded">
-                            <span className="text-gray-300">Queue Sensors</span>
+                            <span className="text-text-secondary">Queue Sensors</span>
                             <span className="text-green-400 flex items-center">
                               <div className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></div>
                               Active
                             </span>
                           </div>
                           <div className="flex justify-between items-center p-2 bg-primary-600/30 rounded">
-                            <span className="text-gray-300">Processing Timers</span>
+                            <span className="text-text-secondary">Processing Timers</span>
                             <span className="text-green-400 flex items-center">
                               <div className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></div>
                               Active
                             </span>
                           </div>
                           <div className="flex justify-between items-center p-2 bg-primary-600/30 rounded">
-                            <span className="text-gray-300">Staff Terminals</span>
+                            <span className="text-text-secondary">Staff Terminals</span>
                             <span className="text-green-400 flex items-center">
                               <div className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></div>
                               Connected
@@ -834,16 +834,16 @@ const PassengerJourney: React.FC = () => {
                           Recent Activity Log
                         </h5>
                         <div className="space-y-2 text-sm max-h-32 overflow-y-auto">
-                          <div className="flex items-center text-gray-300 p-2 bg-primary-600/20 rounded">
-                            <span className="text-xs text-gray-500 mr-3">{new Date().toLocaleTimeString()}</span>
+                          <div className="flex items-center text-text-secondary p-2 bg-primary-600/20 rounded">
+                            <span className="text-xs text-text-muted mr-3">{new Date().toLocaleTimeString()}</span>
                             <span>Passenger processed successfully - ID: PAX{Math.floor(Math.random() * 10000)}</span>
                           </div>
-                          <div className="flex items-center text-gray-300 p-2 bg-primary-600/20 rounded">
-                            <span className="text-xs text-gray-500 mr-3">{new Date(Date.now() - 60000).toLocaleTimeString()}</span>
+                          <div className="flex items-center text-text-secondary p-2 bg-primary-600/20 rounded">
+                            <span className="text-xs text-text-muted mr-3">{new Date(Date.now() - 60000).toLocaleTimeString()}</span>
                             <span>Queue length updated: {selectedCheckpoint.currentQueue} passengers</span>
                           </div>
-                          <div className="flex items-center text-gray-300 p-2 bg-primary-600/20 rounded">
-                            <span className="text-xs text-gray-500 mr-3">{new Date(Date.now() - 120000).toLocaleTimeString()}</span>
+                          <div className="flex items-center text-text-secondary p-2 bg-primary-600/20 rounded">
+                            <span className="text-xs text-text-muted mr-3">{new Date(Date.now() - 120000).toLocaleTimeString()}</span>
                             <span>SLA compliance check: {selectedCheckpoint.slaCompliance}%</span>
                           </div>
                         </div>
@@ -856,12 +856,12 @@ const PassengerJourney: React.FC = () => {
                         </h5>
                         <div className="grid grid-cols-2 gap-3">
                           <div className="bg-primary-600/30 p-3 rounded text-center">
-                            <Monitor className="w-8 h-8 text-green-400 mx-auto mb-2" />
+                            <Monitor className="w-6 h-6 text-green-400 mx-auto mb-2" />
                             <div className="text-sm text-white font-medium">Video Feed</div>
                             <div className="text-xs text-green-400">Live</div>
                           </div>
                           <div className="bg-primary-600/30 p-3 rounded text-center">
-                            <Wifi className="w-8 h-8 text-green-400 mx-auto mb-2" />
+                            <Wifi className="w-6 h-6 text-green-400 mx-auto mb-2" />
                             <div className="text-sm text-white font-medium">Network</div>
                             <div className="text-xs text-green-400">Connected</div>
                           </div>
@@ -893,27 +893,27 @@ const PassengerJourney: React.FC = () => {
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="bg-primary-800 rounded-xl p-6 max-w-6xl w-full max-h-[90vh] overflow-hidden border border-primary-600 shadow-2xl"
+            className="modal-surface rounded-xl p-5 max-w-6xl w-full max-h-[90vh] overflow-hidden shadow-2xl"
             onClick={(e) => e.stopPropagation()}
             style={{
               boxShadow: `
                 0 25px 50px -12px rgba(0, 0, 0, 0.6),
-                0 0 0 1px rgba(255, 255, 255, 0.05),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1)
+                0 0 0 1px rgba(96, 165, 250, 0.08),
+                inset 0 1px 0 rgba(147, 197, 253, 0.12)
               `
             }}
           >
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between mb-4">
               <h2 className="text-2xl font-bold text-white drop-shadow-lg">AI Passenger Flow Advisory</h2>
               <button
                 onClick={() => setShowAIAdvisoryModal(false)}
-                className="text-gray-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/10"
+                className="text-text-muted hover:text-text-primary transition-colors p-2 rounded-lg hover:bg-accent-blue/10"
               >
                 <X className="w-6 h-6" />
               </button>
             </div>
 
-            <div className="flex space-x-1 mb-6 bg-primary-700/30 p-1 rounded-lg backdrop-blur-sm">
+            <div className="flex space-x-1 mb-4 bg-primary-700/30 p-1 rounded-lg backdrop-blur-sm">
               {['overview', 'analytics', 'predictions', 'actions', 'execution'].map((tab) => (
                 <button
                   key={tab}
@@ -921,12 +921,12 @@ const PassengerJourney: React.FC = () => {
                   className={`flex-1 py-3 px-4 text-sm font-medium rounded-lg transition-all duration-300 relative overflow-hidden ${
                     activeTab === tab
                       ? 'bg-accent-blue text-white shadow-2xl'
-                      : 'text-gray-400 hover:text-white hover:bg-primary-600/50'
+                      : 'text-text-muted hover:text-text-primary hover:bg-primary-600/50'
                   }`}
                   style={activeTab === tab ? {
                     boxShadow: `
                       0 4px 20px rgba(59, 130, 246, 0.4),
-                      inset 0 1px 0 rgba(255, 255, 255, 0.2)
+                      inset 0 1px 0 rgba(191, 219, 254, 0.22)
                     `
                   } : {}}
                 >
@@ -946,41 +946,41 @@ const PassengerJourney: React.FC = () => {
                         {aiAdvisoryData.flowEfficiency}%
                         <TrendArrow trend={aiAdvisoryData.flowEfficiencyTrend} />
                       </div>
-                      <div className="text-xs text-gray-400 text-center">Flow Efficiency</div>
+                      <div className="text-xs text-text-muted text-center">Flow Efficiency</div>
                     </div>
                     <div className="bg-blue-500/10 p-4 rounded-lg border border-blue-500/30 backdrop-blur-sm">
                       <div className="text-xl font-bold text-blue-400 flex items-center justify-center">
                         {aiAdvisoryData.avgJourneyTime}
                         <TrendArrow trend={aiAdvisoryData.journeyTimeTrend} />
                       </div>
-                      <div className="text-xs text-gray-400 text-center">Journey Time</div>
+                      <div className="text-xs text-text-muted text-center">Journey Time</div>
                     </div>
                     <div className="bg-accent-blue/10 p-4 rounded-lg border border-accent-blue/30 backdrop-blur-sm">
                       <div className="text-xl font-bold text-accent-blue flex items-center justify-center">
                         {aiAdvisoryData.slaCompliance}
                         <TrendArrow trend={aiAdvisoryData.slaComplianceTrend} />
                       </div>
-                      <div className="text-xs text-gray-400 text-center">SLA Compliance</div>
+                      <div className="text-xs text-text-muted text-center">SLA Compliance</div>
                     </div>
                     <div className="bg-teal-500/10 p-4 rounded-lg border border-teal-500/30 backdrop-blur-sm">
                       <div className="text-xl font-bold text-teal-400 flex items-center justify-center">
                         {aiAdvisoryData.activePassengers}
                         <TrendArrow trend={aiAdvisoryData.passengersTrend} />
                       </div>
-                      <div className="text-xs text-gray-400 text-center">Active Passengers</div>
+                      <div className="text-xs text-text-muted text-center">Active Passengers</div>
                     </div>
                     <div className="bg-yellow-500/10 p-4 rounded-lg border border-yellow-500/30 backdrop-blur-sm">
                       <div className="text-xl font-bold text-yellow-400 flex items-center justify-center">
                         {aiAdvisoryData.bottleneckAlerts}
                         <TrendArrow trend={aiAdvisoryData.bottleneckTrend} />
                       </div>
-                      <div className="text-xs text-gray-400 text-center">Bottlenecks</div>
+                      <div className="text-xs text-text-muted text-center">Bottlenecks</div>
                     </div>
                   </div>
 
-                  <div className="bg-primary-700/40 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
-                    <h4 className="text-sm font-semibold text-gray-400 mb-2">AI Analysis Summary</h4>
-                    <p className="text-gray-300">
+                  <div className="bg-primary-700/40 p-3 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                    <h4 className="text-sm font-semibold text-text-muted mb-2">AI Analysis Summary</h4>
+                    <p className="text-text-secondary">
                       AI analysis indicates significant bottlenecks at Security Screening and Baggage Drop checkpoints. 
                       Passenger flow efficiency can be improved by 23% through strategic staff reallocation and 
                       activation of express processing lanes. Current SLA compliance is below target across 3 checkpoints.
@@ -991,33 +991,33 @@ const PassengerJourney: React.FC = () => {
 
               {activeTab === 'analytics' && (
                 <div className="space-y-6">
-                  <div className="grid grid-cols-2 gap-6">
-                    <div className="bg-primary-700/40 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-primary-700/40 p-3 rounded-lg backdrop-blur-sm border border-primary-600/30">
                       <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
                         <PieChart className="w-5 h-5 mr-2 text-accent-blue" />
                         Passenger Distribution
                       </h4>
                       <div className="space-y-3">
                         <div className="flex justify-between items-center p-3 bg-primary-600/30 rounded-lg">
-                          <span className="text-gray-300">Terminal Entry</span>
+                          <span className="text-text-secondary">Terminal Entry</span>
                           <span className="text-white font-medium">15 passengers</span>
                         </div>
                         <div className="flex justify-between items-center p-3 bg-primary-600/30 rounded-lg">
-                          <span className="text-gray-300">Security Queue</span>
+                          <span className="text-text-secondary">Security Queue</span>
                           <span className="text-red-400 font-medium">67 passengers</span>
                         </div>
                         <div className="flex justify-between items-center p-3 bg-primary-600/30 rounded-lg">
-                          <span className="text-gray-300">Boarding Gates</span>
+                          <span className="text-text-secondary">Boarding Gates</span>
                           <span className="text-yellow-400 font-medium">89 passengers</span>
                         </div>
                         <div className="flex justify-between items-center p-3 bg-primary-600/30 rounded-lg">
-                          <span className="text-gray-300">Airside Retail</span>
+                          <span className="text-text-secondary">Airside Retail</span>
                           <span className="text-green-400 font-medium">34 passengers</span>
                         </div>
                       </div>
                     </div>
                     
-                    <div className="bg-primary-700/40 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                    <div className="bg-primary-700/40 p-3 rounded-lg backdrop-blur-sm border border-primary-600/30">
                       <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
                         <LineChart className="w-5 h-5 mr-2 text-teal-400" />
                         Flow Patterns
@@ -1025,28 +1025,28 @@ const PassengerJourney: React.FC = () => {
                       <div className="space-y-3">
                         <div className="p-3 bg-primary-600/30 rounded-lg">
                           <div className="flex justify-between items-center mb-2">
-                            <span className="text-gray-300">Peak Hour Flow</span>
+                            <span className="text-text-secondary">Peak Hour Flow</span>
                             <span className="text-teal-400">8:00-11:00 AM</span>
                           </div>
-                          <div className="w-full bg-gray-700 rounded-full h-2">
+                          <div className="w-full bg-primary-700 rounded-full h-2">
                             <div className="bg-teal-400 h-2 rounded-full" style={{ width: '85%' }}></div>
                           </div>
                         </div>
                         <div className="p-3 bg-primary-600/30 rounded-lg">
                           <div className="flex justify-between items-center mb-2">
-                            <span className="text-gray-300">Evening Rush</span>
+                            <span className="text-text-secondary">Evening Rush</span>
                             <span className="text-yellow-400">5:00-8:00 PM</span>
                           </div>
-                          <div className="w-full bg-gray-700 rounded-full h-2">
+                          <div className="w-full bg-primary-700 rounded-full h-2">
                             <div className="bg-yellow-400 h-2 rounded-full" style={{ width: '72%' }}></div>
                           </div>
                         </div>
                         <div className="p-3 bg-primary-600/30 rounded-lg">
                           <div className="flex justify-between items-center mb-2">
-                            <span className="text-gray-300">Off-Peak</span>
+                            <span className="text-text-secondary">Off-Peak</span>
                             <span className="text-green-400">12:00-4:00 PM</span>
                           </div>
-                          <div className="w-full bg-gray-700 rounded-full h-2">
+                          <div className="w-full bg-primary-700 rounded-full h-2">
                             <div className="bg-green-400 h-2 rounded-full" style={{ width: '45%' }}></div>
                           </div>
                         </div>
@@ -1058,7 +1058,7 @@ const PassengerJourney: React.FC = () => {
 
               {activeTab === 'predictions' && (
                 <div className="space-y-6">
-                  <div className="bg-accent-blue/10 p-6 rounded-lg backdrop-blur-sm border border-accent-blue/30">
+                  <div className="bg-accent-blue/10 p-5 rounded-lg backdrop-blur-sm border border-accent-blue/30">
                     <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
                       <Brain className="w-5 h-5 mr-2 text-accent-blue" />
                       Predictive Analytics
@@ -1070,18 +1070,18 @@ const PassengerJourney: React.FC = () => {
                         <div className="grid grid-cols-2 gap-4">
                           <div className="text-center p-3 bg-primary-600/30 rounded-lg">
                             <div className="text-2xl font-bold text-yellow-400">+32%</div>
-                            <div className="text-xs text-gray-400">Queue Growth</div>
+                            <div className="text-xs text-text-muted">Queue Growth</div>
                           </div>
                           <div className="text-center p-3 bg-primary-600/30 rounded-lg">
                             <div className="text-2xl font-bold text-red-400">-15%</div>
-                            <div className="text-xs text-gray-400">SLA Risk</div>
+                            <div className="text-xs text-text-muted">SLA Risk</div>
                           </div>
                         </div>
                       </div>
 
                       <div className="bg-blue-800/30 p-4 rounded-lg">
                         <h5 className="text-blue-300 font-medium mb-2">4-Hour Outlook</h5>
-                        <p className="text-gray-300 text-sm mb-3">
+                        <p className="text-text-secondary text-sm mb-3">
                           Expected passenger volume increase of 45% during evening rush (5-8 PM). 
                           Security checkpoint wait times may exceed 25 minutes without intervention.
                         </p>
@@ -1095,15 +1095,15 @@ const PassengerJourney: React.FC = () => {
                         <h5 className="text-green-300 font-medium mb-2">Optimization Potential</h5>
                         <div className="space-y-2">
                           <div className="flex justify-between items-center">
-                            <span className="text-gray-300 text-sm">Wait Time Reduction</span>
+                            <span className="text-text-secondary text-sm">Wait Time Reduction</span>
                             <span className="text-green-400 font-medium">up to 35%</span>
                           </div>
                           <div className="flex justify-between items-center">
-                            <span className="text-gray-300 text-sm">Throughput Increase</span>
+                            <span className="text-text-secondary text-sm">Throughput Increase</span>
                             <span className="text-green-400 font-medium">up to 28%</span>
                           </div>
                           <div className="flex justify-between items-center">
-                            <span className="text-gray-300 text-sm">SLA Improvement</span>
+                            <span className="text-text-secondary text-sm">SLA Improvement</span>
                             <span className="text-green-400 font-medium">up to 12%</span>
                           </div>
                         </div>
@@ -1115,7 +1115,7 @@ const PassengerJourney: React.FC = () => {
 
               {activeTab === 'actions' && (
                 <div className="space-y-6">
-                  <div className="bg-primary-700/40 p-6 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                  <div className="bg-primary-700/40 p-5 rounded-lg backdrop-blur-sm border border-primary-600/30">
                     <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
                       <Target className="w-5 h-5 mr-2 text-yellow-400" />
                       AI Recommendations
@@ -1131,7 +1131,7 @@ const PassengerJourney: React.FC = () => {
                               <span className="text-xs text-green-400 bg-green-400/20 px-2 py-1 rounded-full">AI Generated</span>
                             </div>
                           </div>
-                          <p className="text-sm text-gray-400 mb-3">
+                          <p className="text-sm text-text-muted mb-3">
                             {recommendation}
                           </p>
                           <div className="flex space-x-3">
@@ -1142,7 +1142,7 @@ const PassengerJourney: React.FC = () => {
                               style={{
                                 boxShadow: `
                                   0 4px 20px rgba(59, 130, 246, 0.3),
-                                  inset 0 1px 0 rgba(255, 255, 255, 0.2)
+                                  inset 0 1px 0 rgba(191, 219, 254, 0.22)
                                 `
                               }}
                             >
@@ -1165,7 +1165,7 @@ const PassengerJourney: React.FC = () => {
 
               {activeTab === 'execution' && (
                 <div className="space-y-6">
-                  <div className="bg-primary-700/40 p-6 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                  <div className="bg-primary-700/40 p-5 rounded-lg backdrop-blur-sm border border-primary-600/30">
                     <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
                       <Zap className="w-5 h-5 mr-2 text-yellow-400" />
                       Execute AI Optimization
@@ -1180,7 +1180,7 @@ const PassengerJourney: React.FC = () => {
                             <span className="text-xs text-green-400 bg-green-400/20 px-2 py-1 rounded-full">Safe</span>
                           </div>
                         </div>
-                        <p className="text-sm text-gray-400 mb-4">
+                        <p className="text-sm text-text-muted mb-4">
                           Apply comprehensive AI optimization across all passenger journey checkpoints. 
                           Expected improvements: 13% journey time reduction, 6% SLA compliance increase, 
                           35% reduction in bottleneck alerts.
@@ -1199,7 +1199,7 @@ const PassengerJourney: React.FC = () => {
                             style={!aiOptimizationExecuted ? {
                               boxShadow: `
                                 0 4px 20px rgba(20, 184, 166, 0.3),
-                                inset 0 1px 0 rgba(255, 255, 255, 0.2)
+                                inset 0 1px 0 rgba(191, 219, 254, 0.22)
                               `
                             } : {}}
                           >
@@ -1216,7 +1216,7 @@ const PassengerJourney: React.FC = () => {
                             style={{
                               boxShadow: `
                                 0 4px 20px rgba(147, 51, 234, 0.3),
-                                inset 0 1px 0 rgba(255, 255, 255, 0.2)
+                                inset 0 1px 0 rgba(191, 219, 254, 0.22)
                               `
                             }}
                           >
@@ -1241,15 +1241,15 @@ const PassengerJourney: React.FC = () => {
                           <div className="mt-4 grid grid-cols-3 gap-4">
                             <div className="text-center p-3 bg-green-600/20 rounded-lg">
                               <div className="text-lg font-bold text-green-400">-13%</div>
-                              <div className="text-xs text-gray-400">Journey Time</div>
+                              <div className="text-xs text-text-muted">Journey Time</div>
                             </div>
                             <div className="text-center p-3 bg-green-600/20 rounded-lg">
                               <div className="text-lg font-bold text-green-400">+6%</div>
-                              <div className="text-xs text-gray-400">SLA Compliance</div>
+                              <div className="text-xs text-text-muted">SLA Compliance</div>
                             </div>
                             <div className="text-center p-3 bg-green-600/20 rounded-lg">
                               <div className="text-lg font-bold text-green-400">-67%</div>
-                              <div className="text-xs text-gray-400">Bottlenecks</div>
+                              <div className="text-xs text-text-muted">Bottlenecks</div>
                             </div>
                           </div>
                         </div>
@@ -1276,7 +1276,7 @@ const PassengerJourney: React.FC = () => {
         <div className="absolute inset-0 bg-primary-900"></div>
       </div>
 
-      <div className="relative z-10 space-y-6 p-6">
+      <div className="relative z-10 space-y-4 p-4">
         {/* Enhanced AI Advisory Panel - Clickable */}
         <motion.div 
           initial={{ y: -20, opacity: 0 }}
@@ -1368,7 +1368,7 @@ const PassengerJourney: React.FC = () => {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="relative overflow-hidden bg-primary-800/50 rounded-xl p-6 border border-teal-500/30 backdrop-blur-sm shadow-2xl"
+          className="relative overflow-hidden bg-primary-800/50 rounded-xl p-5 border border-teal-500/30 backdrop-blur-sm shadow-2xl"
         >
           <div className="relative z-10">
             <div className="flex items-center justify-between mb-4">
@@ -1395,18 +1395,18 @@ const PassengerJourney: React.FC = () => {
               <div className="flex space-x-4">
                 <span className="flex items-center space-x-1">
                   <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                  <span className="text-gray-300">Low Density</span>
+                  <span className="text-text-secondary">Low Density</span>
                 </span>
                 <span className="flex items-center space-x-1">
                   <span className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></span>
-                  <span className="text-gray-300">Medium Density</span>
+                  <span className="text-text-secondary">Medium Density</span>
                 </span>
                 <span className="flex items-center space-x-1">
                   <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
-                  <span className="text-gray-300">High Density</span>
+                  <span className="text-text-secondary">High Density</span>
                 </span>
               </div>
-              <div className="text-gray-400">Last Updated: {new Date().toLocaleTimeString()}</div>
+              <div className="text-text-muted">Last Updated: {new Date().toLocaleTimeString()}</div>
             </div>
           </div>
         </motion.div>
@@ -1436,7 +1436,7 @@ const PassengerJourney: React.FC = () => {
                   style={{
                     boxShadow: `
                       0 8px 32px rgba(0, 0, 0, 0.3),
-                      inset 0 1px 0 rgba(255, 255, 255, 0.1)
+                      inset 0 1px 0 rgba(147, 197, 253, 0.15)
                     `
                   }}
                 >
@@ -1457,24 +1457,24 @@ const PassengerJourney: React.FC = () => {
                     
                     <div className="space-y-2 text-xs">
                       <div className="flex justify-between">
-                        <span className="text-gray-400">Queue:</span>
+                        <span className="text-text-muted">Queue:</span>
                         <span className="text-white font-semibold drop-shadow-sm">
                           {checkpoint.currentQueue}
                         </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-400">Wait Time:</span>
+                        <span className="text-text-muted">Wait Time:</span>
                         <span className="text-white font-semibold drop-shadow-sm">{checkpoint.avgWaitTime}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-400">SLA:</span>
+                        <span className="text-text-muted">SLA:</span>
                         <span className={`font-semibold drop-shadow-sm flex items-center ${getSlaColor(checkpoint.slaCompliance)}`}>
                           {checkpoint.slaCompliance}%
                           <TrendArrow trend={checkpoint.performance.trend} />
                         </span>
                       </div>
                       
-                      <div className="w-full bg-gray-700/50 rounded-full h-2 shadow-inner overflow-hidden">
+                      <div className="w-full bg-primary-700/50 rounded-full h-2 shadow-inner overflow-hidden">
                         <div 
                           className={`h-2 rounded-full transition-all duration-500 shadow-sm relative ${
                             checkpoint.slaCompliance >= 95 ? 'bg-status-success' :

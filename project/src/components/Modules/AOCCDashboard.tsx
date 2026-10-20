@@ -302,7 +302,7 @@ const KPIGrid: React.FC<{
           transition={{ delay: index * 0.05 }}
           whileHover={{ y: -2 }}
           onClick={() => onSelect(stat)}
-          className={`relative flex flex-col justify-between p-4 rounded-xl cursor-pointer transition-colors duration-200 group glass-pill ${
+          className={`relative flex flex-col justify-between p-3 rounded-xl cursor-pointer transition-colors duration-200 group glass-pill ${
             index % 4 === 0 ? 'glass-pill-blue' :
             index % 4 === 1 ? 'glass-pill-teal' :
             index % 4 === 2 ? 'glass-pill-violet' :
@@ -380,12 +380,12 @@ const SystemHealthPanel: React.FC<{
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="relative overflow-hidden glass-panel rounded-xl p-5"
+      className="relative overflow-hidden glass-panel rounded-xl p-4"
     >
       <div className="relative z-10">
-        <div className="flex items-center space-x-3 mb-5">
-          <div className="p-2 bg-primary-700 rounded-lg">
-            <Activity className="w-5 h-5 text-accent-teal" />
+        <div className="flex items-center space-x-2.5 mb-4">
+          <div className="p-1.5 bg-primary-700 rounded-lg">
+            <Activity className="w-4 h-4 text-accent-teal" />
           </div>
           <h3 className="text-base font-semibold text-white">System Health Monitor</h3>
           <InfoButtonWithPortal description="Real-time monitoring of all 8 critical airport systems with enhanced visual indicators" />
@@ -398,7 +398,7 @@ const SystemHealthPanel: React.FC<{
           )}
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5">
           {data.map((system, index) => {
             // The system furthest from healthy gets a wider tile — the one
             // thing on this board worth a second glance stands out by size,
@@ -412,7 +412,7 @@ const SystemHealthPanel: React.FC<{
               transition={{ delay: index * 0.05 }}
               whileHover={{ y: -2 }}
               onClick={() => onSystemClick(system)}
-              className={`relative p-4 rounded-xl cursor-pointer transition-colors duration-200 group glass-pill ${
+              className={`relative p-3 rounded-xl cursor-pointer transition-colors duration-200 group glass-pill ${
                 index % 4 === 0 ? 'glass-pill-blue' :
                 index % 4 === 1 ? 'glass-pill-teal' :
                 index % 4 === 2 ? 'glass-pill-violet' :
@@ -440,7 +440,7 @@ const SystemHealthPanel: React.FC<{
                     </span>
                   </div>
                   
-                  <div className="w-full bg-gray-700/60 rounded-full h-3 shadow-inner overflow-hidden border border-gray-600/50">
+                  <div className="w-full bg-primary-800/60 rounded-full h-2.5 shadow-inner overflow-hidden border border-accent-blue/10">
                     <div 
                       className={`h-3 rounded-full transition-all duration-1000 ${
                         system.uptime >= 95 ? 'bg-status-success' :
@@ -492,7 +492,7 @@ const FlightOperationsSection: React.FC<{ onSelect: (item: any) => void }> = ({ 
         case 'boarding': return 'bg-accent-gold/20 text-accent-gold border-accent-gold/50';
         case 'pre-boarding': return 'bg-accent-purple/20 text-accent-purple border-accent-purple/50';
         case 'delayed': return 'bg-status-error/20 text-status-error border-status-error/50';
-        default: return 'bg-gray-500/20 text-gray-400 border-gray-500/50';
+        default: return 'bg-primary-600/30 text-text-muted border-accent-blue/15';
       }
     };
 
@@ -506,7 +506,7 @@ const FlightOperationsSection: React.FC<{ onSelect: (item: any) => void }> = ({ 
   const FlightRow = ({ flight }: { flight: any }) => (
     <motion.tr
       whileHover={{ backgroundColor: 'rgba(20, 184, 166, 0.1)' }}
-      className="border-b border-gray-700/50 hover:bg-teal-500/5 transition-colors duration-200"
+      className="border-b border-accent-blue/10 hover:bg-teal-500/5 transition-colors duration-200"
     >
       <td className="px-4 py-4">
         <div className="flex flex-col">
@@ -569,8 +569,8 @@ const FlightOperationsSection: React.FC<{ onSelect: (item: any) => void }> = ({ 
             onClick={(e) => e.stopPropagation()}
           >
             <div className="h-full flex flex-col">
-              <div className="flex items-center justify-between p-6 border-b border-gray-700">
-                <h2 className="text-2xl font-bold text-white">Live Flight Operations - Full View</h2>
+              <div className="flex items-center justify-between p-4 border-b border-accent-blue/15">
+                <h2 className="text-xl font-bold text-white">Live Flight Operations - Full View</h2>
                 <button
                   onClick={() => setShowFullscreen(false)}
                   className="text-gray-400 hover:text-white transition-colors p-2 hover:bg-gray-700 rounded-lg"
@@ -579,12 +579,12 @@ const FlightOperationsSection: React.FC<{ onSelect: (item: any) => void }> = ({ 
                 </button>
               </div>
               
-              <div className="flex-1 overflow-auto p-6">
-                <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-8">
+              <div className="flex-1 overflow-auto p-4">
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-5">
                   {/* Flight Statistics */}
-                  <div className="glass-panel rounded-xl p-6">
-                    <h3 className="text-lg font-semibold text-white mb-4">Flight Statistics</h3>
-                    <div className="grid grid-cols-2 gap-4">
+                  <div className="glass-panel rounded-xl p-4">
+                    <h3 className="text-base font-semibold text-white mb-3">Flight Statistics</h3>
+                    <div className="grid grid-cols-2 gap-3">
                       <div className="glass-pill glass-pill-teal text-center py-4 rounded-xl">
                         <div className="text-2xl font-bold text-accent-teal">5</div>
                         <div className="text-sm text-gray-400">Total Flights</div>
@@ -605,8 +605,8 @@ const FlightOperationsSection: React.FC<{ onSelect: (item: any) => void }> = ({ 
                   </div>
 
                   {/* Airport Weather */}
-                  <div className="glass-panel rounded-xl p-6">
-                    <h3 className="text-lg font-semibold text-white mb-4">Weather Conditions</h3>
+                  <div className="glass-panel rounded-xl p-4">
+                    <h3 className="text-base font-semibold text-white mb-3">Weather Conditions</h3>
                     <div className="space-y-3">
                       <div className="flex justify-between">
                         <span className="text-gray-400">Temperature:</span>
@@ -722,12 +722,12 @@ const FlightOperationsSection: React.FC<{ onSelect: (item: any) => void }> = ({ 
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative overflow-hidden glass-panel rounded-xl p-6"
+        className="relative overflow-hidden glass-panel rounded-xl p-4"
       >
         <div className="relative z-10">
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between mb-3">
             <div className="flex items-center space-x-2">
-              <h3 className="text-xl font-bold text-white">Live Flight Operations</h3>
+              <h3 className="text-lg font-bold text-white">Live Flight Operations</h3>
               <InfoButtonWithPortal description="Real-time tracking of all flight movements, gate assignments, and operational status with AI-powered optimization recommendations" />
             </div>
             <motion.button
@@ -916,9 +916,9 @@ const AOCCDashboard: React.FC = () => {
         <div className="absolute inset-0 bg-primary-900"></div>
       </div>
 
-      <div className="relative z-10 space-y-6 h-full overflow-y-auto no-scrollbar p-6">
+      <div className="relative z-10 space-y-4 h-full overflow-y-auto no-scrollbar p-4">
         {/* Header */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between mb-4">
           <div>
             <h1 className="text-2xl font-bold text-white">
               U-APOC Dashboard
@@ -963,7 +963,7 @@ const AOCCDashboard: React.FC = () => {
             fill the remaining cells exactly — a 4x3 grid where one tile is
             big and the rest aren't, rather than two look-alike panels side
             by side. */}
-        <div className="grid grid-cols-4 [grid-auto-rows:150px] gap-3">
+        <div className="grid grid-cols-4 [grid-auto-rows:135px] gap-2.5">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}

@@ -32,7 +32,7 @@ const FaultInjectionPanel: React.FC = () => {
 
   return (
     <section className="flex flex-col rounded-lg glass-panel overflow-hidden">
-      <header className="flex items-center gap-1.5 px-2.5 py-2 border-b border-white/10 shrink-0">
+      <header className="flex items-center gap-1.5 px-2.5 py-2 border-b border-accent-blue/10 shrink-0">
         <Zap className="w-3.5 h-3.5 text-accent-blue shrink-0" />
         <h3 className="text-xs font-bold uppercase tracking-wide text-text-primary">
           Fault Injection

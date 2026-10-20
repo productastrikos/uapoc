@@ -110,7 +110,7 @@ const AnalyticsReporting: React.FC = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="space-y-6"
+      className="space-y-4"
     >
       {/* Header */}
       <div className="flex items-center space-x-4">
@@ -157,12 +157,12 @@ const AnalyticsReporting: React.FC = () => {
           second. */}
       <AiInsightPanel domain="analytics" />
 
-      <div className="grid grid-cols-12 gap-6">
+      <div className="grid grid-cols-12 gap-4">
         {/* Left Column - Reports & Analytics */}
-        <div className="col-span-8 space-y-6">
+        <div className="col-span-8 space-y-4">
           {/* Operational Dashboard */}
-          <div className="glass-panel-strong rounded-xl p-6">
-            <div className="flex items-center justify-between mb-4">
+          <div className="glass-panel-strong rounded-xl p-4">
+            <div className="flex items-center justify-between mb-3">
               <h2 className="text-base font-semibold text-text-primary">Executive Performance Dashboard</h2>
             </div>
 
@@ -179,7 +179,7 @@ const AnalyticsReporting: React.FC = () => {
               </ResponsiveContainer>
             </div>
 
-            <div className="flex items-center justify-center space-x-6 mt-4 text-sm">
+            <div className="flex items-center justify-center space-x-4 mt-3 text-sm">
               <div className="flex items-center space-x-1">
                 <div className="w-3 h-3 bg-accent-teal rounded-full"></div>
                 <span className="text-text-muted">On-Time Performance</span>
@@ -200,10 +200,10 @@ const AnalyticsReporting: React.FC = () => {
           </div>
 
           {/* Report Management */}
-          <div className="glass-panel rounded-xl p-6">
-            <h2 className="text-base font-semibold text-text-primary mb-4">Automated Report Management</h2>
+          <div className="glass-panel rounded-xl p-4">
+            <h2 className="text-base font-semibold text-text-primary mb-3">Automated Report Management</h2>
 
-            <div className="space-y-4">
+            <div className="space-y-3">
               {reports.map((report, index) => (
                 <motion.div
                   key={report.id}
@@ -211,11 +211,11 @@ const AnalyticsReporting: React.FC = () => {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
                   whileHover={{ y: -2 }}
-                  className="p-4 glass-panel rounded-xl hover:border-accent-blue/40 transition-colors duration-200 cursor-pointer group"
+                  className="p-3 glass-panel rounded-xl hover:border-accent-blue/40 transition-colors duration-200 cursor-pointer group"
                   onClick={() => handleReportClick(report)}
                 >
                   <div className="flex items-start justify-between">
-                    <div className="flex items-start space-x-4">
+                    <div className="flex items-start space-x-3">
                       <div className="p-2 rounded-lg bg-accent-blue/15">
                         {report.type === 'regulatory' ? <FileText className="h-5 w-5 text-accent-blue" /> :
                          report.type === 'executive' ? <TrendingUp className="h-5 w-5 text-accent-blue" /> :
@@ -236,7 +236,7 @@ const AnalyticsReporting: React.FC = () => {
                           </span>
                         </div>
 
-                        <div className="grid grid-cols-4 gap-4 mb-3">
+                        <div className="grid grid-cols-4 gap-3 mb-2">
                           <div>
                             <div className="text-sm text-text-muted">Last Generated</div>
                             <div className="text-text-primary font-medium">
@@ -283,8 +283,8 @@ const AnalyticsReporting: React.FC = () => {
           </div>
 
           {/* Benchmarking Analysis */}
-          <div className="glass-panel rounded-xl p-6">
-            <h2 className="text-base font-semibold text-text-primary mb-4">Industry Benchmarking</h2>
+          <div className="glass-panel rounded-xl p-4">
+            <h2 className="text-base font-semibold text-text-primary mb-3">Industry Benchmarking</h2>
             <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={benchmarkData} layout="horizontal">
@@ -296,7 +296,7 @@ const AnalyticsReporting: React.FC = () => {
                 </BarChart>
               </ResponsiveContainer>
             </div>
-            <div className="flex items-center justify-center space-x-6 mt-4 text-sm">
+            <div className="flex items-center justify-center space-x-4 mt-3 text-sm">
               <div className="flex items-center space-x-1">
                 <div className="w-3 h-3 bg-accent-teal rounded-full"></div>
                 <span className="text-text-muted">Phú Quốc Airport</span>
@@ -314,11 +314,11 @@ const AnalyticsReporting: React.FC = () => {
         </div>
 
         {/* Right Column - Analytics */}
-        <div className="col-span-4 space-y-6">
+        <div className="col-span-4 space-y-4">
           {/* Data Source Health */}
-          <div className="glass-panel rounded-xl p-6">
-            <h3 className="text-base font-semibold text-text-primary mb-4">Data Source Health</h3>
-            <div className="space-y-4">
+          <div className="glass-panel rounded-xl p-4">
+            <h3 className="text-base font-semibold text-text-primary mb-3">Data Source Health</h3>
+            <div className="space-y-3">
               {dataSourceHealth.map((source, index) => (
                 <motion.div
                   key={source.name}
@@ -368,8 +368,8 @@ const AnalyticsReporting: React.FC = () => {
           </div>
 
           {/* Predictive Analytics */}
-          <div className="glass-panel rounded-xl p-6">
-            <h3 className="text-base font-semibold text-text-primary mb-4">AI Predictive Insights</h3>
+          <div className="glass-panel rounded-xl p-4">
+            <h3 className="text-base font-semibold text-text-primary mb-3">AI Predictive Insights</h3>
             <div className="h-48">
               <ResponsiveContainer width="100%" height="100%">
                 <RechartsPieChart>
@@ -390,7 +390,7 @@ const AnalyticsReporting: React.FC = () => {
                 </RechartsPieChart>
               </ResponsiveContainer>
             </div>
-            <div className="grid grid-cols-1 gap-2 mt-4 text-sm">
+            <div className="grid grid-cols-1 gap-2 mt-3 text-sm">
               {predictiveInsights.map((insight, index) => (
                 <div key={index} className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">

@@ -356,7 +356,7 @@ useEffect(() => {
       case 'operational': return 'border-status-success/50 bg-status-success/10';
       case 'warning': return 'border-status-warning/50 bg-status-warning/10';
       case 'critical': return 'border-status-error/50 bg-status-error/10';
-      default: return 'border-gray-500/50 bg-gray-500/10';
+      default: return 'border-accent-blue/20 bg-primary-600/20';
     }
   };
 
@@ -384,16 +384,16 @@ useEffect(() => {
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="bg-primary-800 rounded-xl p-6 max-w-6xl w-full max-h-[90vh] overflow-hidden border border-primary-600 shadow-xl"
+            className="bg-primary-800 rounded-xl p-5 max-w-6xl w-full max-h-[90vh] overflow-hidden border border-primary-600 shadow-xl"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-lg font-semibold text-white">Aircraft {selectedAircraft.id}</h2>
               <button
                 onClick={() => setShowModal(false)}
-                className="text-gray-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/10"
+                className="text-gray-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-accent-blue/10"
               >
-                <X className="w-6 h-6" />
+                <X className="w-5 h-5" />
               </button>
             </div>
 
@@ -417,9 +417,9 @@ useEffect(() => {
 
             <div className="h-96 overflow-y-auto pr-2">
               {activeTab === 'overview' && (
-                <div className="space-y-6">
-                  <div className="grid grid-cols-3 gap-4">
-                    <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                <div className="space-y-4">
+                  <div className="grid grid-cols-3 gap-3">
+                    <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-3 rounded-lg backdrop-blur-sm border border-primary-600/30">
                       <h4 className="text-sm font-semibold text-gray-400 mb-2">Status</h4>
                       <div className="flex items-center space-x-2">
                         <div className={`w-3 h-3 rounded-full ${getStatusTextColor(selectedAircraft.status).replace('text-', 'bg-')}`}></div>
@@ -428,13 +428,13 @@ useEffect(() => {
                         </span>
                       </div>
                     </div>
-                    <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                    <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-3 rounded-lg backdrop-blur-sm border border-primary-600/30">
                       <h4 className="text-sm font-semibold text-gray-400 mb-2">Speed</h4>
                       <span className="text-white font-medium flex items-center">
                         {selectedAircraft.speed} kt
                       </span>
                     </div>
-                    <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                    <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-3 rounded-lg backdrop-blur-sm border border-primary-600/30">
                       <h4 className="text-sm font-semibold text-gray-400 mb-2">Altitude</h4>
                       <span className="text-white font-medium flex items-center">
                         {selectedAircraft.altitude} ft
@@ -442,13 +442,13 @@ useEffect(() => {
                     </div>
                   </div>
                   
-                  <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                  <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-3 rounded-lg backdrop-blur-sm border border-primary-600/30">
                     <h4 className="text-sm font-semibold text-gray-400 mb-2">Description</h4>
                     <p className="text-gray-300">{selectedAircraft.description}</p>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-3 rounded-lg backdrop-blur-sm border border-primary-600/30">
                       <h4 className="text-sm font-semibold text-gray-400 mb-3">Flight Information</h4>
                       <div className="space-y-3 text-sm">
                         <div className="flex justify-between items-center">
@@ -465,7 +465,7 @@ useEffect(() => {
                         </div>
                       </div>
                     </div>
-                    <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                    <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-3 rounded-lg backdrop-blur-sm border border-primary-600/30">
                       <h4 className="text-sm font-semibold text-gray-400 mb-3">Fuel & Performance</h4>
                       <div className="space-y-3 text-sm">
                         <div className="flex justify-between items-center">
@@ -490,9 +490,9 @@ useEffect(() => {
               )}
 
               {activeTab === 'trends' && (
-                <div className="space-y-6">
-                  <div className="grid grid-cols-2 gap-6">
-                    <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                <div className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-3 rounded-lg backdrop-blur-sm border border-primary-600/30">
                       <h4 className="text-base font-semibold text-white mb-4 flex items-center">
                         <BarChart3 className="w-5 h-5 mr-2 text-accent-blue" />
                         Flight Performance (24h)
@@ -514,7 +514,7 @@ useEffect(() => {
                       </div>
                     </div>
                     
-                    <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                    <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-3 rounded-lg backdrop-blur-sm border border-primary-600/30">
                       <h4 className="text-base font-semibold text-white mb-4 flex items-center">
                         <BarChart3 className="w-5 h-5 mr-2 text-accent-blue" />
                         Operational Metrics
@@ -545,8 +545,8 @@ useEffect(() => {
               )}
 
               {activeTab === 'insights' && (
-                <div className="space-y-6">
-                  <div className="glass-panel-strong p-6 rounded-lg">
+                <div className="space-y-4">
+                  <div className="glass-panel-strong p-4 rounded-lg">
                     <h4 className="text-base font-semibold text-white mb-4 flex items-center">
                       <Brain className="w-5 h-5 mr-2 text-accent-blue" />
                       AI Flight Analysis
@@ -569,7 +569,7 @@ useEffect(() => {
                         </div>
                       </div>
 
-                      <div className="bg-primary-700/30 border border-primary-600/40 p-4 rounded-lg">
+                      <div className="bg-primary-700/30 border border-primary-600/40 p-3 rounded-lg">
                         <h5 className="text-text-primary font-medium mb-2">Operational Recommendations</h5>
                         <ul className="text-gray-300 text-sm space-y-2">
                           <li className="flex items-start">
@@ -595,9 +595,9 @@ useEffect(() => {
                         </ul>
                       </div>
 
-                      <div className="bg-primary-700/30 border border-primary-600/40 p-4 rounded-lg">
+                      <div className="bg-primary-700/30 border border-primary-600/40 p-3 rounded-lg">
                         <h5 className="text-text-primary font-medium mb-2">Safety Indicators</h5>
-                        <div className="grid grid-cols-2 gap-4 mt-3">
+                        <div className="grid grid-cols-2 gap-3 mt-3">
                           <div className="text-center">
                             <div className="text-xl font-bold text-text-primary">{selectedAircraft.status === 'operational' ? '100%' : selectedAircraft.status === 'warning' ? '85%' : '60%'}</div>
                             <div className="text-xs text-gray-400">Safety Score</div>
@@ -614,8 +614,8 @@ useEffect(() => {
               )}
 
               {activeTab === 'actions' && (
-                <div className="space-y-6">
-                  <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-6 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                <div className="space-y-4">
+                  <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
                     <h4 className="text-base font-semibold text-white mb-4 flex items-center">
                       <Zap className="w-5 h-5 mr-2 text-accent-blue" />
                       Available Actions
@@ -663,15 +663,15 @@ useEffect(() => {
               )}
 
               {activeTab === 'evidence' && (
-                <div className="space-y-6">
-                  <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-6 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                <div className="space-y-4">
+                  <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
                     <h4 className="text-base font-semibold text-white mb-4 flex items-center">
                       <FileText className="w-5 h-5 mr-2 text-accent-blue" />
                       Flight Data & Evidence
                     </h4>
                     
                     <div className="space-y-4">
-                      <div className="bg-primary-700/30 border border-primary-600/40 p-4 rounded-lg">
+                      <div className="bg-primary-700/30 border border-primary-600/40 p-3 rounded-lg">
                         <h5 className="text-text-primary font-medium mb-3 flex items-center">
                           <Database className="w-4 h-4 mr-2" />
                           Flight Data Sources
@@ -701,7 +701,7 @@ useEffect(() => {
                         </div>
                       </div>
 
-                      <div className="bg-primary-700/30 border border-primary-600/40 p-4 rounded-lg">
+                      <div className="bg-primary-700/30 border border-primary-600/40 p-3 rounded-lg">
                         <h5 className="text-text-primary font-medium mb-3 flex items-center">
                           <Activity className="w-4 h-4 mr-2" />
                           Recent Communications
@@ -722,19 +722,19 @@ useEffect(() => {
                         </div>
                       </div>
 
-                      <div className="bg-primary-700/30 border border-primary-600/40 p-4 rounded-lg">
+                      <div className="bg-primary-700/30 border border-primary-600/40 p-3 rounded-lg">
                         <h5 className="text-text-primary font-medium mb-3 flex items-center">
                           <Monitor className="w-4 h-4 mr-2" />
                           Surveillance Systems
                         </h5>
                         <div className="grid grid-cols-2 gap-3">
                           <div className="bg-primary-600/30 p-3 rounded text-center">
-                            <Camera className="w-8 h-8 text-status-success mx-auto mb-2" />
+                            <Camera className="w-6 h-6 text-status-success mx-auto mb-2" />
                             <div className="text-sm text-white font-medium">Ground Radar</div>
                             <div className="text-xs text-gray-400">Tracking</div>
                           </div>
                           <div className="bg-primary-600/30 p-3 rounded text-center">
-                            <Wifi className="w-8 h-8 text-status-success mx-auto mb-2" />
+                            <Wifi className="w-6 h-6 text-status-success mx-auto mb-2" />
                             <div className="text-sm text-white font-medium">ADS-B Signal</div>
                             <div className="text-xs text-gray-400">Received</div>
                           </div>
@@ -766,16 +766,16 @@ useEffect(() => {
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="bg-primary-800 rounded-xl p-6 max-w-6xl w-full max-h-[90vh] overflow-hidden border border-primary-600 shadow-xl"
+            className="bg-primary-800 rounded-xl p-5 max-w-6xl w-full max-h-[90vh] overflow-hidden border border-primary-600 shadow-xl"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-lg font-semibold text-white">AI Airside Advisory</h2>
               <button
                 onClick={() => setShowAIAdvisoryModal(false)}
-                className="text-gray-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/10"
+                className="text-gray-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-accent-blue/10"
               >
-                <X className="w-6 h-6" />
+                <X className="w-5 h-5" />
               </button>
             </div>
 
@@ -799,37 +799,37 @@ useEffect(() => {
 
             <div className="h-96 overflow-y-auto pr-2">
               {activeTab === 'overview' && (
-                <div className="space-y-6">
-                  <div className="grid grid-cols-5 gap-3">
-                    <div className="glass-pill glass-pill-blue p-4">
+                <div className="space-y-4">
+                  <div className="grid grid-cols-5 gap-2.5">
+                    <div className="glass-pill glass-pill-blue p-3">
                       <div className="text-xl font-bold text-text-primary flex items-center justify-center">
                         {aiAdvisoryData.runwayEfficiency}%
                         <TrendArrow trend={aiAdvisoryData.runwayEfficiencyTrend} />
                       </div>
                       <div className="text-xs text-text-muted text-center">Runway Efficiency</div>
                     </div>
-                    <div className="glass-pill glass-pill-teal p-4">
+                    <div className="glass-pill glass-pill-teal p-3">
                       <div className="text-xl font-bold text-text-primary flex items-center justify-center">
                         {aiAdvisoryData.avgTaxiTime}
                         <TrendArrow trend={aiAdvisoryData.taxiTimeTrend} />
                       </div>
                       <div className="text-xs text-text-muted text-center">Avg Taxi Time</div>
                     </div>
-                    <div className="glass-pill glass-pill-violet p-4">
+                    <div className="glass-pill glass-pill-violet p-3">
                       <div className="text-xl font-bold text-text-primary flex items-center justify-center">
                         {aiAdvisoryData.activeMovements}
                         <TrendArrow trend={aiAdvisoryData.movementsTrend} />
                       </div>
                       <div className="text-xs text-text-muted text-center">Active Movements</div>
                     </div>
-                    <div className="glass-pill glass-pill-neutral p-4">
+                    <div className="glass-pill glass-pill-neutral p-3">
                       <div className="text-xl font-bold text-text-primary flex items-center justify-center">
                         {aiAdvisoryData.fuelSavings}
                         <TrendArrow trend={aiAdvisoryData.fuelSavingsTrend} />
                       </div>
                       <div className="text-xs text-text-muted text-center">Fuel Savings</div>
                     </div>
-                    <div className="glass-pill glass-pill-blue p-4">
+                    <div className="glass-pill glass-pill-blue p-3">
                       <div className="text-xl font-bold text-text-primary flex items-center justify-center">
                         {aiAdvisoryData.weatherImpact}
                         <TrendArrow trend={aiAdvisoryData.weatherImpactTrend} />
@@ -838,7 +838,7 @@ useEffect(() => {
                     </div>
                   </div>
 
-                  <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                  <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-3 rounded-lg backdrop-blur-sm border border-primary-600/30">
                     <h4 className="text-sm font-semibold text-gray-400 mb-2">AI Analysis Summary</h4>
                     <p className="text-gray-300">
                       Current airside operations show optimal performance across most metrics. Runway efficiency at 87.5% with potential for 8% improvement through AI optimization. 
@@ -849,9 +849,9 @@ useEffect(() => {
               )}
 
               {activeTab === 'analytics' && (
-                <div className="space-y-6">
-                  <div className="grid grid-cols-2 gap-6">
-                    <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                <div className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-3 rounded-lg backdrop-blur-sm border border-primary-600/30">
                       <h4 className="text-base font-semibold text-white mb-4 flex items-center">
                         <PieChart className="w-5 h-5 mr-2 text-accent-blue" />
                         Runway Utilization
@@ -872,7 +872,7 @@ useEffect(() => {
                       </div>
                     </div>
                     
-                    <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                    <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-3 rounded-lg backdrop-blur-sm border border-primary-600/30">
                       <h4 className="text-base font-semibold text-white mb-4 flex items-center">
                         <BarChart3 className="w-5 h-5 mr-2 text-accent-blue" />
                         Traffic Patterns
@@ -898,8 +898,8 @@ useEffect(() => {
               )}
 
               {activeTab === 'predictions' && (
-                <div className="space-y-6">
-                  <div className="glass-panel-strong p-6 rounded-lg">
+                <div className="space-y-4">
+                  <div className="glass-panel-strong p-4 rounded-lg">
                     <h4 className="text-base font-semibold text-white mb-4 flex items-center">
                       <Brain className="w-5 h-5 mr-2 text-accent-blue" />
                       Predictive Analytics
@@ -920,7 +920,7 @@ useEffect(() => {
                         </div>
                       </div>
 
-                      <div className="bg-primary-700/30 border border-primary-600/40 p-4 rounded-lg">
+                      <div className="bg-primary-700/30 border border-primary-600/40 p-3 rounded-lg">
                         <h5 className="text-text-primary font-medium mb-2">Weather Impact Prediction</h5>
                         <p className="text-gray-300 text-sm mb-3">
                           Incoming weather system at 15:30 local time may impact visibility by 20%. 
@@ -932,7 +932,7 @@ useEffect(() => {
                         </div>
                       </div>
 
-                      <div className="bg-primary-700/30 border border-primary-600/40 p-4 rounded-lg">
+                      <div className="bg-primary-700/30 border border-primary-600/40 p-3 rounded-lg">
                         <h5 className="text-text-primary font-medium mb-2">Optimization Potential</h5>
                         <div className="space-y-2">
                           <div className="flex justify-between items-center">
@@ -955,8 +955,8 @@ useEffect(() => {
               )}
 
               {activeTab === 'actions' && (
-                <div className="space-y-6">
-                  <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-6 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                <div className="space-y-4">
+                  <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
                     <h4 className="text-base font-semibold text-white mb-4 flex items-center">
                       <Target className="w-5 h-5 mr-2 text-accent-blue" />
                       AI Recommendations
@@ -999,8 +999,8 @@ useEffect(() => {
               )}
 
               {activeTab === 'execution' && (
-                <div className="space-y-6">
-                  <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-6 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                <div className="space-y-4">
+                  <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
                     <h4 className="text-base font-semibold text-white mb-4 flex items-center">
                       <Zap className="w-5 h-5 mr-2 text-accent-blue" />
                       Execute AI Optimization
@@ -1037,7 +1037,7 @@ useEffect(() => {
                       {aiOptimizationExecuted && (
                         <div className="bg-primary-800/60 rounded-lg p-4 border border-primary-600/40">
                           <div className="flex items-center space-x-3">
-                            <CheckCircle className="w-6 h-6 text-status-success" />
+                            <CheckCircle className="w-5 h-5 text-status-success" />
                             <div>
                               <h6 className="text-text-primary font-medium">AI Optimization Successfully Applied</h6>
                               <p className="text-text-muted text-sm">
@@ -1046,7 +1046,7 @@ useEffect(() => {
                             </div>
                           </div>
                           
-                          <div className="mt-4 grid grid-cols-3 gap-4">
+                          <div className="mt-4 grid grid-cols-3 gap-3">
                             <div className="text-center p-3 bg-primary-700/40 rounded-lg">
                               <div className="text-lg font-bold text-text-primary">-21%</div>
                               <div className="text-xs text-gray-400">Taxi Time</div>
@@ -1084,7 +1084,7 @@ useEffect(() => {
         <div className="absolute inset-0 bg-primary-900"></div>
       </div>
 
-      <div className="relative z-10 space-y-6 p-6">
+      <div className="relative z-10 space-y-4 p-4">
         {/* Enhanced AI Advisory Panel */}
         <motion.div 
           initial={{ y: -20, opacity: 0 }}
@@ -1187,7 +1187,7 @@ useEffect(() => {
         </motion.div>
 
         {/* Quick Stats */}
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-4 gap-3">
           {[
             { label: 'Active Movements', value: aiAdvisoryData.activeMovements, icon: Plane, color: 'text-accent-blue', trend: aiAdvisoryData.movementsTrend, change: aiOptimizationExecuted ? 34.8 : 0, tint: 'glass-pill-blue' },
             { label: 'Avg Taxi Time', value: aiAdvisoryData.avgTaxiTime, icon: Clock, color: 'text-accent-blue', trend: aiAdvisoryData.taxiTimeTrend, change: aiOptimizationExecuted ? -21.1 : 0, tint: 'glass-pill-teal' },
@@ -1199,7 +1199,7 @@ useEffect(() => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              className={`glass-pill ${stat.tint} rounded-lg p-4 transition-colors duration-200 group`}
+              className={`glass-pill ${stat.tint} rounded-lg p-3 transition-colors duration-200 group`}
             >
               <div className="relative z-10">
                 <div className="flex items-center space-x-3">
@@ -1226,14 +1226,14 @@ useEffect(() => {
               models; this is what they are actually asking for. */}
         <AiInsightPanel domain="airside" />
 
-        <div className="grid grid-cols-12 gap-6">
+        <div className="grid grid-cols-12 gap-4">
           {/* Left Column */}
-          <div className="col-span-8 space-y-6">
+          <div className="col-span-8 space-y-4">
             {/* Surface Movement Control */}
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="relative overflow-hidden bg-primary-800/60 rounded-lg border border-primary-600/40 p-5"
+              className="relative overflow-hidden bg-primary-800/60 rounded-lg border border-primary-600/40 p-4"
             >
               
               <div className="relative z-10">
@@ -1307,7 +1307,7 @@ useEffect(() => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="relative overflow-hidden bg-primary-800/60 rounded-lg border border-primary-600/40 p-5"
+              className="relative overflow-hidden bg-primary-800/60 rounded-lg border border-primary-600/40 p-4"
             >
               
               <div className="relative z-10">
@@ -1370,13 +1370,13 @@ useEffect(() => {
           </div>
 
           {/* Right Column */}
-          <div className="col-span-4 space-y-6">
+          <div className="col-span-4 space-y-4">
             {/* Taxi Time Trends */}
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="relative overflow-hidden bg-primary-800/60 rounded-lg border border-primary-600/40 p-5"
+              className="relative overflow-hidden bg-primary-800/60 rounded-lg border border-primary-600/40 p-4"
             >
               
               <div className="relative z-10">
@@ -1405,7 +1405,7 @@ useEffect(() => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="relative overflow-hidden bg-primary-800/60 rounded-lg border border-primary-600/40 p-5"
+              className="relative overflow-hidden bg-primary-800/60 rounded-lg border border-primary-600/40 p-4"
             >
               
               <div className="relative z-10">
@@ -1437,7 +1437,7 @@ useEffect(() => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
-              className="relative overflow-hidden bg-primary-800/60 rounded-lg border border-primary-600/40 p-5"
+              className="relative overflow-hidden bg-primary-800/60 rounded-lg border border-primary-600/40 p-4"
             >
               
               <div className="relative z-10">

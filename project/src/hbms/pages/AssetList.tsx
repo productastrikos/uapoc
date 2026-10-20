@@ -125,7 +125,7 @@ const AssetList: React.FC = () => {
 
   const Th: React.FC<{ label: string; col: SortKey; className?: string }> = ({ label, col, className }) => (
     <th
-      className={`px-3 py-2.5 text-left cursor-pointer select-none hover:text-slate-200 transition-colors ${className ?? ''}`}
+      className={`px-2 py-2.5 text-left cursor-pointer select-none hover:text-slate-200 transition-colors ${className ?? ''}`}
       onClick={() => handleSort(col)}
     >
       <span className="text-xs font-bold text-slate-400 uppercase tracking-widest whitespace-nowrap">
@@ -137,8 +137,8 @@ const AssetList: React.FC = () => {
   return (
     <div className="h-full flex flex-col text-slate-100 overflow-hidden bg-primary-900">
       {/* Header */}
-      <div className="flex-shrink-0 px-5 pt-4 pb-3 border-b border-primary-600/30">
-        <div className="flex items-start justify-between gap-4">
+      <div className="flex-shrink-0 px-4 pt-3 pb-2 border-b border-primary-600/30">
+        <div className="flex items-start justify-between gap-3">
           <div>
             <h1 className="text-2xl font-bold text-white tracking-tight">Asset Register</h1>
             <p className="text-sm text-text-muted mt-0.5">Long Thanh International Airport — HBMS</p>
@@ -146,22 +146,22 @@ const AssetList: React.FC = () => {
 
           {/* Summary tiles */}
           <div className="flex items-center gap-2 flex-wrap justify-end">
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border bg-primary-800/60 border-primary-600/40">
+            <div className="flex items-center gap-1.5 px-2 py-1.5 rounded-lg border bg-primary-800/60 border-primary-600/40">
               <div className="w-2 h-2 rounded-full bg-status-success" />
               <span className="text-sm font-bold text-text-primary">{totalActive}</span>
               <span className="text-xs text-text-muted">Active</span>
             </div>
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border bg-primary-800/60 border-primary-600/40">
+            <div className="flex items-center gap-1.5 px-2 py-1.5 rounded-lg border bg-primary-800/60 border-primary-600/40">
               <div className="w-2 h-2 rounded-full bg-status-warning" />
               <span className="text-sm font-bold text-text-primary">{totalWarning}</span>
               <span className="text-xs text-text-muted">Warning</span>
             </div>
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border bg-primary-800/60 border-primary-600/40">
+            <div className="flex items-center gap-1.5 px-2 py-1.5 rounded-lg border bg-primary-800/60 border-primary-600/40">
               <div className="w-2 h-2 rounded-full bg-status-error" />
               <span className="text-sm font-bold text-text-primary">{totalInactive}</span>
               <span className="text-xs text-text-muted">Inactive</span>
             </div>
-            <div className="px-3 py-1.5 rounded-lg border bg-primary-800/60 border-primary-600/40">
+            <div className="px-2 py-1.5 rounded-lg border bg-primary-800/60 border-primary-600/40">
               <span className="text-sm font-bold text-text-primary">{filtered.length}</span>
               <span className="text-xs text-text-muted ml-1.5">Total</span>
             </div>
@@ -170,7 +170,7 @@ const AssetList: React.FC = () => {
       </div>
 
       {/* Filter bar */}
-      <div className="flex-shrink-0 px-5 py-3 space-y-2.5 border-b border-primary-600/20">
+      <div className="flex-shrink-0 px-4 py-2 space-y-2.5 border-b border-primary-600/20">
 
         {/* Search + type + status filters */}
         <div className="flex gap-2 flex-wrap items-center">
@@ -201,11 +201,11 @@ const AssetList: React.FC = () => {
                 <button
                   key={s}
                   onClick={() => setStatusFilter(s)}
-                  className="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all"
+                  className="px-2 py-1.5 rounded-lg text-xs font-semibold transition-all"
                   style={{
-                    background: active ? (st ? st.bg : 'rgba(255,255,255,0.1)') : 'rgba(255,255,255,0.04)',
+                    background: active ? (st ? st.bg : 'rgba(32, 120, 207,0.1)') : 'rgba(32, 120, 207,0.04)',
                     color:      active ? (st ? st.text : '#e2e8f0') : '#64748b',
-                    border:     `1px solid ${active ? (st ? st.border : 'rgba(255,255,255,0.2)') : 'rgba(255,255,255,0.07)'}`,
+                    border:     `1px solid ${active ? (st ? st.border : 'rgba(32, 120, 207,0.2)') : 'rgba(32, 120, 207,0.07)'}`,
                   }}
                 >
                   {s}
@@ -218,7 +218,7 @@ const AssetList: React.FC = () => {
           <select
             value={typeFilter}
             onChange={e => setTypeFilter(e.target.value)}
-            className="py-2 px-3 rounded-lg text-sm text-slate-300 outline-none cursor-pointer bg-primary-800 border border-primary-600 focus:border-accent-blue transition-colors"
+            className="py-2 px-2 rounded-lg text-sm text-slate-300 outline-none cursor-pointer bg-primary-800 border border-primary-600 focus:border-accent-blue transition-colors"
           >
             <option value="All">All Types</option>
             {availableTypes.map(t => <option key={t} value={t}>{t}</option>)}
@@ -228,7 +228,7 @@ const AssetList: React.FC = () => {
           {issueFilter && (
             <button
               onClick={() => setIssueFilter('')}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors"
+              className="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-xs font-semibold transition-colors"
               style={{ background: ISSUE_BADGE_STYLE.bg, color: ISSUE_BADGE_STYLE.text, border: `1px solid ${ISSUE_BADGE_STYLE.border}` }}
               title="Clear issue highlight"
             >
@@ -240,8 +240,8 @@ const AssetList: React.FC = () => {
           {(subsystemFilter !== 'All' || statusFilter !== 'All' || typeFilter !== 'All' || issueFilter || search) && (
             <button
               onClick={() => { setSubsystemFilter('All'); setStatusFilter('All'); setTypeFilter('All'); setIssueFilter(''); setSearch(''); }}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-200 transition-colors"
-              style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}
+              className="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-200 transition-colors"
+              style={{ background: 'rgba(32, 120, 207,0.05)', border: '1px solid rgba(32, 120, 207,0.08)' }}
             >
               <X size={12} /> Clear all
             </button>
@@ -252,11 +252,11 @@ const AssetList: React.FC = () => {
         <div className="flex gap-1.5 flex-wrap">
           <button
             onClick={() => handleSubsystemClick('All')}
-            className="px-3 py-1 rounded-lg text-xs font-semibold transition-all"
+            className="px-2 py-1 rounded-lg text-xs font-semibold transition-all"
             style={{
-              background: subsystemFilter === 'All' ? 'rgba(59,130,246,0.2)' : 'rgba(255,255,255,0.04)',
+              background: subsystemFilter === 'All' ? 'rgba(59,130,246,0.2)' : 'rgba(32, 120, 207,0.04)',
               color:      subsystemFilter === 'All' ? '#93c5fd' : '#64748b',
-              border:     `1px solid ${subsystemFilter === 'All' ? 'rgba(59,130,246,0.4)' : 'rgba(255,255,255,0.07)'}`,
+              border:     `1px solid ${subsystemFilter === 'All' ? 'rgba(59,130,246,0.4)' : 'rgba(32, 120, 207,0.07)'}`,
             }}
           >
             All Systems
@@ -268,11 +268,11 @@ const AssetList: React.FC = () => {
               <button
                 key={s.id}
                 onClick={() => handleSubsystemClick(s.acronym)}
-                className="flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold transition-all"
+                className="flex items-center gap-1.5 px-2 py-1 rounded-lg text-xs font-semibold transition-all"
                 style={{
-                  background: active ? `${s.color}22` : 'rgba(255,255,255,0.04)',
+                  background: active ? `${s.color}22` : 'rgba(32, 120, 207,0.04)',
                   color:      active ? s.color : '#64748b',
-                  border:     `1px solid ${active ? `${s.color}55` : 'rgba(255,255,255,0.07)'}`,
+                  border:     `1px solid ${active ? `${s.color}55` : 'rgba(32, 120, 207,0.07)'}`,
                 }}
               >
                 <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: active ? s.color : '#475569' }} />
@@ -289,17 +289,17 @@ const AssetList: React.FC = () => {
         <table className="w-full border-collapse" style={{ minWidth: '760px' }}>
           <thead className="sticky top-0 z-10 bg-primary-800 border-b border-primary-600/40">
             <tr>
-              <Th label="Asset ID"    col="id"                 className="pl-5 w-32" />
+              <Th label="Asset ID"    col="id"                 className="pl-4 w-32" />
               <Th label="Name"        col="name"               className="min-w-[200px]" />
               <Th label="Subsystem"   col="subsystemAcronym"   className="w-28" />
               <Th label="Status"      col="status"             className="w-28" />
-              <th className="px-3 py-2.5 w-28">
+              <th className="px-2 py-2.5 w-28">
                 <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Condition</span>
               </th>
               <Th label="Type"        col="type"               className="w-40" />
               <Th label="Location"    col="location"           className="min-w-[160px]" />
               <Th label="Last Check"  col="lastChecked"        className="w-28" />
-              <th className="px-3 py-2.5 w-20 pr-5">
+              <th className="px-2 py-2.5 w-20 pr-4">
                 <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Serial</span>
               </th>
             </tr>
@@ -320,7 +320,7 @@ const AssetList: React.FC = () => {
                     key={asset.id}
                     className="border-b cursor-pointer group transition-colors"
                     style={{
-                      borderColor: 'rgba(255,255,255,0.04)',
+                      borderColor: 'rgba(32, 120, 207,0.04)',
                       background: idx % 2 === 0 ? 'rgba(10,58,82,0.25)' : 'transparent',
                     }}
                     onMouseEnter={e => (e.currentTarget.style.background = 'rgba(59,130,246,0.08)')}
@@ -328,17 +328,17 @@ const AssetList: React.FC = () => {
                     onClick={() => { const sub = subsystemById(asset.subsystemId); if (sub) openSubsystem(sub.code); }}
                   >
                     {/* ID */}
-                    <td className="px-3 py-3 pl-5">
+                    <td className="px-2 py-2 pl-4">
                       <span className="text-sm font-mono font-bold text-slate-300">{asset.id}</span>
                     </td>
 
                     {/* Name */}
-                    <td className="px-3 py-3">
+                    <td className="px-2 py-2">
                       <span className="text-sm font-semibold text-slate-100">{asset.name}</span>
                     </td>
 
                     {/* Subsystem badge */}
-                    <td className="px-3 py-3">
+                    <td className="px-2 py-2">
                       <span
                         className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-xs font-bold"
                         style={{ background: `${asset.subsystemColor}18`, color: asset.subsystemColor, border: `1px solid ${asset.subsystemColor}33` }}
@@ -349,7 +349,7 @@ const AssetList: React.FC = () => {
                     </td>
 
                     {/* Status badge */}
-                    <td className="px-3 py-3">
+                    <td className="px-2 py-2">
                       <span
                         className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold"
                         style={{ background: ss.bg, color: ss.text, border: `1px solid ${ss.border}` }}
@@ -360,7 +360,7 @@ const AssetList: React.FC = () => {
                     </td>
 
                     {/* Condition — breaker position or flagged sub-parameter, when applicable */}
-                    <td className="px-3 py-3">
+                    <td className="px-2 py-2">
                       {asset.breakerState ? (
                         <span
                           className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold"
@@ -386,22 +386,22 @@ const AssetList: React.FC = () => {
                     </td>
 
                     {/* Type */}
-                    <td className="px-3 py-3">
+                    <td className="px-2 py-2">
                       <span className="text-sm text-slate-400">{asset.type}</span>
                     </td>
 
                     {/* Location */}
-                    <td className="px-3 py-3">
+                    <td className="px-2 py-2">
                       <span className="text-sm text-slate-300">{asset.location}</span>
                     </td>
 
                     {/* Last Checked */}
-                    <td className="px-3 py-3">
+                    <td className="px-2 py-2">
                       <span className="text-sm text-slate-500 font-mono">{asset.lastChecked}</span>
                     </td>
 
                     {/* Serial */}
-                    <td className="px-3 py-3 pr-5">
+                    <td className="px-2 py-2 pr-4">
                       <span className="text-xs text-slate-600 font-mono">{asset.serialNumber}</span>
                     </td>
                   </tr>
@@ -413,7 +413,7 @@ const AssetList: React.FC = () => {
       </div>
 
       {/* Footer */}
-      <div className="flex-shrink-0 px-5 py-2 flex items-center justify-between" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+      <div className="flex-shrink-0 px-4 py-2 flex items-center justify-between" style={{ borderTop: '1px solid rgba(32, 120, 207,0.05)' }}>
         <span className="text-xs text-slate-600">Showing {filtered.length} of {ASSETS.length} assets</span>
         <span className="text-xs text-slate-600">Click any row to view subsystem details</span>
       </div>

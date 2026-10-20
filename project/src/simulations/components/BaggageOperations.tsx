@@ -991,11 +991,11 @@ export const BaggageOperations: React.FC<BaggageOperationsProps> = ({
     : 'teal';
 
   return (
-    <div className="w-full space-y-4">
+    <div className="w-full space-y-3">
       {/* ============ Run controls + anomaly injection ============ */}
-      <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-4">
-        <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
+      <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-3">
+        <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5">
             <div className="p-2 bg-status-error/10 rounded-lg border border-status-error/30">
               <AlertOctagon className="w-5 h-5 text-status-error" />
             </div>
@@ -1046,7 +1046,7 @@ export const BaggageOperations: React.FC<BaggageOperationsProps> = ({
       </div>
 
       {/* ============ Statistics strip ============ */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2.5">
         {[
           { label: 'Elapsed', value: formatTime(timer), tone: 'text-accent-blue' },
           { label: 'Bags Tracked', value: bags.length, tone: 'text-text-primary' },
@@ -1061,7 +1061,7 @@ export const BaggageOperations: React.FC<BaggageOperationsProps> = ({
             tone: systemStats.threatLevel >= 5 ? 'text-status-error' : systemStats.threatLevel >= 3 ? 'text-status-warning' : 'text-status-success',
           },
         ].map(stat => (
-          <div key={stat.label} className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-3 text-center">
+          <div key={stat.label} className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-2.5 text-center">
             <p className="text-[length:calc(10px*var(--fs))] uppercase tracking-wide text-text-muted">{stat.label}</p>
             <p className={`text-lg font-bold tabular-nums ${stat.tone}`}>{stat.value}</p>
           </div>
@@ -1070,17 +1070,17 @@ export const BaggageOperations: React.FC<BaggageOperationsProps> = ({
 
       {/* ============ Main visualisation: SOP rail beside the hall ============ */}
       <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl w-full">
-        <div className="p-4 lg:p-5 space-y-4">
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
-            <h2 className="text-lg lg:text-xl font-bold text-text-primary flex items-center gap-3">
+        <div className="p-3 lg:p-4 space-y-3">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-2.5">
+            <h2 className="text-lg lg:text-xl font-bold text-text-primary flex items-center gap-2.5">
               <div className="p-2 bg-accent-blue/10 rounded-lg border border-accent-blue/30">
                 <Layers className="h-5 w-5 text-accent-blue" />
               </div>
               <span>Enhanced Baggage Handling System</span>
             </h2>
 
-            <div className="flex items-center gap-3">
-              <div className="hidden md:flex flex-wrap items-center gap-x-3 gap-y-1 text-xs bg-primary-900/40 border border-primary-600/40 rounded-lg px-3 py-2">
+            <div className="flex items-center gap-2.5">
+              <div className="hidden md:flex flex-wrap items-center gap-x-3 gap-y-1 text-xs bg-primary-900/40 border border-primary-600/40 rounded-lg px-2.5 py-2">
                 <span className="flex items-center gap-1.5">
                   <span className={`w-2 h-2 rounded-full ${isSimulating ? 'bg-status-success animate-pulse' : 'bg-text-muted'}`} />
                   <span className={isSimulating ? 'text-status-success' : 'text-text-muted'}>
@@ -1102,7 +1102,7 @@ export const BaggageOperations: React.FC<BaggageOperationsProps> = ({
               <button
                 onClick={startEnhancedSimulation}
                 disabled={isSimulating}
-                className={`btn min-w-[15rem] py-3 ${
+                className={`btn min-w-[15rem] py-2.5 ${
                   isSimulating
                     ? 'bg-accent-blue/10 text-accent-blue border-accent-blue/30 cursor-not-allowed'
                     : 'btn-primary'
@@ -1114,11 +1114,11 @@ export const BaggageOperations: React.FC<BaggageOperationsProps> = ({
             </div>
           </div>
 
-          <div className="grid grid-cols-1 xl:grid-cols-[310px_minmax(0,1fr)] gap-4 items-stretch">
+          <div className="grid grid-cols-1 xl:grid-cols-[310px_minmax(0,1fr)] gap-3 items-stretch">
             {/* ---- left rail: the SOP being executed, plus machine health ----
                  flex-1 on the procedure lets the rail track the height of the
                  hall beside it, so neither column ends in dead space. */}
-            <div className="flex flex-col gap-4 min-w-0">
+            <div className="flex flex-col gap-3 min-w-0">
               <SOPPanel
                 className="flex-1 min-h-[300px] max-h-[520px]"
                 accent={sopAccent as 'red' | 'gold' | 'teal'}
@@ -1135,7 +1135,7 @@ export const BaggageOperations: React.FC<BaggageOperationsProps> = ({
                 }
               />
 
-              <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-3">
+              <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-2.5">
                 <h4 className="text-xs font-semibold text-text-primary mb-2 flex items-center gap-2 uppercase tracking-wide">
                   <Monitor className="w-3.5 h-3.5 text-accent-blue" />
                   <span>Screening Systems</span>
@@ -1184,19 +1184,19 @@ export const BaggageOperations: React.FC<BaggageOperationsProps> = ({
           </div>
 
           {/* ============ Reference panels ============ */}
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-            <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3">
+            <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-3">
               <h4 className="text-sm font-semibold text-text-secondary mb-3 flex items-center gap-2">
                 <Plane className="w-4 h-4 text-accent-blue" />
                 <span>Flight Configuration</span>
               </h4>
-              <div className="space-y-3">
+              <div className="space-y-2">
                 <div>
                   <label className="text-xs text-text-muted">Selected flight</label>
                   <select
                     value={selectedFlight}
                     onChange={(e) => setSelectedFlight(e.target.value)}
-                    className="w-full mt-1 bg-primary-900 border border-primary-600 rounded px-3 py-2 text-text-primary text-sm"
+                    className="w-full mt-1 bg-primary-900 border border-primary-600 rounded px-2.5 py-2 text-text-primary text-sm"
                     disabled={isSimulating}
                   >
                     {mockFlights.filter(f => (operationType === 'departure' ? f.departure : f.arrival)).map(flight => (
@@ -1224,7 +1224,7 @@ export const BaggageOperations: React.FC<BaggageOperationsProps> = ({
               </div>
             </div>
 
-            <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-4">
+            <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-3">
               <h4 className="text-sm font-semibold text-text-secondary mb-3 flex items-center gap-2">
                 <Package className="w-4 h-4 text-accent-blue" />
                 <span>Sortation Outcome</span>
@@ -1244,7 +1244,7 @@ export const BaggageOperations: React.FC<BaggageOperationsProps> = ({
               </div>
             </div>
 
-            <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-4">
+            <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-3">
               <h4 className="text-sm font-semibold text-text-secondary mb-3 flex items-center gap-2">
                 <Shield className="w-4 h-4 text-status-success" />
                 <span>Detection Matrix</span>
@@ -1265,7 +1265,7 @@ export const BaggageOperations: React.FC<BaggageOperationsProps> = ({
               </div>
             </div>
 
-            <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-4">
+            <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-3">
               <h4 className="text-sm font-semibold text-text-secondary mb-3 flex items-center gap-2">
                 <Activity className="w-4 h-4 text-accent-blue" />
                 <span>System Performance</span>

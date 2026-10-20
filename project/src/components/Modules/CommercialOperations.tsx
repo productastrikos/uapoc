@@ -92,10 +92,10 @@ const CommercialOperations: React.FC = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="space-y-6"
+      className="space-y-4"
     >
       {/* Header */}
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center space-x-3">
         <div className="p-2 bg-accent-blue/15 rounded-lg">
           <DollarSign className="w-5 h-5 text-accent-blue" />
         </div>
@@ -139,12 +139,12 @@ const CommercialOperations: React.FC = () => {
           second. */}
       <AiInsightPanel domain="commercial" />
 
-      <div className="grid grid-cols-12 gap-6">
+      <div className="grid grid-cols-12 gap-4">
         {/* Left Column - Revenue Streams */}
-        <div className="col-span-8 space-y-6">
+        <div className="col-span-8 space-y-4">
           {/* Revenue Stream Performance */}
-          <div className="glass-panel-strong rounded-xl p-6">
-            <div className="flex items-center justify-between mb-4">
+          <div className="glass-panel-strong rounded-xl p-4">
+            <div className="flex items-center justify-between mb-3">
               <h2 className="text-base font-semibold text-text-primary">{t('commercial.revenue_optimization')}</h2>
               <div className="flex items-center space-x-4 text-sm">
                 <div className="flex items-center space-x-2">
@@ -158,7 +158,7 @@ const CommercialOperations: React.FC = () => {
               </div>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-3">
               {revenueStreams.map((stream, index) => (
                 <motion.div
                   key={stream.id}
@@ -170,7 +170,7 @@ const CommercialOperations: React.FC = () => {
                   onClick={() => handleRevenueClick(stream)}
                 >
                   <div className="flex items-start justify-between">
-                    <div className="flex items-start space-x-4">
+                    <div className="flex items-start space-x-3">
                       <div className="p-2 bg-accent-blue/15 rounded-lg">
                         {stream.category === 'retail' ? <ShoppingBag className="h-5 w-5 text-accent-blue" /> :
                          stream.category === 'food_beverage' ? <BarChart3 className="h-5 w-5 text-accent-blue" /> :
@@ -179,11 +179,11 @@ const CommercialOperations: React.FC = () => {
                       </div>
 
                       <div className="flex-1">
-                        <h3 className="font-semibold text-text-primary group-hover:text-accent-blue transition-colors text-base mb-2">
+                        <h3 className="font-semibold text-text-primary group-hover:text-accent-blue transition-colors text-base mb-1.5">
                           {stream.name}
                         </h3>
 
-                        <div className="grid grid-cols-4 gap-6 mb-3">
+                        <div className="grid grid-cols-4 gap-4 mb-2.5">
                           <div>
                             <div className="text-xl font-bold text-text-primary">
                               ${(stream.currentRevenue / 1000).toFixed(1)}K
@@ -252,9 +252,9 @@ const CommercialOperations: React.FC = () => {
           </div>
 
           {/* Monthly Revenue Trends */}
-          <div className="glass-panel-strong rounded-xl p-6">
-            <h2 className="text-base font-semibold text-text-primary mb-4">{t('commercial.revenue_trends')}</h2>
-            <div className="h-80">
+          <div className="glass-panel-strong rounded-xl p-4">
+            <h2 className="text-base font-semibold text-text-primary mb-3">{t('commercial.revenue_trends')}</h2>
+            <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={monthlyRevenue}>
                   <XAxis dataKey="month" stroke="#8A9BA8" fontSize={12} />
@@ -267,7 +267,7 @@ const CommercialOperations: React.FC = () => {
                 </BarChart>
               </ResponsiveContainer>
             </div>
-            <div className="flex items-center justify-center space-x-6 mt-4 text-sm">
+            <div className="flex items-center justify-center space-x-4 mt-3 text-sm">
               <div className="flex items-center space-x-1">
                 <div className="w-3 h-3 bg-accent-teal rounded-full"></div>
                 <span className="text-text-muted">{t('commercial.retail')}</span>
@@ -289,11 +289,11 @@ const CommercialOperations: React.FC = () => {
         </div>
 
         {/* Right Column - Analytics */}
-        <div className="col-span-4 space-y-6">
+        <div className="col-span-4 space-y-4">
           {/* Customer Satisfaction */}
-          <div className="glass-panel-strong rounded-xl p-6">
-            <h3 className="text-base font-semibold text-text-primary mb-4">{t('commercial.customer_satisfaction')}</h3>
-            <div className="space-y-4">
+          <div className="glass-panel-strong rounded-xl p-4">
+            <h3 className="text-base font-semibold text-text-primary mb-3">{t('commercial.customer_satisfaction')}</h3>
+            <div className="space-y-3">
               {customerSatisfaction.map((item, index) => (
                 <motion.div
                   key={item.service}
@@ -330,9 +330,9 @@ const CommercialOperations: React.FC = () => {
           </div>
 
           {/* Conversion Rates */}
-          <div className="glass-panel-strong rounded-xl p-6">
-            <h3 className="text-base font-semibold text-text-primary mb-4">{t('commercial.conversion_rates')}</h3>
-            <div className="h-48">
+          <div className="glass-panel-strong rounded-xl p-4">
+            <h3 className="text-base font-semibold text-text-primary mb-3">{t('commercial.conversion_rates')}</h3>
+            <div className="h-40">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
@@ -352,7 +352,7 @@ const CommercialOperations: React.FC = () => {
                 </PieChart>
               </ResponsiveContainer>
             </div>
-            <div className="grid grid-cols-1 gap-2 mt-4 text-sm">
+            <div className="grid grid-cols-1 gap-2 mt-3 text-sm">
               {conversionRates.map((rate, index) => (
                 <div key={index} className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
@@ -366,12 +366,12 @@ const CommercialOperations: React.FC = () => {
           </div>
 
           {/* Revenue Opportunities */}
-          <div className="glass-panel-strong rounded-xl p-6">
-            <div className="flex items-center space-x-2 mb-4">
+          <div className="glass-panel-strong rounded-xl p-4">
+            <div className="flex items-center space-x-2 mb-3">
               <TrendingUp className="h-5 w-5 text-accent-blue" />
               <h3 className="text-base font-semibold text-text-primary">{t('commercial.revenue_opportunities')}</h3>
             </div>
-            <div className="space-y-3">
+            <div className="space-y-2">
               {[
                 { opportunity: t('commercial.premium_services'), impact: '+$8.2K/month', confidence: 85 },
                 { opportunity: t('commercial.loyalty_program'), impact: '+12% retention', confidence: 78 },

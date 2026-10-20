@@ -94,9 +94,9 @@ const CCTVFeed: React.FC = () => {
   };
 
   return (
-    <div className="bg-primary-800/60 backdrop-blur-lg rounded-xl border border-primary-600/40 p-3 shadow-2xl w-full h-full flex flex-col">
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center space-x-3">
+    <div className="bg-primary-800/60 backdrop-blur-lg rounded-xl border border-primary-600/40 p-2.5 shadow-2xl w-full h-full flex flex-col">
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center space-x-2">
           <Monitor className="w-5 h-5 md:w-6 md:h-6 text-accent-blue" />
           <div>
             <h3 className="text-base md:text-lg font-semibold text-text-primary">CCTV Surveillance</h3>
@@ -223,10 +223,10 @@ const CCTVFeed: React.FC = () => {
 
       {/* Fullscreen Modal */}
       {isFullscreen && (
-        <div className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-3">
           <div className="w-full max-w-6xl">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center space-x-3">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center space-x-2">
                 <h3 className="text-xl font-bold text-text-primary">{feeds[activeFeed]?.location}</h3>
                 <div className={`w-3 h-3 rounded-full ${feeds[activeFeed]?.alert ? 'bg-status-error animate-pulse' : 'bg-status-success'}`}></div>
               </div>

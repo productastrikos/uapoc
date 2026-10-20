@@ -95,8 +95,8 @@ const FlightTimeline: React.FC<FlightTimelineProps> = ({ flights: propFlights })
   return (
     <div className="w-full">
       <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl">
-        <div className="p-4 md:p-6 border-b border-primary-600/40">
-          <div className="flex items-center space-x-3">
+        <div className="p-3 md:p-4 border-b border-primary-600/40">
+          <div className="flex items-center space-x-2">
             <div className="p-2 bg-accent-blue/10 rounded-lg border border-accent-blue/30">
               <Plane className="w-5 h-5 md:w-6 md:h-6 text-accent-blue" />
             </div>
@@ -107,13 +107,13 @@ const FlightTimeline: React.FC<FlightTimelineProps> = ({ flights: propFlights })
           </div>
         </div>
 
-        <div className="p-4 md:p-6">
-          <div className="space-y-6 md:space-y-8 max-h-[70vh] overflow-y-auto">
+        <div className="p-3 md:p-4">
+          <div className="space-y-4 md:space-y-6 max-h-[70vh] overflow-y-auto">
             {flights.map(flight => (
-              <div key={flight.id} className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-4 md:p-6">
+              <div key={flight.id} className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-3 md:p-4">
                 {/* Flight Header */}
-                <div className="flex flex-col md:flex-row md:items-center justify-between mb-4 md:mb-6 space-y-4 md:space-y-0">
-                  <div className="flex items-center space-x-4">
+                <div className="flex flex-col md:flex-row md:items-center justify-between mb-3 md:mb-4 space-y-3 md:space-y-0">
+                  <div className="flex items-center space-x-3">
                     <div className="w-10 h-10 md:w-12 md:h-12 bg-primary-900/50 rounded-xl flex items-center justify-center border border-primary-600/40">
                       <Plane className="w-5 h-5 md:w-6 md:h-6 text-accent-blue" />
                     </div>
@@ -122,7 +122,7 @@ const FlightTimeline: React.FC<FlightTimelineProps> = ({ flights: propFlights })
                       <p className="text-sm md:text-base text-text-secondary">{flight.airline}</p>
                     </div>
                   </div>
-                  <div className="grid grid-cols-2 gap-4 md:flex md:flex-col md:items-end md:gap-1">
+                  <div className="grid grid-cols-2 gap-3 md:flex md:flex-col md:items-end md:gap-1">
                     <div className="flex items-center space-x-2 text-text-secondary">
                       <MapPin className="w-4 h-4" />
                       <span className="text-sm">Gate {flight.gate}</span>
@@ -135,9 +135,9 @@ const FlightTimeline: React.FC<FlightTimelineProps> = ({ flights: propFlights })
                 </div>
 
                 {/* Current Phase Status */}
-                <div className="mb-4 md:mb-6">
+                <div className="mb-3 md:mb-4">
                   <div className="flex flex-col md:flex-row md:items-center justify-between mb-3 space-y-2 md:space-y-0">
-                    <div className="flex items-center space-x-3">
+                    <div className="flex items-center space-x-2">
                       <span className="text-sm font-medium text-text-secondary">Current Phase:</span>
                       <div className="flex items-center space-x-2 text-accent-blue">
                         {getPhaseIcon(flight.phase.current)}
@@ -164,8 +164,8 @@ const FlightTimeline: React.FC<FlightTimelineProps> = ({ flights: propFlights })
                 </div>
 
                 {/* Phase Timeline */}
-                <div className="mb-4 md:mb-6 overflow-x-auto">
-                  <div className="flex justify-between items-center relative min-w-[600px] px-4">
+                <div className="mb-3 md:mb-4 overflow-x-auto">
+                  <div className="flex justify-between items-center relative min-w-[600px] px-3">
                     {/* Connection Line */}
                     <div className="absolute top-6 left-8 right-8 h-0.5 bg-primary-600/40"></div>
 
@@ -201,12 +201,12 @@ const FlightTimeline: React.FC<FlightTimelineProps> = ({ flights: propFlights })
                 </div>
 
                 {/* AO-S System Automation Status */}
-                <div className="bg-primary-900/50 rounded-lg p-3 md:p-4 border border-primary-600/40">
+                <div className="bg-primary-900/50 rounded-lg p-2.5 md:p-3 border border-primary-600/40">
                   <h5 className="text-text-secondary font-semibold mb-3 flex items-center space-x-2">
                     <Activity className="w-4 h-4 text-accent-blue" />
                     <span>AO-S Automated System Responses</span>
                   </h5>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-2.5">
                     <div className="flex items-center space-x-2">
                       <div className="w-2 h-2 rounded-full bg-status-success"></div>
                       <span className="text-xs text-text-secondary">Lighting: Manual</span>
@@ -227,22 +227,22 @@ const FlightTimeline: React.FC<FlightTimelineProps> = ({ flights: propFlights })
                 </div>
 
                 {/* Real-time Metrics */}
-                <div className="mt-4 grid grid-cols-3 gap-3 md:gap-4">
-                  <div className="bg-primary-900/50 border border-primary-600/40 rounded-lg p-3 text-center">
+                <div className="mt-3 grid grid-cols-3 gap-2.5 md:gap-3">
+                  <div className="bg-primary-900/50 border border-primary-600/40 rounded-lg p-2.5 text-center">
                     <div className="flex items-center justify-center mb-2">
                       <Thermometer className="w-4 h-4 md:w-5 md:h-5 text-accent-blue" />
                     </div>
                     <div className="text-xs text-text-muted">Gate Temp</div>
                     <div className="text-sm md:text-lg font-bold text-text-primary">22.5°C</div>
                   </div>
-                  <div className="bg-primary-900/50 border border-primary-600/40 rounded-lg p-3 text-center">
+                  <div className="bg-primary-900/50 border border-primary-600/40 rounded-lg p-2.5 text-center">
                     <div className="flex items-center justify-center mb-2">
                       <Zap className="w-4 h-4 md:w-5 md:h-5 text-status-success" />
                     </div>
                     <div className="text-xs text-text-muted">Energy Use</div>
                     <div className="text-sm md:text-lg font-bold text-text-primary">156kW</div>
                   </div>
-                  <div className="bg-primary-900/50 border border-primary-600/40 rounded-lg p-3 text-center">
+                  <div className="bg-primary-900/50 border border-primary-600/40 rounded-lg p-2.5 text-center">
                     <div className="flex items-center justify-center mb-2">
                       <Activity className="w-4 h-4 md:w-5 md:h-5 text-accent-blue" />
                     </div>
@@ -255,8 +255,8 @@ const FlightTimeline: React.FC<FlightTimelineProps> = ({ flights: propFlights })
           </div>
         </div>
       </div>
-      <div className="p-4 md:p-6 flex-1 overflow-hidden">
-        <div className="space-y-6 md:space-y-8 h-full overflow-y-auto">
+      <div className="p-3 md:p-4 flex-1 overflow-hidden">
+        <div className="space-y-4 md:space-y-6 h-full overflow-y-auto">
         </div>
       </div>
     </div>

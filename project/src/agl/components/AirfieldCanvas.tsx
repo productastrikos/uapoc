@@ -631,12 +631,12 @@ const AirfieldCanvas: React.FC<Props> = ({ overlay, routeTags, aircraft, papiWhi
       </div>
 
       <div className="absolute top-2 right-2 flex items-center gap-1">
-        <span className="px-1.5 py-0.5 rounded bg-black/60 backdrop-blur border border-white/10 text-[length:calc(10px*var(--fs))] font-mono text-text-muted shadow-lg">
+        <span className="px-1.5 py-0.5 rounded bg-black/60 backdrop-blur border border-accent-blue/10 text-[length:calc(10px*var(--fs))] font-mono text-text-muted shadow-lg">
           {zoom < 1 ? `${zoom.toFixed(2)}×` : `${zoom.toFixed(1)}×`}
         </span>
         <button
           onClick={resetView}
-          className="px-2 py-0.5 rounded bg-black/60 backdrop-blur border border-white/10 text-[length:calc(10px*var(--fs))] text-text-secondary hover:text-text-primary shadow-lg"
+          className="px-2 py-0.5 rounded bg-black/60 backdrop-blur border border-accent-blue/10 text-[length:calc(10px*var(--fs))] text-text-secondary hover:text-text-primary shadow-lg"
         >
           Fit
         </button>
@@ -658,7 +658,7 @@ const ScaleBar: React.FC<{ metresPerView: number }> = ({ metresPerView }) => {
   return (
     <div className="absolute bottom-2.5 left-3 pointer-events-none">
       <div className="flex items-end gap-1.5">
-        <div className="h-1.5 border-l border-r border-b border-slate-300/70 drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]"
+        <div className="h-1.5 border-l border-r border-b border-accent-blue/40 drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]"
              style={{ width: `${pct}%`, minWidth: 24 }} />
         <span className="text-[length:calc(10px*var(--fs))] font-mono text-text-muted leading-none drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
           {nice >= 1000 ? `${nice / 1000} km` : `${nice} m`}
@@ -702,7 +702,7 @@ const MapLegend: React.FC = () => {
     <div className="absolute bottom-2.5 right-3 z-20">
       <div
         className="rounded-lg border backdrop-blur-sm overflow-hidden"
-        style={{ background: 'rgba(8,12,32,0.9)', borderColor: 'rgba(255,255,255,0.14)' }}
+        style={{ background: 'rgba(8,12,32,0.9)', borderColor: 'rgba(32, 120, 207,0.14)' }}
       >
         <button
           onClick={() => setOpen((v) => !v)}
@@ -731,7 +731,7 @@ const MapLegend: React.FC = () => {
               ))}
             </div>
 
-            <div className="pt-1.5 border-t border-white/10 space-y-1">
+            <div className="pt-1.5 border-t border-accent-blue/10 space-y-1">
               {LEGEND_STATE.map((l) => (
                 <div key={l.label} className="flex items-center gap-2">
                   <span
@@ -748,7 +748,7 @@ const MapLegend: React.FC = () => {
               ))}
             </div>
 
-            <div className="pt-1.5 border-t border-white/10 flex items-center gap-2">
+            <div className="pt-1.5 border-t border-accent-blue/10 flex items-center gap-2">
               <span className="w-4 h-[3px] rounded-sm shrink-0" style={{ background: '#FBBF24' }} />
               <span className="text-[length:calc(10px*var(--fs))] text-text-secondary leading-tight">
                 Cleared route (follow-the-green)

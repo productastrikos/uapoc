@@ -780,7 +780,7 @@ const SubsystemPage: React.FC<SubsystemPageProps> = ({
               <div className="flex flex-col gap-2" style={{ flex: 7, minWidth: 0, minHeight: 0 }}>
                 <div className="kpi-zoom-sm" style={{
                   flex: '4 1 0%', minHeight: 0, borderRadius: 14,
-                  background: 'var(--app-surface)', border: '1px solid rgba(255,255,255,0.08)',
+                  background: 'var(--app-surface)', border: '1px solid rgba(32, 120, 207,0.08)',
                   padding: 8, display: 'flex', flexDirection: 'column', gap: 6,
                 }}>
                   {kpiAreaOverride}

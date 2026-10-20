@@ -46,25 +46,26 @@ const CLASS_ICON: Record<AiClass, React.ElementType> = {
   optimise: Sparkles,
 };
 
-/** Severity drives the card's accent; the class drives only the chip. */
-const TONE: Record<AiSeverity, { border: string; wash: string; text: string; bar: string }> = {
+/* The card itself stays the one AI-blue identity regardless of severity —
+ * only the small badge in the header carries the severity color, as a quiet
+ * signal rather than a wash across the whole card. A "critical" and an
+ * "opportunity" card should look like the same product, not three different
+ * alert skins glued together. */
+const TONE: Record<AiSeverity, { badgeBg: string; badgeText: string; bullet: string }> = {
   critical: {
-    border: 'border-status-error/45',
-    wash: 'from-status-error/10',
-    text: 'text-status-error',
-    bar: 'bg-status-error',
+    badgeBg: 'bg-status-error/15 border-status-error/35',
+    badgeText: 'text-status-error',
+    bullet: 'text-status-error',
   },
   warning: {
-    border: 'border-status-warning/45',
-    wash: 'from-status-warning/10',
-    text: 'text-status-warning',
-    bar: 'bg-status-warning',
+    badgeBg: 'bg-status-warning/15 border-status-warning/35',
+    badgeText: 'text-status-warning',
+    bullet: 'text-status-warning',
   },
   opportunity: {
-    border: 'border-accent-teal/45',
-    wash: 'from-accent-teal/10',
-    text: 'text-accent-teal',
-    bar: 'bg-accent-teal',
+    badgeBg: 'bg-accent-blue/15 border-accent-blue/35',
+    badgeText: 'text-accent-blue',
+    bullet: 'text-accent-blue',
   },
 };
 
@@ -115,15 +116,19 @@ const AiInsightCard: React.FC<Props> = ({ insight, compact = false, showDomain =
       layout
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: disposition === 'dismissed' ? 0.45 : 1, y: 0 }}
-      className={`glass-panel bg-gradient-to-br ${tone.wash} to-transparent border-l-2 ${tone.border} rounded-lg overflow-hidden`}
+      className="glass-panel rounded-2xl overflow-hidden"
     >
       {/* Class, confidence and horizon. Everything an operator needs to triage
-          the card before reading a word of the body. */}
-      <header className="flex items-center gap-2 px-3 py-2 border-b border-primary-500/30 bg-primary-900/20">
-        <Icon className={`w-4 h-4 shrink-0 ${tone.text}`} />
-        <span className={`text-[length:calc(10px*var(--fs))] font-semibold uppercase tracking-wide ${tone.text}`}>
+          the card before reading a word of the body. Severity is a small
+          badge, not a wash across the header — the card is still visibly
+          "the AI panel" first, "a critical one" second. */}
+      <header className="flex items-center gap-2 px-3.5 py-2.5 border-b border-accent-blue/15">
+        <Icon className="w-4 h-4 shrink-0 text-accent-blue" />
+
+        <span className={`inline-flex items-center px-2 py-0.5 rounded-full border text-[length:calc(10px*var(--fs))] font-semibold uppercase tracking-wide ${tone.badgeBg} ${tone.badgeText}`}>
           {SEVERITY_WORD[insight.severity]}
         </span>
+
         {showDomain && (
           <span className="text-[length:calc(10px*var(--fs))] text-text-muted truncate">
             · {DOMAIN_LABEL[insight.domain]}
@@ -157,10 +162,11 @@ const AiInsightCard: React.FC<Props> = ({ insight, compact = false, showDomain =
           {insight.plain ?? insight.observation}
         </p>
 
-        {/* The prescription. Bordered so it reads as the actionable half of the
-            card rather than more prose. */}
-        <div className="bg-primary-900/50 border-l-2 border-accent-teal px-3 py-2">
-          <h4 className="text-[length:calc(10px*var(--fs))] uppercase tracking-wide text-accent-teal mb-1">
+        {/* The prescription — a glass chip of its own rather than a flat,
+            hard-edged box, so it reads as part of the same card instead of a
+            pasted-on callout. */}
+        <div className="bg-accent-blue/10 border border-accent-blue/20 rounded-xl px-3 py-2">
+          <h4 className="text-[length:calc(10px*var(--fs))] uppercase tracking-wide text-accent-blue mb-1 font-semibold">
             What to do
           </h4>
           <p className={`text-text-secondary leading-snug ${compact ? 'text-[length:calc(11px*var(--fs))]' : 'text-xs'}`}>
@@ -207,7 +213,7 @@ const AiInsightCard: React.FC<Props> = ({ insight, compact = false, showDomain =
                       key={i}
                       className="flex gap-1.5 text-[length:calc(11px*var(--fs))] text-text-secondary leading-snug"
                     >
-                      <span className={`shrink-0 ${tone.text}`}>•</span>
+                      <span className={`shrink-0 ${tone.bullet}`}>•</span>
                       <span>{e}</span>
                     </li>
                   ))}
@@ -238,7 +244,7 @@ const AiInsightCard: React.FC<Props> = ({ insight, compact = false, showDomain =
                 disposition === 'accepted'
                   ? 'text-status-success'
                   : disposition === 'shadow'
-                  ? 'text-accent-teal'
+                  ? 'text-accent-blue'
                   : 'text-text-muted'
               }`}
             >
@@ -262,21 +268,21 @@ const AiInsightCard: React.FC<Props> = ({ insight, compact = false, showDomain =
           <div className="flex items-center gap-1.5 flex-wrap pt-1">
             <button
               onClick={accept}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-accent-teal/20 border border-accent-teal/60 text-[length:calc(11px*var(--fs))] font-medium text-accent-teal hover:bg-accent-teal/30 transition-colors"
+              className="btn btn-primary text-[length:calc(11px*var(--fs))] py-1"
             >
               <Play className="w-3 h-3" />
               {insight.action}
             </button>
             <button
               onClick={shadow}
-              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded bg-primary-600/50 border border-primary-500/50 text-[length:calc(11px*var(--fs))] text-text-secondary hover:text-text-primary transition-colors"
+              className="btn btn-secondary text-[length:calc(11px*var(--fs))] py-1"
             >
               <Eye className="w-3 h-3" />
               Just watch
             </button>
             <button
               onClick={dismiss}
-              className="px-2 py-1.5 rounded text-[length:calc(11px*var(--fs))] text-text-muted hover:text-text-secondary transition-colors"
+              className="px-2 py-1.5 rounded-full text-[length:calc(11px*var(--fs))] text-text-muted hover:text-text-secondary transition-colors"
             >
               Dismiss
             </button>

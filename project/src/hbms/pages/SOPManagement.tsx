@@ -75,8 +75,8 @@ const SOPManagement: React.FC = () => {
   return (
     <div className="h-full flex flex-col text-text-primary bg-primary-900">
       {/* Header */}
-      <div className="px-5 py-3 flex justify-between items-center flex-shrink-0 gap-4 flex-wrap bg-primary-800 border-b border-primary-600/40">
-        <div className="flex items-center gap-3">
+      <div className="px-4 py-2 flex justify-between items-center flex-shrink-0 gap-3 flex-wrap bg-primary-800 border-b border-primary-600/40">
+        <div className="flex items-center gap-2">
           <div className="p-2 bg-accent-blue/15 rounded-lg text-accent-blue">
             <ClipboardList className="w-5 h-5" />
           </div>
@@ -95,7 +95,7 @@ const SOPManagement: React.FC = () => {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search procedures…"
-              className="pl-9 pr-3 py-1.5 text-sm rounded-md outline-none bg-primary-800 border border-primary-600 focus:border-accent-blue transition-colors text-text-primary"
+              className="pl-9 pr-2 py-1.5 text-sm rounded-md outline-none bg-primary-800 border border-primary-600 focus:border-accent-blue transition-colors text-text-primary"
               style={{ width: 220 }}
             />
           </div>
@@ -106,7 +106,7 @@ const SOPManagement: React.FC = () => {
         </div>
       </div>
 
-      <div className="flex-1 min-h-0 flex gap-3 p-3">
+      <div className="flex-1 min-h-0 flex gap-2 p-2">
         {/* ── List ───────────────────────────────────────────────────────── */}
         <div className="w-[330px] shrink-0 overflow-y-auto no-scrollbar space-y-1.5">
           {list.map((s) => {
@@ -116,7 +116,7 @@ const SOPManagement: React.FC = () => {
               <button
                 key={s.id}
                 onClick={() => { setSelectedId(s.id); setRunning(null); setDone([]); }}
-                className={`w-full text-left rounded-lg border px-3 py-2.5 transition-colors ${
+                className={`w-full text-left rounded-lg border px-2 py-2.5 transition-colors ${
                   active
                     ? 'bg-accent-blue/10 border-accent-blue/50'
                     : 'bg-primary-800/60 border-primary-600/40 hover:border-primary-500/60'
@@ -147,15 +147,15 @@ const SOPManagement: React.FC = () => {
         </div>
 
         {/* ── Detail ─────────────────────────────────────────────────────── */}
-        <div className="flex-1 min-w-0 overflow-y-auto no-scrollbar rounded-lg border p-4 bg-primary-800/60 border-primary-600/40">
-          <div className="flex items-start gap-3 flex-wrap">
+        <div className="flex-1 min-w-0 overflow-y-auto no-scrollbar rounded-lg border p-3 bg-primary-800/60 border-primary-600/40">
+          <div className="flex items-start gap-2 flex-wrap">
             <div className="min-w-0 flex-1">
               <h2 className="text-lg font-bold text-text-primary leading-tight">{sop.name}</h2>
               <p className="mt-0.5 text-xs text-text-secondary font-mono">
                 {sop.id} · {sop.subsystem} · {sop.category}
               </p>
             </div>
-            <div className="flex items-center gap-3 text-right">
+            <div className="flex items-center gap-2 text-right">
               <div>
                 <div className="text-[length:calc(10px*var(--fs))] uppercase tracking-wide text-text-muted">Duration</div>
                 <div className="text-base font-bold font-mono text-text-primary">~{sopDuration(sop.steps)}m</div>
@@ -169,7 +169,7 @@ const SOPManagement: React.FC = () => {
 
           {/* What raises it, and what the AI says about it. */}
           <div className="mt-3 grid gap-2 md:grid-cols-2">
-            <div className="rounded-md border px-3 py-2" style={{ borderColor: 'rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.03)' }}>
+            <div className="rounded-md border px-2 py-2" style={{ borderColor: 'rgba(32, 120, 207,0.1)', background: 'rgba(32, 120, 207,0.03)' }}>
               <div className="flex items-center gap-1.5 mb-1">
                 <Zap className="w-3.5 h-3.5 text-amber-300" />
                 <span className="text-[length:calc(10px*var(--fs))] uppercase tracking-wide text-text-muted">Triggered when</span>
@@ -177,7 +177,7 @@ const SOPManagement: React.FC = () => {
               <p className="text-xs text-text-primary leading-snug">{sop.trigger}</p>
             </div>
 
-            <div className="rounded-md border border-accent-blue/40 px-3 py-2 bg-accent-blue/10">
+            <div className="rounded-md border border-accent-blue/40 px-2 py-2 bg-accent-blue/10">
               <div className="flex items-center gap-1.5 mb-1">
                 <Bot className="w-3.5 h-3.5 text-accent-blue" />
                 <span className="text-[length:calc(10px*var(--fs))] uppercase tracking-wide text-accent-blue">What the AI advises</span>
@@ -195,7 +195,7 @@ const SOPManagement: React.FC = () => {
           {/* Steps */}
           <div className="mt-4 flex items-center gap-2">
             <h3 className="text-xs font-bold uppercase tracking-widest text-text-muted">Procedure</h3>
-            <div className="flex-1 h-px" style={{ background: 'rgba(255,255,255,0.08)' }} />
+            <div className="flex-1 h-px" style={{ background: 'rgba(32, 120, 207,0.08)' }} />
             <button
               onClick={run}
               disabled={running === sop.id}
@@ -212,10 +212,10 @@ const SOPManagement: React.FC = () => {
               return (
                 <li
                   key={st.order}
-                  className="flex gap-2.5 rounded-md border px-3 py-2 transition-colors"
+                  className="flex gap-2.5 rounded-md border px-2 py-2 transition-colors"
                   style={{
-                    background: ok ? 'rgba(16,185,129,0.08)' : 'rgba(255,255,255,0.02)',
-                    borderColor: ok ? 'rgba(16,185,129,0.35)' : 'rgba(255,255,255,0.07)',
+                    background: ok ? 'rgba(16,185,129,0.08)' : 'rgba(32, 120, 207,0.02)',
+                    borderColor: ok ? 'rgba(16,185,129,0.35)' : 'rgba(32, 120, 207,0.07)',
                   }}
                 >
                   <span
@@ -223,7 +223,7 @@ const SOPManagement: React.FC = () => {
                     style={
                       ok
                         ? { background: 'rgba(16,185,129,0.25)', borderColor: 'rgba(52,211,153,0.7)', color: '#6EE7B7' }
-                        : { background: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.14)', color: '#8A9BA8' }
+                        : { background: 'rgba(32, 120, 207,0.05)', borderColor: 'rgba(32, 120, 207,0.14)', color: '#8A9BA8' }
                     }
                   >
                     {ok ? <CheckCircle2 className="w-3 h-3" /> : st.order}
@@ -245,7 +245,7 @@ const SOPManagement: React.FC = () => {
 
           {complete && (
             <div
-              className="mt-3 rounded-md border px-3 py-2 flex items-center gap-2 flex-wrap"
+              className="mt-3 rounded-md border px-2 py-2 flex items-center gap-2 flex-wrap"
               style={{ background: 'rgba(16,185,129,0.1)', borderColor: 'rgba(16,185,129,0.4)' }}
             >
               <CheckCircle2 className="w-4 h-4 text-emerald-300" />
@@ -272,7 +272,7 @@ const SOPManagement: React.FC = () => {
               return (
                 <div
                   key={key}
-                  className={`rounded-md border px-3 py-2 ${
+                  className={`rounded-md border px-2 py-2 ${
                     on ? 'bg-accent-blue/10 border-accent-blue/35' : 'bg-white/[0.02] border-primary-600/40'
                   }`}
                 >

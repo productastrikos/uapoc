@@ -304,23 +304,23 @@ const TrendAnalysisModal: React.FC<TrendAnalysisModalProps> = ({ kpi, onClose })
     : null;
 
   const dateInputStyle: React.CSSProperties = {
-    background: 'var(--app-surface-soft)', border: '1px solid rgba(255,255,255,0.10)', borderRadius: 8,
+    background: 'var(--app-surface-soft)', border: '1px solid rgba(32, 120, 207,0.10)', borderRadius: 8,
     color: '#B8C5D1', fontSize: 10, fontWeight: 600, padding: '4px 6px', colorScheme: 'dark',
   };
 
   return (
     <div
-      className="fixed inset-0 z-[2000] flex items-center justify-center p-4"
+      className="fixed inset-0 z-[2000] flex items-center justify-center p-3"
       style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)' }}
       onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
       <div
         className="w-full rounded-2xl border overflow-hidden flex flex-col animate-slide-up"
-        style={{ maxWidth: '920px', maxHeight: '88vh', background: 'var(--app-bg-elevated)', borderColor: 'rgba(255,255,255,0.10)', boxShadow: '0 25px 60px rgba(0,0,0,0.55)' }}
+        style={{ maxWidth: '920px', maxHeight: '88vh', background: 'var(--app-bg-elevated)', borderColor: 'rgba(32, 120, 207,0.10)', boxShadow: '0 25px 60px rgba(0,0,0,0.55)' }}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 flex-shrink-0" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-          <div className="flex items-center gap-3 min-w-0">
+        <div className="flex items-center justify-between px-4 py-3 flex-shrink-0" style={{ borderBottom: '1px solid rgba(32, 120, 207,0.08)' }}>
+          <div className="flex items-center gap-2 min-w-0">
             <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: `${kpi.color}22`, color: kpi.color }}>
               <TrendIcon className="w-4.5 h-4.5" />
             </div>
@@ -334,7 +334,7 @@ const TrendAnalysisModal: React.FC<TrendAnalysisModalProps> = ({ kpi, onClose })
           </button>
         </div>
 
-        <div className="overflow-y-auto px-5 py-4" style={{ scrollbarWidth: 'thin' }}>
+        <div className="overflow-y-auto px-4 py-3" style={{ scrollbarWidth: 'thin' }}>
           {/* Stat row */}
           <div className="grid grid-cols-5 gap-2 mb-4">
             {[
@@ -344,7 +344,7 @@ const TrendAnalysisModal: React.FC<TrendAnalysisModalProps> = ({ kpi, onClose })
               { label: 'Max', v: fmtValue(max), color: '#fbbf24' },
               { label: 'Change', v: `${changePct >= 0 ? '+' : ''}${changePct.toFixed(1)}%`, color: trendColor },
             ].map((s) => (
-              <div key={s.label} className="rounded-lg p-2 text-center" style={{ background: 'var(--app-surface-soft)', border: '1px solid rgba(255,255,255,0.05)' }}>
+              <div key={s.label} className="rounded-lg p-2 text-center" style={{ background: 'var(--app-surface-soft)', border: '1px solid rgba(32, 120, 207,0.05)' }}>
                 <p className="text-[length:calc(9px*var(--fs))] font-semibold text-text-muted uppercase tracking-wide mb-0.5">{s.label}</p>
                 <p className="text-xs font-bold" style={{ color: s.color }}>{s.v}</p>
               </div>
@@ -367,7 +367,7 @@ const TrendAnalysisModal: React.FC<TrendAnalysisModalProps> = ({ kpi, onClose })
                   {r}
                 </button>
               ))}
-              <span className="w-px h-4 mx-0.5 flex-shrink-0" style={{ background: 'rgba(255,255,255,0.12)' }} />
+              <span className="w-px h-4 mx-0.5 flex-shrink-0" style={{ background: 'rgba(32, 120, 207,0.12)' }} />
               <button
                 onClick={() => setRange('Custom')}
                 className="px-2.5 py-1 rounded-md text-[length:calc(10px*var(--fs))] font-bold transition-all"
@@ -398,7 +398,7 @@ const TrendAnalysisModal: React.FC<TrendAnalysisModalProps> = ({ kpi, onClose })
               className="flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[length:calc(10px*var(--fs))] font-bold transition-all min-w-[4.5rem]"
               style={{
                 background: playing ? `${kpi.color}22` : 'var(--app-surface-soft)',
-                border: `1px solid ${playing ? `${kpi.color}66` : 'rgba(255,255,255,0.08)'}`,
+                border: `1px solid ${playing ? `${kpi.color}66` : 'rgba(32, 120, 207,0.08)'}`,
                 color: playing ? kpi.color : '#B8C5D1',
               }}
               title={playing ? 'Pause the timeline' : 'Play the timeline'}
@@ -456,7 +456,7 @@ const TrendAnalysisModal: React.FC<TrendAnalysisModalProps> = ({ kpi, onClose })
           <div
             ref={chartWrapRef}
             className="relative rounded-xl overflow-hidden"
-            style={{ background: 'var(--app-surface-soft)', border: '1px solid rgba(255,255,255,0.06)' }}
+            style={{ background: 'var(--app-surface-soft)', border: '1px solid rgba(32, 120, 207,0.06)' }}
           >
             <div ref={scrollRef} className="overflow-x-auto" style={{ scrollbarWidth: 'thin' }}>
               <svg
@@ -479,7 +479,7 @@ const TrendAnalysisModal: React.FC<TrendAnalysisModalProps> = ({ kpi, onClose })
                 </defs>
                 {/* gridlines */}
                 {[0, 0.25, 0.5, 0.75, 1].map((f) => (
-                  <line key={f} x1={0} x2={innerW} y1={CHART_H * f} y2={CHART_H * f} stroke="rgba(255,255,255,0.06)" strokeWidth={1} />
+                  <line key={f} x1={0} x2={innerW} y1={CHART_H * f} y2={CHART_H * f} stroke="rgba(32, 120, 207,0.06)" strokeWidth={1} />
                 ))}
                 <path d={areaPath} fill="url(#trendFill)" opacity={revealing ? 0.3 : 1} />
                 <path d={linePath} fill="none" stroke={kpi.color} strokeWidth={2} strokeOpacity={revealing ? 0.22 : 1} strokeLinejoin="round" strokeLinecap="round" />
@@ -545,7 +545,7 @@ const TrendAnalysisModal: React.FC<TrendAnalysisModalProps> = ({ kpi, onClose })
               ref={brushRef}
               onClick={handleBrushTrackClick}
               className="relative rounded-lg cursor-pointer select-none"
-              style={{ height: 56, background: 'var(--app-surface-soft)', border: '1px solid rgba(255,255,255,0.06)', touchAction: 'none' }}
+              style={{ height: 56, background: 'var(--app-surface-soft)', border: '1px solid rgba(32, 120, 207,0.06)', touchAction: 'none' }}
             >
               <svg width="100%" height={56} viewBox={`0 0 ${BRUSH_W} ${BRUSH_H}`} preserveAspectRatio="none" className="absolute inset-0 pointer-events-none" style={{ padding: 2 }}>
                 <path d={brushPath} fill="none" stroke={kpi.color} strokeOpacity={0.55} strokeWidth={2} vectorEffect="non-scaling-stroke" />

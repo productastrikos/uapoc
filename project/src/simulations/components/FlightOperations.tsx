@@ -377,10 +377,10 @@ export const FlightOperations: React.FC<FlightOperationsProps> = ({
   const arrivalStep = PHASE_TO_STEP[currentPhase] ?? (isLanding ? 4 : -1);
 
   return (
-    <div className="space-y-4 w-full overflow-hidden">
+    <div className="space-y-3 w-full overflow-hidden">
       {/* Flight Status Overview */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
-        <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-3 md:p-4 cursor-pointer hover:bg-primary-700/40 transition-colors"
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 md:gap-3">
+        <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-2.5 md:p-3 cursor-pointer hover:bg-primary-700/40 transition-colors"
              onClick={(e) => handleElementClick('aircraft', { phase: currentPhase }, e)}>
           <div className="flex items-center justify-between">
             <div>
@@ -397,7 +397,7 @@ export const FlightOperations: React.FC<FlightOperationsProps> = ({
           </div>
         </div>
 
-        <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-3 md:p-4 cursor-pointer hover:bg-primary-700/40 transition-colors"
+        <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-2.5 md:p-3 cursor-pointer hover:bg-primary-700/40 transition-colors"
              onClick={(e) => handleElementClick('AO-S Core', { active: systemsActive }, e)}>
           <div className="flex items-center justify-between">
             <div>
@@ -412,7 +412,7 @@ export const FlightOperations: React.FC<FlightOperationsProps> = ({
           </div>
         </div>
 
-        <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-3 md:p-4">
+        <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-2.5 md:p-3">
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-sm md:text-lg font-semibold text-text-primary">Operation Timer</h3>
@@ -428,7 +428,7 @@ export const FlightOperations: React.FC<FlightOperationsProps> = ({
           </div>
         </div>
 
-        <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-3 md:p-4">
+        <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-2.5 md:p-3">
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-sm md:text-lg font-semibold text-text-primary">Configuration</h3>
@@ -480,17 +480,17 @@ export const FlightOperations: React.FC<FlightOperationsProps> = ({
 
       {/* Enhanced Digital Twin Airport Layout */}
       <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl w-full">
-        <div className="p-4 md:p-5 space-y-4">
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
-            <h2 className="text-lg md:text-xl font-bold text-text-primary flex items-center space-x-3">
+        <div className="p-3 md:p-4 space-y-3">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-2.5">
+            <h2 className="text-lg md:text-xl font-bold text-text-primary flex items-center space-x-2">
               <div className="p-2 bg-accent-blue/10 rounded-lg border border-accent-blue/30">
                 <Eye className="h-5 w-5 text-accent-blue" />
               </div>
               <span>AO-S — Precision Airport Operations</span>
             </h2>
 
-            <div className="flex flex-wrap items-center gap-3">
-              <div className="flex items-center gap-2 bg-primary-900/40 border border-primary-600/40 rounded-lg px-3 py-2">
+            <div className="flex flex-wrap items-center gap-2.5">
+              <div className="flex items-center gap-2 bg-primary-900/40 border border-primary-600/40 rounded-lg px-2.5 py-2">
                 <Gauge className="w-4 h-4 text-accent-blue" />
                 <label className="text-xs text-text-muted">Speed</label>
                 <select
@@ -520,8 +520,8 @@ export const FlightOperations: React.FC<FlightOperationsProps> = ({
           </div>
 
           {/* Enhanced coordinate and surface validation */}
-          <div className="bg-primary-900/40 rounded-lg p-3 border border-primary-600/40 overflow-x-auto">
-            <div className="flex flex-wrap items-center gap-2 md:gap-4 text-xs md:text-sm min-w-max">
+          <div className="bg-primary-900/40 rounded-lg p-2.5 border border-primary-600/40 overflow-x-auto">
+            <div className="flex flex-wrap items-center gap-2 md:gap-3 text-xs md:text-sm min-w-max">
               <div className="text-text-muted">Aircraft position:</div>
               <div className="text-text-primary tabular-nums">X {aircraftPosition.x.toFixed(1)}</div>
               <div className="text-text-primary tabular-nums">Y {aircraftPosition.y.toFixed(1)}</div>
@@ -534,9 +534,9 @@ export const FlightOperations: React.FC<FlightOperationsProps> = ({
             </div>
           </div>
 
-          <div className="grid grid-cols-1 xl:grid-cols-[310px_minmax(0,1fr)] gap-4 items-stretch">
+          <div className="grid grid-cols-1 xl:grid-cols-[310px_minmax(0,1fr)] gap-3 items-stretch">
             {/* ---- left rail: arrival procedure + subsystem state ---- */}
-            <div className="flex flex-col gap-4 min-w-0">
+            <div className="flex flex-col gap-3 min-w-0">
               <SOPPanel
                 className="flex-1 min-h-[300px] max-h-[480px]"
                 accent="teal"
@@ -549,7 +549,7 @@ export const FlightOperations: React.FC<FlightOperationsProps> = ({
                 subtitle="Each step is triggered by where the aircraft is on the airfield, not by a timer."
               />
 
-              <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-3">
+              <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-2.5">
                 <h4 className="text-xs font-semibold text-text-primary mb-2 flex items-center gap-2 uppercase tracking-wide">
                   <Settings className="w-3.5 h-3.5 text-accent-blue" />
                   <span>AO-S System Status</span>
@@ -590,10 +590,10 @@ export const FlightOperations: React.FC<FlightOperationsProps> = ({
           </div>
 
           {/* AO-S System Integration Panel */}
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-            <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-4 cursor-pointer hover:bg-primary-700/40 transition-colors"
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3">
+            <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-3 cursor-pointer hover:bg-primary-700/40 transition-colors"
                  onClick={(e) => handleElementClick('FIDS Integration', { status: systemsActive ? 'active' : 'standby' }, e)}>
-              <div className="flex items-center space-x-3 mb-2">
+              <div className="flex items-center space-x-2 mb-2">
                 <Radio className="w-4 h-4 text-accent-blue" />
                 <h4 className="font-semibold text-text-secondary text-sm">FIDS ↔ AO-S</h4>
               </div>
@@ -604,9 +604,9 @@ export const FlightOperations: React.FC<FlightOperationsProps> = ({
               </div>
             </div>
 
-            <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-4 cursor-pointer hover:bg-primary-700/40 transition-colors"
+            <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-3 cursor-pointer hover:bg-primary-700/40 transition-colors"
                  onClick={(e) => handleElementClick('Airfield Lighting', { activeLights: activeLights.length }, e)}>
-              <div className="flex items-center space-x-3 mb-2">
+              <div className="flex items-center space-x-2 mb-2">
                 <Zap className="w-4 h-4 text-accent-blue" />
                 <h4 className="font-semibold text-text-secondary text-sm">Airfield Lighting</h4>
               </div>
@@ -617,9 +617,9 @@ export const FlightOperations: React.FC<FlightOperationsProps> = ({
               </div>
             </div>
 
-            <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-4 cursor-pointer hover:bg-primary-700/40 transition-colors"
+            <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-3 cursor-pointer hover:bg-primary-700/40 transition-colors"
                  onClick={(e) => handleElementClick('Building Systems', { phase: currentPhase }, e)}>
-              <div className="flex items-center space-x-3 mb-2">
+              <div className="flex items-center space-x-2 mb-2">
                 <Activity className="w-4 h-4 text-accent-blue" />
                 <h4 className="font-semibold text-text-secondary text-sm">Building Systems</h4>
               </div>
@@ -630,8 +630,8 @@ export const FlightOperations: React.FC<FlightOperationsProps> = ({
               </div>
             </div>
 
-            <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-4">
-              <div className="flex items-center space-x-3 mb-2">
+            <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-3">
+              <div className="flex items-center space-x-2 mb-2">
                 <Target className="w-4 h-4 text-accent-blue" />
                 <h4 className="font-semibold text-text-secondary text-sm">Runway Operations</h4>
               </div>

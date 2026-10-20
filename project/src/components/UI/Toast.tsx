@@ -55,7 +55,7 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onRemove }) => {
       exit={{ opacity: 0, y: -50, scale: 0.9 }}
       transition={{ duration: 0.3 }}
       className={clsx(
-        'glass-panel-strong relative flex items-start space-x-3 max-w-sm w-full p-4 rounded-lg border',
+        'glass-panel-strong relative flex items-start gap-2.5 max-w-sm w-full p-3 rounded-xl border',
         getBackgroundColor()
       )}
     >
@@ -63,18 +63,18 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onRemove }) => {
         {getIcon()}
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium text-white">
+        <p className="text-sm font-medium text-text-primary">
           {toast.title}
         </p>
         {toast.message && (
-          <p className="mt-1 text-xs text-gray-300">
+          <p className="mt-0.5 text-xs text-text-secondary">
             {toast.message}
           </p>
         )}
       </div>
       <button
         onClick={() => onRemove(toast.id)}
-        className="flex-shrink-0 text-gray-400 hover:text-white transition-colors"
+        className="flex-shrink-0 text-text-muted hover:text-text-primary transition-colors"
       >
         <X className="h-4 w-4" />
       </button>

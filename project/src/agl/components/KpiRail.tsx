@@ -23,7 +23,7 @@ const KpiRail: React.FC = () => {
     <div className="shrink-0 space-y-3">
       {/* Serviceability */}
       <section className="glass-panel rounded-lg overflow-hidden">
-        <header className="px-3 py-2 border-b border-white/10 flex items-center justify-between">
+        <header className="px-2 py-2 border-b border-accent-blue/10 flex items-center justify-between">
           <h3 className="text-xs font-semibold text-text-primary uppercase tracking-wide">
             AGL KPI / Serviceability
           </h3>
@@ -72,7 +72,7 @@ const KpiRail: React.FC = () => {
 
       {/* Total / Fail summary */}
       <section className="glass-panel rounded-lg overflow-hidden">
-        <header className="px-3 py-2 border-b border-white/10">
+        <header className="px-2 py-2 border-b border-accent-blue/10">
           <h3 className="text-xs font-semibold text-text-primary uppercase tracking-wide">
             Summary
           </h3>
@@ -113,7 +113,7 @@ const KpiRail: React.FC = () => {
 
       {/* Constant current regulators */}
       <section className="glass-panel rounded-lg overflow-hidden">
-        <header className="px-3 py-2 border-b border-white/10">
+        <header className="px-2 py-2 border-b border-accent-blue/10">
           <h3 className="text-xs font-semibold text-text-primary uppercase tracking-wide">
             Regulators (CCR)
           </h3>

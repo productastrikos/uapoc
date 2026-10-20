@@ -173,8 +173,8 @@ const PanoramaViewer: React.FC<Props> = ({ scene, onClose, onOpenAsset, onOpenCa
                   title={`Turn the view to ${h.label}`}
                   className="w-full flex items-center gap-1.5 px-1.5 py-1.5 rounded-lg border text-left transition-colors"
                   style={{
-                    background: isSel ? `${st.color}1f` : 'rgba(255,255,255,0.03)',
-                    borderColor: isSel ? `${st.color}88` : 'rgba(255,255,255,0.07)',
+                    background: isSel ? `${st.color}1f` : 'rgba(32, 120, 207,0.03)',
+                    borderColor: isSel ? `${st.color}88` : 'rgba(32, 120, 207,0.07)',
                   }}
                 >
                   <span className="relative flex items-center justify-center w-4 h-4 shrink-0">

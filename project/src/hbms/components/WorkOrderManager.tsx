@@ -524,14 +524,14 @@ const WorkOrderManager: React.FC = () => {
       className="h-full overflow-y-auto no-scrollbar text-text-primary overflow-x-hidden"
       style={{ background: 'var(--app-bg)' }}
     >
-      <div className="p-4 md:p-6 max-w-[1600px] mx-auto space-y-6">
+      <div className="p-3 md:p-6 max-w-[1600px] mx-auto space-y-6">
 
         {/* ═══════════ HEADER ═══════════ */}
         <div
-          className="glass-panel rounded-2xl px-6 py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4"
+          className="glass-panel rounded-2xl px-4 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3"
           style={{ boxShadow: '0 4px 40px rgba(1,163,164,0.06)' }}
         >
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <div
               className="w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0"
               style={{ background: '#3B82F6', boxShadow: '0 4px 20px rgba(1,163,164,0.4)' }}
@@ -544,11 +544,11 @@ const WorkOrderManager: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex gap-3 flex-wrap">
+          <div className="flex gap-2 flex-wrap">
             <button
               onClick={exportToCSV}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium border border-white/10 text-text-secondary hover:text-white transition-all"
-              style={{ background: 'rgba(255,255,255,0.06)' }}
+              className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium border border-accent-blue/10 text-text-secondary hover:text-white transition-all"
+              style={{ background: 'rgba(32, 120, 207,0.06)' }}
             >
               <Download className="w-4 h-4" />
               Export CSV
@@ -558,7 +558,7 @@ const WorkOrderManager: React.FC = () => {
                 setFormData({ subsystemId: 0, subsystemName: '', subsystemAcronym: '', priority: 'Medium', category: 'Maintenance', title: '', description: '', assignedTo: '', targetDate: '', linkedAlertId: '' });
                 setShowCreateForm(true);
               }}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-white transition-all hover:brightness-110"
+              className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-semibold text-white transition-all hover:brightness-110"
               style={{ background: '#3B82F6', boxShadow: '0 4px 16px rgba(1,163,164,0.3)' }}
             >
               <Plus className="w-4 h-4" />
@@ -568,7 +568,7 @@ const WorkOrderManager: React.FC = () => {
         </div>
 
         {/* ═══════════ STATS CARDS ═══════════ */}
-        <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
+        <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
           {[
             { label: 'Total', value: stats.total, color: '#8A9BA8', tint: 'glass-pill-neutral' },
             { label: 'Open', value: stats.open, color: '#3B82F6', tint: 'glass-pill-blue' },
@@ -579,7 +579,7 @@ const WorkOrderManager: React.FC = () => {
           ].map((card, i) => (
             <div
               key={i}
-              className={`glass-pill ${card.tint} p-4`}
+              className={`glass-pill ${card.tint} p-3`}
             >
               <p className="text-xs text-text-secondary mb-2">{card.label}</p>
               <p className="text-2xl font-bold" style={{ color: card.color }}>{card.value}</p>
@@ -588,8 +588,8 @@ const WorkOrderManager: React.FC = () => {
         </div>
 
         {/* ═══════════ SEARCH & FILTERS ═══════════ */}
-        <div className="glass-panel rounded-2xl p-5 space-y-4">
-          <div className="flex flex-col md:flex-row gap-4">
+        <div className="glass-panel rounded-2xl p-4 space-y-4">
+          <div className="flex flex-col md:flex-row gap-3">
             {/* Search */}
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary" />
@@ -598,11 +598,11 @@ const WorkOrderManager: React.FC = () => {
                 placeholder="Search by ID, title, or subsystem..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm bg-primary-800 text-text-primary placeholder-text-muted border border-primary-600 focus:outline-none focus:border-accent-blue transition-colors"
+                className="w-full pl-10 pr-3 py-2.5 rounded-xl text-sm bg-primary-800 text-text-primary placeholder-text-muted border border-primary-600 focus:outline-none focus:border-accent-blue transition-colors"
               />
             </div>
 
-            <div className="flex gap-3 flex-wrap">
+            <div className="flex gap-2 flex-wrap">
               {/* Sort */}
               <select
                 value={`${sortBy}-${sortOrder}`}
@@ -611,7 +611,7 @@ const WorkOrderManager: React.FC = () => {
                   setSortBy(by as 'date' | 'priority' | 'status');
                   setSortOrder(ord as 'asc' | 'desc');
                 }}
-                className="px-3 py-2.5 rounded-xl text-sm bg-primary-800 text-text-secondary border border-primary-600 focus:outline-none focus:border-accent-blue transition-colors"
+                className="px-2 py-2.5 rounded-xl text-sm bg-primary-800 text-text-secondary border border-primary-600 focus:outline-none focus:border-accent-blue transition-colors"
               >
                 <option value="date-desc">Newest First</option>
                 <option value="date-asc">Oldest First</option>
@@ -621,7 +621,7 @@ const WorkOrderManager: React.FC = () => {
 
               <button
                 onClick={() => setShowFilters(!showFilters)}
-                className={`chip px-4 py-2.5 text-sm ${showFilters ? 'chip-active' : ''}`}
+                className={`chip px-3 py-2.5 text-sm ${showFilters ? 'chip-active' : ''}`}
               >
                 <Filter className="w-4 h-4" />
                 Filters
@@ -631,7 +631,7 @@ const WorkOrderManager: React.FC = () => {
           </div>
 
           {showFilters && (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-3 border-t border-white/5">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 pt-2 border-t border-accent-blue/5">
               {[
                 {
                   label: 'Subsystem', value: filterSubsystem, onChange: setFilterSubsystem,
@@ -655,7 +655,7 @@ const WorkOrderManager: React.FC = () => {
                   <select
                     value={f.value}
                     onChange={(e) => f.onChange(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl text-sm bg-primary-800 text-text-secondary border border-primary-600 focus:outline-none focus:border-accent-blue transition-colors"
+                    className="w-full px-2 py-2 rounded-xl text-sm bg-primary-800 text-text-secondary border border-primary-600 focus:outline-none focus:border-accent-blue transition-colors"
                   >
                     {f.options.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
                   </select>
@@ -676,7 +676,7 @@ const WorkOrderManager: React.FC = () => {
           {filteredWorkOrders.length === 0 ? (
             <div
               className="rounded-2xl border p-12 text-center"
-              style={{ background: 'rgba(7,16,40,0.6)', borderColor: 'rgba(255,255,255,0.06)' }}
+              style={{ background: 'rgba(7,16,40,0.6)', borderColor: 'rgba(32, 120, 207,0.06)' }}
             >
               <FileText size={40} className="mx-auto mb-3 text-text-muted" />
               <p className="text-text-secondary font-medium">No work orders found</p>
@@ -688,10 +688,10 @@ const WorkOrderManager: React.FC = () => {
               return (
                 <div
                   key={wo.id}
-                  className="rounded-2xl border p-5 flex flex-col md:flex-row md:items-center gap-4 transition-all hover:border-accent-blue/20 cursor-pointer"
+                  className="rounded-2xl border p-4 flex flex-col md:flex-row md:items-center gap-3 transition-all hover:border-accent-blue/20 cursor-pointer"
                   style={{
                     background: 'var(--app-surface)',
-                    borderColor: 'rgba(255,255,255,0.06)',
+                    borderColor: 'rgba(32, 120, 207,0.06)',
                   }}
                   onClick={() => { setSelectedWorkOrder(wo); setShowDetailModal(true); }}
                 >
@@ -715,7 +715,7 @@ const WorkOrderManager: React.FC = () => {
                       <span className={`text-xs font-bold px-2 py-0.5 rounded-lg border ${getStatusColor(wo.status)}`}>{wo.status}</span>
                     </div>
                     <p className="text-sm font-semibold text-text-primary truncate">{wo.title}</p>
-                    <div className="flex items-center gap-4 mt-1 flex-wrap text-xs text-text-muted">
+                    <div className="flex items-center gap-3 mt-1 flex-wrap text-xs text-text-muted">
                       <span className="flex items-center gap-1"><User className="w-3 h-3" /> {wo.assignedTo}</span>
                       <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {formatDate(wo.createdDate)}</span>
                       <span className="flex items-center gap-1"><Calendar className="w-3 h-3" /> Due: {new Date(wo.targetDate).toLocaleDateString()}</span>
@@ -727,8 +727,8 @@ const WorkOrderManager: React.FC = () => {
                   <div className="flex items-center gap-2 flex-shrink-0">
                     <button
                       onClick={(e) => { e.stopPropagation(); setSelectedWorkOrder(wo); setShowDetailModal(true); }}
-                      className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium border transition-all hover:brightness-110"
-                      style={{ background: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.08)', color: '#8A9BA8' }}
+                      className="flex items-center gap-1.5 px-2 py-2 rounded-xl text-xs font-medium border transition-all hover:brightness-110"
+                      style={{ background: 'rgba(32, 120, 207,0.05)', borderColor: 'rgba(32, 120, 207,0.08)', color: '#8A9BA8' }}
                     >
                       <Eye className="w-3.5 h-3.5" />
                       View
@@ -746,7 +746,7 @@ const WorkOrderManager: React.FC = () => {
                           setWorkOrders(updated);
                           localStorage.setItem('hbms_work_orders_v1', JSON.stringify(updated));
                         }}
-                        className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold text-white transition-all hover:brightness-110 min-w-[5.5rem]"
+                        className="flex items-center justify-center gap-1.5 px-2 py-2 rounded-xl text-xs font-semibold text-white transition-all hover:brightness-110 min-w-[5.5rem]"
                         style={{ background: wo.status === 'Open' ? '#F59E0B' : '#10B981' }}
                       >
                         {wo.status === 'Open' ? 'Start' : 'Complete'}
@@ -763,18 +763,18 @@ const WorkOrderManager: React.FC = () => {
       {/* ═══════════ DETAIL MODAL ═══════════ */}
       {showDetailModal && selectedWorkOrder && (
         <div
-          className="fixed inset-0 flex items-center justify-center z-50 p-4"
+          className="fixed inset-0 flex items-center justify-center z-50 p-3"
           style={{ background: 'rgba(4,16,31,0.85)', backdropFilter: 'blur(4px)' }}
           onClick={() => setShowDetailModal(false)}
         >
           <div
-            className="modal-surface rounded-2xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
+            className="modal-surface rounded-2xl p-4 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
             style={{ boxShadow: '0 0 80px rgba(1,163,164,0.12)' }}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal header */}
             <div className="flex items-start justify-between mb-5">
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
                 <div
                   className="w-10 h-10 rounded-xl flex items-center justify-center"
                   style={{ background: `${getSubsystemColor(selectedWorkOrder.subsystemId)}18`, color: getSubsystemColor(selectedWorkOrder.subsystemId) }}
@@ -793,14 +793,14 @@ const WorkOrderManager: React.FC = () => {
               <button
                 onClick={() => setShowDetailModal(false)}
                 className="p-2 rounded-xl text-text-secondary hover:text-white transition-all"
-                style={{ background: 'rgba(255,255,255,0.05)' }}
+                style={{ background: 'rgba(32, 120, 207,0.05)' }}
               >
                 <XCircle className="w-5 h-5" />
               </button>
             </div>
 
             {/* Details grid */}
-            <div className="grid grid-cols-2 gap-3 mb-5">
+            <div className="grid grid-cols-2 gap-2 mb-5">
               {[
                 { label: 'Subsystem', value: `${selectedWorkOrder.subsystemAcronym} - ${selectedWorkOrder.subsystemName}` },
                 { label: 'Category', value: selectedWorkOrder.category },
@@ -809,7 +809,7 @@ const WorkOrderManager: React.FC = () => {
                 { label: 'Target Date', value: new Date(selectedWorkOrder.targetDate).toLocaleDateString() },
                 { label: 'Linked Alert', value: selectedWorkOrder.linkedAlertId || 'None' },
               ].map((item, i) => (
-                <div key={i} className="rounded-xl p-3" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                <div key={i} className="rounded-xl p-2" style={{ background: 'rgba(32, 120, 207,0.03)', border: '1px solid rgba(32, 120, 207,0.06)' }}>
                   <p className="text-xs text-text-muted mb-1">{item.label}</p>
                   <p className="text-sm text-text-primary font-medium truncate">{item.value}</p>
                 </div>
@@ -817,14 +817,14 @@ const WorkOrderManager: React.FC = () => {
             </div>
 
             {/* Description */}
-            <div className="rounded-xl p-4 mb-4" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+            <div className="rounded-xl p-3 mb-4" style={{ background: 'rgba(32, 120, 207,0.03)', border: '1px solid rgba(32, 120, 207,0.06)' }}>
               <p className="text-xs text-text-muted mb-2 uppercase tracking-wide">Description</p>
               <p className="text-sm text-text-secondary">{selectedWorkOrder.description}</p>
             </div>
 
             {/* Notes */}
             {selectedWorkOrder.notes.length > 0 && (
-              <div className="rounded-xl p-4 mb-4" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+              <div className="rounded-xl p-3 mb-4" style={{ background: 'rgba(32, 120, 207,0.03)', border: '1px solid rgba(32, 120, 207,0.06)' }}>
                 <p className="text-xs text-text-muted mb-2 uppercase tracking-wide">Notes</p>
                 <ul className="space-y-1">
                   {selectedWorkOrder.notes.map((note, i) => (
@@ -838,7 +838,7 @@ const WorkOrderManager: React.FC = () => {
             )}
 
             {/* Action buttons */}
-            <div className="flex gap-3">
+            <div className="flex gap-2">
               {selectedWorkOrder.status !== 'Completed' && selectedWorkOrder.status !== 'Cancelled' && (
                 <button
                   onClick={() => {
@@ -860,8 +860,8 @@ const WorkOrderManager: React.FC = () => {
               )}
               <button
                 onClick={() => setShowDetailModal(false)}
-                className="px-5 py-2.5 rounded-xl text-sm font-medium border border-white/10 text-text-secondary hover:text-white transition-all"
-                style={{ background: 'rgba(255,255,255,0.05)' }}
+                className="px-4 py-2.5 rounded-xl text-sm font-medium border border-accent-blue/10 text-text-secondary hover:text-white transition-all"
+                style={{ background: 'rgba(32, 120, 207,0.05)' }}
               >
                 Close
               </button>
@@ -873,18 +873,18 @@ const WorkOrderManager: React.FC = () => {
       {/* ═══════════ CREATE WORK ORDER MODAL ═══════════ */}
       {showCreateForm && (
         <div
-          className="fixed inset-0 flex items-center justify-center z-50 p-4"
+          className="fixed inset-0 flex items-center justify-center z-50 p-3"
           style={{ background: 'rgba(4,16,31,0.85)', backdropFilter: 'blur(4px)' }}
           onClick={() => setShowCreateForm(false)}
         >
           <div
-            className="modal-surface rounded-2xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
+            className="modal-surface rounded-2xl p-4 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
             style={{ boxShadow: '0 0 80px rgba(1,163,164,0.12)' }}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal header */}
             <div className="flex items-center justify-between mb-5">
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: '#3B82F6' }}>
                   <Plus className="w-5 h-5 text-white" />
                 </div>
@@ -896,7 +896,7 @@ const WorkOrderManager: React.FC = () => {
               <button
                 onClick={() => setShowCreateForm(false)}
                 className="p-2 rounded-xl text-text-secondary hover:text-white transition-all"
-                style={{ background: 'rgba(255,255,255,0.05)' }}
+                style={{ background: 'rgba(32, 120, 207,0.05)' }}
               >
                 <XCircle className="w-5 h-5" />
               </button>
@@ -915,8 +915,8 @@ const WorkOrderManager: React.FC = () => {
                     const sub = SUBSYSTEMS.find(s => s.id === id);
                     if (sub) setFormData({ ...formData, subsystemId: id, subsystemName: sub.name, subsystemAcronym: sub.acronym });
                   }}
-                  className="w-full px-4 py-2.5 rounded-xl text-sm border focus:outline-none focus:ring-1 focus:ring-accent-blue"
-                  style={{ background: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.08)', color: '#E6EEF6' }}
+                  className="w-full px-3 py-2.5 rounded-xl text-sm border focus:outline-none focus:ring-1 focus:ring-accent-blue"
+                  style={{ background: 'rgba(32, 120, 207,0.05)', borderColor: 'rgba(32, 120, 207,0.08)', color: '#E6EEF6' }}
                 >
                   <option value="">-- Select Subsystem --</option>
                   {SUBSYSTEMS.map(s => <option key={s.id} value={s.id}>{s.acronym} - {s.name}</option>)}
@@ -924,7 +924,7 @@ const WorkOrderManager: React.FC = () => {
               </div>
 
               {/* Priority + Category */}
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-3">
                 {[
                   {
                     label: 'Priority', key: 'priority', value: formData.priority,
@@ -944,8 +944,8 @@ const WorkOrderManager: React.FC = () => {
                     <select
                       value={field.value}
                       onChange={(e) => field.onChange(e.target.value)}
-                      className="w-full px-4 py-2.5 rounded-xl text-sm border focus:outline-none focus:ring-1 focus:ring-accent-blue"
-                      style={{ background: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.08)', color: '#E6EEF6' }}
+                      className="w-full px-3 py-2.5 rounded-xl text-sm border focus:outline-none focus:ring-1 focus:ring-accent-blue"
+                      style={{ background: 'rgba(32, 120, 207,0.05)', borderColor: 'rgba(32, 120, 207,0.08)', color: '#E6EEF6' }}
                     >
                       {field.options.map(o => <option key={o} value={o}>{o}</option>)}
                     </select>
@@ -963,8 +963,8 @@ const WorkOrderManager: React.FC = () => {
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                   placeholder="Brief description of the work order"
-                  className="w-full px-4 py-2.5 rounded-xl text-sm border focus:outline-none focus:ring-1 focus:ring-accent-blue text-text-primary placeholder-text-muted"
-                  style={{ background: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.08)' }}
+                  className="w-full px-3 py-2.5 rounded-xl text-sm border focus:outline-none focus:ring-1 focus:ring-accent-blue text-text-primary placeholder-text-muted"
+                  style={{ background: 'rgba(32, 120, 207,0.05)', borderColor: 'rgba(32, 120, 207,0.08)' }}
                 />
               </div>
 
@@ -978,13 +978,13 @@ const WorkOrderManager: React.FC = () => {
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   placeholder="Detailed description of the issue and required work"
                   rows={4}
-                  className="w-full px-4 py-2.5 rounded-xl text-sm border focus:outline-none focus:ring-1 focus:ring-accent-blue text-text-primary placeholder-text-muted resize-none"
-                  style={{ background: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.08)' }}
+                  className="w-full px-3 py-2.5 rounded-xl text-sm border focus:outline-none focus:ring-1 focus:ring-accent-blue text-text-primary placeholder-text-muted resize-none"
+                  style={{ background: 'rgba(32, 120, 207,0.05)', borderColor: 'rgba(32, 120, 207,0.08)' }}
                 />
               </div>
 
               {/* Assigned To + Target Date */}
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="text-xs text-text-secondary mb-1.5 block uppercase tracking-wide">Assigned To</label>
                   <input
@@ -992,8 +992,8 @@ const WorkOrderManager: React.FC = () => {
                     value={formData.assignedTo}
                     onChange={(e) => setFormData({ ...formData, assignedTo: e.target.value })}
                     placeholder="Team or person name"
-                    className="w-full px-4 py-2.5 rounded-xl text-sm border focus:outline-none focus:ring-1 focus:ring-accent-blue text-text-primary placeholder-text-muted"
-                    style={{ background: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.08)' }}
+                    className="w-full px-3 py-2.5 rounded-xl text-sm border focus:outline-none focus:ring-1 focus:ring-accent-blue text-text-primary placeholder-text-muted"
+                    style={{ background: 'rgba(32, 120, 207,0.05)', borderColor: 'rgba(32, 120, 207,0.08)' }}
                   />
                 </div>
                 <div>
@@ -1005,14 +1005,14 @@ const WorkOrderManager: React.FC = () => {
                     value={formData.targetDate}
                     onChange={(e) => setFormData({ ...formData, targetDate: e.target.value })}
                     min={new Date().toISOString().split('T')[0]}
-                    className="w-full px-4 py-2.5 rounded-xl text-sm border focus:outline-none focus:ring-1 focus:ring-accent-blue text-text-primary"
-                    style={{ background: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.08)' }}
+                    className="w-full px-3 py-2.5 rounded-xl text-sm border focus:outline-none focus:ring-1 focus:ring-accent-blue text-text-primary"
+                    style={{ background: 'rgba(32, 120, 207,0.05)', borderColor: 'rgba(32, 120, 207,0.08)' }}
                   />
                 </div>
               </div>
 
               {/* Actions */}
-              <div className="flex gap-3 pt-3 border-t border-white/5">
+              <div className="flex gap-2 pt-2 border-t border-accent-blue/5">
                 <button
                   onClick={handleCreateWorkOrder}
                   className="flex-1 py-2.5 rounded-xl font-semibold text-sm text-white flex items-center justify-center gap-2 transition-all hover:brightness-110"
@@ -1023,8 +1023,8 @@ const WorkOrderManager: React.FC = () => {
                 </button>
                 <button
                   onClick={() => setShowCreateForm(false)}
-                  className="px-5 py-2.5 rounded-xl text-sm font-medium border border-white/10 text-text-secondary hover:text-white transition-all"
-                  style={{ background: 'rgba(255,255,255,0.05)' }}
+                  className="px-4 py-2.5 rounded-xl text-sm font-medium border border-accent-blue/10 text-text-secondary hover:text-white transition-all"
+                  style={{ background: 'rgba(32, 120, 207,0.05)' }}
                 >
                   Cancel
                 </button>

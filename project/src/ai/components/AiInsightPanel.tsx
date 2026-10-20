@@ -99,15 +99,17 @@ const AiInsightPanel: React.FC<Props> = ({
   // the taller blocks beneath it.
   if (variant === 'rail') {
     return (
-      <section className="fs-ai shrink-0 bg-primary-800/70 border border-accent-blue/30 rounded-lg overflow-hidden">
-        <header className="flex items-center gap-2 px-3 py-2 border-b border-accent-blue/20 bg-accent-blue/10">
-          <Brain className="w-4 h-4 text-accent-blue" />
+      <section className="fs-ai shrink-0 glass-panel rounded-xl overflow-hidden">
+        <header className="flex items-center gap-2 px-3 py-2 border-b border-accent-blue/15 bg-accent-blue/10">
+          <div className="p-1 bg-accent-blue/15 rounded-full shrink-0">
+            <Brain className="w-3.5 h-3.5 text-accent-blue" />
+          </div>
           <h3 className="text-xs font-semibold text-accent-blue uppercase tracking-wide">
             AI Advisory
           </h3>
           <div className="flex-1" />
           {pending > 0 && (
-            <span className="px-1.5 py-0.5 rounded bg-accent-blue/20 border border-accent-blue/40 text-[length:calc(10px*var(--fs))] font-mono text-accent-blue">
+            <span className="min-w-[1.125rem] h-[1.125rem] px-1 flex items-center justify-center rounded-full bg-accent-blue text-white text-[10px] font-bold">
               {pending}
             </span>
           )}
@@ -136,13 +138,13 @@ const AiInsightPanel: React.FC<Props> = ({
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         title={open ? 'Collapse AI advisory' : 'Expand AI advisory'}
-        className="w-full flex items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-accent-blue/10"
+        className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-left transition-colors hover:bg-accent-blue/10"
       >
-        <div className="p-1.5 bg-accent-blue/15 rounded-lg shrink-0">
+        <div className="p-1.5 bg-accent-blue/15 rounded-full shrink-0">
           <Brain className="w-4 h-4 text-accent-blue" />
         </div>
 
-        <span className="text-sm font-bold uppercase tracking-wide text-accent-blue shrink-0">
+        <span className="text-xs font-bold uppercase tracking-wide text-accent-blue shrink-0">
           AI Advisory
         </span>
 
@@ -184,9 +186,9 @@ const AiInsightPanel: React.FC<Props> = ({
             transition={{ duration: 0.22, ease: 'easeOut' }}
             className="overflow-hidden border-t border-accent-blue/15"
           >
-            <div className="p-4 space-y-3">
-              <div className="flex items-center gap-3 flex-wrap">
-                <h2 className="text-base font-bold text-text-primary leading-tight">{heading}</h2>
+            <div className="p-3.5 space-y-3">
+              <div className="flex items-center gap-2.5 flex-wrap">
+                <h2 className="text-sm font-bold text-text-primary leading-tight">{heading}</h2>
                 <span className="text-xs text-text-muted">
                   Astrikos S!aP · Sense → Interpret → Act → Predict
                 </span>
@@ -195,8 +197,8 @@ const AiInsightPanel: React.FC<Props> = ({
                     on the panel itself is worth more than a footnote nobody
                     reads, and it is the honest answer to "does it control
                     anything?" */}
-                <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary-900/50 border border-primary-500/50 text-xs text-text-muted">
-                  <ShieldCheck className="w-3.5 h-3.5" />
+                <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-accent-blue/10 border border-accent-blue/20 text-xs text-text-muted">
+                  <ShieldCheck className="w-3.5 h-3.5 text-accent-blue" />
                   Advisory only · operator confirms every action
                 </span>
               </div>

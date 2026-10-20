@@ -46,6 +46,15 @@ export default {
           800: '#021024', // Panel background
           700: '#052659', // Panel mid / hover
           600: '#0E4EB2', // Panel light / active border
+          /* `primary-500` is referenced by 28 components (mostly as a border
+           * tint) but was never defined in this ramp — every one of those
+           * classes was silently failing to generate and falling back to the
+           * browser's default grey/black border. This is almost certainly a
+           * chunk of the "random grey borders" the user kept finding that no
+           * white/grey-literal grep ever caught. One step lighter than 600,
+           * one step darker than the accent, so it reads as "a brighter
+           * panel edge" rather than a second accent color. */
+          500: '#1B63C4',
           DEFAULT: '#2078CF', // Accent blue
         },
         accent: {

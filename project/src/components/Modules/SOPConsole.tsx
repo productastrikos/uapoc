@@ -234,7 +234,7 @@ const SOPConsole: React.FC = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="space-y-6 h-full overflow-y-auto no-scrollbar"
+      className="space-y-5 h-full overflow-y-auto no-scrollbar"
     >
       {/* Header with Emergency Actions */}
       <div className="flex items-center justify-between">
@@ -243,7 +243,7 @@ const SOPConsole: React.FC = () => {
             <FileText className="w-5 h-5 text-accent-blue" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-white">SOP Console</h1>
+            <h1 className="text-2xl font-bold text-text-primary">SOP Console</h1>
             <p className="text-sm text-text-muted">Standard Operating Procedure orchestration and automation</p>
           </div>
         </div>
@@ -260,7 +260,7 @@ const SOPConsole: React.FC = () => {
       </div>
 
       {/* AI Advisory Panel */}
-      <div className="glass-panel-strong rounded-xl p-6">
+      <div className="glass-panel-strong rounded-xl p-4">
         <div className="flex items-center space-x-3 mb-4">
           <Zap className="h-5 w-5 text-accent-blue" />
           <h2 className="text-base font-semibold text-white">AI-Powered SOP Insights</h2>
@@ -310,11 +310,11 @@ const SOPConsole: React.FC = () => {
         ))}
       </div>
 
-      <div className="grid grid-cols-12 gap-6">
+      <div className="grid grid-cols-12 gap-4">
         {/* Left Column - SOP Management */}
-        <div className="col-span-8 space-y-6">
+        <div className="col-span-8 space-y-4">
           {/* SOP Playbook Library */}
-          <div className="glass-panel rounded-xl p-6">
+          <div className="glass-panel rounded-xl p-4">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-base font-semibold text-text-primary">SOP Playbook Library</h2>
               <div className="flex items-center space-x-4 text-sm">
@@ -425,7 +425,7 @@ const SOPConsole: React.FC = () => {
           </div>
 
           {/* SOP Execution Timeline */}
-          <div className="glass-panel rounded-xl p-6">
+          <div className="glass-panel rounded-xl p-4">
             <h2 className="text-base font-semibold text-text-primary mb-4">Daily SOP Execution Timeline</h2>
             <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
@@ -456,9 +456,9 @@ const SOPConsole: React.FC = () => {
         </div>
 
         {/* Right Column - Analytics */}
-        <div className="col-span-4 space-y-6">
+        <div className="col-span-4 space-y-4">
           {/* Performance Metrics */}
-          <div className="glass-panel rounded-xl p-6">
+          <div className="glass-panel rounded-xl p-4">
             <h3 className="text-base font-semibold text-text-primary mb-4">Performance Metrics</h3>
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
@@ -485,7 +485,7 @@ const SOPConsole: React.FC = () => {
           </div>
 
           {/* Active Executions */}
-          <div className="glass-panel rounded-xl p-6">
+          <div className="glass-panel rounded-xl p-4">
             <h3 className="text-base font-semibold text-text-primary mb-4">Active Executions</h3>
             <div className="space-y-3">
               {[

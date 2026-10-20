@@ -39,7 +39,7 @@ const BarPanel: React.FC<BarPanelProps> = ({ title, spec, categories, yMax, onCl
       title={onClick ? `${title} — click to view all AHU units` : undefined}
       style={{
         flex: 1, minWidth: 0, borderRadius: 10, padding: '8px 10px 10px', display: 'flex', flexDirection: 'column', gap: 6,
-        background: 'var(--app-surface)', border: `1px solid ${onClick ? 'rgba(59,130,246,0.35)' : 'rgba(255,255,255,0.08)'}`,
+        background: 'var(--app-surface)', border: `1px solid ${onClick ? 'rgba(59,130,246,0.35)' : 'rgba(32, 120, 207,0.08)'}`,
         cursor: onClick ? 'pointer' : 'default', transition: 'transform 0.15s ease, border-color 0.15s ease',
       }}
       onMouseEnter={onClick ? (e => { e.currentTarget.style.transform = 'translateY(-2px)'; }) : undefined}
@@ -61,8 +61,8 @@ const BarPanel: React.FC<BarPanelProps> = ({ title, spec, categories, yMax, onCl
         </div>
         <div style={{
           flex: 1, display: 'flex', alignItems: 'flex-end', justifyContent: 'space-evenly', gap: 4,
-          borderLeft: '1px solid rgba(255,255,255,0.2)', borderBottom: '1px solid rgba(255,255,255,0.2)',
-          backgroundImage: 'repeating-linear-gradient(0deg, rgba(255,255,255,0.1) 0, rgba(255,255,255,0.1) 1px, transparent 1px, transparent 50%)',
+          borderLeft: '1px solid rgba(32, 120, 207,0.2)', borderBottom: '1px solid rgba(32, 120, 207,0.2)',
+          backgroundImage: 'repeating-linear-gradient(0deg, rgba(32, 120, 207,0.1) 0, rgba(32, 120, 207,0.1) 1px, transparent 1px, transparent 50%)',
         }}>
           {categories.map(c => {
             const total = c.working + c.fault;
@@ -107,7 +107,7 @@ const PiePanel: React.FC<{ title: string; spec?: string; working: number; fault:
   return (
     <div style={{
       flex: 1, minWidth: 0, borderRadius: 10, padding: '8px 10px 10px', display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'center',
-      background: 'var(--app-surface)', border: '1px solid rgba(255,255,255,0.08)',
+      background: 'var(--app-surface)', border: '1px solid rgba(32, 120, 207,0.08)',
     }}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 1, width: '100%' }}>
         <p style={{ fontSize: 10, fontWeight: 700, color: 'var(--ds-text)', textAlign: 'center', textTransform: 'uppercase', letterSpacing: '0.03em' }}>{title}</p>
@@ -130,7 +130,7 @@ const PiePanel: React.FC<{ title: string; spec?: string; working: number; fault:
 };
 
 const SectionFrame: React.FC<{ title: string; spec?: string; children: React.ReactNode }> = ({ title, spec, children }) => (
-  <div style={{ borderRadius: 12, border: '1px solid rgba(255,255,255,0.1)', padding: '8px 10px 10px', display: 'flex', flexDirection: 'column', gap: 8, flex: 1, minWidth: 0 }}>
+  <div style={{ borderRadius: 12, border: '1px solid rgba(32, 120, 207,0.1)', padding: '8px 10px 10px', display: 'flex', flexDirection: 'column', gap: 8, flex: 1, minWidth: 0 }}>
     <p style={{ fontSize: 12, fontWeight: 700, color: 'var(--ds-text)', textAlign: 'center' }}>{title}</p>
     {spec && <p style={{ fontSize: 8, fontWeight: 600, color: 'var(--ds-text-muted)', textAlign: 'center', marginTop: -6 }}>{spec}</p>}
     <div style={{ display: 'flex', gap: 8, flex: 1, minHeight: 0 }}>{children}</div>
@@ -155,7 +155,7 @@ const LBMSOperatorOverview: React.FC<LBMSOperatorOverviewProps> = ({ autoOpenGri
         <button
           onClick={() => setShowAHUGrid(false)}
           className="flex-shrink-0 flex items-center gap-1.5 self-start px-2.5 py-1 rounded-lg text-[length:calc(10px*var(--fs))] font-bold transition-all hover:brightness-125"
-          style={{ background: 'rgba(255,255,255,0.06)', color: '#93C5FD', border: '1px solid rgba(59,130,246,0.3)' }}
+          style={{ background: 'rgba(32, 120, 207,0.06)', color: '#93C5FD', border: '1px solid rgba(59,130,246,0.3)' }}
         >
           <ArrowLeft className="w-3 h-3" /> Back to overview
         </button>
@@ -196,7 +196,7 @@ const LBMSOperatorOverview: React.FC<LBMSOperatorOverviewProps> = ({ autoOpenGri
       </div>
 
       {/* MVAC System */}
-      <div style={{ borderRadius: 12, border: '1px solid rgba(255,255,255,0.1)', padding: '8px 10px 10px', display: 'flex', flexDirection: 'column', gap: 8, flex: '2.1 1 0', minHeight: 320 }}>
+      <div style={{ borderRadius: 12, border: '1px solid rgba(32, 120, 207,0.1)', padding: '8px 10px 10px', display: 'flex', flexDirection: 'column', gap: 8, flex: '2.1 1 0', minHeight: 320 }}>
         <p style={{ fontSize: 12, fontWeight: 700, color: 'var(--ds-text)', textAlign: 'center' }}>MVAC System</p>
         <p style={{ fontSize: 8, fontWeight: 600, color: 'var(--ds-text-muted)', textAlign: 'center', marginTop: -6 }}>
           AHU · PAU · MAU · CRAH · FCU · VAV · Chillers — LBMS-KPI-02 → 21

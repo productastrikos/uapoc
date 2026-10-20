@@ -79,12 +79,12 @@ const SEVERITY_STYLES: Record<DashboardAlert['severity'], { bg: string; text: st
  * availabilities, here they are" is a much better answer than a tooltip.
  */
 const SystemHealthFormulaModal: React.FC<{ value: number; onClose: () => void }> = ({ value, onClose }) => (
-  <div className="fixed inset-0 z-[2100] flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm" onClick={onClose}>
+  <div className="fixed inset-0 z-[2100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" onClick={onClose}>
     <div
-      className="w-full max-w-lg rounded-2xl border border-accent-teal/40 bg-primary-800 p-5 max-h-[80vh] overflow-y-auto"
+      className="w-full max-w-lg rounded-2xl border border-accent-teal/40 bg-primary-800 p-4 max-h-[80vh] overflow-y-auto"
       onClick={(e) => e.stopPropagation()}
     >
-      <div className="flex items-center gap-3 mb-3">
+      <div className="flex items-center gap-2 mb-3">
         <h3 className="text-lg font-bold text-text-primary">How System Health is calculated</h3>
         <div className="flex-1" />
         <button onClick={onClose} className="p-1 rounded hover:bg-primary-700 text-text-muted hover:text-text-primary">
@@ -99,7 +99,7 @@ const SystemHealthFormulaModal: React.FC<{ value: number; onClose: () => void }>
         discounts life safety is worse than no figure at all.
       </p>
 
-      <div className="rounded-lg border border-primary-500/50 bg-primary-900/50 p-3 mb-3 font-mono text-xs text-accent-teal">
+      <div className="rounded-lg border border-primary-500/50 bg-primary-900/50 p-2 mb-3 font-mono text-xs text-accent-teal">
         health = Σ(availability) ÷ {HBMS_SUBSYSTEMS.length} = {value.toFixed(2)}%
       </div>
 
@@ -190,7 +190,7 @@ const HbmsDashboard: React.FC = () => {
         onClick={() => setMapMaximized((m) => !m)}
         title={mapMaximized ? 'Minimize map (Esc)' : 'Maximize map'}
         className="fs-chrome absolute z-[1002] bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border text-xs font-bold transition-all hover:brightness-125"
-        style={{ background: 'rgba(8,12,32,0.92)', borderColor: 'rgba(255,255,255,0.12)', color: '#e2e8f0', backdropFilter: 'blur(14px)' }}
+        style={{ background: 'rgba(8,12,32,0.92)', borderColor: 'rgba(32, 120, 207,0.12)', color: '#e2e8f0', backdropFilter: 'blur(14px)' }}
       >
         {mapMaximized ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
         {mapMaximized ? 'Minimize' : 'Maximize'}
@@ -236,7 +236,7 @@ const HbmsDashboard: React.FC = () => {
           </div>
         )}
 
-        <div className="flex items-center justify-between px-3 py-2 shrink-0" style={{ borderBottom: '1px solid rgba(239,68,68,0.12)' }}>
+        <div className="flex items-center justify-between px-2 py-2 shrink-0" style={{ borderBottom: '1px solid rgba(239,68,68,0.12)' }}>
           <div className="flex items-center gap-2">
             <div className="p-1.5 rounded-lg" style={{ background: 'rgba(239,68,68,0.12)', color: '#f87171' }}>
               <AlertCircle className="w-4 h-4" />
@@ -258,7 +258,7 @@ const HbmsDashboard: React.FC = () => {
 
         <div className="flex-1 min-h-0 overflow-y-auto no-scrollbar p-1 space-y-1.5">
           {alerts.length === 0 && (
-            <p className="text-xs text-text-muted text-center py-4">No active alerts for LBMS</p>
+            <p className="text-xs text-text-muted text-center py-3">No active alerts for LBMS</p>
           )}
           {alerts.slice(0, 5).map((alert) => {
             const s = SEVERITY_STYLES[alert.severity];
@@ -303,7 +303,7 @@ const HbmsDashboard: React.FC = () => {
           >
             <p className="text-xs font-semibold text-text-muted uppercase tracking-widest mb-1">Sys Health</p>
             <p className={`text-2xl font-bold ${health >= 95 ? 'glow-text' : health >= 90 ? 'text-status-warning' : 'text-status-error'}`}>{health.toFixed(1)}%</p>
-            <div className="mt-2 w-full h-2 rounded-full overflow-hidden flex" style={{ background: 'rgba(255,255,255,0.06)' }}>
+            <div className="mt-2 w-full h-2 rounded-full overflow-hidden flex" style={{ background: 'rgba(32, 120, 207,0.06)' }}>
               <div style={{ width: `${(operational / total) * 100}%`, background: '#34D399' }} />
               <div style={{ width: `${(warning / total) * 100}%`, background: '#E6B85C' }} />
               <div style={{ width: `${(down / total) * 100}%`, background: '#F87171' }} />
@@ -321,7 +321,7 @@ const HbmsDashboard: React.FC = () => {
           >
             <p className="text-xs font-semibold text-text-muted uppercase tracking-widest mb-1">Alerts</p>
             <p className="text-2xl font-bold text-status-error">{totalAlerts}</p>
-            <div className="mt-2 w-full h-2 rounded-full overflow-hidden flex" style={{ background: 'rgba(255,255,255,0.06)' }}>
+            <div className="mt-2 w-full h-2 rounded-full overflow-hidden flex" style={{ background: 'rgba(32, 120, 207,0.06)' }}>
               <div style={{ width: `${(critical / Math.max(alerts.length, 1)) * 100}%`, background: '#F87171' }} />
               <div style={{ width: `${(high / Math.max(alerts.length, 1)) * 100}%`, background: '#f97316' }} />
               <div style={{ width: `${(medium / Math.max(alerts.length, 1)) * 100}%`, background: '#E6B85C' }} />

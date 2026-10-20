@@ -104,7 +104,7 @@ const SustainabilityOperations: React.FC = () => {
           <Leaf className="w-5 h-5 text-accent-blue" />
         </div>
         <div>
-          <h1 className="text-2xl font-bold text-white">{t('nav.sustainability')}</h1>
+          <h1 className="text-2xl font-bold text-text-primary">{t('nav.sustainability')}</h1>
           <p className="text-sm text-text-muted">{t('sustainability.subtitle')}</p>
         </div>
       </div>
@@ -148,11 +148,11 @@ const SustainabilityOperations: React.FC = () => {
           second. */}
       <AiInsightPanel domain="sustainability" />
 
-      <div className="grid grid-cols-12 gap-6">
+      <div className="grid grid-cols-12 gap-4">
         {/* Left Column - Sustainability Metrics */}
-        <div className="col-span-8 space-y-6">
+        <div className="col-span-8 space-y-4">
           {/* Environmental KPIs */}
-          <div className="glass-panel-strong rounded-xl p-6">
+          <div className="glass-panel-strong rounded-xl p-4">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-base font-semibold text-text-primary">{t('sustainability.environmental_kpis')}</h2>
               <div className="flex items-center space-x-4 text-sm">
@@ -196,7 +196,7 @@ const SustainabilityOperations: React.FC = () => {
                           {metric.name}
                         </h3>
 
-                        <div className="grid grid-cols-4 gap-6 mb-3">
+                        <div className="grid grid-cols-4 gap-4 mb-3">
                           <div>
                             <div className="text-xl font-bold text-text-primary">
                               {metric.currentValue.toLocaleString()}
@@ -270,7 +270,7 @@ const SustainabilityOperations: React.FC = () => {
           </div>
 
           {/* Energy Consumption Trends */}
-          <div className="glass-panel rounded-xl p-6">
+          <div className="glass-panel rounded-xl p-4">
             <h2 className="text-base font-semibold text-text-primary mb-4">{t('sustainability.energy_trends')}</h2>
             <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
@@ -321,9 +321,9 @@ const SustainabilityOperations: React.FC = () => {
         </div>
 
         {/* Right Column - Analytics */}
-        <div className="col-span-4 space-y-6">
+        <div className="col-span-4 space-y-4">
           {/* Carbon Footprint Breakdown */}
-          <div className="glass-panel rounded-xl p-6">
+          <div className="glass-panel rounded-xl p-4">
             <h3 className="text-base font-semibold text-text-primary mb-4">{t('sustainability.emissions_breakdown')}</h3>
             <div className="h-48">
               <ResponsiveContainer width="100%" height="100%">
@@ -350,7 +350,7 @@ const SustainabilityOperations: React.FC = () => {
           </div>
 
           {/* Waste Management */}
-          <div className="glass-panel rounded-xl p-6">
+          <div className="glass-panel rounded-xl p-4">
             <h3 className="text-base font-semibold text-text-primary mb-4">{t('sustainability.waste_management')}</h3>
             <div className="space-y-4">
               {wasteData.map((waste, index) => (
@@ -393,7 +393,7 @@ const SustainabilityOperations: React.FC = () => {
           </div>
 
           {/* Sustainability Goals */}
-          <div className="glass-panel rounded-xl p-6">
+          <div className="glass-panel rounded-xl p-4">
             <div className="flex items-center space-x-2 mb-4">
               <Target className="h-5 w-5 text-accent-blue" />
               <h3 className="text-base font-semibold text-text-primary">{t('sustainability.goals_2025')}</h3>

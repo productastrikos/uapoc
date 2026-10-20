@@ -62,21 +62,21 @@ const InfoButtonWithPortal: React.FC<{ description: string }> = ({ description }
       <button
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        className="text-gray-400 hover:text-white transition-colors p-1"
+        className="text-text-muted hover:text-text-primary transition-colors p-1"
       >
         <Info className="w-4 h-4" />
       </button>
       
       {showTooltip && createPortal(
         <div
-          className="fixed z-[99999] bg-gray-800 text-white text-sm px-3 py-2 rounded-lg shadow-2xl pointer-events-none transform -translate-x-1/2 -translate-y-full max-w-xs"
+          className="fixed z-[99999] bg-primary-800/95 border border-accent-blue/20 text-text-primary text-sm px-3 py-2 rounded-lg shadow-2xl pointer-events-none transform -translate-x-1/2 -translate-y-full max-w-xs backdrop-blur-sm"
           style={{
             left: position.x,
             top: position.y,
           }}
         >
           {description}
-          <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-800"></div>
+          <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-primary-800/95"></div>
         </div>,
         document.body
       )}
@@ -91,7 +91,7 @@ const TrendArrow: React.FC<{ trend: 'up' | 'down' | 'stable'; value?: number }> 
   } else if (trend === 'down') {
     return <TrendingDown className="w-4 h-4 text-status-error inline ml-1" />;
   }
-  return <Minus className="w-4 h-4 text-gray-400 inline ml-1" />;
+  return <Minus className="w-4 h-4 text-text-muted inline ml-1" />;
 };
 
 // Enhanced Terminal Zone Interface
@@ -489,11 +489,11 @@ const TerminalOperations: React.FC = () => {
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.9, opacity: 0, y: 20 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
-            className="bg-gradient-to-br from-primary-800/95 to-primary-900/95 rounded-2xl p-6 w-full max-w-7xl max-h-[95vh] overflow-hidden border border-primary-600/50 shadow-xl"
+            className="bg-gradient-to-br from-primary-800/95 to-primary-900/95 rounded-2xl p-4 w-full max-w-7xl max-h-[95vh] overflow-hidden border border-primary-600/50 shadow-xl"
             onClick={handleModalContentClick}
           >
             {/* Modal Header */}
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center justify-between mb-5">
               <div className="flex items-center space-x-4">
                 <div className="p-2 bg-accent-blue/15 rounded-lg">
                   <Brain className="w-5 h-5 text-accent-blue" />
@@ -505,20 +505,20 @@ const TerminalOperations: React.FC = () => {
               </div>
               <div className="flex items-center space-x-4">
                 <div className="text-right">
-                  <div className="text-sm text-gray-400">Live Data Stream</div>
+                  <div className="text-sm text-text-muted">Live Data Stream</div>
                   <div className="text-sm text-text-primary font-mono">{currentTime.toLocaleTimeString()}</div>
                 </div>
                 <button
                   onClick={handleCloseAIModal}
-                  className="text-gray-400 hover:text-white transition-colors p-3 rounded-xl hover:bg-white/10 backdrop-blur-sm"
+                  className="text-text-muted hover:text-text-primary transition-colors p-2 rounded-xl hover:bg-accent-blue/10 backdrop-blur-sm"
                 >
-                  <X className="w-6 h-6" />
+                  <X className="w-5 h-5" />
                 </button>
               </div>
             </div>
 
             {/* Enhanced Tab Navigation */}
-            <div className="flex space-x-1 mb-8 bg-primary-700/20 p-1 rounded-xl backdrop-blur-sm border border-primary-600/30">
+            <div className="flex space-x-1 mb-5 bg-primary-700/20 p-1 rounded-xl backdrop-blur-sm border border-primary-600/30">
               {[
                 { id: 'predictions', icon: Brain, label: 'AI Predictions' },
                 { id: 'protocols', icon: Shield, label: 'Emergency Protocols' },
@@ -544,17 +544,17 @@ const TerminalOperations: React.FC = () => {
             </div>
 
             {/* Enhanced Content Area */}
-            <div className="h-[60vh] overflow-y-auto pr-4 space-y-6">
+            <div className="h-[60vh] overflow-y-auto pr-4 space-y-4">
               {activeTab === 'predictions' && (
-                <div className="space-y-6">
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                     {aiAdvisoryData.predictiveInsights.map((insight, index) => (
                       <motion.div 
                         key={`insight-${index}`}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.1, duration: 0.3 }}
-                        className="bg-gradient-to-br from-primary-700/40 to-primary-800/40 p-6 rounded-xl border border-primary-600/40 backdrop-blur-sm hover:border-blue-500/50 transition-all duration-300"
+                        className="bg-gradient-to-br from-primary-700/40 to-primary-800/40 p-4 rounded-xl border border-primary-600/40 backdrop-blur-sm hover:border-blue-500/50 transition-all duration-300"
                       >
                         <div className="flex items-start justify-between mb-4">
                           <div className="flex items-center space-x-3">
@@ -575,7 +575,7 @@ const TerminalOperations: React.FC = () => {
                                 }`}>
                                   {insight.impact} Impact
                                 </span>
-                                <span className="text-xs text-gray-400 flex items-center">
+                                <span className="text-xs text-text-muted flex items-center">
                                   <Timer className="w-3 h-3 mr-1" />
                                   {insight.timeframe}
                                 </span>
@@ -588,7 +588,7 @@ const TerminalOperations: React.FC = () => {
                           </div>
                         </div>
                         
-                        <p className="text-gray-300 text-sm mb-4 leading-relaxed">{insight.description}</p>
+                        <p className="text-text-secondary text-sm mb-4 leading-relaxed">{insight.description}</p>
                         
                         {insight.affectedFlights.length > 0 && (
                           <div className="mb-4">
@@ -613,7 +613,7 @@ const TerminalOperations: React.FC = () => {
                           </h6>
                           {insight.recommendedActions.map((action, idx) => (
                             <div key={`action-${idx}`} className="flex items-center justify-between bg-primary-600/20 p-3 rounded-lg border border-primary-500/30">
-                              <span className="text-sm text-gray-300">{action}</span>
+                              <span className="text-sm text-text-secondary">{action}</span>
                               <button 
                                 onClick={() => handleExecuteProtocol(`pred-${index}-${idx}`, action)}
                                 className="btn btn-secondary text-xs px-2.5 py-1"
@@ -631,23 +631,23 @@ const TerminalOperations: React.FC = () => {
               )}
 
               {activeTab === 'protocols' && (
-                <div className="space-y-6">
+                <div className="space-y-4">
                   <div className="bg-primary-800/60 p-4 rounded-xl border border-primary-600/40">
                     <h4 className="text-base font-semibold text-white mb-2 flex items-center">
                       <Shield className="w-5 h-5 mr-2 text-accent-blue" />
                       Emergency Response Protocols
                     </h4>
-                    <p className="text-gray-300 text-sm">Automated protocols ready for immediate deployment based on current operational conditions</p>
+                    <p className="text-text-secondary text-sm">Automated protocols ready for immediate deployment based on current operational conditions</p>
                   </div>
                   
-                  <div className="grid gap-6">
+                  <div className="grid gap-4">
                     {aiAdvisoryData.emergencyProtocols.map((protocol, index) => (
                       <motion.div 
                         key={`protocol-${index}`}
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: index * 0.1, duration: 0.3 }}
-                        className="bg-gradient-to-br from-primary-700/40 to-primary-800/40 p-6 rounded-xl border border-primary-600/40 backdrop-blur-sm"
+                        className="bg-gradient-to-br from-primary-700/40 to-primary-800/40 p-4 rounded-xl border border-primary-600/40 backdrop-blur-sm"
                       >
                         <div className="flex items-start justify-between mb-4">
                           <div className="flex items-center space-x-3">
@@ -660,7 +660,7 @@ const TerminalOperations: React.FC = () => {
                             </div>
                             <div>
                               <div className="flex items-center space-x-2 mb-1">
-                                <span className="text-xs text-gray-400 font-mono">{protocol.protocol}</span>
+                                <span className="text-xs text-text-muted font-mono">{protocol.protocol}</span>
                                 <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                                   protocol.protocol.startsWith('IMMEDIATE') ? 'bg-status-error/10 text-status-error border border-status-error/30' :
                                   protocol.protocol.startsWith('URGENT') ? 'bg-status-warning/10 text-status-warning border border-status-warning/30' :
@@ -681,26 +681,26 @@ const TerminalOperations: React.FC = () => {
                           </button>
                         </div>
                         
-                        <p className="text-gray-300 text-sm mb-4">{protocol.description}</p>
+                        <p className="text-text-secondary text-sm mb-4">{protocol.description}</p>
                         
                         <div className="grid grid-cols-2 gap-4 mb-4">
                           <div className="bg-primary-600/20 p-3 rounded-lg">
-                            <div className="text-xs text-gray-400 mb-1">TRIGGER CONDITIONS</div>
+                            <div className="text-xs text-text-muted mb-1">TRIGGER CONDITIONS</div>
                             <div className="text-sm text-white">{protocol.triggerConditions}</div>
                           </div>
                           <div className="bg-primary-600/20 p-3 rounded-lg">
-                            <div className="text-xs text-gray-400 mb-1">EXECUTION TIME</div>
+                            <div className="text-xs text-text-muted mb-1">EXECUTION TIME</div>
                             <div className="text-sm text-white">{protocol.executionTime}</div>
                           </div>
                         </div>
                         
                         <div className="flex items-center justify-between">
                           <div className="text-sm">
-                            <span className="text-gray-400">Expected Impact: </span>
+                            <span className="text-text-muted">Expected Impact: </span>
                             <span className="text-status-success">{protocol.estimatedImpact}</span>
                           </div>
                           <div className="text-sm">
-                            <span className="text-gray-400">Cost: </span>
+                            <span className="text-text-muted">Cost: </span>
                             <span className="text-text-primary">{protocol.cost}</span>
                           </div>
                         </div>
@@ -711,10 +711,10 @@ const TerminalOperations: React.FC = () => {
               )}
 
               {activeTab === 'analytics' && (
-                <div className="space-y-6">
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                     {/* Congestion Heatmap */}
-                    <div className="bg-gradient-to-br from-primary-700/40 to-primary-800/40 p-6 rounded-xl border border-primary-600/40 backdrop-blur-sm">
+                    <div className="bg-gradient-to-br from-primary-700/40 to-primary-800/40 p-4 rounded-xl border border-primary-600/40 backdrop-blur-sm">
                       <h4 className="text-base font-semibold text-white mb-4 flex items-center">
                         <Radar className="w-5 h-5 mr-2 text-accent-blue" />
                         Real-time Congestion Analysis
@@ -737,8 +737,8 @@ const TerminalOperations: React.FC = () => {
                                   }`}
                                 />
                               </div>
-                              <span className="text-xs text-gray-400 w-8 text-right">{zone.congestion}%</span>
-                              <div className="text-xs text-gray-500">{zone.throughput}/hr</div>
+                              <span className="text-xs text-text-muted w-8 text-right">{zone.congestion}%</span>
+                              <div className="text-xs text-text-muted">{zone.throughput}/hr</div>
                               {zone.alerts > 0 && (
                                 <span className="text-xs bg-status-error/10 text-status-error border border-status-error/30 px-2 py-0.5 rounded-full">{zone.alerts}</span>
                               )}
@@ -749,7 +749,7 @@ const TerminalOperations: React.FC = () => {
                     </div>
 
                     {/* Performance Metrics */}
-                    <div className="bg-gradient-to-br from-primary-700/40 to-primary-800/40 p-6 rounded-xl border border-primary-600/40 backdrop-blur-sm">
+                    <div className="bg-gradient-to-br from-primary-700/40 to-primary-800/40 p-4 rounded-xl border border-primary-600/40 backdrop-blur-sm">
                       <h4 className="text-base font-semibold text-white mb-4 flex items-center">
                         <Gauge className="w-5 h-5 mr-2 text-blue-400" />
                         Performance Dashboard
@@ -762,7 +762,7 @@ const TerminalOperations: React.FC = () => {
                           { label: 'Resource Utilization', value: 82, color: 'purple' }
                         ].map((metric, index) => (
                           <div key={`metric-${index}`} className="flex items-center justify-between">
-                            <span className="text-sm text-gray-300">{metric.label}</span>
+                            <span className="text-sm text-text-secondary">{metric.label}</span>
                             <div className="flex items-center space-x-2">
                               <div className="w-20 h-2 bg-primary-600 rounded-full overflow-hidden">
                                 <motion.div 
@@ -783,7 +783,7 @@ const TerminalOperations: React.FC = () => {
                   </div>
 
                   {/* Advanced Chart */}
-                  <div className="bg-gradient-to-br from-primary-700/40 to-primary-800/40 p-6 rounded-xl border border-primary-600/40 backdrop-blur-sm">
+                  <div className="bg-gradient-to-br from-primary-700/40 to-primary-800/40 p-4 rounded-xl border border-primary-600/40 backdrop-blur-sm">
                     <h4 className="text-base font-semibold text-white mb-4 flex items-center">
                       <BarChart3 className="w-5 h-5 mr-2 text-accent-blue" />
                       24-Hour Advanced Flow Analytics
@@ -817,11 +817,11 @@ const TerminalOperations: React.FC = () => {
 
               {activeTab === 'simulation' && (
                 <div className="text-center py-20">
-                  <div className="inline-flex items-center justify-center w-20 h-20 bg-accent-blue/15 rounded-2xl mb-6">
-                    <PlayCircle className="w-10 h-10 text-accent-blue" />
+                  <div className="inline-flex items-center justify-center w-16 h-16 bg-accent-blue/15 rounded-2xl mb-4">
+                    <PlayCircle className="w-8 h-8 text-accent-blue" />
                   </div>
                   <h3 className="text-lg font-semibold text-white mb-2">Advanced Scenario Simulation</h3>
-                  <p className="text-text-muted text-sm mb-8">
+                  <p className="text-text-muted text-sm mb-5">
                     Real-time scenario simulation and predictive modeling capabilities available in full deployment
                   </p>
                   <div className="grid grid-cols-3 gap-4 max-w-2xl mx-auto">
@@ -834,7 +834,7 @@ const TerminalOperations: React.FC = () => {
                       'Performance Benchmarking'
                     ].map((feature, index) => (
                       <div key={`sim-feature-${index}`} className="p-4 bg-primary-700/20 rounded-lg border border-primary-600/30">
-                        <div className="text-sm text-gray-300">{feature}</div>
+                        <div className="text-sm text-text-secondary">{feature}</div>
                       </div>
                     ))}
                   </div>
@@ -842,31 +842,31 @@ const TerminalOperations: React.FC = () => {
               )}
 
               {activeTab === 'insights' && (
-                <div className="space-y-6">
-                  <div className="bg-accent-blue/10 p-6 rounded-xl border border-accent-blue/30">
+                <div className="space-y-4">
+                  <div className="bg-accent-blue/10 p-4 rounded-xl border border-accent-blue/30">
                     <h4 className="text-base font-semibold text-white mb-2 flex items-center">
                       <Lightbulb className="w-5 h-5 mr-2 text-accent-blue" />
                       Strategic Long-Term Insights
                     </h4>
-                    <p className="text-gray-300 text-sm">AI-generated strategic recommendations for operational excellence and infrastructure optimization</p>
+                    <p className="text-text-secondary text-sm">AI-generated strategic recommendations for operational excellence and infrastructure optimization</p>
                   </div>
                   
-                  <div className="space-y-6">
+                  <div className="space-y-4">
                     {aiAdvisoryData.strategicInsights.map((insight, index) => (
                       <motion.div 
                         key={`strategic-${index}`}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.15, duration: 0.4 }}
-                        className="bg-gradient-to-br from-primary-700/40 to-primary-800/40 p-6 rounded-xl border border-primary-600/40 backdrop-blur-sm"
+                        className="bg-gradient-to-br from-primary-700/40 to-primary-800/40 p-4 rounded-xl border border-primary-600/40 backdrop-blur-sm"
                       >
-                        <div className="flex items-start justify-between mb-6">
+                        <div className="flex items-start justify-between mb-4">
                           <div className="flex items-center space-x-3">
-                            <div className={`p-3 rounded-xl ${
+                            <div className={`p-2 rounded-xl ${
                               insight.impact === 'High' ? 'bg-accent-blue/15 text-accent-blue' :
                               'bg-accent-blue/15 text-accent-blue'
                             }`}>
-                              <Target className="w-6 h-6" />
+                              <Target className="w-5 h-5" />
                             </div>
                             <div>
                               <div className="flex items-center space-x-2 mb-1">
@@ -881,7 +881,7 @@ const TerminalOperations: React.FC = () => {
                               </div>
                               <h4 className="text-base font-semibold text-white">{insight.title}</h4>
                               <div className="flex items-center space-x-4 mt-2">
-                                <span className="text-sm text-gray-400 flex items-center">
+                                <span className="text-sm text-text-muted flex items-center">
                                   <Timer className="w-4 h-4 mr-1" />
                                   {insight.timeframe}
                                 </span>
@@ -894,18 +894,18 @@ const TerminalOperations: React.FC = () => {
                           </div>
                         </div>
                         
-                        <p className="text-gray-300 text-sm mb-6 leading-relaxed">{insight.description}</p>
+                        <p className="text-text-secondary text-sm mb-4 leading-relaxed">{insight.description}</p>
                         
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                           <div className="bg-primary-600/20 p-4 rounded-lg border border-primary-500/30">
                             <h6 className="text-sm font-medium text-blue-400 mb-3">FINANCIAL IMPACT</h6>
                             <div className="space-y-2">
                               <div className="flex justify-between">
-                                <span className="text-xs text-gray-400">Investment Required:</span>
+                                <span className="text-xs text-text-muted">Investment Required:</span>
                                 <span className="text-xs text-white font-semibold">{insight.investmentRequired}</span>
                               </div>
                               <div className="flex justify-between">
-                                <span className="text-xs text-gray-400">Expected ROI:</span>
+                                <span className="text-xs text-text-muted">Expected ROI:</span>
                                 <span className="text-xs text-status-success font-semibold">{insight.expectedROI}</span>
                               </div>
                             </div>
@@ -915,7 +915,7 @@ const TerminalOperations: React.FC = () => {
                             <h6 className="text-sm font-medium text-status-success mb-3">KEY PERFORMANCE METRICS</h6>
                             <div className="space-y-1">
                               {insight.keyMetrics.map((metric, idx) => (
-                                <div key={idx} className="text-xs text-gray-300 flex items-center">
+                                <div key={idx} className="text-xs text-text-secondary flex items-center">
                                   <CheckCircle className="w-3 h-3 text-status-success mr-2 flex-shrink-0" />
                                   {metric}
                                 </div>
@@ -935,7 +935,7 @@ const TerminalOperations: React.FC = () => {
                                 <div className="w-6 h-6 bg-blue-500/20 rounded-full flex items-center justify-center">
                                   <span className="text-xs text-blue-400 font-semibold">{idx + 1}</span>
                                 </div>
-                                <span className="text-sm text-gray-300">{actionItem}</span>
+                                <span className="text-sm text-text-secondary">{actionItem}</span>
                               </div>
                             </div>
                           ))}
@@ -971,21 +971,21 @@ const TerminalOperations: React.FC = () => {
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
-            className="bg-gradient-to-br from-primary-800 to-primary-900 rounded-xl p-6 w-full max-w-6xl max-h-[90vh] overflow-hidden border border-primary-600 shadow-xl"
+            className="bg-gradient-to-br from-primary-800 to-primary-900 rounded-xl p-4 w-full max-w-6xl max-h-[90vh] overflow-hidden border border-primary-600 shadow-xl"
             onClick={handleModalContentClick}
           >
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-white">{selectedZone.name}</h2>
               <button
                 onClick={handleCloseZoneModal}
-                className="text-gray-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/10"
+                className="text-text-muted hover:text-text-primary transition-colors p-2 rounded-lg hover:bg-accent-blue/10"
               >
-                <X className="w-6 h-6" />
+                <X className="w-5 h-5" />
               </button>
             </div>
 
             <div className="h-96 overflow-y-auto pr-2">
-              <div className="space-y-6">
+              <div className="space-y-4">
                 <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
                   <h4 className="text-base font-semibold text-white mb-4 flex items-center">
                     <Activity className="w-5 h-5 mr-2 text-accent-blue" />
@@ -1008,22 +1008,22 @@ const TerminalOperations: React.FC = () => {
                           }`}>
                             {alert.severity.toUpperCase()}
                           </span>
-                          <span className="text-xs text-gray-400">{alert.timestamp}</span>
+                          <span className="text-xs text-text-muted">{alert.timestamp}</span>
                         </div>
-                        <p className="text-gray-300 text-sm mb-2">{alert.message}</p>
+                        <p className="text-text-secondary text-sm mb-2">{alert.message}</p>
                         
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
                           <div className="bg-primary-600/20 p-3 rounded-lg">
                             <h6 className="text-xs font-medium text-text-muted mb-1">PREDICTED IMPACT</h6>
-                            <p className="text-xs text-gray-300">{alert.predictedImpact}</p>
+                            <p className="text-xs text-text-secondary">{alert.predictedImpact}</p>
                           </div>
                           <div className="bg-primary-600/20 p-3 rounded-lg">
                             <h6 className="text-xs font-medium text-blue-400 mb-1">AI RECOMMENDED ACTION</h6>
-                            <p className="text-xs text-gray-300">{alert.recommendedAction}</p>
+                            <p className="text-xs text-text-secondary">{alert.recommendedAction}</p>
                           </div>
                         </div>
                         
-                        <div className="flex items-center justify-between text-xs text-gray-400 mb-3">
+                        <div className="flex items-center justify-between text-xs text-text-muted mb-3">
                           <span>Est. Resolution: {alert.estimatedResolutionTime}</span>
                           <span>Potential Cost: {alert.potentialCost}</span>
                         </div>
@@ -1049,7 +1049,7 @@ const TerminalOperations: React.FC = () => {
                     {selectedZone.realTimeAlerts.length === 0 && (
                       <div className="text-center py-8">
                         <CheckCircle className="w-12 h-12 text-status-success mx-auto mb-3" />
-                        <p className="text-gray-400">No active alerts - optimal performance maintained</p>
+                        <p className="text-text-muted">No active alerts - optimal performance maintained</p>
                       </div>
                     )}
                   </div>
@@ -1075,7 +1075,7 @@ const TerminalOperations: React.FC = () => {
         </div>
 
         {/* Container with proper spacing */}
-        <div className="relative z-10 w-full px-4 md:px-6 py-6 space-y-6">
+        <div className="relative z-10 w-full px-4 md:px-6 py-6 space-y-4">
           {/* Enhanced Header */}
           <motion.div 
             initial={{ y: -20, opacity: 0 }}
@@ -1115,7 +1115,7 @@ const TerminalOperations: React.FC = () => {
             className="w-full relative overflow-hidden glass-panel hover:border-accent-blue/40 rounded-xl p-4 cursor-pointer transition-colors duration-200 group"
           >
             <div className="relative z-10">
-              <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-3">
                   <Brain className="w-5 h-5 text-accent-blue" />
                   <h3 className="text-base font-semibold text-white">AI Terminal Intelligence Center</h3>
@@ -1175,27 +1175,27 @@ const TerminalOperations: React.FC = () => {
           <motion.div 
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            className="w-full grid grid-cols-10 gap-6"
+            className="w-full grid grid-cols-10 gap-4"
           >
             {/* Real-time Terminal Map - 70% */}
             <div className="col-span-7 relative overflow-hidden glass-panel-strong rounded-xl p-5">
               <div className="relative z-10">
-                <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center space-x-3">
                     <MapPin className="w-5 h-5 text-accent-blue" />
                     <h3 className="text-base font-semibold text-white">Real-time Terminal Operations Map</h3>
                     <InfoButtonWithPortal description="Interactive terminal visualization showing real-time passenger density, operational status, and AI-predicted bottlenecks across all processing zones." />
                   </div>
                   <div className="flex space-x-2">
-                    <span className="flex items-center space-x-1 text-sm text-gray-400">
+                    <span className="flex items-center space-x-1 text-sm text-text-muted">
                       <div className="w-2 h-2 bg-status-success rounded-full"></div>
                       <span>Optimal</span>
                     </span>
-                    <span className="flex items-center space-x-1 text-sm text-gray-400">
+                    <span className="flex items-center space-x-1 text-sm text-text-muted">
                       <div className="w-2 h-2 bg-status-warning rounded-full"></div>
                       <span>Warning</span>
                     </span>
-                    <span className="flex items-center space-x-1 text-sm text-gray-400">
+                    <span className="flex items-center space-x-1 text-sm text-text-muted">
                       <div className="w-2 h-2 bg-status-error rounded-full"></div>
                       <span>Critical</span>
                     </span>
@@ -1264,9 +1264,9 @@ const TerminalOperations: React.FC = () => {
                           </div>
 
                           {/* Enhanced Hover Info Card */}
-                          <div className="absolute -top-24 left-1/2 transform -translate-x-1/2 bg-gray-800/95 rounded-lg p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none min-w-64 z-20 backdrop-blur-sm border border-gray-600">
+                          <div className="absolute -top-24 left-1/2 transform -translate-x-1/2 bg-primary-800/95 rounded-lg p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none min-w-64 z-20 backdrop-blur-sm border border-accent-blue/20">
                             <h4 className="text-sm font-semibold text-white mb-2">{zone.name}</h4>
-                            <div className="text-xs text-gray-300 space-y-1">
+                            <div className="text-xs text-text-secondary space-y-1">
                               <div className="flex justify-between">
                                 <span>Occupancy:</span>
                                 <span className="font-medium">{zone.currentOccupancy}/{zone.maxCapacity} ({occupancyRate.toFixed(0)}%)</span>
@@ -1290,7 +1290,7 @@ const TerminalOperations: React.FC = () => {
                                 </span>
                               </div>
                             </div>
-                            <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-800"></div>
+                            <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-primary-800/95"></div>
                           </div>
                         </motion.div>
                       );
@@ -1361,19 +1361,19 @@ const TerminalOperations: React.FC = () => {
                             </span>
                           </div>
                         </div>
-                        <div className="text-xs text-gray-300 mb-2 line-clamp-2">
+                        <div className="text-xs text-text-secondary mb-2 line-clamp-2">
                           <span className="text-text-muted font-medium">Latest:</span> {zone.realTimeAlerts[0]?.message.substring(0, 70)}...
                         </div>
-                        <div className="text-xs text-gray-300 mb-3 line-clamp-2">
+                        <div className="text-xs text-text-secondary mb-3 line-clamp-2">
                           <span className="text-text-muted font-medium">Impact:</span> {zone.realTimeAlerts[0]?.predictedImpact.substring(0, 65)}...
                         </div>
                         <div className="grid grid-cols-2 gap-2 text-xs">
                           <div className="bg-primary-800/50 p-2 rounded border border-primary-600/30">
-                            <div className="text-gray-400">Cost Impact</div>
+                            <div className="text-text-muted">Cost Impact</div>
                             <div className="text-text-primary font-semibold">{zone.realTimeAlerts[0]?.potentialCost}</div>
                           </div>
                           <div className="bg-primary-800/50 p-2 rounded border border-primary-600/30">
-                            <div className="text-gray-400">Resolution ETA</div>
+                            <div className="text-text-muted">Resolution ETA</div>
                             <div className="text-text-primary font-semibold">{zone.realTimeAlerts[0]?.estimatedResolutionTime}</div>
                           </div>
                         </div>
@@ -1388,14 +1388,14 @@ const TerminalOperations: React.FC = () => {
                   {terminalZones.filter(zone => zone.realTimeAlerts.length > 0).length === 0 && (
                     <div className="text-center py-8">
                       <CheckCircle className="w-12 h-12 text-status-success mx-auto mb-3" />
-                      <p className="text-gray-400 text-sm">No critical alerts - operations optimal</p>
+                      <p className="text-text-muted text-sm">No critical alerts - operations optimal</p>
                       <div className="mt-4 grid grid-cols-2 gap-2">
                         <div className="p-3 bg-primary-800/60 rounded-lg border border-primary-600/40">
-                          <div className="text-xs text-gray-400">System Health</div>
+                          <div className="text-xs text-text-muted">System Health</div>
                           <div className="text-lg text-text-primary font-bold">98.2%</div>
                         </div>
                         <div className="p-3 bg-primary-800/60 rounded-lg border border-primary-600/40">
-                          <div className="text-xs text-gray-400">SLA Compliance</div>
+                          <div className="text-xs text-text-muted">SLA Compliance</div>
                           <div className="text-lg text-text-primary font-bold">94.1%</div>
                         </div>
                       </div>
@@ -1410,7 +1410,7 @@ const TerminalOperations: React.FC = () => {
           <motion.div 
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            className="w-full grid grid-cols-1 lg:grid-cols-2 gap-6"
+            className="w-full grid grid-cols-1 lg:grid-cols-2 gap-4"
           >
             {/* 24-Hour Flow Chart */}
             <div className="bg-primary-800/60 rounded-xl p-5 border border-primary-600/40">
@@ -1473,8 +1473,8 @@ const TerminalOperations: React.FC = () => {
                           }`}
                         />
                       </div>
-                      <span className="text-xs text-gray-400 w-10 text-right">{zone.congestion}%</span>
-                      <div className="text-xs text-gray-500 w-12 text-right">{zone.throughput}/hr</div>
+                      <span className="text-xs text-text-muted w-10 text-right">{zone.congestion}%</span>
+                      <div className="text-xs text-text-muted w-12 text-right">{zone.throughput}/hr</div>
                       {zone.alerts > 0 && (
                         <span className="text-xs bg-status-error/10 text-status-error border border-status-error/30 px-2 py-0.5 rounded-full">{zone.alerts}</span>
                       )}
@@ -1486,12 +1486,12 @@ const TerminalOperations: React.FC = () => {
               {/* Mini Performance Dashboard */}
               <div className="mt-6 grid grid-cols-2 gap-4">
                 <div className="p-3 bg-primary-800/60 rounded-lg border border-primary-600/40">
-                  <div className="text-xs text-gray-400 mb-1">Terminal Efficiency</div>
+                  <div className="text-xs text-text-muted mb-1">Terminal Efficiency</div>
                   <div className="text-xl font-bold text-text-primary">89.2%</div>
                   <div className="text-xs text-text-muted">+2.1% from yesterday</div>
                 </div>
                 <div className="p-3 bg-primary-800/60 rounded-lg border border-primary-600/40">
-                  <div className="text-xs text-gray-400 mb-1">SLA Compliance</div>
+                  <div className="text-xs text-text-muted mb-1">SLA Compliance</div>
                   <div className="text-xl font-bold text-text-primary">94.1%</div>
                   <div className="text-xs text-text-muted">Target: 95%</div>
                 </div>

@@ -68,7 +68,7 @@ const FeedTile: React.FC<{ camera: TerminalCamera; room: TerminalRoom; large?: b
             className="absolute left-0 right-0 pointer-events-none"
             style={{
               height: large ? 40 : 22,
-              background: 'linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(155,234,232,0.07) 50%, rgba(255,255,255,0) 100%)',
+              background: 'linear-gradient(180deg, rgba(32, 120, 207,0) 0%, rgba(155,234,232,0.07) 50%, rgba(32, 120, 207,0) 100%)',
               animation: 'hbms-cctv-scan 5.5s linear infinite',
             }}
           />

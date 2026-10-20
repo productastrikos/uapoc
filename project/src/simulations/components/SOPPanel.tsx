@@ -98,8 +98,8 @@ const SOPPanel: React.FC<SOPPanelProps> = ({
   return (
     <div className={`hbms-control-panel flex flex-col ${className}`}>
       {/* Header */}
-      <div className={`p-4 border-b border-primary-600/40 ${active ? tone.bg : ''}`}>
-        <div className="flex items-start justify-between gap-3">
+      <div className={`p-3 border-b border-primary-600/40 ${active ? tone.bg : ''}`}>
+        <div className="flex items-start justify-between gap-2.5">
           <div className="flex items-center space-x-2.5 min-w-0">
             <div
               className={`p-2 rounded-lg border ${
@@ -152,7 +152,7 @@ const SOPPanel: React.FC<SOPPanelProps> = ({
       </div>
 
       {/* Steps */}
-      <div ref={listRef} className="flex-1 overflow-y-auto p-3 min-h-0">
+      <div ref={listRef} className="flex-1 overflow-y-auto p-2.5 min-h-0">
         <ol className="space-y-2">
           {steps.map((step, i) => {
             const isDone = active && i < completed;

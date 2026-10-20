@@ -20,7 +20,7 @@ const AHUAssetCard: React.FC<{ asset: AHUAsset; onClick: () => void }> = ({ asse
         display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 8,
         height: '100%', overflow: 'hidden', padding: '10px 6px 14px', borderRadius: 10, textAlign: 'left', cursor: 'pointer',
         background: 'var(--app-surface)',
-        border: `1px solid ${faultColor ? 'rgba(239,68,68,0.4)' : 'rgba(255,255,255,0.08)'}`,
+        border: `1px solid ${faultColor ? 'rgba(239,68,68,0.4)' : 'rgba(32, 120, 207,0.08)'}`,
         boxShadow: faultColor ? '0 0 0 1px rgba(239,68,68,0.15) inset' : 'none',
         transition: 'transform 0.15s ease, border-color 0.15s ease',
       }}

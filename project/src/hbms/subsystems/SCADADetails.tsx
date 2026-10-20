@@ -121,11 +121,11 @@ const SCADADetails: React.FC = () => {
           <button
             key={tab.key}
             onClick={() => setView(tab.key)}
-            className="flex items-center gap-2 px-4 py-1 rounded-lg text-[length:calc(10px*var(--fs))] font-bold uppercase tracking-wider transition-all duration-150"
+            className="flex items-center gap-2 px-3 py-1 rounded-lg text-[length:calc(10px*var(--fs))] font-bold uppercase tracking-wider transition-all duration-150"
             style={{
-              background: active ? 'rgba(16,185,129,0.18)' : 'rgba(255,255,255,0.04)',
+              background: active ? 'rgba(16,185,129,0.18)' : 'rgba(32, 120, 207,0.04)',
               color: active ? '#34d399' : '#7C8FA0',
-              border: `1px solid ${active ? 'rgba(16,185,129,0.35)' : 'rgba(255,255,255,0.06)'}`,
+              border: `1px solid ${active ? 'rgba(16,185,129,0.35)' : 'rgba(32, 120, 207,0.06)'}`,
             }}
           >
             <Icon className="w-3 h-3" />

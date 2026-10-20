@@ -59,21 +59,21 @@ const InfoButtonWithPortal: React.FC<{ description: string }> = ({ description }
       <button
         onMouseEnter={handleMouseEnter}
         onMouseLeave={() => setShowTooltip(false)}
-        className="text-gray-400 hover:text-white transition-colors p-1"
+        className="text-text-muted hover:text-text-primary transition-colors p-1"
       >
         <Info className="w-4 h-4" />
       </button>
-      
+
       {showTooltip && createPortal(
         <div
-          className="fixed z-[99999] bg-gray-800 text-white text-sm px-3 py-2 rounded-lg shadow-2xl pointer-events-none transform -translate-x-1/2 -translate-y-full max-w-xs"
+          className="glass-panel-strong fixed z-[99999] text-text-primary text-sm px-3 py-2 rounded-lg shadow-2xl pointer-events-none transform -translate-x-1/2 -translate-y-full max-w-xs"
           style={{
             left: position.x,
             top: position.y,
           }}
         >
           {description}
-          <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-800"></div>
+          <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-primary-800"></div>
         </div>,
         document.body
       )}
@@ -604,7 +604,7 @@ const PassengerSystems: React.FC = () => {
       case 'critical':
         return 'bg-status-error';
       default:
-        return 'bg-gray-500';
+        return 'bg-primary-500';
     }
   };
 
@@ -623,20 +623,20 @@ const PassengerSystems: React.FC = () => {
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="bg-primary-800 rounded-xl p-6 max-w-4xl w-full max-h-[90vh] overflow-hidden border border-primary-600"
+            className="glass-panel-strong rounded-xl p-5 max-w-4xl w-full max-h-[90vh] overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-bold text-white">{selectedComponent.name}</h2>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-bold text-text-primary">{selectedComponent.name}</h2>
               <button
                 onClick={() => setShowComponentModal(false)}
-                className="text-gray-400 hover:text-white transition-colors"
+                className="text-text-muted hover:text-text-primary transition-colors"
               >
-                <X className="w-6 h-6" />
+                <X className="w-5 h-5" />
               </button>
             </div>
 
-            <div className="flex space-x-1 mb-6 bg-primary-700/30 p-1 rounded-lg">
+            <div className="flex space-x-1 mb-4 bg-primary-700/30 p-1 rounded-lg">
               {['overview', 'trends', 'insights', 'actions', 'evidence'].map((tab) => (
                 <button
                   key={tab}
@@ -654,10 +654,10 @@ const PassengerSystems: React.FC = () => {
 
             <div className="h-96 overflow-y-auto">
               {activeTab === 'overview' && (
-                <div className="space-y-4">
-                  <div className="grid grid-cols-3 gap-4">
-                    <div className="glass-pill glass-pill-blue p-4">
-                      <h4 className="text-sm font-semibold text-gray-400 mb-2">Status</h4>
+                <div className="space-y-3">
+                  <div className="grid grid-cols-3 gap-3">
+                    <div className="glass-pill glass-pill-blue p-3">
+                      <h4 className="text-sm font-semibold text-text-muted mb-2">Status</h4>
                       <div className="flex items-center space-x-2">
                         <div className={`w-3 h-3 rounded-full ${getComponentStatusColor(selectedComponent.status)}`}></div>
                         <span className={`font-medium ${getStatusTextColor(selectedComponent.status)}`}>
@@ -665,15 +665,15 @@ const PassengerSystems: React.FC = () => {
                         </span>
                       </div>
                     </div>
-                    <div className="glass-pill glass-pill-teal p-4">
-                      <h4 className="text-sm font-semibold text-gray-400 mb-2">Success Rate</h4>
-                      <span className="text-white font-medium flex items-center">
+                    <div className="glass-pill glass-pill-teal p-3">
+                      <h4 className="text-sm font-semibold text-text-muted mb-2">Success Rate</h4>
+                      <span className="text-text-primary font-medium flex items-center">
                         {selectedComponent.detailedMetrics.successRate}%
                       </span>
                     </div>
-                    <div className="glass-pill glass-pill-violet p-4">
-                      <h4 className="text-sm font-semibold text-gray-400 mb-2">Queue Length</h4>
-                      <span className="text-white font-medium flex items-center">
+                    <div className="glass-pill glass-pill-violet p-3">
+                      <h4 className="text-sm font-semibold text-text-muted mb-2">Queue Length</h4>
+                      <span className="text-text-primary font-medium flex items-center">
                         {selectedComponent.detailedMetrics.queueLength}
                       </span>
                     </div>
@@ -682,19 +682,19 @@ const PassengerSystems: React.FC = () => {
               )}
 
               {activeTab === 'actions' && (
-                <div className="space-y-6">
-                  <div className="glass-panel rounded-lg p-6">
-                    <h4 className="text-base font-semibold text-white mb-4">Primary Actions</h4>
-                    <div className="space-y-4">
-                      <div className="border-b border-primary-600 pb-4">
+                <div className="space-y-4">
+                  <div className="glass-panel rounded-lg p-4">
+                    <h4 className="text-base font-semibold text-text-primary mb-3">Primary Actions</h4>
+                    <div className="space-y-3">
+                      <div className="border-b border-accent-blue/15 pb-3">
                         <div className="flex items-center justify-between mb-2">
-                          <h5 className="text-white font-medium">Execute Optimization SOP</h5>
+                          <h5 className="text-text-primary font-medium">Execute Optimization SOP</h5>
                           <div className="flex items-center space-x-2">
-                            <span className="text-xs text-blue-200">Confidence: 99%</span>
+                            <span className="text-xs text-accent-blue">Confidence: 99%</span>
                             <span className="text-xs text-status-success">Routine</span>
                           </div>
                         </div>
-                        <p className="text-sm text-gray-400 mb-4">
+                        <p className="text-sm text-text-muted mb-3">
                           Implement AI-recommended optimization with expected {selectedComponent.status === 'warning' ? '25%' : '8%'} performance improvement
                         </p>
                         <div className="flex space-x-3">
@@ -719,8 +719,8 @@ const PassengerSystems: React.FC = () => {
               {activeTab !== 'overview' && activeTab !== 'actions' && (
                 <div className="flex items-center justify-center h-full">
                   <div className="text-center">
-                    <TrendingUp className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                    <p className="text-gray-400">Content for {activeTab} tab will be displayed here.</p>
+                    <TrendingUp className="w-10 h-10 text-text-muted mx-auto mb-3" />
+                    <p className="text-text-muted">Content for {activeTab} tab will be displayed here.</p>
                   </div>
                 </div>
               )}
@@ -746,20 +746,20 @@ const PassengerSystems: React.FC = () => {
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="bg-primary-800 rounded-xl p-6 max-w-4xl w-full max-h-[90vh] overflow-hidden border border-primary-600"
+            className="glass-panel-strong rounded-xl p-5 max-w-4xl w-full max-h-[90vh] overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-bold text-white">AI Advisory & Recommendations</h2>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-bold text-text-primary">AI Advisory & Recommendations</h2>
               <button
                 onClick={() => setShowAIAdvisoryModal(false)}
-                className="text-gray-400 hover:text-white transition-colors"
+                className="text-text-muted hover:text-text-primary transition-colors"
               >
-                <X className="w-6 h-6" />
+                <X className="w-5 h-5" />
               </button>
             </div>
 
-            <div className="flex space-x-1 mb-6 bg-primary-700/30 p-1 rounded-lg">
+            <div className="flex space-x-1 mb-4 bg-primary-700/30 p-1 rounded-lg">
               {['overview', 'analytics', 'predictions', 'actions', 'execution'].map((tab) => (
                 <button
                   key={tab}
@@ -777,19 +777,19 @@ const PassengerSystems: React.FC = () => {
 
             <div className="h-96 overflow-y-auto">
               {activeTab === 'overview' && (
-                <div className="space-y-6">
+                <div className="space-y-4">
                   {/* AI Status Display */}
-                  <div className="grid grid-cols-2 gap-6">
-                    <div className="glass-pill glass-pill-blue p-4">
-                      <h4 className="text-sm font-semibold text-gray-400 mb-2">AI Status</h4>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="glass-pill glass-pill-blue p-3">
+                      <h4 className="text-sm font-semibold text-text-muted mb-2">AI Status</h4>
                       <div className="flex items-center space-x-2">
                         <div className="w-3 h-3 rounded-full bg-status-success"></div>
                         <span className="text-status-success font-medium">OPERATIONAL</span>
                       </div>
                     </div>
-                    <div className="glass-pill glass-pill-teal p-4">
-                      <h4 className="text-sm font-semibold text-gray-400 mb-2">Confidence Level</h4>
-                      <span className="text-white font-medium">97.5%</span>
+                    <div className="glass-pill glass-pill-teal p-3">
+                      <h4 className="text-sm font-semibold text-text-muted mb-2">Confidence Level</h4>
+                      <span className="text-text-primary font-medium">97.5%</span>
                     </div>
                   </div>
 
@@ -813,10 +813,10 @@ const PassengerSystems: React.FC = () => {
                   </div>
 
                   {/* AI Analysis Summary */}
-                  <div className="glass-panel rounded-lg p-4">
-                    <h4 className="text-sm font-semibold text-gray-400 mb-2">AI Analysis Summary</h4>
-                    <p className="text-gray-300">
-                      AI-powered analysis of passenger system performance indicates optimal operational efficiency across most components. 
+                  <div className="glass-panel rounded-lg p-3">
+                    <h4 className="text-sm font-semibold text-text-muted mb-2">AI Analysis Summary</h4>
+                    <p className="text-text-secondary">
+                      AI-powered analysis of passenger system performance indicates optimal operational efficiency across most components.
                       PCDS system requires immediate attention. PTS performance can be improved through algorithm optimization.
                     </p>
                   </div>
@@ -824,21 +824,21 @@ const PassengerSystems: React.FC = () => {
               )}
 
               {activeTab === 'actions' && (
-                <div className="space-y-6">
-                  <div className="glass-panel rounded-lg p-6">
-                    <h4 className="text-base font-semibold text-white mb-4">AI Recommendations</h4>
-                    
-                    <div className="space-y-4">
+                <div className="space-y-4">
+                  <div className="glass-panel rounded-lg p-4">
+                    <h4 className="text-base font-semibold text-text-primary mb-3">AI Recommendations</h4>
+
+                    <div className="space-y-3">
                       {aiAdvisoryData.recommendations.map((recommendation, index) => (
-                        <div key={index} className="border-b border-primary-600 pb-4 last:border-b-0">
+                        <div key={index} className="border-b border-accent-blue/15 pb-3 last:border-b-0">
                           <div className="flex items-center justify-between mb-2">
-                            <h5 className="text-white font-medium">Recommendation #{index + 1}</h5>
+                            <h5 className="text-text-primary font-medium">Recommendation #{index + 1}</h5>
                             <div className="flex items-center space-x-2">
-                              <span className="text-xs text-blue-200">High Priority</span>
+                              <span className="text-xs text-accent-blue">High Priority</span>
                               <span className="text-xs text-accent-blue">AI Generated</span>
                             </div>
                           </div>
-                          <p className="text-sm text-gray-400 mb-3">
+                          <p className="text-sm text-text-muted mb-1">
                             {recommendation}
                           </p>
                         </div>
@@ -849,23 +849,23 @@ const PassengerSystems: React.FC = () => {
               )}
 
               {activeTab === 'execution' && (
-                <div className="space-y-6">
-                  <div className="glass-panel rounded-lg p-6">
-                    <h4 className="text-base font-semibold text-white mb-4">Execute AI Recommendations</h4>
-                    
-                    <div className="space-y-4">
-                      <div className="border-b border-primary-600 pb-4">
+                <div className="space-y-4">
+                  <div className="glass-panel rounded-lg p-4">
+                    <h4 className="text-base font-semibold text-text-primary mb-3">Execute AI Recommendations</h4>
+
+                    <div className="space-y-3">
+                      <div className="border-b border-accent-blue/15 pb-3">
                         <div className="flex items-center justify-between mb-2">
-                          <h5 className="text-white font-medium">System-wide AI Optimization</h5>
+                          <h5 className="text-text-primary font-medium">System-wide AI Optimization</h5>
                           <div className="flex items-center space-x-2">
-                            <span className="text-xs text-blue-200">Confidence: 97.5%</span>
+                            <span className="text-xs text-accent-blue">Confidence: 97.5%</span>
                             <span className="text-xs text-status-success">Safe</span>
                           </div>
                         </div>
-                        <p className="text-sm text-gray-400 mb-4">
+                        <p className="text-sm text-text-muted mb-3">
                           Apply AI-powered optimizations across all passenger systems with expected 23% overall performance improvement
                         </p>
-                        
+
                         <div className="flex space-x-3">
                           <button
                             onClick={handleAIRecommendationExecute}
@@ -879,9 +879,9 @@ const PassengerSystems: React.FC = () => {
 
                       {/* Execution Status */}
                       {aiRecommendationExecuted && (
-                        <div className="glass-panel rounded-lg p-4 border border-status-success/30 bg-status-success/10">
+                        <div className="glass-panel rounded-lg p-3 border border-status-success/30 bg-status-success/10">
                           <div className="flex items-center space-x-3">
-                            <CheckCircle className="w-6 h-6 text-status-success" />
+                            <CheckCircle className="w-5 h-5 text-status-success" />
                             <div>
                               <h6 className="text-status-success font-medium">AI Optimization Executed Successfully</h6>
                               <p className="text-status-success/80 text-sm">System performance enhanced across all components</p>
@@ -897,8 +897,8 @@ const PassengerSystems: React.FC = () => {
               {activeTab !== 'overview' && activeTab !== 'actions' && activeTab !== 'execution' && (
                 <div className="flex items-center justify-center h-full">
                   <div className="text-center">
-                    <Brain className="w-12 h-12 text-accent-blue mx-auto mb-4" />
-                    <p className="text-gray-400">AI {activeTab} content will be displayed here.</p>
+                    <Brain className="w-10 h-10 text-accent-blue mx-auto mb-3" />
+                    <p className="text-text-muted">AI {activeTab} content will be displayed here.</p>
                   </div>
                 </div>
               )}
@@ -920,7 +920,7 @@ const PassengerSystems: React.FC = () => {
         <div className="absolute inset-0 bg-primary-900"></div>
       </div>
 
-      <div className="relative z-10 space-y-6 p-6">
+      <div className="relative z-10 space-y-4 p-4">
         {/* FULL WIDTH AI Advisory - Now Clickable with 5 KPI Cards */}
         <motion.div 
           initial={{ y: 20, opacity: 0 }}
@@ -933,7 +933,7 @@ const PassengerSystems: React.FC = () => {
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center space-x-3">
                 <Brain className="w-5 h-5 text-accent-blue" />
-                <h3 className="text-base font-semibold text-white">AI Advisory & Recommendations</h3>
+                <h3 className="text-base font-semibold text-text-primary">AI Advisory & Recommendations</h3>
                 <InfoButtonWithPortal description="AI-powered analysis providing real-time recommendations for system optimization. Click to view detailed insights and execute recommendations." />
               </div>
             </div>
@@ -980,7 +980,7 @@ const PassengerSystems: React.FC = () => {
               <Server className="w-5 h-5 text-accent-blue" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-white">Passenger Systems</h1>
+              <h1 className="text-2xl font-bold text-text-primary">Passenger Systems</h1>
               <p className="text-text-muted text-sm">Technical System Monitoring & Integration Health</p>
             </div>
             <InfoButtonWithPortal description="Monitor and manage all passenger processing systems including CUPPS, CUSS, PTS, SACS, BHS, and PCDS. Track system health, performance metrics, and integration status in real-time." />
@@ -1029,10 +1029,10 @@ const PassengerSystems: React.FC = () => {
                 onClick={() => handleSystemClick(system)}
               >
                 <div className="relative z-10">
-                  <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center space-x-2">
                       {getStatusIcon(system.status)}
-                      <span className="text-sm font-medium text-white uppercase">{system.id}</span>
+                      <span className="text-sm font-medium text-text-primary uppercase">{system.id}</span>
                       <InfoButtonWithPortal description={`${system.name} - Monitor performance, uptime, and integration status. Click for detailed metrics and controls.`} />
                     </div>
                     <span className={`px-2 py-0.5 rounded-full text-xs font-semibold border ${getStatusColor(system.status)}`}>
@@ -1040,39 +1040,39 @@ const PassengerSystems: React.FC = () => {
                     </span>
                   </div>
 
-                  <h3 className="text-base font-semibold text-white mb-2 group-hover:text-blue-200 transition-colors duration-200">{system.name}</h3>
+                  <h3 className="text-base font-semibold text-text-primary mb-2 group-hover:text-accent-blue transition-colors duration-200">{system.name}</h3>
                   
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-400">Uptime</span>
-                      <span className="text-white font-medium flex items-center">
+                      <span className="text-text-muted">Uptime</span>
+                      <span className="text-text-primary font-medium flex items-center">
                         {system.uptime}%
                         <TrendArrow trend={system.performance.trend} />
                       </span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-400">Response Time</span>
-                      <span className="text-white font-medium">{system.responseTime}ms</span>
+                      <span className="text-text-muted">Response Time</span>
+                      <span className="text-text-primary font-medium">{system.responseTime}ms</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-400">Throughput</span>
-                      <span className="text-white font-medium">{system.throughput}</span>
+                      <span className="text-text-muted">Throughput</span>
+                      <span className="text-text-primary font-medium">{system.throughput}</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-400">Passengers Processed</span>
-                      <span className="text-white font-medium">{system.passengersProcessed.toLocaleString()}</span>
+                      <span className="text-text-muted">Passengers Processed</span>
+                      <span className="text-text-primary font-medium">{system.passengersProcessed.toLocaleString()}</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-400">Error Rate</span>
+                      <span className="text-text-muted">Error Rate</span>
                       <span className={`font-medium ${
                         system.errorRate < 2 ? 'text-status-success' :
                         system.errorRate < 5 ? 'text-status-warning' : 'text-status-error'
                       }`}>{system.errorRate}%</span>
                     </div>
                   </div>
-                  
-                  <div className="mt-4">
-                    <div className="w-full bg-gray-700/50 rounded-full h-2 shadow-inner overflow-hidden">
+
+                  <div className="mt-3">
+                    <div className="w-full bg-primary-700/50 rounded-full h-2 shadow-inner overflow-hidden">
                       <div 
                         className={`h-2 rounded-full transition-all duration-500 shadow-sm relative ${
                           system.uptime >= 99 ? 'bg-status-success' :
@@ -1093,49 +1093,27 @@ const PassengerSystems: React.FC = () => {
         <motion.div 
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="relative overflow-hidden glass-panel rounded-xl p-6"
+          className="relative overflow-hidden glass-panel rounded-xl p-4"
         >
           <div className="relative z-10">
             <div className="flex items-center space-x-3 mb-4">
               <Database className="w-5 h-5 text-accent-blue" />
-              <h3 className="text-base font-semibold text-white">System Architecture</h3>
+              <h3 className="text-base font-semibold text-text-primary">System Architecture</h3>
               <InfoButtonWithPortal description="Visual representation of passenger system architecture showing data flow between CUPPS, CUSS, PTS, SACS, BHS, and PCDS components. Click on any component for detailed information and actions." />
             </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="space-y-4">
-                <h4 className="text-sm font-semibold text-text-muted mb-3">Passenger Processing Layer</h4>
-                <div className="space-y-3">
-                  {systemComponents.filter(comp => comp.layer === 'processing').map((component) => (
-                    <motion.div 
-                      key={component.id} 
-                      whileHover={{ y: -2 }}
-                      className="flex items-center justify-between p-3 bg-primary-800/60 rounded-lg cursor-pointer transition-colors duration-200 group border border-primary-600/40 hover:border-accent-blue/40"
-                      onClick={() => handleComponentClick(component)}
-                    >
-                      <span className="text-sm text-gray-300 font-medium group-hover:text-white transition-colors">{component.name}</span>
-                      <div className="flex items-center space-x-2">
-                        {executedSOPs[component.id] && (
-                          <CheckCircle className="w-3 h-3 text-status-success" />
-                        )}
-                        <span className={`w-3 h-3 ${getComponentStatusColor(component.status)} rounded-full`}></span>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
 
-              <div className="space-y-4">
-                <h4 className="text-sm font-semibold text-text-muted mb-3">Security & Control Layer</h4>
-                <div className="space-y-3">
-                  {systemComponents.filter(comp => comp.layer === 'security').map((component) => (
-                    <motion.div 
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="space-y-3">
+                <h4 className="text-sm font-semibold text-text-muted mb-2">Passenger Processing Layer</h4>
+                <div className="space-y-2">
+                  {systemComponents.filter(comp => comp.layer === 'processing').map((component) => (
+                    <motion.div
                       key={component.id}
                       whileHover={{ y: -2 }}
                       className="flex items-center justify-between p-3 bg-primary-800/60 rounded-lg cursor-pointer transition-colors duration-200 group border border-primary-600/40 hover:border-accent-blue/40"
                       onClick={() => handleComponentClick(component)}
                     >
-                      <span className="text-sm text-gray-300 font-medium group-hover:text-white transition-colors">{component.name}</span>
+                      <span className="text-sm text-text-secondary font-medium group-hover:text-text-primary transition-colors">{component.name}</span>
                       <div className="flex items-center space-x-2">
                         {executedSOPs[component.id] && (
                           <CheckCircle className="w-3 h-3 text-status-success" />
@@ -1147,18 +1125,40 @@ const PassengerSystems: React.FC = () => {
                 </div>
               </div>
 
-              <div className="space-y-4">
-                <h4 className="text-sm font-semibold text-text-muted mb-3">Integration Layer</h4>
-                <div className="space-y-3">
+              <div className="space-y-3">
+                <h4 className="text-sm font-semibold text-text-muted mb-2">Security & Control Layer</h4>
+                <div className="space-y-2">
+                  {systemComponents.filter(comp => comp.layer === 'security').map((component) => (
+                    <motion.div
+                      key={component.id}
+                      whileHover={{ y: -2 }}
+                      className="flex items-center justify-between p-3 bg-primary-800/60 rounded-lg cursor-pointer transition-colors duration-200 group border border-primary-600/40 hover:border-accent-blue/40"
+                      onClick={() => handleComponentClick(component)}
+                    >
+                      <span className="text-sm text-text-secondary font-medium group-hover:text-text-primary transition-colors">{component.name}</span>
+                      <div className="flex items-center space-x-2">
+                        {executedSOPs[component.id] && (
+                          <CheckCircle className="w-3 h-3 text-status-success" />
+                        )}
+                        <span className={`w-3 h-3 ${getComponentStatusColor(component.status)} rounded-full`}></span>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <h4 className="text-sm font-semibold text-text-muted mb-2">Integration Layer</h4>
+                <div className="space-y-2">
                   {systemComponents.filter(comp => comp.layer === 'integration').map((component) => (
-                    <motion.div 
+                    <motion.div
                       key={component.id}
                       whileHover={{ y: -2 }}
                       className="p-3 bg-primary-800/60 rounded-lg text-center cursor-pointer transition-colors duration-200 group border border-primary-600/40 hover:border-accent-blue/40"
                       onClick={() => handleComponentClick(component)}
                     >
-                      <span className="text-sm text-gray-300 group-hover:text-white transition-colors block mb-1">{component.name.replace(' Rate', '').replace(' Calls', '')}</span>
-                      <div className="text-lg font-bold text-white group-hover:text-blue-200 transition-colors">
+                      <span className="text-sm text-text-secondary group-hover:text-text-primary transition-colors block mb-1">{component.name.replace(' Rate', '').replace(' Calls', '')}</span>
+                      <div className="text-lg font-bold text-text-primary group-hover:text-accent-blue transition-colors">
                         {component.metrics?.dataFlow || component.metrics?.apiCalls || 'N/A'}
                       </div>
                       {executedSOPs[component.id] && (

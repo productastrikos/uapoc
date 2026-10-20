@@ -58,8 +58,8 @@ const NodeFlowView: React.FC<NodeFlowViewProps> = ({ nodeFlow, subsystemName }) 
 
   return (
     <div className="bg-primary-800/60 rounded-xl border border-primary-600/40">
-      <div className="p-6 border-b border-primary-600/40">
-        <div className="flex items-center space-x-3">
+      <div className="p-4 border-b border-primary-600/40">
+        <div className="flex items-center space-x-2">
           <Activity className="w-6 h-6 text-accent-blue" />
           <div>
             <h3 className="text-lg font-semibold text-text-primary">Node Flow Diagram</h3>
@@ -68,8 +68,8 @@ const NodeFlowView: React.FC<NodeFlowViewProps> = ({ nodeFlow, subsystemName }) 
         </div>
       </div>
 
-      <div className="p-6">
-        <div className="relative bg-primary-900/40 rounded-lg p-8 min-h-96">
+      <div className="p-4">
+        <div className="relative bg-primary-900/40 rounded-lg p-6 min-h-96">
           {/* Nodes */}
           {nodeFlow.nodes.map(node => (
             <div
@@ -82,7 +82,7 @@ const NodeFlowView: React.FC<NodeFlowViewProps> = ({ nodeFlow, subsystemName }) 
                 top: `${node.position.y}px`
               }}
             >
-              <div className={`w-20 h-20 rounded-xl border-2 flex flex-col items-center justify-center text-white font-medium text-sm transition-all duration-300 ${getNodeColor(node.data.status)}`}>
+              <div className={`w-16 h-16 rounded-xl border-2 flex flex-col items-center justify-center text-white font-medium text-sm transition-all duration-300 ${getNodeColor(node.data.status)}`}>
                 <div className="text-center">
                   <div>{node.data.label}</div>
                   <div className="text-xs opacity-75 capitalize">{node.data.status}</div>
@@ -157,7 +157,7 @@ const NodeFlowView: React.FC<NodeFlowViewProps> = ({ nodeFlow, subsystemName }) 
         </div>
 
         {/* Legend */}
-        <div className="mt-6 flex items-center justify-center space-x-8">
+        <div className="mt-4 flex items-center justify-center space-x-6">
           <div className="flex items-center space-x-2">
             <div className="w-4 h-4 bg-accent-blue rounded"></div>
             <span className="text-sm text-text-secondary">Command Signal</span>

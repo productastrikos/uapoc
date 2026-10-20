@@ -11,7 +11,7 @@ import { useApronStore, computeApronRollups } from '../store';
 
 const Block: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
   <section className="glass-panel rounded-lg overflow-hidden">
-    <header className="px-3 py-2 border-b border-white/10">
+    <header className="px-2 py-2 border-b border-accent-blue/10">
       <h3 className="text-xs font-semibold text-text-primary uppercase tracking-wide">{title}</h3>
     </header>
     {children}

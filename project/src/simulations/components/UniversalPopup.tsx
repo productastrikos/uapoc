@@ -152,14 +152,14 @@ const UniversalPopup: React.FC<UniversalPopupProps> = ({ isOpen, data, onClose, 
     entries: Array<[string, any]>
   ) =>
     entries.length > 0 && (
-      <div className="bg-primary-800/40 rounded-lg p-3 border border-primary-600/40">
+      <div className="bg-primary-800/40 rounded-lg p-2.5 border border-primary-600/40">
         <h4 className="text-xs font-semibold text-text-secondary mb-2.5 flex items-center space-x-2 uppercase tracking-wide">
           {icon}
           <span>{title}</span>
         </h4>
         <div className="grid grid-cols-1 gap-1.5">
           {entries.map(([key, value]) => (
-            <div key={key} className="flex justify-between items-start gap-4">
+            <div key={key} className="flex justify-between items-start gap-3">
               <span className="text-xs text-text-muted">{formatKey(key)}</span>
               <span className="text-xs font-medium text-text-secondary text-right break-words max-w-[62%]">
                 {formatValue(key, value)}
@@ -194,9 +194,9 @@ const UniversalPopup: React.FC<UniversalPopupProps> = ({ isOpen, data, onClose, 
         }}
       >
         {/* Header */}
-        <div className="p-4 border-b border-primary-600/40 bg-primary-800 flex-shrink-0">
-          <div className="flex items-center justify-between gap-3">
-            <div className="flex items-center space-x-3 min-w-0">
+        <div className="p-3 border-b border-primary-600/40 bg-primary-800 flex-shrink-0">
+          <div className="flex items-center justify-between gap-2.5">
+            <div className="flex items-center space-x-2 min-w-0">
               <div className={`p-2 rounded-lg border flex-shrink-0 ${getStatusColor(data.status)}`}>
                 {getTypeIcon(data.type)}
               </div>
@@ -219,9 +219,9 @@ const UniversalPopup: React.FC<UniversalPopupProps> = ({ isOpen, data, onClose, 
         </div>
 
         {/* Content */}
-        <div className="p-3 space-y-3 flex-1 overflow-y-auto min-h-0">
+        <div className="p-2.5 space-y-2 flex-1 overflow-y-auto min-h-0">
           {data.coordinates && typeof data.coordinates.x === 'number' && (
-            <div className="bg-primary-800/40 rounded-lg p-3 border border-primary-600/40">
+            <div className="bg-primary-800/40 rounded-lg p-2.5 border border-primary-600/40">
               <h4 className="text-xs font-semibold text-text-secondary mb-1.5 uppercase tracking-wide">Location</h4>
               <div className="text-xs text-text-muted tabular-nums">
                 X: {data.coordinates.x.toFixed(1)} &nbsp;|&nbsp; Y: {data.coordinates.y.toFixed(1)}
@@ -251,7 +251,7 @@ const UniversalPopup: React.FC<UniversalPopupProps> = ({ isOpen, data, onClose, 
             ])}
 
           {data.historicalTrends && data.historicalTrends.values.length > 0 && (
-            <div className="bg-primary-800/40 rounded-lg p-3 border border-primary-600/40">
+            <div className="bg-primary-800/40 rounded-lg p-2.5 border border-primary-600/40">
               <h4 className="text-xs font-semibold text-text-secondary mb-2.5 flex items-center space-x-2 uppercase tracking-wide">
                 <TrendingUp className="w-3.5 h-3.5 text-accent-blue" />
                 <span>Trend ({data.historicalTrends.period})</span>
@@ -277,7 +277,7 @@ const UniversalPopup: React.FC<UniversalPopupProps> = ({ isOpen, data, onClose, 
           )}
 
           {data.alerts && data.alerts.length > 0 && (
-            <div className="bg-primary-800/40 rounded-lg p-3 border border-primary-600/40">
+            <div className="bg-primary-800/40 rounded-lg p-2.5 border border-primary-600/40">
               <h4 className="text-xs font-semibold text-text-secondary mb-2.5 flex items-center space-x-2 uppercase tracking-wide">
                 <AlertTriangle className="w-3.5 h-3.5 text-status-error" />
                 <span>Alerts</span>
@@ -304,7 +304,7 @@ const UniversalPopup: React.FC<UniversalPopupProps> = ({ isOpen, data, onClose, 
         </div>
 
         {/* Footer */}
-        <div className="px-4 py-2.5 border-t border-primary-600/40 bg-primary-800/30 flex-shrink-0">
+        <div className="px-3 py-2.5 border-t border-primary-600/40 bg-primary-800/30 flex-shrink-0">
           <div className="flex justify-between items-center text-[length:calc(10px*var(--fs))] text-text-muted">
             <span>Updated {new Date().toLocaleTimeString()}</span>
             <span className="truncate ml-3">ID: {data.id}</span>

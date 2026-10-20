@@ -110,7 +110,7 @@ const EventLog: React.FC = () => {
 
   return (
     <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl shadow-2xl">
-      <div className="p-6 border-b border-primary-600/40">
+      <div className="p-4 border-b border-primary-600/40">
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-lg font-semibold text-text-primary">Event Log</h3>
@@ -120,7 +120,7 @@ const EventLog: React.FC = () => {
             <select
               value={filter}
               onChange={(e) => setFilter(e.target.value as any)}
-              className="bg-primary-900 border border-primary-600 rounded-lg px-3 py-2 text-text-secondary text-sm"
+              className="bg-primary-900 border border-primary-600 rounded-lg px-2.5 py-2 text-text-secondary text-sm"
             >
               <option value="all">All Events</option>
               <option value="system">System</option>
@@ -132,20 +132,20 @@ const EventLog: React.FC = () => {
         </div>
       </div>
 
-      <div className="p-6">
-        <div className="space-y-3 max-h-96 overflow-y-auto no-scrollbar">
+      <div className="p-4">
+        <div className="space-y-2 max-h-96 overflow-y-auto no-scrollbar">
           {filteredEvents.length === 0 ? (
-            <div className="text-center py-8">
-              <Clock className="w-12 h-12 text-primary-600 mx-auto mb-3" />
+            <div className="text-center py-6">
+              <Clock className="w-10 h-10 text-primary-600 mx-auto mb-3" />
               <p className="text-text-muted">No events to display</p>
             </div>
           ) : (
             filteredEvents.map((event) => (
               <div
                 key={event.id}
-                className="border border-primary-700/40 bg-primary-800/40 rounded-lg p-4 transition-colors duration-200 hover:border-primary-600/60"
+                className="border border-primary-700/40 bg-primary-800/40 rounded-lg p-3 transition-colors duration-200 hover:border-primary-600/60"
               >
-                <div className="flex items-start space-x-3">
+                <div className="flex items-start space-x-2">
                   <div className="relative mt-0.5">
                     {getEventIcon(event.type, event.severity)}
                     <span
@@ -168,7 +168,7 @@ const EventLog: React.FC = () => {
                       </div>
                     )}
 
-                    <div className="mt-2 flex items-center space-x-3">
+                    <div className="mt-2 flex items-center space-x-2">
                       <span className="px-2 py-1 rounded-full text-xs font-medium bg-primary-700/40 text-text-secondary border border-primary-600/40">
                         {event.type.toUpperCase()}
                       </span>

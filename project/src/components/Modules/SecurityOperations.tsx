@@ -237,7 +237,7 @@ const SecurityOperations: React.FC = () => {
           </div>
 
           {/* Enhanced Controls */}
-          <div className="flex items-center justify-between p-6 bg-primary-900 border-t border-primary-600">
+          <div className="flex items-center justify-between p-4 bg-primary-900 border-t border-primary-600">
             <div className="flex items-center space-x-2">
               <button
                 onClick={() => toggleRecording(camera.id)}
@@ -267,7 +267,7 @@ const SecurityOperations: React.FC = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="space-y-8"
+      className="space-y-5"
     >
       {/* Header */}
       <div className="flex items-center justify-between">
@@ -276,7 +276,7 @@ const SecurityOperations: React.FC = () => {
             <Shield className="w-5 h-5 text-accent-blue" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-white">{t('nav.security')}</h1>
+            <h1 className="text-2xl font-bold text-text-primary">{t('nav.security')}</h1>
             <p className="text-sm text-text-muted">{t('security.subtitle')}</p>
           </div>
         </div>
@@ -285,7 +285,7 @@ const SecurityOperations: React.FC = () => {
       </div>
 
       {/* Quick Stats */}
-      <div className="grid grid-cols-4 gap-6">
+      <div className="grid grid-cols-4 gap-4">
         {[
           { label: t('security.active_incidents'), value: '3', icon: AlertTriangle, color: 'text-status-error', change: '+1', tint: 'glass-pill-blue' },
           { label: t('security.cameras_online'), value: '96/98', icon: Eye, color: 'text-status-success', change: '+2', tint: 'glass-pill-teal' },
@@ -320,12 +320,12 @@ const SecurityOperations: React.FC = () => {
           second. */}
       <AiInsightPanel domain="security" />
 
-      <div className="grid grid-cols-12 gap-8">
+      <div className="grid grid-cols-12 gap-5">
         {/* Left Column - Incident Management */}
-        <div className="col-span-8 space-y-8">
+        <div className="col-span-8 space-y-5">
           {/* Live Incident Board */}
-          <div className="glass-panel rounded-xl p-6">
-            <div className="flex items-center justify-between mb-6">
+          <div className="glass-panel rounded-xl p-4">
+            <div className="flex items-center justify-between mb-4">
               <h2 className="text-base font-semibold text-text-primary">{t('security.incident_management')}</h2>
               <div className="flex items-center space-x-4 text-sm">
                 <div className="flex items-center space-x-2">
@@ -436,11 +436,11 @@ const SecurityOperations: React.FC = () => {
           </div>
 
           {/* CCTV Control Matrix - 3x2 Grid with YouTube Videos */}
-          <div className="glass-panel rounded-xl p-6">
+          <div className="glass-panel rounded-xl p-4">
             <h2 className="text-base font-semibold text-text-primary mb-4">{t('security.cctv_monitoring')}</h2>
-            
+
             {/* 3x2 CCTV Grid with Embedded Videos */}
-            <div className="grid grid-cols-3 grid-rows-2 gap-6">
+            <div className="grid grid-cols-3 grid-rows-2 gap-4">
               {cctvFeeds.map((feed, index) => (
                 <motion.div
                   key={feed.id}
@@ -466,7 +466,7 @@ const SecurityOperations: React.FC = () => {
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
-                        <Camera className={`w-8 h-8 ${feed.status === 'active' ? 'text-accent-blue' : 'text-text-muted'}`} />
+                        <Camera className={`w-6 h-6 ${feed.status === 'active' ? 'text-accent-blue' : 'text-text-muted'}`} />
                       </div>
                     )}
 
@@ -524,9 +524,9 @@ const SecurityOperations: React.FC = () => {
         </div>
 
         {/* Right Column - Analytics (Rearranged) */}
-        <div className="col-span-4 space-y-8">
+        <div className="col-span-4 space-y-5">
           {/* Threat Level Trends */}
-          <div className="glass-panel rounded-xl p-6">
+          <div className="glass-panel rounded-xl p-4">
             <h3 className="text-base font-semibold text-text-primary mb-4">{t('security.threat_trends')}</h3>
             <div className="h-48">
               <ResponsiveContainer width="100%" height="100%">
@@ -546,7 +546,7 @@ const SecurityOperations: React.FC = () => {
           </div>
 
           {/* Incident Distribution */}
-          <div className="glass-panel rounded-xl p-6">
+          <div className="glass-panel rounded-xl p-4">
             <h3 className="text-base font-semibold text-text-primary mb-4">{t('security.incident_types')}</h3>
             <div className="h-48">
               <ResponsiveContainer width="100%" height="100%">

@@ -32,7 +32,7 @@ const KPICard: React.FC<KPICardProps> = ({
       case "good": return "border-status-success/30";
       case "warning": return "border-status-warning/30";
       case "critical": return "border-status-error/30";
-      default: return "border-white/10";
+      default: return "border-accent-blue/15";
     }
   };
 
@@ -47,16 +47,16 @@ const KPICard: React.FC<KPICardProps> = ({
 
   return (
     <motion.div
-      className={`glass-panel relative overflow-hidden rounded-xl p-6 border transition-colors duration-300 cursor-pointer hover:border-accent-blue/50 ${getStatusColor()}`}
+      className={`glass-panel relative overflow-hidden rounded-xl p-4 border transition-colors duration-300 cursor-pointer hover:border-accent-blue/50 ${getStatusColor()}`}
       onClick={onClick}
       whileHover={{ y: -2 }}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
     >
       <div className="relative z-10">
-        <div className="flex items-start justify-between mb-4">
+        <div className="flex items-start justify-between mb-3">
           <div className="flex items-center space-x-2">
-            <Icon className="w-6 h-6 text-accent-blue" />
+            <Icon className="w-5 h-5 text-accent-blue" />
             <InfoButton
               title={title}
               description={description || `Real-time monitoring of ${title.toLowerCase()} with current value: ${value}${unit || ''}`}
@@ -69,7 +69,7 @@ const KPICard: React.FC<KPICardProps> = ({
           )}
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-1.5">
           <h3 className="text-sm font-medium text-gray-300">{title}</h3>
           <div className="flex items-baseline space-x-1">
             <span className="text-2xl font-bold text-white">{value}</span>
@@ -78,7 +78,7 @@ const KPICard: React.FC<KPICardProps> = ({
         </div>
 
         {/* Status indicator */}
-        <div className="mt-4 flex items-center space-x-2">
+        <div className="mt-3 flex items-center space-x-2">
           <div className={`w-2 h-2 rounded-full ${
             status === 'good' ? 'bg-status-success animate-pulse' :
             status === 'warning' ? 'bg-status-warning animate-pulse' :

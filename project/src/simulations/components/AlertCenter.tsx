@@ -82,8 +82,8 @@ const AlertCenter: React.FC<AlertCenterProps> = ({
   return (
     <div className="fixed inset-y-0 right-0 w-96 modal-surface shadow-2xl border-l border-primary-600/40 z-50 flex flex-col">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-primary-600/40 bg-primary-800">
-        <div className="flex items-center space-x-3">
+      <div className="flex items-center justify-between p-3 border-b border-primary-600/40 bg-primary-800">
+        <div className="flex items-center space-x-2">
           <AlertTriangle className="w-6 h-6 text-status-warning" />
           <div>
             <h2 className="text-lg font-bold text-text-primary">Alert Center</h2>
@@ -110,7 +110,7 @@ const AlertCenter: React.FC<AlertCenterProps> = ({
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id as any)}
-              className={`flex-1 py-3 px-2 text-sm font-medium border-b-2 transition-colors relative ${
+              className={`flex-1 py-2.5 px-2 text-sm font-medium border-b-2 transition-colors relative ${
                 activeTab === tab.id
                   ? 'border-accent-blue text-accent-blue bg-accent-blue/10'
                   : 'border-transparent text-text-muted hover:text-text-secondary hover:border-primary-600'
@@ -130,19 +130,19 @@ const AlertCenter: React.FC<AlertCenterProps> = ({
       {/* Content */}
       <div className="flex-1 overflow-y-auto bg-primary-900/20">
         {activeTab === 'new' && (
-          <div className="p-4 space-y-4">
+          <div className="p-3 space-y-3">
             {newAlerts.length === 0 ? (
-              <div className="text-center py-8">
-                <CheckCircle className="w-12 h-12 text-status-success mx-auto mb-3" />
+              <div className="text-center py-6">
+                <CheckCircle className="w-10 h-10 text-status-success mx-auto mb-3" />
                 <p className="text-text-muted">No new alerts</p>
               </div>
             ) : (
               newAlerts.map(alert => (
                 <div
                   key={alert.id}
-                  className={`border rounded-lg p-4 ${getSeverityColor(alert.severity)}`}
+                  className={`border rounded-lg p-3 ${getSeverityColor(alert.severity)}`}
                 >
-                  <div className="flex items-start justify-between gap-3 mb-3">
+                  <div className="flex items-start justify-between gap-2.5 mb-3">
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center flex-wrap gap-2 mb-1.5">
                         <AlertTriangle className="w-4 h-4 text-status-warning flex-shrink-0" />
@@ -162,7 +162,7 @@ const AlertCenter: React.FC<AlertCenterProps> = ({
                   </div>
 
                   {alert.aiRecommendation && (
-                    <div className="bg-accent-blue/10 border border-accent-blue/30 rounded-lg p-3 mb-3">
+                    <div className="bg-accent-blue/10 border border-accent-blue/30 rounded-lg p-2.5 mb-3">
                       <div className="flex items-center flex-wrap gap-2 mb-1.5">
                         <Bot className="w-4 h-4 text-accent-blue" />
                         <span className="text-xs font-medium text-accent-blue">Recommended action</span>
@@ -194,7 +194,7 @@ const AlertCenter: React.FC<AlertCenterProps> = ({
                     </button>
                     <button
                       onClick={() => onAlertAction(alert.id, 'ignore')}
-                      className="px-3 py-1.5 text-text-muted hover:text-text-primary hover:bg-primary-700/50 rounded-lg transition-colors text-xs"
+                      className="px-2.5 py-1.5 text-text-muted hover:text-text-primary hover:bg-primary-700/50 rounded-lg transition-colors text-xs"
                     >
                       Dismiss
                     </button>
@@ -206,9 +206,9 @@ const AlertCenter: React.FC<AlertCenterProps> = ({
         )}
 
         {activeTab === 'resolved' && (
-          <div className="p-4 space-y-3">
+          <div className="p-3 space-y-2">
             {resolvedAlerts.length === 0 ? (
-              <p className="text-center text-text-muted text-sm py-8">Nothing resolved yet</p>
+              <p className="text-center text-text-muted text-sm py-6">Nothing resolved yet</p>
             ) : resolvedAlerts.map(alert => (
               <div key={alert.id} className="border border-status-success/40 bg-primary-800/60 rounded-lg p-3.5">
                 <div className="flex items-center gap-2 mb-1.5">
@@ -225,9 +225,9 @@ const AlertCenter: React.FC<AlertCenterProps> = ({
         )}
 
         {activeTab === 'needs-review' && (
-          <div className="p-4 space-y-3">
+          <div className="p-3 space-y-2">
             {needsReviewAlerts.length === 0 ? (
-              <p className="text-center text-text-muted text-sm py-8">Nothing needs review</p>
+              <p className="text-center text-text-muted text-sm py-6">Nothing needs review</p>
             ) : needsReviewAlerts.map(alert => (
               <div key={alert.id} className="border border-status-warning/40 bg-primary-800/60 rounded-lg p-3.5">
                 <div className="flex items-center gap-2 mb-1.5">
@@ -248,9 +248,9 @@ const AlertCenter: React.FC<AlertCenterProps> = ({
         )}
 
         {activeTab === 'ai-history' && (
-          <div className="p-4 space-y-3">
+          <div className="p-3 space-y-2">
             {aiSolutions.length === 0 ? (
-              <p className="text-center text-text-muted text-sm py-8">No actions executed yet</p>
+              <p className="text-center text-text-muted text-sm py-6">No actions executed yet</p>
             ) : aiSolutions.map((solution, index) => (
               <div key={index} className="border border-accent-blue/40 bg-primary-800/60 rounded-lg p-3.5">
                 <div className="flex items-center flex-wrap gap-2 mb-1.5">

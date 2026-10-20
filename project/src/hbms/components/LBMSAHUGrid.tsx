@@ -51,7 +51,7 @@ const Dropdown: React.FC<{ value: string; options: { value: string; label: strin
         className="flex items-center gap-1.5"
         style={{
           fontSize: 10.5, fontWeight: 600, padding: '5px 8px', borderRadius: 8,
-          background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.12)', color: 'var(--ds-text)',
+          background: 'rgba(32, 120, 207,0.05)', border: '1px solid rgba(32, 120, 207,0.12)', color: 'var(--ds-text)',
         }}
       >
         {current?.label}
@@ -62,7 +62,7 @@ const Dropdown: React.FC<{ value: string; options: { value: string; label: strin
           className="animate-fade-in"
           style={{
             position: 'absolute', top: 'calc(100% + 4px)', left: 0, zIndex: 50, minWidth: '100%', borderRadius: 10,
-            overflow: 'hidden', background: '#0b1220', border: '1px solid rgba(255,255,255,0.14)', boxShadow: '0 12px 32px rgba(0,0,0,0.5)',
+            overflow: 'hidden', background: '#0b1220', border: '1px solid rgba(32, 120, 207,0.14)', boxShadow: '0 12px 32px rgba(0,0,0,0.5)',
           }}
         >
           {options.map(o => (
@@ -74,7 +74,7 @@ const Dropdown: React.FC<{ value: string; options: { value: string; label: strin
                 color: o.value === value ? '#93C5FD' : 'var(--ds-text)',
                 background: o.value === value ? 'rgba(59,130,246,0.14)' : 'transparent',
               }}
-              onMouseEnter={e => { if (o.value !== value) e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; }}
+              onMouseEnter={e => { if (o.value !== value) e.currentTarget.style.background = 'rgba(32, 120, 207,0.06)'; }}
               onMouseLeave={e => { if (o.value !== value) e.currentTarget.style.background = 'transparent'; }}
             >
               {o.label}
@@ -92,9 +92,9 @@ const FilterChip: React.FC<{ active: boolean; onClick: () => void; children: Rea
     className="flex-shrink-0 transition-all"
     style={{
       fontSize: 10, fontWeight: 700, padding: '4px 10px', borderRadius: 99,
-      background: active ? 'rgba(59,130,246,0.18)' : 'rgba(255,255,255,0.05)',
+      background: active ? 'rgba(59,130,246,0.18)' : 'rgba(32, 120, 207,0.05)',
       color: active ? '#93C5FD' : 'var(--ds-text-muted)',
-      border: `1px solid ${active ? 'rgba(59,130,246,0.45)' : 'rgba(255,255,255,0.1)'}`,
+      border: `1px solid ${active ? 'rgba(59,130,246,0.45)' : 'rgba(32, 120, 207,0.1)'}`,
     }}
   >
     {children}
@@ -171,7 +171,7 @@ const LBMSAHUGrid: React.FC<LBMSAHUGridProps> = ({ focusAssetId }) => {
             placeholder="Search AHU ID…"
             style={{
               width: '100%', fontSize: 10.5, padding: '5px 8px 5px 24px', borderRadius: 8,
-              background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.12)', color: 'var(--ds-text)',
+              background: 'rgba(32, 120, 207,0.05)', border: '1px solid rgba(32, 120, 207,0.12)', color: 'var(--ds-text)',
             }}
           />
         </div>
