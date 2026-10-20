@@ -180,23 +180,36 @@
  * `.glass-panel-strong` is the same treatment with a touch more opacity for
  * surfaces that sit directly over busy/colorful content (e.g. a map). */
 .glass-panel {
-  background: rgba(5, 38, 89, 0.45);
-  backdrop-filter: blur(16px) saturate(1.4);
-  -webkit-backdrop-filter: blur(16px) saturate(1.4);
-  border: 1px solid rgba(32, 120, 207, 0.18);
+  /* Low enough alpha that the page's own glow-blob background (see
+   * `gradient-mesh` in tailwind.config.js) actually reads through the panel
+   * — that bleed-through is the whole effect in the reference boards. The
+   * backdrop-filter is doing the legibility work, not the fill color. */
+  background: rgba(5, 38, 89, 0.2);
+  backdrop-filter: blur(20px) saturate(1.6);
+  -webkit-backdrop-filter: blur(20px) saturate(1.6);
+  border: 1px solid rgba(32, 120, 207, 0.22);
+  box-shadow: inset 0 1px 0 rgba(125, 160, 202, 0.12);
   transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
 }
 .glass-panel:hover {
-  border-color: rgba(32, 120, 207, 0.4);
-  box-shadow: 0 8px 32px rgba(2, 16, 36, 0.4), 0 0 0 1px rgba(32, 120, 207, 0.08);
+  border-color: rgba(32, 120, 207, 0.45);
+  box-shadow: inset 0 1px 0 rgba(125, 160, 202, 0.16), 0 8px 32px rgba(2, 16, 36, 0.4), 0 0 24px rgba(32, 120, 207, 0.12);
 }
 
 .glass-panel-strong {
-  background: rgba(2, 16, 36, 0.68);
-  backdrop-filter: blur(20px) saturate(1.5);
-  -webkit-backdrop-filter: blur(20px) saturate(1.5);
-  border: 1px solid rgba(32, 120, 207, 0.22);
-  box-shadow: 0 8px 40px rgba(0, 5, 33, 0.5);
+  background: rgba(2, 16, 36, 0.38);
+  backdrop-filter: blur(24px) saturate(1.7);
+  -webkit-backdrop-filter: blur(24px) saturate(1.7);
+  border: 1px solid rgba(32, 120, 207, 0.26);
+  box-shadow: inset 0 1px 0 rgba(125, 160, 202, 0.14), 0 8px 40px rgba(0, 5, 33, 0.5);
+}
+
+/* The glow halo from the reference boards (the "Design System" card with a
+ * blue bloom around its edges) — a deliberate accent for the one or two
+ * hero elements per screen, not a default on every card. Stack on top of
+ * `.glass-panel`/`.glass-panel-strong`. */
+.glass-glow {
+  box-shadow: 0 0 60px rgba(32, 120, 207, 0.25), 0 0 1px rgba(32, 120, 207, 0.4), inset 0 1px 0 rgba(125, 160, 202, 0.15);
 }
 
 /* True overlay surfaces — a modal, drawer or fullscreen panel sitting on top

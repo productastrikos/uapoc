@@ -1069,11 +1069,6 @@ const TerminalOperations: React.FC = () => {
         animate={{ opacity: 1 }}
         className="relative min-h-screen"
       >
-        {/* Enhanced Background */}
-        <div className="fixed inset-0 -z-10">
-          <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-slate-900 to-black"></div>
-        </div>
-
         {/* Container with proper spacing */}
         <div className="relative z-10 w-full px-4 md:px-6 py-6 space-y-4">
           {/* Enhanced Header */}

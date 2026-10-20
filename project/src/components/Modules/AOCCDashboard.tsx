@@ -911,11 +911,6 @@ const AOCCDashboard: React.FC = () => {
       animate={{ opacity: 1 }}
       className="relative min-h-screen overflow-hidden"
     >
-      {/* Background */}
-      <div className="fixed inset-0 -z-10">
-        <div className="absolute inset-0 bg-primary-900"></div>
-      </div>
-
       <div className="relative z-10 space-y-4 h-full overflow-y-auto no-scrollbar p-4">
         {/* Header */}
         <div className="flex items-center justify-between mb-4">

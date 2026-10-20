@@ -153,10 +153,14 @@ export default {
         },
       },
       backgroundImage: {
-        /* Two soft blue glows instead of one flat radial — gives the page
-         * background a sense of depth/light source without reintroducing
-         * the old multi-hue blotch problem. Entirely within the palette. */
-        'gradient-mesh': 'radial-gradient(circle at 20% 0%, rgba(32, 120, 207, 0.14) 0%, transparent 50%), radial-gradient(circle at 85% 20%, rgba(14, 78, 178, 0.10) 0%, transparent 45%)',
+        /* "Glassmorphism at peak" means the glass has to have something
+         * vivid to show through it — a flat navy backdrop makes even a
+         * well-built frosted panel read as just a dark grey box. This is
+         * four overlapping glows at real strength (not a 10% hint) sitting
+         * behind every glass surface in the app, still entirely inside the
+         * given blue palette (#2078CF/#0E4EB2/#5483B3 + the page's own near-
+         * black base) so it reads as "dramatic blue light," not noise. */
+        'gradient-mesh': 'radial-gradient(circle at 12% 15%, rgba(32, 120, 207, 0.55) 0%, transparent 48%), radial-gradient(circle at 88% 12%, rgba(14, 78, 178, 0.5) 0%, transparent 46%), radial-gradient(circle at 50% 95%, rgba(84, 131, 179, 0.4) 0%, transparent 50%), radial-gradient(circle at 95% 85%, rgba(32, 120, 207, 0.35) 0%, transparent 42%)',
         'runway-pattern': 'repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(230, 184, 92, 0.1) 10px, rgba(230, 184, 92, 0.1) 20px)',
         /* A faint grain, the one texture every reference board shared — it
          * keeps a flat navy panel from looking like a solid color swatch. */
