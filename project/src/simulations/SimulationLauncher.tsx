@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion";
 import { PlayCircle } from "lucide-react";
 
 import SimulationOverlay, { SimulationId } from "./SimulationOverlay";
@@ -25,22 +24,14 @@ const SimulationLauncher: React.FC<SimulationLauncherProps> = ({ simulationId, l
 
   return (
     <>
-      <motion.button
+      <button
         onClick={() => setIsOpen(true)}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
         title={`${label} — opens the AirOps simulation`}
-        className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-medium text-white transition-all duration-300 shadow-2xl bg-gradient-to-r from-teal-600 via-teal-500 to-cyan-600 hover:from-teal-700 hover:via-teal-600 hover:to-cyan-700 hover:shadow-teal-500/50 ${className}`}
-        style={{
-          boxShadow: `
-            0 4px 20px rgba(1, 163, 164, 0.3),
-            inset 0 1px 0 rgba(255, 255, 255, 0.2)
-          `,
-        }}
+        className={`btn btn-secondary ${className}`}
       >
-        <PlayCircle className="w-5 h-5" />
+        <PlayCircle className="w-4 h-4" />
         <span>{label}</span>
-      </motion.button>
+      </button>
 
       <SimulationOverlay
         simulationId={simulationId}

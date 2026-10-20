@@ -128,10 +128,9 @@ const SubsystemGridCard: React.FC<CardProps> = ({ subsystem, forcedDown }) => {
     <button
       onClick={() => openSubsystem(subsystem.code)}
       title={`${subsystem.name} — open subsystem`}
-      className="rounded-xl border p-2.5 text-left transition-all hover:scale-[1.02] hover:brightness-110 active:scale-[0.98] flex flex-col"
+      className="glass-panel rounded-xl p-2.5 text-left transition-all hover:scale-[1.02] hover:brightness-110 active:scale-[0.98] flex flex-col"
       style={{
-        background: 'var(--app-surface)',
-        borderColor: forcedDown || subsystem.alertCount > 0 ? 'rgba(239,68,68,0.4)' : 'rgba(1,163,164,0.22)',
+        boxShadow: forcedDown || subsystem.alertCount > 0 ? 'inset 0 0 0 1px rgba(248,113,113,0.4)' : 'inset 0 0 0 1px rgba(1,163,164,0.22)',
       }}
     >
       {/* Identity + status */}
@@ -159,7 +158,7 @@ const SubsystemGridCard: React.FC<CardProps> = ({ subsystem, forcedDown }) => {
           {subsystem.alertCount > 0 && (
             <span
               title={`${subsystem.alertCount} open alert${subsystem.alertCount > 1 ? 's' : ''} — open alert management`}
-              className="px-1.5 py-0.5 rounded text-[length:calc(10px*var(--fs))] font-bold bg-red-500/20 text-red-300 border border-red-500/30 cursor-pointer hover:bg-red-500/40"
+              className="px-1.5 py-0.5 rounded text-[length:calc(10px*var(--fs))] font-bold bg-status-error/20 text-status-error cursor-pointer hover:bg-status-error/40"
             >
               {subsystem.alertCount}
             </span>

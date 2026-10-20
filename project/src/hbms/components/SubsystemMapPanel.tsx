@@ -98,7 +98,7 @@ const SubsystemMapPanel: React.FC<Props> = ({ subsystem, compact = false }) => {
   const warning = devices.filter((d) => d.status === 'warning').length;
 
   return (
-    <div ref={hostRef} className="relative w-full h-full overflow-hidden rounded-[10px] bg-primary-900/70 border border-primary-500/30">
+    <div ref={hostRef} className="glass-panel relative w-full h-full overflow-hidden rounded-[10px]">
       <svg viewBox={`0 0 ${VB_W} ${vbH}`} preserveAspectRatio="none" className="w-full h-full">
         <defs>
           <pattern id="hbms-map-grid" width="8" height="8" patternUnits="userSpaceOnUse">
@@ -167,9 +167,9 @@ const SubsystemMapPanel: React.FC<Props> = ({ subsystem, compact = false }) => {
 
       {/* Health summary */}
       <div className="absolute top-1.5 right-2 flex items-center gap-1.5 text-[length:calc(9px*var(--fs))] font-bold">
-        <span className="text-emerald-400">{devices.length - warning - offline} OK</span>
-        {warning > 0 && <span className="text-amber-300">{warning} WARN</span>}
-        {offline > 0 && <span className="text-red-400">{offline} OFF</span>}
+        <span className="text-status-success">{devices.length - warning - offline} OK</span>
+        {warning > 0 && <span className="text-status-warning">{warning} WARN</span>}
+        {offline > 0 && <span className="text-status-error">{offline} OFF</span>}
       </div>
 
       {/* Device-type filter — the source's layer selector */}
@@ -179,10 +179,8 @@ const SubsystemMapPanel: React.FC<Props> = ({ subsystem, compact = false }) => {
           <button
             key={opt.value}
             onClick={() => setType(opt.value)}
-            className={`px-1.5 py-0.5 rounded text-[length:calc(8px*var(--fs))] font-bold uppercase tracking-wide border transition-colors ${
-              type === opt.value
-                ? 'bg-accent-teal/20 border-accent-teal/50 text-accent-teal'
-                : 'bg-primary-700/50 border-primary-500/40 text-text-muted hover:text-text-secondary'
+            className={`chip px-1.5 py-0.5 text-[length:calc(8px*var(--fs))] font-bold uppercase tracking-wide ${
+              type === opt.value ? 'chip-active' : ''
             }`}
           >
             {opt.label}

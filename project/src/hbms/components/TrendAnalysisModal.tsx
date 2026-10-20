@@ -325,8 +325,8 @@ const TrendAnalysisModal: React.FC<TrendAnalysisModalProps> = ({ kpi, onClose })
               <TrendIcon className="w-4.5 h-4.5" />
             </div>
             <div className="min-w-0">
-              <h2 className="text-sm font-bold text-sim-100 truncate">{kpi.label} — Trend Analysis</h2>
-              <p className="text-[length:calc(11px*var(--fs))] text-sim-500 truncate">{kpi.subtitle ?? 'Historical performance over time'}</p>
+              <h2 className="text-sm font-bold text-text-primary truncate">{kpi.label} — Trend Analysis</h2>
+              <p className="text-[length:calc(11px*var(--fs))] text-text-muted truncate">{kpi.subtitle ?? 'Historical performance over time'}</p>
             </div>
           </div>
           <button onClick={onClose} className="icon-btn flex-shrink-0" aria-label="Close">
@@ -345,7 +345,7 @@ const TrendAnalysisModal: React.FC<TrendAnalysisModalProps> = ({ kpi, onClose })
               { label: 'Change', v: `${changePct >= 0 ? '+' : ''}${changePct.toFixed(1)}%`, color: trendColor },
             ].map((s) => (
               <div key={s.label} className="rounded-lg p-2 text-center" style={{ background: 'var(--app-surface-soft)', border: '1px solid rgba(255,255,255,0.05)' }}>
-                <p className="text-[length:calc(9px*var(--fs))] font-semibold text-sim-500 uppercase tracking-wide mb-0.5">{s.label}</p>
+                <p className="text-[length:calc(9px*var(--fs))] font-semibold text-text-muted uppercase tracking-wide mb-0.5">{s.label}</p>
                 <p className="text-xs font-bold" style={{ color: s.color }}>{s.v}</p>
               </div>
             ))}
@@ -383,7 +383,7 @@ const TrendAnalysisModal: React.FC<TrendAnalysisModalProps> = ({ kpi, onClose })
             {(selection.start > 0.001 || selection.end < 0.999) && (
               <button
                 onClick={() => setSelection({ start: 0, end: 1 })}
-                className="flex items-center gap-1 px-2 py-1 rounded-md text-[length:calc(10px*var(--fs))] font-semibold text-sim-400 hover:text-sim-200 transition-colors"
+                className="flex items-center gap-1 px-2 py-1 rounded-md text-[length:calc(10px*var(--fs))] font-semibold text-text-secondary hover:text-text-primary transition-colors"
                 style={{ background: 'var(--app-surface-soft)' }}
               >
                 <ZoomOut className="w-3 h-3" /> Reset zoom
@@ -395,7 +395,7 @@ const TrendAnalysisModal: React.FC<TrendAnalysisModalProps> = ({ kpi, onClose })
           <div className="flex flex-wrap items-center gap-2 mb-2">
             <button
               onClick={togglePlay}
-              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[length:calc(10px*var(--fs))] font-bold transition-all"
+              className="flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[length:calc(10px*var(--fs))] font-bold transition-all min-w-[4.5rem]"
               style={{
                 background: playing ? `${kpi.color}22` : 'var(--app-surface-soft)',
                 border: `1px solid ${playing ? `${kpi.color}66` : 'rgba(255,255,255,0.08)'}`,
@@ -439,7 +439,7 @@ const TrendAnalysisModal: React.FC<TrendAnalysisModalProps> = ({ kpi, onClose })
                 aria-label="From date"
                 title="From date"
               />
-              <span className="text-[length:calc(10px*var(--fs))] text-sim-500">to</span>
+              <span className="text-[length:calc(10px*var(--fs))] text-text-muted">to</span>
               <input
                 type="date"
                 value={toDate}
@@ -521,13 +521,13 @@ const TrendAnalysisModal: React.FC<TrendAnalysisModalProps> = ({ kpi, onClose })
                 className="absolute top-2 right-2 rounded-lg px-2.5 py-1.5 pointer-events-none"
                 style={{ background: 'rgba(7,16,40,0.94)', border: `1px solid ${kpi.color}55`, backdropFilter: 'blur(8px)' }}
               >
-                <p className="text-[length:calc(9px*var(--fs))] text-sim-500">{hoverPoint.label === 'Now' ? 'Now' : fmtStamp(hoverPoint.t)}</p>
+                <p className="text-[length:calc(9px*var(--fs))] text-text-muted">{hoverPoint.label === 'Now' ? 'Now' : fmtStamp(hoverPoint.t)}</p>
                 <p className="text-xs font-bold" style={{ color: kpi.color }}>{fmtValue(hoverPoint.value)}</p>
               </div>
             )}
 
             {zoomFactor > 1.05 && (
-              <div className="absolute bottom-1 right-2 text-[length:calc(9px*var(--fs))] font-semibold text-sim-500 pointer-events-none">
+              <div className="absolute bottom-1 right-2 text-[length:calc(9px*var(--fs))] font-semibold text-text-muted pointer-events-none">
                 {zoomFactor.toFixed(1)}× zoom · scroll to explore →
               </div>
             )}
@@ -538,8 +538,8 @@ const TrendAnalysisModal: React.FC<TrendAnalysisModalProps> = ({ kpi, onClose })
               anywhere on the track to recenter. */}
           <div className="mt-3">
             <div className="flex items-center justify-between mb-1">
-              <p className="text-[length:calc(9px*var(--fs))] font-semibold text-sim-500 uppercase tracking-wide">Drag handles to resize the selected range</p>
-              <p className="text-[length:calc(9px*var(--fs))] font-semibold text-sim-600 tabular-nums">{Math.round((selection.end - selection.start) * 100)}% of range</p>
+              <p className="text-[length:calc(9px*var(--fs))] font-semibold text-text-muted uppercase tracking-wide">Drag handles to resize the selected range</p>
+              <p className="text-[length:calc(9px*var(--fs))] font-semibold text-text-muted tabular-nums">{Math.round((selection.end - selection.start) * 100)}% of range</p>
             </div>
             <div
               ref={brushRef}

@@ -10,12 +10,10 @@ import {
   MapPin, 
   Luggage, 
   Shield, 
-  Import as Passport, 
-  Plane, 
-  ShoppingBag, 
-  CreditCard, 
-  Play, 
-  RotateCcw, 
+  Import as Passport,
+  Plane,
+  ShoppingBag,
+  CreditCard,
   AlertCircle,
   TrendingUp,
   TrendingDown,
@@ -29,9 +27,7 @@ import {
   Activity,
   X,
   Server,
-  Settings,
   RefreshCw,
-  Download,
   Upload,
   Database,
   Wifi,
@@ -314,18 +310,21 @@ const PassengerJourney: React.FC = () => {
   const [aiOptimizationExecuted, setAiOptimizationExecuted] = useState(false);
   const [executedSOPs, setExecutedSOPs] = useState<{[key: string]: boolean}>({});
 
-  // AI Advisory Data
+  // AI Advisory Data. Trends always point somewhere — before AI optimization
+  // is executed they show the baseline drifting the wrong way (the reason to
+  // act), and flip to improving once it is, rather than sitting on 'stable'
+  // (which renders as a flat dash with nothing to compare it to).
   const aiAdvisoryData = {
     flowEfficiency: aiOptimizationExecuted ? 94.8 : 89.2,
-    flowEfficiencyTrend: aiOptimizationExecuted ? 'up' : 'stable' as 'up' | 'down' | 'stable',
+    flowEfficiencyTrend: aiOptimizationExecuted ? 'up' : 'down' as 'up' | 'down' | 'stable',
     avgJourneyTime: aiOptimizationExecuted ? '68 min' : '78 min',
-    journeyTimeTrend: aiOptimizationExecuted ? 'down' : 'stable' as 'up' | 'down' | 'stable',
+    journeyTimeTrend: aiOptimizationExecuted ? 'down' : 'up' as 'up' | 'down' | 'stable',
     slaCompliance: aiOptimizationExecuted ? '95.2%' : '89.2%',
-    slaComplianceTrend: aiOptimizationExecuted ? 'up' : 'stable' as 'up' | 'down' | 'stable',
+    slaComplianceTrend: aiOptimizationExecuted ? 'up' : 'down' as 'up' | 'down' | 'stable',
     activePassengers: aiOptimizationExecuted ? '1,485' : '1,247',
-    passengersTrend: aiOptimizationExecuted ? 'up' : 'stable' as 'up' | 'down' | 'stable',
+    passengersTrend: 'up' as 'up' | 'down' | 'stable',
     bottleneckAlerts: aiOptimizationExecuted ? '1' : '3',
-    bottleneckTrend: aiOptimizationExecuted ? 'down' : 'stable' as 'up' | 'down' | 'stable',
+    bottleneckTrend: aiOptimizationExecuted ? 'down' : 'up' as 'up' | 'down' | 'stable',
     recommendations: [
       'Deploy additional staff to Security Screening (4 additional officers needed)',
       'Activate alternative baggage drop lanes to reduce queue by 35%',
@@ -440,10 +439,10 @@ const PassengerJourney: React.FC = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'optimal': return 'bg-green-500/20 text-green-400 border-green-500/50';
-      case 'congested': return 'bg-yellow-500/20 text-yellow-400 border-yellow-500/50';
-      case 'critical': return 'bg-red-500/20 text-red-400 border-red-500/50';
-      default: return 'bg-gray-500/20 text-gray-400 border-gray-500/50';
+      case 'optimal': return 'bg-status-success/10 text-green-300 border-status-success/30';
+      case 'congested': return 'bg-status-warning/10 text-amber-300 border-status-warning/30';
+      case 'critical': return 'bg-status-error/10 text-red-300 border-status-error/30';
+      default: return 'bg-primary-600/30 text-text-muted border-primary-600/50';
     }
   };
 
@@ -477,7 +476,7 @@ const PassengerJourney: React.FC = () => {
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="bg-gradient-to-br from-primary-800 to-primary-900 rounded-xl p-6 max-w-6xl w-full max-h-[90vh] overflow-hidden border border-primary-600 shadow-2xl"
+            className="bg-primary-800 rounded-xl p-6 max-w-6xl w-full max-h-[90vh] overflow-hidden border border-primary-600 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
             style={{
               boxShadow: `
@@ -504,19 +503,16 @@ const PassengerJourney: React.FC = () => {
                   onClick={() => setActiveTab(tab)}
                   className={`flex-1 py-3 px-4 text-sm font-medium rounded-lg transition-all duration-300 relative overflow-hidden ${
                     activeTab === tab
-                      ? 'bg-gradient-to-r from-accent-teal to-teal-600 text-white shadow-2xl'
+                      ? 'bg-accent-blue text-white shadow-2xl'
                       : 'text-gray-400 hover:text-white hover:bg-primary-600/50'
                   }`}
                   style={activeTab === tab ? {
                     boxShadow: `
-                      0 4px 20px rgba(20, 184, 166, 0.4),
+                      0 4px 20px rgba(59, 130, 246, 0.4),
                       inset 0 1px 0 rgba(255, 255, 255, 0.2)
                     `
                   } : {}}
                 >
-                  {activeTab === tab && (
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 animate-pulse"></div>
-                  )}
                   <span className="relative z-10">
                     {tab === 'actions' ? 'Action Items' : tab.charAt(0).toUpperCase() + tab.slice(1)}
                   </span>
@@ -528,7 +524,7 @@ const PassengerJourney: React.FC = () => {
               {activeTab === 'overview' && (
                 <div className="space-y-6">
                   <div className="grid grid-cols-3 gap-4">
-                    <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                    <div className="bg-primary-700/40 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
                       <h4 className="text-sm font-semibold text-gray-400 mb-2">Status</h4>
                       <div className="flex items-center space-x-2">
                         <div className={`w-3 h-3 rounded-full ${getStatusTextColor(selectedCheckpoint.status).replace('text-', 'bg-')} animate-pulse`}></div>
@@ -537,14 +533,14 @@ const PassengerJourney: React.FC = () => {
                         </span>
                       </div>
                     </div>
-                    <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                    <div className="bg-primary-700/40 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
                       <h4 className="text-sm font-semibold text-gray-400 mb-2">Queue Length</h4>
                       <span className="text-white font-medium flex items-center">
                         {selectedCheckpoint.currentQueue}
                         <TrendArrow trend={selectedCheckpoint.currentQueue > 30 ? 'up' : 'stable'} />
                       </span>
                     </div>
-                    <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                    <div className="bg-primary-700/40 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
                       <h4 className="text-sm font-semibold text-gray-400 mb-2">SLA Compliance</h4>
                       <span className={`font-medium flex items-center ${getSlaColor(selectedCheckpoint.slaCompliance)}`}>
                         {selectedCheckpoint.slaCompliance}%
@@ -553,13 +549,13 @@ const PassengerJourney: React.FC = () => {
                     </div>
                   </div>
                   
-                  <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                  <div className="bg-primary-700/40 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
                     <h4 className="text-sm font-semibold text-gray-400 mb-2">Description</h4>
                     <p className="text-gray-300">{selectedCheckpoint.description}</p>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                    <div className="bg-primary-700/40 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
                       <h4 className="text-sm font-semibold text-gray-400 mb-3">Performance Metrics</h4>
                       <div className="space-y-3 text-sm">
                         <div className="flex justify-between items-center">
@@ -578,7 +574,7 @@ const PassengerJourney: React.FC = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                    <div className="bg-primary-700/40 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
                       <h4 className="text-sm font-semibold text-gray-400 mb-3">Staffing Information</h4>
                       <div className="space-y-3 text-sm">
                         <div className="flex justify-between items-center">
@@ -604,7 +600,7 @@ const PassengerJourney: React.FC = () => {
               {activeTab === 'trends' && (
                 <div className="space-y-6">
                   <div className="grid grid-cols-2 gap-6">
-                    <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                    <div className="bg-primary-700/40 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
                       <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
                         <LineChart className="w-5 h-5 mr-2 text-teal-400" />
                         Performance Trends (7 Days)
@@ -639,9 +635,9 @@ const PassengerJourney: React.FC = () => {
                       </div>
                     </div>
                     
-                    <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                    <div className="bg-primary-700/40 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
                       <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
-                        <BarChart3 className="w-5 h-5 mr-2 text-purple-400" />
+                        <BarChart3 className="w-5 h-5 mr-2 text-accent-blue" />
                         Operational Metrics
                       </h4>
                       <div className="space-y-4">
@@ -676,15 +672,15 @@ const PassengerJourney: React.FC = () => {
 
               {activeTab === 'insights' && (
                 <div className="space-y-6">
-                  <div className="bg-gradient-to-br from-purple-900/50 to-purple-800/30 p-6 rounded-lg backdrop-blur-sm border border-purple-500/30">
+                  <div className="bg-accent-blue/10 p-6 rounded-lg backdrop-blur-sm border border-accent-blue/30">
                     <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
-                      <Brain className="w-5 h-5 mr-2 text-purple-400" />
+                      <Brain className="w-5 h-5 mr-2 text-accent-blue" />
                       AI-Powered Insights
                     </h4>
                     
                     <div className="space-y-4">
-                      <div className="bg-purple-800/30 p-4 rounded-lg">
-                        <h5 className="text-purple-300 font-medium mb-2">Predictive Analysis</h5>
+                      <div className="bg-accent-blue/10 p-4 rounded-lg">
+                        <h5 className="text-accent-blue font-medium mb-2">Predictive Analysis</h5>
                         <p className="text-gray-300 text-sm mb-3">
                           {selectedCheckpoint.status === 'critical' 
                             ? `Critical bottleneck detected. Queue length expected to increase by 45% in next 2 hours without intervention. Immediate staffing increase recommended.`
@@ -693,7 +689,7 @@ const PassengerJourney: React.FC = () => {
                             : `Optimal performance maintained. Current efficiency at 94%. Preventive maintenance window available during low-traffic periods.`
                           }
                         </p>
-                        <div className="flex items-center text-xs text-purple-400">
+                        <div className="flex items-center text-xs text-accent-blue">
                           <Target className="w-3 h-3 mr-1" />
                           Confidence: {selectedCheckpoint.status === 'critical' ? '96%' : selectedCheckpoint.status === 'congested' ? '89%' : '94%'}
                         </div>
@@ -743,7 +739,7 @@ const PassengerJourney: React.FC = () => {
 
               {activeTab === 'actions' && (
                 <div className="space-y-6">
-                  <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-6 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                  <div className="bg-primary-700/40 p-6 rounded-lg backdrop-blur-sm border border-primary-600/30">
                     <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
                       <Zap className="w-5 h-5 mr-2 text-yellow-400" />
                       Available Actions
@@ -774,69 +770,17 @@ const PassengerJourney: React.FC = () => {
                             className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 flex items-center space-x-2 ${
                               executedSOPs[selectedCheckpoint.id]
                                 ? 'bg-green-600/30 text-green-300 cursor-not-allowed'
-                                : 'bg-gradient-to-r from-accent-teal to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white shadow-lg hover:shadow-teal-500/30'
+                                : 'bg-accent-blue hover:bg-accent-blueHover text-white shadow-lg'
                             }`}
                             style={!executedSOPs[selectedCheckpoint.id] ? {
                               boxShadow: `
-                                0 4px 20px rgba(20, 184, 166, 0.3),
+                                0 4px 20px rgba(59, 130, 246, 0.3),
                                 inset 0 1px 0 rgba(255, 255, 255, 0.2)
                               `
                             } : {}}
                           >
                             <Zap className="w-4 h-4" />
                             <span>{executedSOPs[selectedCheckpoint.id] ? '✓ SOP Executed' : 'Execute SOP'}</span>
-                          </motion.button>
-                        </div>
-                      </div>
-
-                      <div className="border-b border-primary-600/50 pb-4">
-                        <div className="flex items-center justify-between mb-3">
-                          <h5 className="text-white font-medium">Download Performance Report</h5>
-                          <span className="text-xs text-blue-400 bg-blue-400/20 px-2 py-1 rounded-full">PDF Export</span>
-                        </div>
-                        <p className="text-sm text-gray-400 mb-4">
-                          Generate comprehensive performance report including metrics, trends, and recommendations.
-                        </p>
-                        <div className="flex space-x-3">
-                          <motion.button
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                            className="px-6 py-3 rounded-lg font-medium bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-blue-500/30 transition-all duration-300 flex items-center space-x-2"
-                            style={{
-                              boxShadow: `
-                                0 4px 20px rgba(59, 130, 246, 0.3),
-                                inset 0 1px 0 rgba(255, 255, 255, 0.2)
-                              `
-                            }}
-                          >
-                            <Download className="w-4 h-4" />
-                            <span>Download Report</span>
-                          </motion.button>
-                        </div>
-                      </div>
-
-                      <div className="pb-4">
-                        <div className="flex items-center justify-between mb-3">
-                          <h5 className="text-white font-medium">System Maintenance</h5>
-                          <span className="text-xs text-orange-400 bg-orange-400/20 px-2 py-1 rounded-full">Scheduled</span>
-                        </div>
-                        <p className="text-sm text-gray-400 mb-4">
-                          Schedule preventive maintenance during low-traffic periods to maintain optimal performance.
-                        </p>
-                        <div className="flex space-x-3">
-                          <motion.button
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                            className="px-6 py-3 rounded-lg font-medium bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white shadow-lg hover:shadow-orange-500/30 transition-all duration-300 flex items-center space-x-2"
-                            style={{
-                              boxShadow: `
-                                0 4px 20px rgba(251, 146, 60, 0.3),
-                                inset 0 1px 0 rgba(255, 255, 255, 0.2)
-                              `
-                            }}
-                          >
-                            <Settings className="w-4 h-4" />
-                            <span>Schedule Maintenance</span>
                           </motion.button>
                         </div>
                       </div>
@@ -847,15 +791,15 @@ const PassengerJourney: React.FC = () => {
 
               {activeTab === 'evidence' && (
                 <div className="space-y-6">
-                  <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-6 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                  <div className="bg-primary-700/40 p-6 rounded-lg backdrop-blur-sm border border-primary-600/30">
                     <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
-                      <FileText className="w-5 h-5 mr-2 text-indigo-400" />
+                      <FileText className="w-5 h-5 mr-2 text-accent-blue" />
                       System Evidence & Logs
                     </h4>
                     
                     <div className="space-y-4">
-                      <div className="bg-indigo-800/30 p-4 rounded-lg">
-                        <h5 className="text-indigo-300 font-medium mb-3 flex items-center">
+                      <div className="bg-accent-blue/10 p-4 rounded-lg">
+                        <h5 className="text-accent-blue font-medium mb-3 flex items-center">
                           <Database className="w-4 h-4 mr-2" />
                           Performance Data Sources
                         </h5>
@@ -949,7 +893,7 @@ const PassengerJourney: React.FC = () => {
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="bg-gradient-to-br from-primary-800 to-primary-900 rounded-xl p-6 max-w-6xl w-full max-h-[90vh] overflow-hidden border border-primary-600 shadow-2xl"
+            className="bg-primary-800 rounded-xl p-6 max-w-6xl w-full max-h-[90vh] overflow-hidden border border-primary-600 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
             style={{
               boxShadow: `
@@ -976,19 +920,16 @@ const PassengerJourney: React.FC = () => {
                   onClick={() => setActiveTab(tab)}
                   className={`flex-1 py-3 px-4 text-sm font-medium rounded-lg transition-all duration-300 relative overflow-hidden ${
                     activeTab === tab
-                      ? 'bg-gradient-to-r from-accent-teal to-teal-600 text-white shadow-2xl'
+                      ? 'bg-accent-blue text-white shadow-2xl'
                       : 'text-gray-400 hover:text-white hover:bg-primary-600/50'
                   }`}
                   style={activeTab === tab ? {
                     boxShadow: `
-                      0 4px 20px rgba(20, 184, 166, 0.4),
+                      0 4px 20px rgba(59, 130, 246, 0.4),
                       inset 0 1px 0 rgba(255, 255, 255, 0.2)
                     `
                   } : {}}
                 >
-                  {activeTab === tab && (
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 animate-pulse"></div>
-                  )}
                   <span className="relative z-10">
                     {tab.charAt(0).toUpperCase() + tab.slice(1)}
                   </span>
@@ -1014,8 +955,8 @@ const PassengerJourney: React.FC = () => {
                       </div>
                       <div className="text-xs text-gray-400 text-center">Journey Time</div>
                     </div>
-                    <div className="bg-purple-500/10 p-4 rounded-lg border border-purple-500/30 backdrop-blur-sm">
-                      <div className="text-xl font-bold text-purple-400 flex items-center justify-center">
+                    <div className="bg-accent-blue/10 p-4 rounded-lg border border-accent-blue/30 backdrop-blur-sm">
+                      <div className="text-xl font-bold text-accent-blue flex items-center justify-center">
                         {aiAdvisoryData.slaCompliance}
                         <TrendArrow trend={aiAdvisoryData.slaComplianceTrend} />
                       </div>
@@ -1037,7 +978,7 @@ const PassengerJourney: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                  <div className="bg-primary-700/40 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
                     <h4 className="text-sm font-semibold text-gray-400 mb-2">AI Analysis Summary</h4>
                     <p className="text-gray-300">
                       AI analysis indicates significant bottlenecks at Security Screening and Baggage Drop checkpoints. 
@@ -1051,9 +992,9 @@ const PassengerJourney: React.FC = () => {
               {activeTab === 'analytics' && (
                 <div className="space-y-6">
                   <div className="grid grid-cols-2 gap-6">
-                    <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                    <div className="bg-primary-700/40 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
                       <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
-                        <PieChart className="w-5 h-5 mr-2 text-purple-400" />
+                        <PieChart className="w-5 h-5 mr-2 text-accent-blue" />
                         Passenger Distribution
                       </h4>
                       <div className="space-y-3">
@@ -1076,7 +1017,7 @@ const PassengerJourney: React.FC = () => {
                       </div>
                     </div>
                     
-                    <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                    <div className="bg-primary-700/40 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
                       <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
                         <LineChart className="w-5 h-5 mr-2 text-teal-400" />
                         Flow Patterns
@@ -1117,15 +1058,15 @@ const PassengerJourney: React.FC = () => {
 
               {activeTab === 'predictions' && (
                 <div className="space-y-6">
-                  <div className="bg-gradient-to-br from-purple-900/50 to-purple-800/30 p-6 rounded-lg backdrop-blur-sm border border-purple-500/30">
+                  <div className="bg-accent-blue/10 p-6 rounded-lg backdrop-blur-sm border border-accent-blue/30">
                     <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
-                      <Brain className="w-5 h-5 mr-2 text-purple-400" />
+                      <Brain className="w-5 h-5 mr-2 text-accent-blue" />
                       Predictive Analytics
                     </h4>
                     
                     <div className="space-y-4">
-                      <div className="bg-purple-800/30 p-4 rounded-lg">
-                        <h5 className="text-purple-300 font-medium mb-2">Next Hour Forecast</h5>
+                      <div className="bg-accent-blue/10 p-4 rounded-lg">
+                        <h5 className="text-accent-blue font-medium mb-2">Next Hour Forecast</h5>
                         <div className="grid grid-cols-2 gap-4">
                           <div className="text-center p-3 bg-primary-600/30 rounded-lg">
                             <div className="text-2xl font-bold text-yellow-400">+32%</div>
@@ -1174,7 +1115,7 @@ const PassengerJourney: React.FC = () => {
 
               {activeTab === 'actions' && (
                 <div className="space-y-6">
-                  <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-6 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                  <div className="bg-primary-700/40 p-6 rounded-lg backdrop-blur-sm border border-primary-600/30">
                     <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
                       <Target className="w-5 h-5 mr-2 text-yellow-400" />
                       AI Recommendations
@@ -1197,7 +1138,7 @@ const PassengerJourney: React.FC = () => {
                             <motion.button
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
-                              className="px-4 py-2 rounded-lg font-medium bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-blue-500/30 transition-all duration-300"
+                              className="px-4 py-2 rounded-lg font-medium bg-primary-700 hover:bg-primary-600 text-white shadow-lg transition-all duration-300"
                               style={{
                                 boxShadow: `
                                   0 4px 20px rgba(59, 130, 246, 0.3),
@@ -1210,7 +1151,7 @@ const PassengerJourney: React.FC = () => {
                             <motion.button
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
-                              className="px-4 py-2 rounded-lg font-medium bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white shadow-lg transition-all duration-300"
+                              className="px-4 py-2 rounded-lg font-medium bg-primary-700 hover:bg-primary-600 text-white shadow-lg transition-all duration-300"
                             >
                               Review
                             </motion.button>
@@ -1224,7 +1165,7 @@ const PassengerJourney: React.FC = () => {
 
               {activeTab === 'execution' && (
                 <div className="space-y-6">
-                  <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-6 rounded-lg backdrop-blur-sm border border-primary-600/30">
+                  <div className="bg-primary-700/40 p-6 rounded-lg backdrop-blur-sm border border-primary-600/30">
                     <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
                       <Zap className="w-5 h-5 mr-2 text-yellow-400" />
                       Execute AI Optimization
@@ -1253,7 +1194,7 @@ const PassengerJourney: React.FC = () => {
                             className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 flex items-center space-x-2 ${
                               aiOptimizationExecuted
                                 ? 'bg-green-600/30 text-green-300'
-                                : 'bg-gradient-to-r from-accent-teal to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white shadow-lg hover:shadow-teal-500/30'
+                                : 'bg-accent-teal hover:bg-teal-600 text-white shadow-lg'
                             }`}
                             style={!aiOptimizationExecuted ? {
                               boxShadow: `
@@ -1271,7 +1212,7 @@ const PassengerJourney: React.FC = () => {
                           <motion.button
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
-                            className="px-6 py-3 rounded-lg font-medium bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white shadow-lg hover:shadow-purple-500/30 transition-all duration-300 flex items-center space-x-2"
+                            className="px-6 py-3 rounded-lg font-medium bg-primary-700 hover:bg-primary-600 text-white shadow-lg transition-all duration-300 flex items-center space-x-2"
                             style={{
                               boxShadow: `
                                 0 4px 20px rgba(147, 51, 234, 0.3),
@@ -1332,10 +1273,7 @@ const PassengerJourney: React.FC = () => {
     >
       {/* Enhanced Background */}
       <div className="fixed inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-slate-900 to-black"></div>
-        <div className="absolute top-1/3 left-1/4 w-80 h-80 bg-gradient-to-r from-purple-600/25 via-blue-600/15 to-teal-600/25 rounded-full mix-blend-multiply filter blur-3xl opacity-60 animate-pulse"></div>
-        <div className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-gradient-to-r from-green-600/25 via-teal-600/15 to-blue-600/25 rounded-full mix-blend-multiply filter blur-3xl opacity-60 animate-pulse" style={{animationDelay: '3s'}}></div>
-        <div className="absolute top-2/3 left-1/2 w-72 h-72 bg-gradient-to-r from-pink-600/25 via-purple-600/15 to-indigo-600/25 rounded-full mix-blend-multiply filter blur-3xl opacity-60 animate-pulse" style={{animationDelay: '6s'}}></div>
+        <div className="absolute inset-0 bg-primary-900"></div>
       </div>
 
       <div className="relative z-10 space-y-6 p-6">
@@ -1344,65 +1282,39 @@ const PassengerJourney: React.FC = () => {
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           onClick={handleAIAdvisoryClick}
-          whileHover={{ 
-            scale: 1.01, 
+          whileHover={{
+            scale: 1.01,
             y: -2,
-            boxShadow: "0 25px 50px -12px rgba(168, 85, 247, 0.4)"
+            boxShadow: "0 25px 50px -12px rgba(59, 130, 246, 0.4)"
           }}
           whileTap={{ scale: 0.99 }}
-          className="relative overflow-hidden bg-gradient-to-br from-indigo-950/60 via-purple-950/60 to-violet-950/60 rounded-xl p-4 border border-indigo-800/50 backdrop-blur-sm shadow-2xl cursor-pointer transition-all duration-300 group w-full"
+          className="relative overflow-hidden glass-panel-strong rounded-xl p-4 shadow-2xl cursor-pointer transition-all duration-300 group w-full"
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-indigo-900/30 via-purple-900/20 to-violet-900/30 rounded-xl"></div>
-          
-          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/8 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1200"></div>
-          </div>
-          
           <div className="relative z-10">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center space-x-3">
-                <Brain className="w-6 h-6 text-indigo-400 drop-shadow-lg" />
+                <Brain className="w-6 h-6 text-accent-blue drop-shadow-lg" />
                 <h3 className="text-lg font-semibold text-white drop-shadow-md">AI Passenger Flow Predictions</h3>
                 <InfoButtonWithPortal description="AI-powered passenger flow analysis with predictive bottleneck detection, journey optimization recommendations, and real-time SLA monitoring." />
               </div>
             </div>
             
             <div className="grid grid-cols-5 gap-3">
-              <div className="text-center p-3 bg-gradient-to-br from-green-500/20 to-green-600/10 rounded-lg border border-green-500/30">
-                <div className="text-xl font-bold text-green-400 flex items-center justify-center">
-                  {aiAdvisoryData.flowEfficiency}%
-                  <TrendArrow trend={aiAdvisoryData.flowEfficiencyTrend} />
+              {[
+                { value: `${aiAdvisoryData.flowEfficiency}%`, trend: aiAdvisoryData.flowEfficiencyTrend, label: 'Flow Efficiency' },
+                { value: aiAdvisoryData.avgJourneyTime, trend: aiAdvisoryData.journeyTimeTrend, label: 'Journey Time' },
+                { value: aiAdvisoryData.slaCompliance, trend: aiAdvisoryData.slaComplianceTrend, label: 'SLA Compliance' },
+                { value: aiAdvisoryData.activePassengers, trend: aiAdvisoryData.passengersTrend, label: 'Active Passengers' },
+                { value: aiAdvisoryData.bottleneckAlerts, trend: aiAdvisoryData.bottleneckTrend, label: 'Bottlenecks' },
+              ].map((tile) => (
+                <div key={tile.label} className="text-center p-3 bg-primary-800/60 rounded-lg border border-primary-600/40">
+                  <div className="text-xl font-bold text-text-primary flex items-center justify-center">
+                    {tile.value}
+                    <TrendArrow trend={tile.trend} />
+                  </div>
+                  <div className="text-xs text-text-muted">{tile.label}</div>
                 </div>
-                <div className="text-xs text-gray-400">Flow Efficiency</div>
-              </div>
-              <div className="text-center p-3 bg-gradient-to-br from-blue-500/20 to-blue-600/10 rounded-lg border border-blue-500/30">
-                <div className="text-xl font-bold text-blue-400 flex items-center justify-center">
-                  {aiAdvisoryData.avgJourneyTime}
-                  <TrendArrow trend={aiAdvisoryData.journeyTimeTrend} />
-                </div>
-                <div className="text-xs text-gray-400">Journey Time</div>
-              </div>
-              <div className="text-center p-3 bg-gradient-to-br from-purple-500/20 to-purple-600/10 rounded-lg border border-purple-500/30">
-                <div className="text-xl font-bold text-purple-400 flex items-center justify-center">
-                  {aiAdvisoryData.slaCompliance}
-                  <TrendArrow trend={aiAdvisoryData.slaComplianceTrend} />
-                </div>
-                <div className="text-xs text-gray-400">SLA Compliance</div>
-              </div>
-              <div className="text-center p-3 bg-gradient-to-br from-teal-500/20 to-teal-600/10 rounded-lg border border-teal-500/30">
-                <div className="text-xl font-bold text-teal-400 flex items-center justify-center">
-                  {aiAdvisoryData.activePassengers}
-                  <TrendArrow trend={aiAdvisoryData.passengersTrend} />
-                </div>
-                <div className="text-xs text-gray-400">Active Passengers</div>
-              </div>
-              <div className="text-center p-3 bg-gradient-to-br from-yellow-500/20 to-yellow-600/10 rounded-lg border border-yellow-500/30">
-                <div className="text-xl font-bold text-yellow-400 flex items-center justify-center">
-                  {aiAdvisoryData.bottleneckAlerts}
-                  <TrendArrow trend={aiAdvisoryData.bottleneckTrend} />
-                </div>
-                <div className="text-xs text-gray-400">Bottlenecks</div>
-              </div>
+              ))}
             </div>
           </div>
         </motion.div>
@@ -1414,74 +1326,35 @@ const PassengerJourney: React.FC = () => {
           className="flex items-center justify-between"
         >
           <div className="flex items-center space-x-4">
-            <div className="p-4 bg-gradient-to-br from-teal-500/30 to-teal-600/20 rounded-xl shadow-lg backdrop-blur-sm">
-              <Users className="w-7 h-7 text-teal-400 drop-shadow-lg" />
+            <div className="p-2 bg-accent-blue/15 rounded-lg">
+              <Users className="w-5 h-5 text-accent-blue" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-white drop-shadow-lg">Passenger Journey Analytics</h1>
-              <p className="text-gray-400 text-lg">End-to-end passenger experience tracking & flow optimization</p>
+              <h1 className="text-2xl font-bold text-white">Passenger Journey Analytics</h1>
+              <p className="text-text-muted text-sm">End-to-end passenger experience tracking & flow optimization</p>
             </div>
             <InfoButtonWithPortal description="Comprehensive passenger journey monitoring with 10-step checkpoint analysis, real-time bottleneck prediction, SLA compliance tracking, and AI-powered flow optimization." />
           </div>
-          
-          {/* Enhanced Emergency Actions */}
-          <div className="flex space-x-3">
-            <motion.button 
+
+          <div className="flex space-x-2">
+            <button
               onClick={handleEmergencyEvacuation}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className={`px-6 py-3 rounded-lg transition-all duration-300 transform shadow-2xl font-medium ${
-                evacuationActive 
-                  ? 'bg-gradient-to-r from-red-700 via-red-600 to-pink-700 animate-pulse' 
-                  : 'bg-gradient-to-r from-red-600 via-red-500 to-pink-600 hover:from-red-700 hover:via-red-600 hover:to-pink-700'
-              } text-white hover:shadow-red-500/50`}
-              style={!evacuationActive ? {
-                boxShadow: `
-                  0 4px 20px rgba(239, 68, 68, 0.3),
-                  inset 0 1px 0 rgba(255, 255, 255, 0.2)
-                `
-              } : {}}
+              className={`btn min-w-[11rem] ${evacuationActive ? 'btn-danger-active' : 'btn-danger'}`}
             >
-              <span>{evacuationActive ? 'Evacuating...' : 'Terminal Evacuation'}</span>
-            </motion.button>
-
-            <motion.button 
+              {evacuationActive ? 'Evacuating...' : 'Terminal Evacuation'}
+            </button>
+            <button
               onClick={handleQueueSurgeResponse}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className={`px-6 py-3 rounded-lg transition-all duration-300 transform shadow-2xl font-medium ${
-                surgeResponseActive 
-                  ? 'bg-gradient-to-r from-orange-700 via-yellow-600 to-amber-700 animate-pulse' 
-                  : 'bg-gradient-to-r from-orange-600 via-yellow-500 to-amber-600 hover:from-orange-700 hover:via-yellow-600 hover:to-amber-700'
-              } text-white hover:shadow-orange-500/50`}
-              style={!surgeResponseActive ? {
-                boxShadow: `
-                  0 4px 20px rgba(251, 146, 60, 0.3),
-                  inset 0 1px 0 rgba(255, 255, 255, 0.2)
-                `
-              } : {}}
+              className={`btn min-w-[11rem] ${surgeResponseActive ? 'btn-primary' : 'btn-secondary'}`}
             >
-              <span>{surgeResponseActive ? 'Response Active' : 'Queue Surge Response'}</span>
-            </motion.button>
-
-            <motion.button 
+              {surgeResponseActive ? 'Response Active' : 'Queue Surge Response'}
+            </button>
+            <button
               onClick={handleFlowOptimization}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className={`px-6 py-3 rounded-lg transition-all duration-300 transform shadow-2xl font-medium ${
-                optimizationActive 
-                  ? 'bg-gradient-to-r from-blue-700 via-cyan-600 to-teal-700 animate-pulse' 
-                  : 'bg-gradient-to-r from-blue-600 via-cyan-500 to-teal-600 hover:from-blue-700 hover:via-cyan-600 hover:to-teal-700'
-              } text-white hover:shadow-blue-500/50`}
-              style={!optimizationActive ? {
-                boxShadow: `
-                  0 4px 20px rgba(59, 130, 246, 0.3),
-                  inset 0 1px 0 rgba(255, 255, 255, 0.2)
-                `
-              } : {}}
+              className={`btn min-w-[11rem] ${optimizationActive ? 'btn-primary' : 'btn-secondary'}`}
             >
-              <span>{optimizationActive ? 'Optimizing...' : 'Flow Optimization'}</span>
-            </motion.button>
+              {optimizationActive ? 'Optimizing...' : 'Flow Optimization'}
+            </button>
           </div>
         </motion.div>
 
@@ -1493,45 +1366,13 @@ const PassengerJourney: React.FC = () => {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="relative overflow-hidden bg-gradient-to-br from-primary-800/50 to-primary-900/50 rounded-xl p-6 border border-teal-500/30 backdrop-blur-sm shadow-2xl"
+          className="relative overflow-hidden bg-primary-800/50 rounded-xl p-6 border border-teal-500/30 backdrop-blur-sm shadow-2xl"
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-teal-600/10 via-transparent to-blue-600/10 rounded-xl"></div>
-          
           <div className="relative z-10">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center space-x-2">
                 <h3 className="text-xl font-bold text-white drop-shadow-md">Passenger Journey Digital Twin</h3>
                 <InfoButtonWithPortal description="Interactive 3D visualization of terminal passenger flow with real-time occupancy data, journey tracking, emergency routing, and predictive analytics." />
-              </div>
-              <div className="flex space-x-2">
-                <motion.button 
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="flex items-center space-x-1 px-3 py-1 bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800 text-white rounded text-sm transition-all duration-300 shadow-lg hover:shadow-teal-500/30"
-                  style={{
-                    boxShadow: `
-                      0 4px 20px rgba(20, 184, 166, 0.3),
-                      inset 0 1px 0 rgba(255, 255, 255, 0.2)
-                    `
-                  }}
-                >
-                  <Play className="w-3 h-3" />
-                  <span>Journey Replay</span>
-                </motion.button>
-                <motion.button 
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="flex items-center space-x-1 px-3 py-1 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded text-sm transition-all duration-300 shadow-lg hover:shadow-red-500/30"
-                  style={{
-                    boxShadow: `
-                      0 4px 20px rgba(239, 68, 68, 0.3),
-                      inset 0 1px 0 rgba(255, 255, 255, 0.2)
-                    `
-                  }}
-                >
-                  <RotateCcw className="w-3 h-3" />
-                  <span>Emergency Routes</span>
-                </motion.button>
               </div>
             </div>
 
@@ -1574,8 +1415,6 @@ const PassengerJourney: React.FC = () => {
           animate={{ y: 0, opacity: 1 }}
           className="relative"
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-teal-600/5 via-transparent to-blue-600/5 rounded-xl blur-xl"></div>
-          
           <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
             {checkpoints.map((checkpoint, index) => {
               const Icon = checkpoint.icon;
@@ -1587,14 +1426,10 @@ const PassengerJourney: React.FC = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  whileHover={{ 
-                    scale: 1.02,
-                    y: -4,
-                    boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.4)"
-                  }}
-                  className={`relative overflow-hidden bg-gradient-to-br from-primary-800/50 to-primary-900/50 rounded-xl p-4 border cursor-pointer transition-all duration-300 group backdrop-blur-sm shadow-2xl ${
-                    isActive ? 'border-teal-500/50 ring-2 ring-teal-500/30' : 'border-primary-700/50 hover:border-teal-500/30'
-                  } ${getStatusColor(checkpoint.status)}`}
+                  whileHover={{ y: -2 }}
+                  className={`relative overflow-hidden bg-primary-800/60 rounded-xl p-4 border cursor-pointer transition-colors duration-200 group ${
+                    isActive ? 'border-accent-blue/60 ring-1 ring-accent-blue/30' : 'border-primary-600/40 hover:border-accent-blue/40'
+                  }`}
                   onClick={() => handleCheckpointClick(checkpoint)}
                   style={{
                     boxShadow: `
@@ -1603,8 +1438,6 @@ const PassengerJourney: React.FC = () => {
                     `
                   }}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-tr from-white/5 via-transparent to-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl"></div>
-                  
                   <div className="relative z-10">
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center space-x-2">
@@ -1623,9 +1456,8 @@ const PassengerJourney: React.FC = () => {
                     <div className="space-y-2 text-xs">
                       <div className="flex justify-between">
                         <span className="text-gray-400">Queue:</span>
-                        <span className="text-white font-semibold drop-shadow-sm flex items-center">
+                        <span className="text-white font-semibold drop-shadow-sm">
                           {checkpoint.currentQueue}
-                          <TrendArrow trend={checkpoint.currentQueue > 30 ? 'up' : 'stable'} />
                         </span>
                       </div>
                       <div className="flex justify-between">
@@ -1643,26 +1475,20 @@ const PassengerJourney: React.FC = () => {
                       <div className="w-full bg-gray-700/50 rounded-full h-2 shadow-inner overflow-hidden">
                         <div 
                           className={`h-2 rounded-full transition-all duration-500 shadow-sm relative ${
-                            checkpoint.slaCompliance >= 95 ? 'bg-gradient-to-r from-green-400 to-green-500' :
-                            checkpoint.slaCompliance >= 80 ? 'bg-gradient-to-r from-yellow-400 to-yellow-500' : 
-                            'bg-gradient-to-r from-red-400 to-red-500'
+                            checkpoint.slaCompliance >= 95 ? 'bg-status-success' :
+                            checkpoint.slaCompliance >= 80 ? 'bg-status-warning' :
+                            'bg-status-error'
                           }`}
                           style={{ width: `${checkpoint.slaCompliance}%` }}
-                        >
-                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent transform -skew-x-12 animate-pulse"></div>
-                        </div>
+                        />
                       </div>
                     </div>
-                    
+
                     {index < checkpoints.length - 1 && (
                       <div className="hidden lg:block absolute -right-2 top-1/2 transform -translate-y-1/2">
                         <ArrowRight className="w-4 h-4 text-teal-400 drop-shadow-lg" />
                       </div>
                     )}
-                  </div>
-
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/8 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1200"></div>
                   </div>
                 </motion.div>
               );

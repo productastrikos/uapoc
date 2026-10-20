@@ -69,10 +69,10 @@ export interface IntegrationEntry { id: string; ref: string; msg: string; ts: st
 
 const getStatusIcon = (status: string) => {
   switch (status) {
-    case 'green': case 'Operational': return <CheckCircle2 className="w-3 h-3 text-emerald-400" />;
-    case 'yellow': case 'Warning':    return <AlertTriangle className="w-3 h-3 text-yellow-400" />;
-    case 'red':   case 'Critical':    return <XCircle       className="w-3 h-3 text-red-400" />;
-    default: return <Minus className="w-3 h-3 text-sim-400" />;
+    case 'green': case 'Operational': return <CheckCircle2 className="w-3 h-3 text-status-success" />;
+    case 'yellow': case 'Warning':    return <AlertTriangle className="w-3 h-3 text-status-warning" />;
+    case 'red':   case 'Critical':    return <XCircle       className="w-3 h-3 text-status-error" />;
+    default: return <Minus className="w-3 h-3 text-text-secondary" />;
   }
 };
 

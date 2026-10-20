@@ -39,21 +39,21 @@ function ConsoleTabs<T extends string>({ tabs, active, onChange, layoutId }: Pro
   if (!host) return null;
 
   return createPortal(
-    <nav className="fs-chrome flex items-center gap-1 rounded-full bg-primary-700/95 backdrop-blur border border-primary-500/60 shadow-[0_8px_24px_rgba(0,0,0,0.45)] px-1.5 py-1">
+    <nav className="fs-chrome glass-panel flex items-center gap-1 rounded-full px-1 py-1">
       {tabs.map(({ id, label, icon: Icon }) => {
         const isActive = active === id;
         return (
           <button
             key={id}
             onClick={() => onChange(id)}
-            className={`relative flex items-center gap-2 px-4 py-1.5 rounded-full text-sm whitespace-nowrap transition-colors ${
-              isActive ? 'text-primary-900 font-semibold' : 'text-text-secondary hover:text-text-primary'
+            className={`relative flex items-center gap-2 px-3.5 py-1 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
+              isActive ? 'text-white' : 'text-text-muted hover:text-text-primary'
             }`}
           >
             {isActive && (
               <motion.span
                 layoutId={layoutId}
-                className="absolute inset-0 rounded-full bg-accent-teal"
+                className="absolute inset-0 rounded-full bg-accent-blue"
                 transition={{ type: 'spring', damping: 30, stiffness: 320 }}
               />
             )}

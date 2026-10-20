@@ -49,16 +49,16 @@ const CLASS_ICON: Record<AiClass, React.ElementType> = {
 /** Severity drives the card's accent; the class drives only the chip. */
 const TONE: Record<AiSeverity, { border: string; wash: string; text: string; bar: string }> = {
   critical: {
-    border: 'border-red-500/45',
-    wash: 'from-red-500/10',
-    text: 'text-red-300',
-    bar: 'bg-red-400',
+    border: 'border-status-error/45',
+    wash: 'from-status-error/10',
+    text: 'text-status-error',
+    bar: 'bg-status-error',
   },
   warning: {
-    border: 'border-amber-500/45',
-    wash: 'from-amber-500/10',
-    text: 'text-amber-300',
-    bar: 'bg-amber-400',
+    border: 'border-status-warning/45',
+    wash: 'from-status-warning/10',
+    text: 'text-status-warning',
+    bar: 'bg-status-warning',
   },
   opportunity: {
     border: 'border-accent-teal/45',
@@ -115,11 +115,11 @@ const AiInsightCard: React.FC<Props> = ({ insight, compact = false, showDomain =
       layout
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: disposition === 'dismissed' ? 0.45 : 1, y: 0 }}
-      className={`bg-gradient-to-br ${tone.wash} to-primary-800/80 border ${tone.border} rounded-lg overflow-hidden`}
+      className={`glass-panel bg-gradient-to-br ${tone.wash} to-transparent border-l-2 ${tone.border} rounded-lg overflow-hidden`}
     >
       {/* Class, confidence and horizon. Everything an operator needs to triage
           the card before reading a word of the body. */}
-      <header className="flex items-center gap-2 px-3 py-2 border-b border-primary-500/30 bg-primary-900/30">
+      <header className="flex items-center gap-2 px-3 py-2 border-b border-primary-500/30 bg-primary-900/20">
         <Icon className={`w-4 h-4 shrink-0 ${tone.text}`} />
         <span className={`text-[length:calc(10px*var(--fs))] font-semibold uppercase tracking-wide ${tone.text}`}>
           {SEVERITY_WORD[insight.severity]}
@@ -189,7 +189,7 @@ const AiInsightCard: React.FC<Props> = ({ insight, compact = false, showDomain =
                 exit={{ height: 0, opacity: 0 }}
                 className="overflow-hidden"
               >
-                <p className="mt-2 mb-2 px-2 py-1 rounded bg-emerald-500/10 border border-emerald-500/30 text-[length:calc(11px*var(--fs))] text-emerald-300">
+                <p className="mt-2 mb-2 px-2 py-1 rounded bg-status-success/10 border border-status-success/30 text-[length:calc(11px*var(--fs))] text-status-success">
                   {insight.impact}
                 </p>
 
@@ -236,7 +236,7 @@ const AiInsightCard: React.FC<Props> = ({ insight, compact = false, showDomain =
             <span
               className={`flex items-center gap-1.5 text-[length:calc(11px*var(--fs))] font-medium ${
                 disposition === 'accepted'
-                  ? 'text-emerald-300'
+                  ? 'text-status-success'
                   : disposition === 'shadow'
                   ? 'text-accent-teal'
                   : 'text-text-muted'

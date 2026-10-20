@@ -1,6 +1,72 @@
+/* These must precede every other rule, including @tailwind — a CSS @import
+ * dropped anywhere after the first non-import rule is silently discarded by
+ * Vite's CSS pipeline rather than erroring, which is how `.glass-panel`,
+ * `.modal-surface` and friends ended up defined but never actually loaded:
+ * both files used to be @import-ed much further down, after @tailwind
+ * utilities and a dozen other rules. */
+@import './styles/gradients.css';
+@import './styles/animations.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* The one button system. Every action button in a console uses one of these,
+ * so color is decided here rather than per-file:
+ *   btn-secondary     default — quiet blue outline
+ *   btn-primary       the main/confirm action, or a toggle that is ON
+ *   btn-danger        destructive/emergency action, idle (outline only)
+ *   btn-danger-active destructive/emergency action that is currently engaged */
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium border transition-colors duration-150;
+  }
+  .btn-secondary {
+    @apply bg-accent-blue/10 border-accent-blue/30 text-blue-200 hover:bg-accent-blue/20 hover:border-accent-blue/50;
+  }
+  .btn-primary {
+    @apply bg-accent-blue border-accent-blue text-white hover:bg-accent-blueHover hover:border-accent-blueHover;
+  }
+  .btn-danger {
+    @apply bg-transparent border-status-error/30 text-red-300 hover:bg-status-error/10 hover:border-status-error/50;
+  }
+  .btn-danger-active {
+    @apply bg-status-error border-status-error text-white;
+  }
+
+  /* A selectable "chip" — for dock-style button rows (sequence pickers, speed
+   * controls, overlay toggles) that were previously a grid of hard-bordered
+   * boxes. No border at all; the state reads from fill alone, which is both
+   * calmer and closer to the glass aesthetic used elsewhere. */
+  .chip {
+    @apply inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors duration-150 bg-primary-700/40 text-text-secondary hover:bg-primary-600/60 hover:text-text-primary;
+  }
+  .chip-active {
+    @apply bg-accent-blue/25 text-accent-blue hover:bg-accent-blue/30 hover:text-accent-blue;
+  }
+
+  /* Frosted, color-tinted capsule for a single stat — the "glass pill" look
+   * from the reference boards. Tint stays in the blue/teal/violet family on
+   * purpose: the brief was "more glass, but keep it blueish", not a new set
+   * of bright hues to replace the old red/green/yellow one. */
+  .glass-pill {
+    @apply relative rounded-2xl px-4 py-3 border border-white/10 overflow-hidden;
+    backdrop-filter: blur(16px) saturate(1.3);
+    -webkit-backdrop-filter: blur(16px) saturate(1.3);
+  }
+  .glass-pill-blue {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.28), rgba(59, 130, 246, 0.06));
+  }
+  .glass-pill-teal {
+    background: linear-gradient(135deg, rgba(45, 212, 191, 0.26), rgba(45, 212, 191, 0.05));
+  }
+  .glass-pill-violet {
+    background: linear-gradient(135deg, rgba(129, 140, 248, 0.26), rgba(129, 140, 248, 0.05));
+  }
+  .glass-pill-neutral {
+    background: linear-gradient(135deg, rgba(148, 163, 184, 0.16), rgba(148, 163, 184, 0.04));
+  }
+}
 
 /* ---------------------------------------------------------------------------
  * Type scale multiplier.
@@ -14,12 +80,16 @@
  * So it is one knob with per-region overrides, rather than hundreds of hand
  * tuned classes. Change `--fs` on `:root` to move everything at once.
  *
- *   :root    1.25   body text, KPI values, tables, cards
+ * Rescaled for normal desktop viewing at 100% browser zoom (not the 67-75%
+ * wall-display zoom this was originally tuned for) — every tier below keeps
+ * its original ratio to the body scale, just off a 1.0 base instead of 1.25.
+ *
+ *   :root    1.0    body text, KPI values, tables, cards
  *   .fs-chrome 1.0  navigation, tabs, pills — labels you aim at, not read
- *   .fs-ai   1.5    advisory text, which is prose and is the thing being read
+ *   .fs-ai   1.2    advisory text, which is prose and is the thing being read
  * ------------------------------------------------------------------------- */
 :root {
-  --fs: 1.25;
+  --fs: 1;
 }
 
 /* Sidebar, tab bars, button rows. These are targets, not reading material —
@@ -32,7 +102,7 @@
    actually read and weigh before pressing a button, so they get more than the
    body scale rather than less. */
 .fs-ai {
-  --fs: 1.5;
+  --fs: 1.2;
 }
 
 /* The airfield lighting console. Its dock, rollups and alarm strip are all
@@ -41,7 +111,7 @@
    the app to read across a control room. Its own tab bar carries `.fs-chrome`
    and stays put. */
 .agl-root {
-  --fs: 1.45;
+  --fs: 1;
 }
 
 /* ---------------------------------------------------------------------------
@@ -91,7 +161,7 @@
    first thing anyone looks at, so they carry the largest scale in the console
    rather than the smallest. */
 .fs-subsystem-cards {
-  --fs: 1.95;
+  --fs: 1;
 }
 
 /* The KPI tiles, equipment charts and side panels on the subsystem pages.
@@ -109,12 +179,12 @@
 /* Raised twice on feedback — these panels are read across a room, and the
    ported inline sizes start at 7.5-9px. Scrolling is the accepted trade. */
 .kpi-zoom {
-  zoom: 1.62;
+  zoom: 1;
   overflow: auto !important;
 }
 
 .kpi-zoom-sm {
-  zoom: 1.45;
+  zoom: 1;
   overflow: auto !important;
 }
 
@@ -125,11 +195,9 @@
   color: #A8BBC9;
 }
 
-@import './styles/gradients.css';
-@import './styles/animations.css';
-/* NOTE: styles/simulation.css is imported from src/simulations/SimulationOverlay.tsx.
-   It cannot be @import-ed here: CSS requires @import to precede all other rules, so
-   any @import placed after the @tailwind directives above is dropped by the bundler. */
+/* NOTE: styles/simulation.css is imported from src/simulations/SimulationOverlay.tsx
+   instead of from here, because it is scoped to the simulation overlay only and
+   there's no reason to ship it in the main bundle for screens that never use it. */
 
 /* Hide all scrollbars globally */
 .no-scrollbar {

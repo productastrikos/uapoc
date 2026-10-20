@@ -182,7 +182,7 @@ const ClickableWidget: React.FC<{ title: string; onClick: () => void; children: 
       display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 3,
       transition: 'background 0.15s ease',
     }}
-    onMouseEnter={e => { e.currentTarget.style.background = 'rgba(34,199,198,0.12)'; }}
+    onMouseEnter={e => { e.currentTarget.style.background = 'rgba(59,130,246,0.12)'; }}
     onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
   >
     {children}
@@ -466,7 +466,7 @@ const DeviceCard: React.FC<{ d: DeviceRow; onSelect: (type: string, issue?: stri
     >
       {/* Single top row, flush with the card's top edge: code left, full name centered, qty right */}
       <div style={{ flexShrink: 0, position: 'relative', display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', minHeight: 18 }}>
-        <span style={{ fontFamily: 'monospace', fontSize: 16.5, fontWeight: 800, color: '#22C7C6', position: 'relative', zIndex: 1, background: 'var(--app-surface)' }}>
+        <span style={{ fontFamily: 'monospace', fontSize: 16.5, fontWeight: 800, color: '#3B82F6', position: 'relative', zIndex: 1, background: 'var(--app-surface)' }}>
           {d.code}
         </span>
         <span style={{

@@ -112,7 +112,7 @@ const CommChannelStatus: React.FC<CommChannelStatusProps> = ({ lbmsAvailability,
       <div className="flex items-center justify-between mb-2 gap-2 flex-wrap">
         <div className="flex items-center gap-1.5 min-w-0">
           <Radio className="w-3.5 h-3.5 flex-shrink-0" style={{ color: diagnosis?.color ?? '#10b981' }} />
-          <span className="text-xs font-bold text-sim-200 truncate">Comm. Channel</span>
+          <span className="text-xs font-bold text-text-primary truncate">Comm. Channel</span>
         </div>
         <div className="flex items-center gap-0.5 rounded-md p-0.5 flex-shrink-0" style={{ background: 'rgba(255,255,255,0.03)' }}>
           {SCENARIOS.map((opt) => (
@@ -141,7 +141,7 @@ const CommChannelStatus: React.FC<CommChannelStatusProps> = ({ lbmsAvailability,
         >
           <Wind className="w-4 h-4 transition-colors duration-500" style={{ color: lbms.color }} />
           <span className="text-[length:calc(11px*var(--fs))] font-bold transition-colors duration-500 text-center leading-tight" style={{ color: lbms.color }}>LBMS</span>
-          <span className="text-[length:calc(8px*var(--fs))] text-sim-500 leading-tight text-center">HVAC / Lighting</span>
+          <span className="text-[length:calc(8px*var(--fs))] text-text-muted leading-tight text-center">HVAC / Lighting</span>
           {leftHealth !== 'ok' && (
             <span className="text-[length:calc(7px*var(--fs))] font-bold uppercase tracking-wide" style={{ color: lbms.color }}>{lbms.label}</span>
           )}
@@ -187,7 +187,7 @@ const CommChannelStatus: React.FC<CommChannelStatusProps> = ({ lbmsAvailability,
         >
           <Server className="w-4 h-4 transition-colors duration-500" style={{ color: hbms.color }} />
           <span className="text-[length:calc(11px*var(--fs))] font-bold transition-colors duration-500" style={{ color: hbms.color }}>HBMS</span>
-          <span className="text-[length:calc(8px*var(--fs))] text-sim-500 leading-tight text-center">Central Platform</span>
+          <span className="text-[length:calc(8px*var(--fs))] text-text-muted leading-tight text-center">Central Platform</span>
           {hbmsHealth !== 'ok' && (
             <span className="text-[length:calc(7px*var(--fs))] font-bold uppercase tracking-wide" style={{ color: hbms.color }}>{hbms.label}</span>
           )}
@@ -202,7 +202,7 @@ const CommChannelStatus: React.FC<CommChannelStatusProps> = ({ lbmsAvailability,
             <span>{diagnosis.text}</span>
           </span>
         ) : (
-          <span className="text-[length:calc(9px*var(--fs))] text-sim-500 flex-shrink-0">
+          <span className="text-[length:calc(9px*var(--fs))] text-text-muted flex-shrink-0">
             All segments healthy · Latency <span className="font-semibold" style={{ color: channel.color }}>{latency.toFixed(0)}ms</span>
           </span>
         )}

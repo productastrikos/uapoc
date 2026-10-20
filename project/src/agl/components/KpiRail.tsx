@@ -22,13 +22,13 @@ const KpiRail: React.FC = () => {
   return (
     <div className="shrink-0 space-y-3">
       {/* Serviceability */}
-      <section className="bg-primary-800/70 border border-primary-500/40 rounded-lg overflow-hidden">
-        <header className="px-3 py-2 border-b border-primary-500/40 flex items-center justify-between">
+      <section className="glass-panel rounded-lg overflow-hidden">
+        <header className="px-3 py-2 border-b border-white/10 flex items-center justify-between">
           <h3 className="text-xs font-semibold text-text-primary uppercase tracking-wide">
             AGL KPI / Serviceability
           </h3>
           {breaches.length > 0 && (
-            <span className="flex items-center gap-1 text-[length:calc(10px*var(--fs))] text-red-300">
+            <span className="flex items-center gap-1 text-[length:calc(10px*var(--fs))] text-status-error">
               <AlertTriangle className="w-3 h-3" />
               {breaches.length}
             </span>
@@ -51,13 +51,13 @@ const KpiRail: React.FC = () => {
                   <div className="flex items-center justify-end gap-1.5">
                     <div className="w-10 h-2.5 bg-primary-900/80 rounded-sm overflow-hidden">
                       <div
-                        className={`h-full ${r.breached ? 'bg-red-500' : 'bg-emerald-500'}`}
+                        className={`h-full ${r.breached ? 'bg-status-error' : 'bg-status-success'}`}
                         style={{ width: `${Math.max(2, r.serviceability)}%` }}
                       />
                     </div>
                     <span
                       className={`font-mono tabular-nums ${
-                        r.breached ? 'text-red-300 font-semibold' : 'text-text-primary'
+                        r.breached ? 'text-status-error font-semibold' : 'text-text-primary'
                       }`}
                     >
                       {r.serviceability.toFixed(1)}%
@@ -71,8 +71,8 @@ const KpiRail: React.FC = () => {
       </section>
 
       {/* Total / Fail summary */}
-      <section className="bg-primary-800/70 border border-primary-500/40 rounded-lg overflow-hidden">
-        <header className="px-3 py-2 border-b border-primary-500/40">
+      <section className="glass-panel rounded-lg overflow-hidden">
+        <header className="px-3 py-2 border-b border-white/10">
           <h3 className="text-xs font-semibold text-text-primary uppercase tracking-wide">
             Summary
           </h3>
@@ -98,7 +98,7 @@ const KpiRail: React.FC = () => {
                   <span
                     className={`inline-block min-w-[2.2rem] rounded font-mono border ${
                       r.failed > 0
-                        ? 'bg-red-500/20 border-red-500/50 text-red-300'
+                        ? 'bg-status-error/20 border-status-error/50 text-status-error'
                         : 'bg-primary-900/70 border-primary-500/40 text-text-primary'
                     }`}
                   >
@@ -112,8 +112,8 @@ const KpiRail: React.FC = () => {
       </section>
 
       {/* Constant current regulators */}
-      <section className="bg-primary-800/70 border border-primary-500/40 rounded-lg overflow-hidden">
-        <header className="px-3 py-2 border-b border-primary-500/40">
+      <section className="glass-panel rounded-lg overflow-hidden">
+        <header className="px-3 py-2 border-b border-white/10">
           <h3 className="text-xs font-semibold text-text-primary uppercase tracking-wide">
             Regulators (CCR)
           </h3>
@@ -127,7 +127,7 @@ const KpiRail: React.FC = () => {
               </div>
               <div className="text-right shrink-0 ml-2">
                 <div
-                  className={`font-mono ${c.faulted ? 'text-red-400 font-semibold' : 'text-text-primary'}`}
+                  className={`font-mono ${c.faulted ? 'text-status-error font-semibold' : 'text-text-primary'}`}
                 >
                   {c.outputCurrent.toFixed(1)} A
                 </div>

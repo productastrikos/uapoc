@@ -87,36 +87,38 @@ const LandsideOperations: React.FC = () => {
     >
       {/* Header */}
       <div className="flex items-center space-x-4">
-        <Car className="h-8 w-8 text-accent-teal" />
+        <div className="p-2 bg-accent-blue/15 rounded-lg">
+          <Car className="w-5 h-5 text-accent-blue" />
+        </div>
         <div>
-          <h1 className="text-3xl font-bold text-text-primary">{t('nav.landside')}</h1>
-          <p className="text-text-muted">Kerbside management, parking optimization, and transport coordination</p>
+          <h1 className="text-2xl font-bold text-white">{t('nav.landside')}</h1>
+          <p className="text-sm text-text-muted">Kerbside management, parking optimization, and transport coordination</p>
         </div>
       </div>
 
       {/* Quick Stats */}
-      <div className="grid grid-cols-4 gap-6">
+      <div className="grid grid-cols-4 gap-4">
         {[
-          { label: 'Total Vehicles', value: '2,847', icon: Car, color: 'text-accent-teal', change: '+18%' },
-          { label: 'Parking Revenue', value: '$39.9K', icon: DollarSign, color: 'text-status-success', change: '+12%' },
-          { label: 'Avg Search Time', value: '4.6m', icon: Clock, color: 'text-status-warning', change: '+0.8m' },
-          { label: 'Utilization Rate', value: '81.2%', icon: TrendingUp, color: 'text-accent-gold', change: '+5%' },
+          { label: 'Total Vehicles', value: '2,847', icon: Car, change: '+18%' },
+          { label: 'Parking Revenue', value: '$39.9K', icon: DollarSign, change: '+12%' },
+          { label: 'Avg Search Time', value: '4.6m', icon: Clock, change: '+0.8m' },
+          { label: 'Utilization Rate', value: '81.2%', icon: TrendingUp, change: '+5%' },
         ].map((stat, index) => (
           <motion.div
             key={stat.label}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
-            className="landside-gradient rounded-lg p-6 border border-primary-600 hover:border-accent-teal transition-colors cursor-pointer"
+            className={`glass-pill ${['glass-pill-blue', 'glass-pill-teal', 'glass-pill-violet', 'glass-pill-neutral'][index % 4]} p-4 cursor-pointer`}
             onClick={() => handleZoneClick(parkingZones[0])}
           >
             <div className="flex items-center justify-between mb-2">
-              <stat.icon className={`h-6 w-6 ${stat.color}`} />
+              <stat.icon className="h-5 w-5 text-text-muted" />
               <span className={`text-sm font-medium ${stat.change.startsWith('+') ? 'text-status-success' : 'text-status-warning'}`}>
                 {stat.change}
               </span>
             </div>
-            <div className="text-2xl font-bold text-text-primary">{stat.value}</div>
+            <div className="text-xl font-bold text-text-primary">{stat.value}</div>
             <div className="text-sm text-text-muted">{stat.label}</div>
           </motion.div>
         ))}
@@ -131,9 +133,9 @@ const LandsideOperations: React.FC = () => {
         {/* Left Column - Kerbside & Parking Management */}
         <div className="col-span-8 space-y-6">
           {/* Kerbside Congestion Map */}
-          <div className="landside-gradient rounded-lg border border-primary-600 p-6">
+          <div className="glass-panel rounded-lg p-6">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-bold text-text-primary">Kerbside Operations & Dynamic Pricing</h2>
+              <h2 className="text-base font-semibold text-text-primary">Kerbside Operations & Dynamic Pricing</h2>
               <div className="flex items-center space-x-4 text-sm">
                 <div className="flex items-center space-x-2">
                   <div className="w-3 h-3 bg-status-success rounded-full"></div>
@@ -154,36 +156,36 @@ const LandsideOperations: React.FC = () => {
             <div className="relative h-80 bg-primary-900 rounded-lg overflow-hidden">
               <div className="absolute inset-4">
                 {/* Terminal building */}
-                <div className="absolute top-4 left-1/3 right-1/3 h-16 bg-gradient-to-r from-primary-600 to-primary-700 rounded-lg border border-primary-500 flex items-center justify-center">
+                <div className="absolute top-4 left-1/3 right-1/3 h-16 bg-primary-700 rounded-lg border border-primary-500 flex items-center justify-center">
                   <span className="text-text-primary font-semibold">Terminal Building</span>
                 </div>
 
                 {/* Departure drop-off */}
-                <div className="absolute top-24 left-4 right-4 h-10 bg-gradient-to-r from-status-warning to-status-warning bg-opacity-20 rounded-lg border border-status-warning flex items-center justify-center">
+                <div className="absolute top-24 left-4 right-4 h-10 bg-status-warning bg-opacity-20 rounded-lg border border-status-warning flex items-center justify-center">
                   <span className="text-status-warning font-semibold">Departure Drop-off (78% utilization)</span>
                 </div>
 
                 {/* Arrival pick-up */}
-                <div className="absolute top-40 left-4 right-4 h-10 bg-gradient-to-r from-status-error to-status-error bg-opacity-20 rounded-lg border border-status-error flex items-center justify-center">
+                <div className="absolute top-40 left-4 right-4 h-10 bg-status-error bg-opacity-20 rounded-lg border border-status-error flex items-center justify-center">
                   <span className="text-status-error font-semibold">Arrival Pick-up (92% utilization)</span>
                 </div>
 
                 {/* Parking zones */}
-                <div className="absolute bottom-24 left-4 w-24 h-16 bg-gradient-to-r from-accent-teal to-accent-teal bg-opacity-30 rounded-lg border border-accent-teal flex items-center justify-center">
-                  <span className="text-accent-teal font-semibold text-sm">Zone A</span>
+                <div className="absolute bottom-24 left-4 w-24 h-16 bg-accent-blue/15 rounded-lg border border-accent-blue/40 flex items-center justify-center">
+                  <span className="text-blue-200 font-semibold text-sm">Zone A</span>
                 </div>
-                <div className="absolute bottom-24 left-32 w-32 h-16 bg-gradient-to-r from-status-success to-status-success bg-opacity-20 rounded-lg border border-status-success flex items-center justify-center">
-                  <span className="text-status-success font-semibold text-sm">Zone B</span>
+                <div className="absolute bottom-24 left-32 w-32 h-16 bg-accent-blue/15 rounded-lg border border-accent-blue/40 flex items-center justify-center">
+                  <span className="text-blue-200 font-semibold text-sm">Zone B</span>
                 </div>
-                <div className="absolute bottom-24 left-68 w-40 h-16 bg-gradient-to-r from-status-info to-status-info bg-opacity-20 rounded-lg border border-status-info flex items-center justify-center">
-                  <span className="text-status-info font-semibold text-sm">Zone C</span>
+                <div className="absolute bottom-24 left-68 w-40 h-16 bg-accent-blue/15 rounded-lg border border-accent-blue/40 flex items-center justify-center">
+                  <span className="text-blue-200 font-semibold text-sm">Zone C</span>
                 </div>
 
                 {/* Transport areas */}
-                <div className="absolute bottom-4 left-4 w-28 h-12 bg-gradient-to-r from-accent-gold to-accent-gold bg-opacity-20 rounded-lg border border-accent-gold flex items-center justify-center">
-                  <span className="text-accent-gold font-semibold text-sm">Taxi Queue</span>
+                <div className="absolute bottom-4 left-4 w-28 h-12 bg-primary-700 rounded-lg border border-primary-500 flex items-center justify-center">
+                  <span className="text-text-primary font-semibold text-sm">Taxi Queue</span>
                 </div>
-                <div className="absolute bottom-4 right-4 w-32 h-12 bg-gradient-to-r from-primary-600 to-primary-700 rounded-lg border border-primary-500 flex items-center justify-center">
+                <div className="absolute bottom-4 right-4 w-32 h-12 bg-primary-700 rounded-lg border border-primary-500 flex items-center justify-center">
                   <span className="text-text-primary font-semibold text-sm">Ride-share Hub</span>
                 </div>
 
@@ -194,13 +196,13 @@ const LandsideOperations: React.FC = () => {
                     initial={{ scale: 0, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ delay: i * 0.3 }}
-                    className="absolute w-4 h-4 bg-accent-gold rounded-full"
+                    className="absolute w-3 h-3 bg-accent-blue rounded-full"
                     style={{
                       left: `${15 + i * 12}%`,
                       bottom: '45%',
                     }}
                   >
-                    <div className="absolute -top-8 -left-4 bg-primary-700 rounded px-2 py-1 text-xs text-accent-gold border border-accent-gold">
+                    <div className="absolute -top-8 -left-4 bg-primary-700 rounded px-2 py-1 text-xs text-blue-200 border border-accent-blue/30">
                       ${(15 + Math.random() * 10).toFixed(0)}K
                     </div>
                   </motion.div>
@@ -210,8 +212,8 @@ const LandsideOperations: React.FC = () => {
           </div>
 
           {/* Parking Zone Management */}
-          <div className="landside-gradient rounded-lg border border-primary-600 p-6">
-            <h2 className="text-xl font-bold text-text-primary mb-6">Parking Zone Performance & Optimization</h2>
+          <div className="glass-panel rounded-lg p-6">
+            <h2 className="text-base font-semibold text-text-primary mb-4">Parking Zone Performance & Optimization</h2>
             
             <div className="space-y-4">
               {parkingZones.map((zone, index) => (
@@ -220,7 +222,7 @@ const LandsideOperations: React.FC = () => {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.2 }}
-                  className="p-4 bg-primary-700 rounded-lg border border-primary-600 hover:border-accent-teal transition-colors cursor-pointer"
+                  className="p-4 bg-primary-800/60 rounded-lg border border-primary-600/40 hover:border-accent-blue/40 transition-colors cursor-pointer"
                   onClick={() => handleZoneClick(zone)}
                 >
                   <div className="flex items-center justify-between">
@@ -228,7 +230,7 @@ const LandsideOperations: React.FC = () => {
                       <h3 className="font-semibold text-text-primary flex items-center space-x-2">
                         <span>{zone.name}</span>
                         {zone.dynamicPricing && (
-                          <span className="text-xs px-2 py-1 bg-accent-gold bg-opacity-20 text-accent-gold rounded-full">
+                          <span className="text-xs px-2 py-0.5 bg-accent-blue/10 text-blue-200 border border-accent-blue/30 rounded-full">
                             Dynamic
                           </span>
                         )}
@@ -240,9 +242,9 @@ const LandsideOperations: React.FC = () => {
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="text-lg font-bold text-accent-teal">{Math.round((zone.occupiedSpaces / zone.totalSpaces) * 100)}%</div>
+                      <div className="text-lg font-bold text-text-primary">{Math.round((zone.occupiedSpaces / zone.totalSpaces) * 100)}%</div>
                       <div className="text-sm text-text-muted">Utilization</div>
-                      <div className="text-sm font-medium text-accent-gold">
+                      <div className="text-sm font-medium text-text-muted">
                         ${(zone.currentRate / 1000).toFixed(0)}K VND/h
                       </div>
                     </div>
@@ -257,7 +259,7 @@ const LandsideOperations: React.FC = () => {
                         transition={{ duration: 1, delay: index * 0.2 }}
                         className={`h-2 rounded-full ${
                           zone.occupiedSpaces / zone.totalSpaces > 0.9 ? 'bg-status-error' :
-                          zone.occupiedSpaces / zone.totalSpaces > 0.75 ? 'bg-status-warning' : 'bg-accent-teal'
+                          zone.occupiedSpaces / zone.totalSpaces > 0.75 ? 'bg-status-warning' : 'bg-accent-blue'
                         }`}
                       />
                     </div>
@@ -283,8 +285,8 @@ const LandsideOperations: React.FC = () => {
         {/* Right Column - Analytics & Transport */}
         <div className="col-span-4 space-y-6">
           {/* Revenue Trends */}
-          <div className="landside-gradient rounded-lg border border-primary-600 p-6">
-            <h3 className="text-lg font-semibold text-text-primary mb-4">Revenue by Service (24h)</h3>
+          <div className="glass-panel rounded-lg p-6">
+            <h3 className="text-base font-semibold text-text-primary mb-4">Revenue by Service (24h)</h3>
             <div className="h-48">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={revenueData}>
@@ -313,8 +315,8 @@ const LandsideOperations: React.FC = () => {
           </div>
 
           {/* Traffic Flow Analysis */}
-          <div className="landside-gradient rounded-lg border border-primary-600 p-6">
-            <h3 className="text-lg font-semibold text-text-primary mb-4">Traffic Flow Analysis</h3>
+          <div className="glass-panel rounded-lg p-6">
+            <h3 className="text-base font-semibold text-text-primary mb-4">Traffic Flow Analysis</h3>
             <div className="space-y-3">
               {trafficData.map((traffic, index) => (
                 <motion.div
@@ -322,11 +324,11 @@ const LandsideOperations: React.FC = () => {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: index * 0.1 }}
-                  className="p-3 bg-primary-700 rounded-lg border border-primary-600"
+                  className={`glass-pill ${['glass-pill-blue', 'glass-pill-teal', 'glass-pill-violet', 'glass-pill-neutral'][index % 4]} p-3`}
                 >
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-text-primary text-sm">{traffic.zone}</span>
-                    <span className="text-accent-teal font-semibold">{traffic.utilization}%</span>
+                    <span className="text-text-primary font-semibold">{traffic.utilization}%</span>
                   </div>
                   
                   <div className="w-full bg-primary-600 rounded-full h-2 mb-1">
@@ -336,7 +338,7 @@ const LandsideOperations: React.FC = () => {
                       transition={{ duration: 1, delay: index * 0.2 }}
                       className={`h-2 rounded-full ${
                         traffic.utilization > 85 ? 'bg-status-error' : 
-                        traffic.utilization > 70 ? 'bg-status-warning' : 'bg-accent-teal'
+                        traffic.utilization > 70 ? 'bg-status-warning' : 'bg-accent-blue'
                       }`}
                     />
                   </div>
@@ -351,8 +353,8 @@ const LandsideOperations: React.FC = () => {
           </div>
 
           {/* Transport Mode Distribution */}
-          <div className="landside-gradient rounded-lg border border-primary-600 p-6">
-            <h3 className="text-lg font-semibold text-text-primary mb-4">Transport Mode Mix</h3>
+          <div className="glass-panel rounded-lg p-6">
+            <h3 className="text-base font-semibold text-text-primary mb-4">Transport Mode Mix</h3>
             <div className="h-48">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
@@ -385,10 +387,10 @@ const LandsideOperations: React.FC = () => {
           </div>
 
           {/* AI Optimization Recommendations */}
-          <div className="landside-gradient rounded-lg border border-primary-600 p-6">
+          <div className="glass-panel-strong rounded-lg p-6">
             <div className="flex items-center space-x-2 mb-4">
-              <div className="w-3 h-3 bg-accent-teal rounded-full animate-pulse"></div>
-              <h3 className="text-lg font-semibold text-text-primary">Revenue Optimization</h3>
+              <div className="w-2 h-2 bg-accent-blue rounded-full"></div>
+              <h3 className="text-base font-semibold text-text-primary">Revenue Optimization</h3>
             </div>
             <div className="space-y-3">
               {[
@@ -411,16 +413,16 @@ const LandsideOperations: React.FC = () => {
                   confidence: 82 
                 },
               ].map((rec, index) => (
-                <div key={index} className="p-3 bg-primary-700 rounded-lg border border-primary-600">
+                <div key={index} className={`glass-pill ${['glass-pill-blue', 'glass-pill-violet', 'glass-pill-teal'][index % 3]} p-3`}>
                   <div className="flex items-center justify-between mb-2">
-                    <span className={`text-xs px-2 py-1 rounded-full ${
-                      rec.priority === 'High' ? 'bg-status-error bg-opacity-20 text-status-error' :
-                      rec.priority === 'Medium' ? 'bg-status-warning bg-opacity-20 text-status-warning' :
-                      'bg-status-info bg-opacity-20 text-status-info'
+                    <span className={`text-xs px-2 py-0.5 rounded-full border ${
+                      rec.priority === 'High' ? 'bg-status-error/10 text-status-error border-status-error/30' :
+                      rec.priority === 'Medium' ? 'bg-status-warning/10 text-status-warning border-status-warning/30' :
+                      'bg-accent-blue/10 text-blue-200 border-accent-blue/30'
                     }`}>
                       {rec.priority}
                     </span>
-                    <span className="text-xs text-accent-gold">
+                    <span className="text-xs text-text-muted">
                       {rec.confidence}% confidence
                     </span>
                   </div>

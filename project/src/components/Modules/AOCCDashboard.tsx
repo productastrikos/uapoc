@@ -182,9 +182,9 @@ const TrendArrow: React.FC<{ trend: 'up' | 'down' | 'stable' }> = ({ trend }) =>
   // Scopes the AI Advisory drawer to this console.
   useAiDomain('aocc');
   if (trend === 'up') {
-    return <TrendingUp className="w-4 h-4 text-green-400 inline ml-1" />;
+    return <TrendingUp className="w-4 h-4 text-status-success inline ml-1" />;
   } else if (trend === 'down') {
-    return <TrendingDown className="w-4 h-4 text-red-400 inline ml-1" />;
+    return <TrendingDown className="w-4 h-4 text-status-error inline ml-1" />;
   }
   return <Minus className="w-4 h-4 text-gray-400 inline ml-1" />;
 };
@@ -289,63 +289,57 @@ const KPIGrid: React.FC<{
     },
   ];
 
+  // Bento tiles: each KPI is its own grid cell (no wrapping panel), so it
+  // sits directly alongside the Digital Twin hero in one asymmetric grid
+  // instead of a uniform row of look-alike cards.
   return (
-    <div className="grid grid-cols-2 gap-4 h-full">
+    <>
       {kpiData.map((stat, index) => (
         <motion.div
           key={index}
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: index * 0.1 }}
-          whileHover={{ 
-            scale: 1.05, 
-            y: -4,
-            boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2)"
-          }}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: index * 0.05 }}
+          whileHover={{ y: -2 }}
           onClick={() => onSelect(stat)}
-          className="relative overflow-hidden flex flex-col justify-between text-center p-6 bg-gradient-to-br from-slate-800 via-slate-900 to-slate-800 rounded-xl shadow-2xl border border-slate-700/50 cursor-pointer hover:border-teal-500/50 transition-all duration-300 group backdrop-blur-sm min-h-[120px]"
+          className={`relative flex flex-col justify-between p-4 rounded-xl cursor-pointer transition-colors duration-200 group glass-pill ${
+            index % 4 === 0 ? 'glass-pill-blue' :
+            index % 4 === 1 ? 'glass-pill-teal' :
+            index % 4 === 2 ? 'glass-pill-violet' :
+            'glass-pill-neutral'
+          }`}
         >
-          {/* Enhanced Gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-tr from-teal-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl"></div>
-          
-          <div className="relative z-10 flex flex-col justify-between h-full">
-            <div className="flex items-center justify-between mb-3">
-              <stat.icon className="h-5 w-5 text-teal-400 group-hover:scale-110 group-hover:text-teal-300 transition-all duration-300 drop-shadow-lg" />
-              {stat.change && (
-                <span className={`text-xs font-bold px-2 py-1 rounded-full shadow-lg ${
-                  stat.change.startsWith('+') ? 'bg-gradient-to-r from-green-500 to-green-600 text-white' : 
-                  stat.change.startsWith('-') ? 'bg-gradient-to-r from-red-500 to-red-600 text-white' : 
-                  stat.change === 'Alert' ? 'bg-gradient-to-r from-yellow-500 to-orange-500 text-white' :
-                  'bg-gradient-to-r from-gray-500 to-gray-600 text-white'
-                }`}>
-                  {stat.change}
-                </span>
-              )}
-            </div>
-            
-            <div className="flex-1 flex flex-col justify-center">
-              <div className="text-2xl font-bold text-white group-hover:text-teal-100 transition-colors duration-300 mb-2 drop-shadow-md">
-                {stat.value}
-              </div>
-              <div className="text-sm text-gray-400 group-hover:text-gray-300 transition-colors duration-300 leading-tight font-medium">
-                {stat.label}
-              </div>
-            </div>
-            
-            <div className={`mt-3 w-3 h-3 rounded-full mx-auto shadow-lg ${
-              stat.status === 'good' ? 'bg-gradient-to-r from-green-400 to-green-500 shadow-green-400/50' : 
-              stat.status === 'warning' ? 'bg-gradient-to-r from-yellow-400 to-yellow-500 shadow-yellow-400/50' : 
-              'bg-gradient-to-r from-red-400 to-red-500 shadow-red-400/50'
-            }`}></div>
+          <div className="flex items-center justify-between mb-2">
+            <stat.icon className="h-4 w-4 text-accent-blue" />
+            {stat.change && (
+              <span className={`text-xs font-medium ${
+                stat.change.startsWith('+') ? 'text-status-success' :
+                stat.change.startsWith('-') ? 'text-status-error' :
+                stat.change === 'Alert' ? 'text-status-warning' :
+                'text-text-muted'
+              }`}>
+                {stat.change}
+              </span>
+            )}
           </div>
 
-          {/* Shine effect */}
-          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+          <div>
+            <div className="text-xl font-bold text-white mb-1">
+              {stat.value}
+            </div>
+            <div className="text-xs text-text-muted leading-tight">
+              {stat.label}
+            </div>
           </div>
+
+          <div className={`absolute top-3 right-3 w-1.5 h-1.5 rounded-full ${
+            stat.status === 'good' ? 'bg-status-success' :
+            stat.status === 'warning' ? 'bg-status-warning' :
+            'bg-status-error'
+          }`} style={{ display: stat.change ? 'none' : 'block' }}></div>
         </motion.div>
       ))}
-    </div>
+    </>
   );
 };
 
@@ -357,119 +351,118 @@ const SystemHealthPanel: React.FC<{
   operationsAlert: boolean;
   systemOptimized: boolean;
 }> = ({ data, onSystemClick, emergencyMode, operationsAlert, systemOptimized }) => {
+  // Used only for the small status pill — the card itself stays a neutral
+  // navy tile (matching the reference), so color marks the status rather
+  // than washing the whole tile.
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'optimal': return 'bg-blue-500/20 text-blue-400 border-blue-500/50';
-      case 'operational': return 'bg-green-500/20 text-green-400 border-green-500/50';
-      case 'warning': return 'bg-yellow-500/20 text-yellow-400 border-yellow-500/50';
-      case 'maintenance': return 'bg-orange-500/20 text-orange-400 border-orange-500/50';
-      case 'critical': return 'bg-red-500/20 text-red-400 border-red-500/50';
-      default: return 'bg-gray-500/20 text-gray-400 border-gray-500/50';
+      case 'optimal': return 'bg-status-info/15 text-status-info border-status-info/40';
+      case 'operational': return 'bg-status-success/15 text-status-success border-status-success/40';
+      case 'warning': return 'bg-status-warning/15 text-status-warning border-status-warning/40';
+      case 'maintenance': return 'bg-accent-gold/15 text-accent-gold border-accent-gold/40';
+      case 'critical': return 'bg-status-error/15 text-status-error border-status-error/40';
+      default: return 'bg-primary-600/30 text-text-muted border-primary-600/50';
     }
   };
 
   const getSlaColor = (compliance: number) => {
-    if (compliance >= 95) return 'text-green-400';
-    if (compliance >= 80) return 'text-yellow-400';
-    return 'text-red-400';
+    if (compliance >= 95) return 'text-status-success';
+    if (compliance >= 80) return 'text-status-warning';
+    return 'text-status-error';
   };
 
+  // Whichever system is furthest from healthy earns the wide tile; if
+  // everything is fine, nothing is artificially singled out.
+  const worst = data.reduce((acc, s, i) => (s.uptime < data[acc].uptime ? i : acc), 0);
+  const featuredIndex = data[worst]?.uptime < 95 ? worst : -1;
+
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="relative overflow-hidden bg-gradient-to-br from-primary-800/50 to-primary-900/50 rounded-2xl p-8 border border-primary-700/50 shadow-2xl backdrop-blur-sm"
-      style={{
-        boxShadow: "0 0 20px 5px rgba(34, 197, 94, 0.4), 0 0 40px 10px rgba(168, 85, 247, 0.3), 0 0 60px 15px rgba(59, 130, 246, 0.2)"
-      }}
+      className="relative overflow-hidden glass-panel rounded-xl p-5"
     >
-      {/* COMPLETELY STATIC BACKGROUND - NO ANIMATIONS */}
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-800/30 via-gray-900/40 to-gray-800/30 rounded-2xl opacity-60"></div>
-      
-      {/* STATIC GLOWING ORBS - NO ANIMATIONS */}
-      <div className="absolute top-8 left-12 w-40 h-40 bg-gradient-to-r from-cyan-500/30 via-teal-500/20 to-blue-500/30 rounded-full blur-3xl opacity-70"></div>
-      <div className="absolute bottom-8 right-12 w-32 h-32 bg-gradient-to-r from-purple-500/30 via-pink-500/20 to-red-500/30 rounded-full blur-2xl opacity-60"></div>
-      <div className="absolute top-1/2 left-1/2 w-24 h-24 bg-gradient-to-r from-yellow-500/30 via-orange-500/20 to-red-500/30 rounded-full blur-xl opacity-50"></div>
-      <div className="absolute top-1/4 right-1/3 w-28 h-28 bg-gradient-to-r from-green-500/25 via-emerald-500/15 to-teal-500/25 rounded-full blur-xl opacity-55"></div>
-      
       <div className="relative z-10">
-        <div className="flex items-center space-x-4 mb-8">
-          <div className="p-3 bg-gradient-to-br from-cyan-500/40 to-blue-600/30 rounded-xl shadow-lg backdrop-blur-sm">
-            <Activity className="w-8 h-8 text-cyan-400 drop-shadow-lg" />
+        <div className="flex items-center space-x-3 mb-5">
+          <div className="p-2 bg-primary-700 rounded-lg">
+            <Activity className="w-5 h-5 text-accent-teal" />
           </div>
-          <h3 className="text-2xl font-bold text-white drop-shadow-lg">Enhanced System Health Monitor</h3>
+          <h3 className="text-base font-semibold text-white">System Health Monitor</h3>
           <InfoButtonWithPortal description="Real-time monitoring of all 8 critical airport systems with enhanced visual indicators" />
           {(emergencyMode || operationsAlert || systemOptimized) && (
-            <div className="ml-auto flex items-center space-x-3">
-              {emergencyMode && <div className="px-3 py-1 bg-red-500/30 text-red-300 text-sm rounded-full animate-pulse shadow-lg border border-red-400/50">Emergency Mode</div>}
-              {operationsAlert && <div className="px-3 py-1 bg-yellow-500/30 text-yellow-300 text-sm rounded-full animate-pulse shadow-lg border border-yellow-400/50">Operations Alert</div>}
-              {systemOptimized && <div className="px-3 py-1 bg-blue-500/30 text-blue-300 text-sm rounded-full animate-pulse shadow-lg border border-blue-400/50">Optimized</div>}
+            <div className="ml-auto flex items-center space-x-2">
+              {emergencyMode && <div className="px-2.5 py-1 bg-status-error/20 text-status-error text-xs rounded-full border border-status-error/40">Emergency Mode</div>}
+              {operationsAlert && <div className="px-2.5 py-1 bg-status-warning/20 text-status-warning text-xs rounded-full border border-status-warning/40">Operations Alert</div>}
+              {systemOptimized && <div className="px-2.5 py-1 bg-accent-teal/20 text-accent-teal text-xs rounded-full border border-accent-teal/40">Optimized</div>}
             </div>
           )}
         </div>
-        
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {data.map((system, index) => (
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          {data.map((system, index) => {
+            // The system furthest from healthy gets a wider tile — the one
+            // thing on this board worth a second glance stands out by size,
+            // not just by a colored badge identical in weight to the rest.
+            const isFeatured = index === featuredIndex;
+            return (
             <motion.div
               key={system.id}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: index * 0.1 }}
-              whileHover={{ 
-                scale: 1.08, 
-                y: -6, 
-                boxShadow: "0 30px 60px -12px rgba(0, 0, 0, 0.5), 0 0 40px rgba(34, 197, 94, 0.4)" 
-              }}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.05 }}
+              whileHover={{ y: -2 }}
               onClick={() => onSystemClick(system)}
-              className={`relative overflow-hidden p-6 rounded-2xl border-2 cursor-pointer transition-all duration-500 group hover:shadow-2xl backdrop-blur-sm ${getStatusColor(system.status)}`}
+              className={`relative p-4 rounded-xl cursor-pointer transition-colors duration-200 group glass-pill ${
+                index % 4 === 0 ? 'glass-pill-blue' :
+                index % 4 === 1 ? 'glass-pill-teal' :
+                index % 4 === 2 ? 'glass-pill-violet' :
+                'glass-pill-neutral'
+              } ${
+                isFeatured ? 'col-span-2 ring-1 ring-accent-blue/30' : ''
+              }`}
             >
-              <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl"></div>
-              
               <div className="relative z-10">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center space-x-3">
-                    <system.icon className="h-6 w-6 group-hover:scale-110 transition-transform drop-shadow-sm" />
-                    <span className="font-bold text-base drop-shadow-sm">{system.name}</span>
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center space-x-2">
+                    <system.icon className="h-4 w-4 text-text-muted" />
+                    <span className="font-medium text-sm text-text-primary">{system.name}</span>
                   </div>
-                  <div className={`px-3 py-1 rounded-full text-xs font-bold border-2 shadow-lg ${getStatusColor(system.status)}`}>
+                  <div className={`px-2 py-0.5 rounded-full text-xs font-medium border ${getStatusColor(system.status)}`}>
                     {system.status}
                   </div>
                 </div>
-                
-                <div className="space-y-3">
+
+                <div className="space-y-2">
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-300">Uptime:</span>
-                    <span className={`font-bold text-lg drop-shadow-sm ${getSlaColor(system.uptime)}`}>
+                    <span className="text-xs text-text-muted">Uptime:</span>
+                    <span className={`font-semibold text-sm ${getSlaColor(system.uptime)}`}>
                       {system.uptime}%
                     </span>
                   </div>
                   
                   <div className="w-full bg-gray-700/60 rounded-full h-3 shadow-inner overflow-hidden border border-gray-600/50">
                     <div 
-                      className={`h-3 rounded-full transition-all duration-1000 shadow-lg relative ${
-                        system.uptime >= 95 ? 'bg-gradient-to-r from-green-400 via-green-500 to-green-600' : 
-                        system.uptime >= 80 ? 'bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600' : 
-                        'bg-gradient-to-r from-red-400 via-red-500 to-red-600'
+                      className={`h-3 rounded-full transition-all duration-1000 ${
+                        system.uptime >= 95 ? 'bg-status-success' :
+                        system.uptime >= 80 ? 'bg-status-warning' :
+                        'bg-status-error'
                       }`}
                       style={{ width: `${system.uptime}%` }}
-                    >
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent transform -skew-x-12 animate-pulse"></div>
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-2000"></div>
-                    </div>
+                    ></div>
                   </div>
 
                   <div className="flex items-center justify-between text-xs">
                     <span className="text-gray-400">Performance</span>
                     <div className="flex items-center space-x-1">
                       <div className={`w-2 h-2 rounded-full shadow-sm ${
-                        system.uptime >= 95 ? 'bg-green-500 shadow-green-400/60' : 
-                        system.uptime >= 80 ? 'bg-yellow-500 shadow-yellow-400/60' : 
-                        'bg-red-500 shadow-red-400/60'
+                        system.uptime >= 95 ? 'bg-status-success shadow-status-success/60' :
+                        system.uptime >= 80 ? 'bg-status-warning shadow-status-warning/60' :
+                        'bg-status-error shadow-status-error/60'
                       } animate-pulse`}></div>
                       <span className={`font-medium ${
-                        system.uptime >= 95 ? 'text-green-400' : 
-                        system.uptime >= 80 ? 'text-yellow-400' : 
-                        'text-red-400'
+                        system.uptime >= 95 ? 'text-status-success' :
+                        system.uptime >= 80 ? 'text-status-warning' :
+                        'text-status-error'
                       }`}>
                         {system.uptime >= 95 ? 'Excellent' : 
                          system.uptime >= 80 ? 'Good' : 'Needs Attention'}
@@ -478,16 +471,9 @@ const SystemHealthPanel: React.FC<{
                   </div>
                 </div>
               </div>
-
-              {/* Enhanced Multi-layer shine effect */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000">
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/12 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1500"></div>
-              </div>
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1500">
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/8 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-2000" style={{animationDelay: '0.5s'}}></div>
-              </div>
             </motion.div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </motion.div>
@@ -501,11 +487,11 @@ const FlightOperationsSection: React.FC<{ onSelect: (item: any) => void }> = ({ 
   const FlightStatusBadge = ({ status }: { status: string }) => {
     const getStatusColor = () => {
       switch (status.toLowerCase()) {
-        case 'en route': return 'bg-blue-500/20 text-blue-400 border-blue-500/50';
-        case 'approaching': return 'bg-green-500/20 text-green-400 border-green-500/50';
-        case 'boarding': return 'bg-yellow-500/20 text-yellow-400 border-yellow-500/50';
-        case 'pre-boarding': return 'bg-purple-500/20 text-purple-400 border-purple-500/50';
-        case 'delayed': return 'bg-red-500/20 text-red-400 border-red-500/50';
+        case 'en route': return 'bg-accent-blue/20 text-accent-blue border-accent-blue/50';
+        case 'approaching': return 'bg-status-success/20 text-status-success border-status-success/50';
+        case 'boarding': return 'bg-accent-gold/20 text-accent-gold border-accent-gold/50';
+        case 'pre-boarding': return 'bg-accent-purple/20 text-accent-purple border-accent-purple/50';
+        case 'delayed': return 'bg-status-error/20 text-status-error border-status-error/50';
         default: return 'bg-gray-500/20 text-gray-400 border-gray-500/50';
       }
     };
@@ -555,7 +541,7 @@ const FlightOperationsSection: React.FC<{ onSelect: (item: any) => void }> = ({ 
         <div className="flex items-center space-x-2">
           <div className="w-full bg-gray-700/50 rounded-full h-2 shadow-inner">
             <div 
-              className="h-2 bg-gradient-to-r from-teal-400 to-teal-500 rounded-full transition-all duration-300"
+              className="h-2 bg-accent-teal rounded-full transition-all duration-300"
               style={{ width: `${flight.progress}%` }}
             />
           </div>
@@ -579,7 +565,7 @@ const FlightOperationsSection: React.FC<{ onSelect: (item: any) => void }> = ({ 
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="w-[95vw] h-[95vh] bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl overflow-hidden shadow-2xl border border-teal-500/30"
+            className="w-[95vw] h-[95vh] bg-primary-900 rounded-xl overflow-hidden shadow-lg border border-primary-700/30"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="h-full flex flex-col">
@@ -596,30 +582,30 @@ const FlightOperationsSection: React.FC<{ onSelect: (item: any) => void }> = ({ 
               <div className="flex-1 overflow-auto p-6">
                 <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-8">
                   {/* Flight Statistics */}
-                  <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 rounded-xl p-6 border border-gray-600/50">
+                  <div className="glass-panel rounded-xl p-6">
                     <h3 className="text-lg font-semibold text-white mb-4">Flight Statistics</h3>
                     <div className="grid grid-cols-2 gap-4">
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-teal-400">5</div>
+                      <div className="glass-pill glass-pill-teal text-center py-4 rounded-xl">
+                        <div className="text-2xl font-bold text-accent-teal">5</div>
                         <div className="text-sm text-gray-400">Total Flights</div>
                       </div>
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-green-400">3</div>
+                      <div className="glass-pill glass-pill-blue text-center py-4 rounded-xl">
+                        <div className="text-2xl font-bold text-status-success">3</div>
                         <div className="text-sm text-gray-400">On Time</div>
                       </div>
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-yellow-400">1</div>
+                      <div className="glass-pill glass-pill-violet text-center py-4 rounded-xl">
+                        <div className="text-2xl font-bold text-status-warning">1</div>
                         <div className="text-sm text-gray-400">Delayed</div>
                       </div>
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-blue-400">1,008</div>
+                      <div className="glass-pill glass-pill-neutral text-center py-4 rounded-xl">
+                        <div className="text-2xl font-bold text-accent-blue">1,008</div>
                         <div className="text-sm text-gray-400">Total Passengers</div>
                       </div>
                     </div>
                   </div>
 
                   {/* Airport Weather */}
-                  <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 rounded-xl p-6 border border-gray-600/50">
+                  <div className="glass-panel rounded-xl p-6">
                     <h3 className="text-lg font-semibold text-white mb-4">Weather Conditions</h3>
                     <div className="space-y-3">
                       <div className="flex justify-between">
@@ -643,7 +629,7 @@ const FlightOperationsSection: React.FC<{ onSelect: (item: any) => void }> = ({ 
                 </div>
 
                 {/* Detailed Flight Table */}
-                <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 rounded-xl border border-gray-600/50 overflow-hidden">
+                <div className="glass-panel rounded-xl overflow-hidden">
                   <div className="overflow-x-auto">
                     <table className="w-full">
                       <thead className="bg-gray-700/50">
@@ -710,7 +696,7 @@ const FlightOperationsSection: React.FC<{ onSelect: (item: any) => void }> = ({ 
                               <div className="flex items-center space-x-2">
                                 <div className="w-20 bg-gray-700/50 rounded-full h-2 shadow-inner">
                                   <div 
-                                    className="h-2 bg-gradient-to-r from-teal-400 to-teal-500 rounded-full transition-all duration-300"
+                                    className="h-2 bg-accent-teal rounded-full transition-all duration-300"
                                     style={{ width: `${flight.progress}%` }}
                                   />
                                 </div>
@@ -736,28 +722,26 @@ const FlightOperationsSection: React.FC<{ onSelect: (item: any) => void }> = ({ 
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative overflow-hidden bg-gradient-to-br from-primary-800/50 to-primary-900/50 rounded-xl p-6 border border-primary-700/50 shadow-2xl backdrop-blur-sm"
+        className="relative overflow-hidden glass-panel rounded-xl p-6"
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/5 via-transparent to-teal-600/5 rounded-xl"></div>
-        
         <div className="relative z-10">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-2">
-              <h3 className="text-xl font-bold text-white drop-shadow-lg">Live Flight Operations</h3>
+              <h3 className="text-xl font-bold text-white">Live Flight Operations</h3>
               <InfoButtonWithPortal description="Real-time tracking of all flight movements, gate assignments, and operational status with AI-powered optimization recommendations" />
             </div>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setShowFullscreen(true)}
-              className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-500 hover:to-teal-600 text-white rounded-lg shadow-lg transition-all duration-300 font-medium"
+              className="flex items-center space-x-2 px-4 py-2 bg-accent-blue hover:bg-accent-blueHover text-white rounded-lg transition-colors duration-200 font-medium"
             >
               <Maximize className="w-4 h-4" />
               <span>Full Screen</span>
             </motion.button>
           </div>
           
-          <div className="bg-gray-800/30 rounded-lg border border-gray-600/30 overflow-hidden">
+          <div className="glass-panel rounded-lg overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead className="bg-gray-700/50">
@@ -778,11 +762,6 @@ const FlightOperationsSection: React.FC<{ onSelect: (item: any) => void }> = ({ 
               </table>
             </div>
           </div>
-        </div>
-
-        {/* Shine effect */}
-        <div className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-700">
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/8 to-transparent transform -skew-x-12 -translate-x-full hover:translate-x-full transition-transform duration-1200"></div>
         </div>
       </motion.div>
 
@@ -932,65 +911,45 @@ const AOCCDashboard: React.FC = () => {
       animate={{ opacity: 1 }}
       className="relative min-h-screen overflow-hidden"
     >
-      {/* Enhanced Background with Irregular Live Gradient */}
+      {/* Background */}
       <div className="fixed inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-slate-900 to-black"></div>
-        {/* Multiple animated irregular gradient orbs */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-purple-600/40 via-blue-600/30 to-teal-600/40 rounded-full mix-blend-multiply filter blur-3xl opacity-80 animate-pulse"></div>
-        <div className="absolute top-3/4 right-1/4 w-80 h-80 bg-gradient-to-r from-pink-600/40 via-purple-600/30 to-blue-600/40 rounded-full mix-blend-multiply filter blur-3xl opacity-80 animate-pulse" style={{animationDelay: '2s'}}></div>
-        <div className="absolute bottom-1/4 left-1/3 w-72 h-72 bg-gradient-to-r from-teal-600/40 via-green-600/30 to-blue-600/40 rounded-full mix-blend-multiply filter blur-3xl opacity-80 animate-pulse" style={{animationDelay: '4s'}}></div>
-        <div className="absolute top-1/2 right-1/2 w-64 h-64 bg-gradient-to-r from-orange-600/40 via-red-600/30 to-pink-600/40 rounded-full mix-blend-multiply filter blur-3xl opacity-80 animate-pulse" style={{animationDelay: '6s'}}></div>
+        <div className="absolute inset-0 bg-primary-900"></div>
       </div>
 
-      <div className="relative z-10 space-y-8 h-full overflow-y-auto no-scrollbar p-6">
+      <div className="relative z-10 space-y-6 h-full overflow-y-auto no-scrollbar p-6">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-teal-400 to-blue-400 bg-clip-text text-transparent drop-shadow-lg">
+            <h1 className="text-2xl font-bold text-white">
               U-APOC Dashboard
             </h1>
           </div>
-          
-          {/* Enhanced Emergency Actions */}
-          <div className="flex space-x-3">
-            <motion.button 
+
+          {/* Emergency Actions. Color is reserved for actual state here: a
+              button only takes on its "active" hue once the mode it names is
+              actually engaged, so idle controls read as plain, equal-weight
+              actions rather than three competing accents. */}
+          <div className="flex space-x-2">
+            <button
               onClick={handleEmergencyResponse}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className={`px-6 py-3 rounded-lg transition-all duration-300 transform shadow-2xl font-medium ${
-                emergencyMode === 'emergency' 
-                  ? 'bg-gradient-to-r from-red-700 via-red-600 to-pink-700 animate-pulse' 
-                  : 'bg-gradient-to-r from-red-600 via-red-500 to-pink-600 hover:from-red-700 hover:via-red-600 hover:to-pink-700'
-              } text-white hover:shadow-red-500/50`}
+              className={`btn ${emergencyMode === 'emergency' ? 'btn-danger-active' : 'btn-danger'}`}
             >
               {emergencyMode === 'emergency' ? 'Emergency Active' : 'Emergency Response'}
-            </motion.button>
-            
-            <motion.button 
+            </button>
+
+            <button
               onClick={handleOperationsAlert}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className={`px-6 py-3 rounded-lg transition-all duration-300 transform shadow-2xl font-medium ${
-                operationsAlert 
-                  ? 'bg-gradient-to-r from-orange-700 via-yellow-600 to-amber-700 animate-pulse' 
-                  : 'bg-gradient-to-r from-orange-600 via-yellow-500 to-amber-600 hover:from-orange-700 hover:via-yellow-600 hover:to-amber-700'
-              } text-white hover:shadow-orange-500/50`}
+              className={`btn ${operationsAlert ? 'btn-primary' : 'btn-secondary'}`}
             >
               {operationsAlert ? 'Alert Active' : 'Operations Alert'}
-            </motion.button>
-            
-            <motion.button 
+            </button>
+
+            <button
               onClick={handleSystemOptimization}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className={`px-6 py-3 rounded-lg transition-all duration-300 transform shadow-2xl font-medium ${
-                systemOptimized 
-                  ? 'bg-gradient-to-r from-blue-700 via-cyan-600 to-teal-700 animate-pulse' 
-                  : 'bg-gradient-to-r from-blue-600 via-cyan-500 to-teal-600 hover:from-blue-700 hover:via-cyan-600 hover:to-teal-700'
-              } text-white hover:shadow-blue-500/50`}
+              className={`btn ${systemOptimized ? 'btn-primary' : 'btn-secondary'}`}
             >
               {systemOptimized ? 'Optimization Active' : 'System Optimization'}
-            </motion.button>
+            </button>
           </div>
         </div>
 
@@ -999,63 +958,28 @@ const AOCCDashboard: React.FC = () => {
             other console. */}
         <AiInsightPanel domain="aocc" title="AI U-APOC Advisory" />
 
-        {/* Digital Twin & KPI Cards Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-[500px]">
-          {/* Left Side - Digital Twin */}
-          <motion.div 
+        {/* Bento grid: the Digital Twin is the one deliberately oversized
+            tile (spanning 2 columns and all 3 rows), and the six KPI tiles
+            fill the remaining cells exactly — a 4x3 grid where one tile is
+            big and the rest aren't, rather than two look-alike panels side
+            by side. */}
+        <div className="grid grid-cols-4 [grid-auto-rows:150px] gap-3">
+          <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="relative overflow-hidden bg-gradient-to-br from-primary-800/50 to-primary-900/50 rounded-xl p-6 border border-primary-700/50 shadow-xl backdrop-blur-sm"
+            className="relative overflow-hidden rounded-xl col-span-4 lg:col-span-2 row-span-3"
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-teal-600/10 via-transparent to-blue-600/10 rounded-xl"></div>
-            
-            <div className="relative z-10 h-full flex flex-col">
-              <div className="flex items-center space-x-2 mb-4">
-                <h3 className="text-xl font-bold text-white drop-shadow-md"> Digital Twin</h3>
-                <InfoButtonWithPortal description="Real-time 3D visualization of airport operations synchronized with live operational data, passenger flow, and system status" />
-              </div>
-              <div className="flex-1">
-                <Suspense fallback={<div className="animate-pulse bg-primary-700/30 h-full rounded-lg" />}>
-                  <DigitalTwin />
-                </Suspense>
-              </div>
-            </div>
-
-            {/* Shine effect */}
-            <div className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-700">
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/8 to-transparent transform -skew-x-12 -translate-x-full hover:translate-x-full transition-transform duration-1200"></div>
-            </div>
+            <Suspense fallback={<div className="animate-pulse bg-primary-700/30 h-full rounded-xl" />}>
+              <DigitalTwin />
+            </Suspense>
           </motion.div>
 
-          {/* Right Side - Enhanced KPI Cards */}
-          <motion.div 
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="relative overflow-hidden bg-gradient-to-br from-primary-800/50 to-primary-900/50 rounded-xl p-6 border border-primary-700/50 shadow-xl backdrop-blur-sm"
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-transparent to-teal-600/10 rounded-xl"></div>
-            
-            <div className="relative z-10 h-full flex flex-col">
-              <div className="flex items-center space-x-2 mb-6">
-                <h3 className="text-xl font-bold text-white drop-shadow-md">Key Performance Indicators</h3>
-                <InfoButtonWithPortal description="Real-time operational metrics and performance indicators for critical airport functions" />
-              </div>
-              
-              <div className="flex-1">
-                <KPIGrid
-                  emergencyMode={emergencyMode}
-                  operationsAlert={operationsAlert}
-                  systemOptimized={systemOptimized}
-                  onSelect={handleKPIClick}
-                />
-              </div>
-            </div>
-
-            {/* Shine effect */}
-            <div className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-700">
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/8 to-transparent transform -skew-x-12 -translate-x-full hover:translate-x-full transition-transform duration-1200"></div>
-            </div>
-          </motion.div>
+          <KPIGrid
+            emergencyMode={emergencyMode}
+            operationsAlert={operationsAlert}
+            systemOptimized={systemOptimized}
+            onSelect={handleKPIClick}
+          />
         </div>
 
         {/* Enhanced System Health Monitor */}

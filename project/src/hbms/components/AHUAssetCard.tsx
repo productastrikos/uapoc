@@ -28,7 +28,7 @@ const AHUAssetCard: React.FC<{ asset: AHUAsset; onClick: () => void }> = ({ asse
       onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; }}
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: 4, width: '100%', justifyContent: 'center' }}>
-        <span style={{ fontFamily: 'monospace', fontSize: 10.5, fontWeight: 800, color: faultColor ? '#f87171' : '#9BEAE8' }}>{asset.id}</span>
+        <span style={{ fontFamily: 'monospace', fontSize: 10.5, fontWeight: 800, color: faultColor ? '#f87171' : '#93C5FD' }}>{asset.id}</span>
       </div>
       <AHUParamsPanel asset={asset} scale={0.7} onToggleRunStop={toggleRunStop} onToggleManual={toggleManual} />
     </button>

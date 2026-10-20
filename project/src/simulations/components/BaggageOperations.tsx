@@ -993,48 +993,48 @@ export const BaggageOperations: React.FC<BaggageOperationsProps> = ({
   return (
     <div className="w-full space-y-4">
       {/* ============ Run controls + anomaly injection ============ */}
-      <div className="hbms-control-panel p-4">
+      <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-4">
         <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-red-500/15 rounded-lg border border-red-500/30">
-              <AlertOctagon className="w-5 h-5 text-red-400" />
+            <div className="p-2 bg-status-error/10 rounded-lg border border-status-error/30">
+              <AlertOctagon className="w-5 h-5 text-status-error" />
             </div>
             <div>
-              <h3 className="text-base font-semibold text-sim-100">Anomaly Detection Simulation</h3>
-              <p className="text-xs text-sim-400">Inject a threat to exercise the sorter and the matching SOP</p>
+              <h3 className="text-base font-semibold text-text-primary">Anomaly Detection Simulation</h3>
+              <p className="text-xs text-text-muted">Inject a threat to exercise the sorter and the matching SOP</p>
             </div>
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
             <button
               onClick={() => triggerManualAnomaly('explosive')}
-              className="px-3.5 py-2 bg-red-600/20 border border-red-500/30 text-red-300 rounded-lg hover:bg-red-600/30 transition-all duration-300 flex items-center gap-2 text-sm"
+              className="btn bg-status-error/10 border-status-error/30 text-status-error hover:bg-status-error/20"
             >
               <AlertTriangle className="w-4 h-4" />
               <span>Explosive</span>
             </button>
             <button
               onClick={() => triggerManualAnomaly('weapon')}
-              className="px-3.5 py-2 bg-simgold-600/20 border border-simgold-500/30 text-simgold-300 rounded-lg hover:bg-simgold-600/30 transition-all duration-300 flex items-center gap-2 text-sm"
+              className="btn bg-status-warning/10 border-status-warning/30 text-status-warning hover:bg-status-warning/20"
             >
               <Shield className="w-4 h-4" />
               <span>Weapon</span>
             </button>
             <button
               onClick={() => triggerManualAnomaly('suspicious')}
-              className="px-3.5 py-2 bg-simgold-600/20 border border-simgold-500/30 text-simgold-300 rounded-lg hover:bg-simgold-600/30 transition-all duration-300 flex items-center gap-2 text-sm"
+              className="btn bg-status-warning/10 border-status-warning/30 text-status-warning hover:bg-status-warning/20"
             >
               <Eye className="w-4 h-4" />
               <span>Suspicious</span>
             </button>
 
-            <div className="flex items-center gap-2 pl-2 ml-1 border-l border-sim-700/60">
-              <Gauge className="w-4 h-4 text-simteal-400" />
-              <label className="text-xs text-sim-400">Speed</label>
+            <div className="flex items-center gap-2 pl-2 ml-1 border-l border-primary-600/40">
+              <Gauge className="w-4 h-4 text-accent-blue" />
+              <label className="text-xs text-text-muted">Speed</label>
               <select
                 value={simulationSpeed}
                 onChange={(e) => setSimulationSpeed(Number(e.target.value))}
-                className="bg-sim-800 border border-sim-600 rounded px-2 py-1.5 text-sim-200 text-xs"
+                className="bg-primary-900 border border-primary-600 rounded px-2 py-1.5 text-text-primary text-xs"
               >
                 <option value={0.5}>0.5x — study</option>
                 <option value={1}>1x — normal</option>
@@ -1048,52 +1048,52 @@ export const BaggageOperations: React.FC<BaggageOperationsProps> = ({
       {/* ============ Statistics strip ============ */}
       <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
         {[
-          { label: 'Elapsed', value: formatTime(timer), tone: 'text-simteal-400' },
-          { label: 'Bags Tracked', value: bags.length, tone: 'text-sim-100' },
-          { label: 'In Transit', value: activeBagCount, tone: 'text-simteal-400' },
-          { label: 'Screened', value: systemStats.totalProcessed, tone: 'text-emerald-400' },
-          { label: 'Cleared', value: systemStats.clearedBags, tone: 'text-green-400' },
-          { label: 'On Chute', value: onChute, tone: 'text-simgold-400' },
-          { label: 'SOPs Fired', value: systemStats.sopTriggered, tone: 'text-red-400' },
+          { label: 'Elapsed', value: formatTime(timer), tone: 'text-accent-blue' },
+          { label: 'Bags Tracked', value: bags.length, tone: 'text-text-primary' },
+          { label: 'In Transit', value: activeBagCount, tone: 'text-accent-blue' },
+          { label: 'Screened', value: systemStats.totalProcessed, tone: 'text-status-success' },
+          { label: 'Cleared', value: systemStats.clearedBags, tone: 'text-status-success' },
+          { label: 'On Chute', value: onChute, tone: 'text-status-warning' },
+          { label: 'SOPs Fired', value: systemStats.sopTriggered, tone: 'text-status-error' },
           {
             label: 'Threat Level',
             value: `${systemStats.threatLevel}/10`,
-            tone: systemStats.threatLevel >= 5 ? 'text-red-400' : systemStats.threatLevel >= 3 ? 'text-simgold-400' : 'text-green-400',
+            tone: systemStats.threatLevel >= 5 ? 'text-status-error' : systemStats.threatLevel >= 3 ? 'text-status-warning' : 'text-status-success',
           },
         ].map(stat => (
-          <div key={stat.label} className="hbms-control-panel p-3 text-center">
-            <p className="text-[length:calc(10px*var(--fs))] uppercase tracking-wide text-sim-400">{stat.label}</p>
+          <div key={stat.label} className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-3 text-center">
+            <p className="text-[length:calc(10px*var(--fs))] uppercase tracking-wide text-text-muted">{stat.label}</p>
             <p className={`text-lg font-bold tabular-nums ${stat.tone}`}>{stat.value}</p>
           </div>
         ))}
       </div>
 
       {/* ============ Main visualisation: SOP rail beside the hall ============ */}
-      <div className="digital-twin-container w-full">
-        <div className="relative z-10 p-4 lg:p-5 space-y-4">
+      <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl w-full">
+        <div className="p-4 lg:p-5 space-y-4">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
-            <h2 className="text-lg lg:text-xl font-bold text-sim-100 flex items-center gap-3">
-              <div className="p-2 bg-simteal-600/20 rounded-lg border border-simteal-500/30">
-                <Layers className="h-5 w-5 text-simteal-400" />
+            <h2 className="text-lg lg:text-xl font-bold text-text-primary flex items-center gap-3">
+              <div className="p-2 bg-accent-blue/10 rounded-lg border border-accent-blue/30">
+                <Layers className="h-5 w-5 text-accent-blue" />
               </div>
               <span>Enhanced Baggage Handling System</span>
             </h2>
 
             <div className="flex items-center gap-3">
-              <div className="hidden md:flex flex-wrap items-center gap-x-3 gap-y-1 text-xs bg-sim-800/40 border border-sim-700/40 rounded-lg px-3 py-2">
+              <div className="hidden md:flex flex-wrap items-center gap-x-3 gap-y-1 text-xs bg-primary-900/40 border border-primary-600/40 rounded-lg px-3 py-2">
                 <span className="flex items-center gap-1.5">
-                  <span className={`w-2 h-2 rounded-full ${isSimulating ? 'bg-emerald-400 animate-pulse' : 'bg-sim-400'}`} />
-                  <span className={isSimulating ? 'text-emerald-400' : 'text-sim-400'}>
+                  <span className={`w-2 h-2 rounded-full ${isSimulating ? 'bg-status-success animate-pulse' : 'bg-text-muted'}`} />
+                  <span className={isSimulating ? 'text-status-success' : 'text-text-muted'}>
                     {isSimulating ? 'Sorting' : 'Standby'}
                   </span>
                 </span>
-                <span className="text-sim-600">|</span>
-                <span className="flex items-center gap-1.5 text-simteal-400">
+                <span className="text-text-muted">|</span>
+                <span className="flex items-center gap-1.5 text-accent-blue">
                   <Wifi className="w-3.5 h-3.5" />
                   {screeningMachines.filter(m => m.aiConfidence).length} AI units
                 </span>
-                <span className="text-sim-600">|</span>
-                <span className="flex items-center gap-1.5 text-simgold-400">
+                <span className="text-text-muted">|</span>
+                <span className="flex items-center gap-1.5 text-accent-blue">
                   <Target className="w-3.5 h-3.5" />
                   {selectedFlight}
                 </span>
@@ -1102,10 +1102,10 @@ export const BaggageOperations: React.FC<BaggageOperationsProps> = ({
               <button
                 onClick={startEnhancedSimulation}
                 disabled={isSimulating}
-                className={`px-5 py-2.5 rounded-lg font-medium transition-all duration-300 flex items-center gap-2 whitespace-nowrap ${
+                className={`btn min-w-[15rem] py-3 ${
                   isSimulating
-                    ? 'bg-sim-700/50 text-sim-400 cursor-not-allowed border border-sim-600/30'
-                    : 'bg-gradient-to-r from-simteal-600 to-simgold-600 hover:from-simteal-700 hover:to-simgold-700 text-white shadow-lg border border-simteal-500/30'
+                    ? 'bg-accent-blue/10 text-accent-blue border-accent-blue/30 cursor-not-allowed'
+                    : 'btn-primary'
                 }`}
               >
                 {isSimulating ? <PauseCircle className="w-5 h-5" /> : <PlayCircle className="w-5 h-5" />}
@@ -1135,32 +1135,32 @@ export const BaggageOperations: React.FC<BaggageOperationsProps> = ({
                 }
               />
 
-              <div className="hbms-control-panel p-3">
-                <h4 className="text-xs font-semibold text-sim-100 mb-2 flex items-center gap-2 uppercase tracking-wide">
-                  <Monitor className="w-3.5 h-3.5 text-simteal-400" />
+              <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-3">
+                <h4 className="text-xs font-semibold text-text-primary mb-2 flex items-center gap-2 uppercase tracking-wide">
+                  <Monitor className="w-3.5 h-3.5 text-accent-blue" />
                   <span>Screening Systems</span>
                 </h4>
                 <div className="space-y-1">
                   {screeningMachines.map((machine) => (
                     <div
                       key={machine.id}
-                      className="flex justify-between items-center cursor-pointer hover:bg-sim-800/40 p-1.5 rounded transition-all duration-200"
+                      className="flex justify-between items-center cursor-pointer hover:bg-primary-700/40 p-1.5 rounded transition-all duration-200"
                       onClick={(e) => handleElementClick('screening-machine', machine, e)}
                     >
                       <div className="min-w-0">
-                        <div className="text-xs text-sim-200 font-medium truncate">{machine.name}</div>
-                        <div className="text-[length:calc(10px*var(--fs))] text-sim-400">
+                        <div className="text-xs text-text-primary font-medium truncate">{machine.name}</div>
+                        <div className="text-[length:calc(10px*var(--fs))] text-text-muted">
                           {machine.type}
                           {machine.aiConfidence ? ` · AI ${machine.aiConfidence}%` : ''}
                         </div>
                       </div>
                       <div className="flex items-center gap-1.5 flex-shrink-0">
                         <div className={`w-2 h-2 rounded-full ${
-                          machine.status === 'operational' ? 'bg-emerald-400 animate-pulse'
-                          : machine.status === 'failed' ? 'bg-red-400'
-                          : 'bg-simgold-400'
+                          machine.status === 'operational' ? 'bg-status-success animate-pulse'
+                          : machine.status === 'failed' ? 'bg-status-error'
+                          : 'bg-status-warning'
                         }`} />
-                        <span className="text-[length:calc(10px*var(--fs))] capitalize text-sim-400">{machine.status}</span>
+                        <span className="text-[length:calc(10px*var(--fs))] capitalize text-text-muted">{machine.status}</span>
                       </div>
                     </div>
                   ))}
@@ -1169,7 +1169,7 @@ export const BaggageOperations: React.FC<BaggageOperationsProps> = ({
             </div>
 
             {/* ---- the hall itself ---- */}
-            <div className="relative flex bg-gradient-to-br from-sim-900 via-sim-800 to-sim-900 rounded-xl border border-sim-700/50 overflow-hidden min-h-[320px]">
+            <div className="relative flex bg-primary-900/80 rounded-xl border border-primary-600/40 overflow-hidden min-h-[320px]">
               <IsoBaggageScene
                 levels={ENHANCED_BAGGAGE_LAYOUT.levels}
                 stations={ENHANCED_BAGGAGE_LAYOUT.screeningStations}
@@ -1185,18 +1185,18 @@ export const BaggageOperations: React.FC<BaggageOperationsProps> = ({
 
           {/* ============ Reference panels ============ */}
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-            <div className="hbms-control-panel p-4">
-              <h4 className="text-sm font-semibold text-sim-200 mb-3 flex items-center gap-2">
-                <Plane className="w-4 h-4 text-simteal-400" />
+            <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-4">
+              <h4 className="text-sm font-semibold text-text-secondary mb-3 flex items-center gap-2">
+                <Plane className="w-4 h-4 text-accent-blue" />
                 <span>Flight Configuration</span>
               </h4>
               <div className="space-y-3">
                 <div>
-                  <label className="text-xs text-sim-400">Selected flight</label>
+                  <label className="text-xs text-text-muted">Selected flight</label>
                   <select
                     value={selectedFlight}
                     onChange={(e) => setSelectedFlight(e.target.value)}
-                    className="w-full mt-1 bg-sim-800 border border-sim-600 rounded px-3 py-2 text-sim-200 text-sm"
+                    className="w-full mt-1 bg-primary-900 border border-primary-600 rounded px-3 py-2 text-text-primary text-sm"
                     disabled={isSimulating}
                   >
                     {mockFlights.filter(f => (operationType === 'departure' ? f.departure : f.arrival)).map(flight => (
@@ -1208,12 +1208,12 @@ export const BaggageOperations: React.FC<BaggageOperationsProps> = ({
                 </div>
                 <div className="grid grid-cols-2 gap-2 text-xs">
                   <div className="flex justify-between">
-                    <span className="text-sim-400">Operation</span>
-                    <span className="text-sim-200 capitalize">{operationType}</span>
+                    <span className="text-text-muted">Operation</span>
+                    <span className="text-text-primary capitalize">{operationType}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-sim-400">{operationType === 'departure' ? 'Gate' : 'Carousel'}</span>
-                    <span className="text-simteal-400">
+                    <span className="text-text-muted">{operationType === 'departure' ? 'Gate' : 'Carousel'}</span>
+                    <span className="text-accent-blue">
                       {(() => {
                         const flight = mockFlights.find(f => f.flightNumber === selectedFlight);
                         return flight ? (operationType === 'departure' ? flight.gate : flight.carousel) : 'N/A';
@@ -1224,74 +1224,74 @@ export const BaggageOperations: React.FC<BaggageOperationsProps> = ({
               </div>
             </div>
 
-            <div className="hbms-control-panel p-4">
-              <h4 className="text-sm font-semibold text-sim-200 mb-3 flex items-center gap-2">
-                <Package className="w-4 h-4 text-simgold-400" />
+            <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-4">
+              <h4 className="text-sm font-semibold text-text-secondary mb-3 flex items-center gap-2">
+                <Package className="w-4 h-4 text-accent-blue" />
                 <span>Sortation Outcome</span>
               </h4>
               <div className="space-y-2 text-xs">
                 {[
-                  { label: 'Straight through (approved)', value: systemStats.clearedBags, color: 'text-emerald-400' },
-                  { label: 'Pushed to inspection chute', value: systemStats.flaggedBags, color: 'text-simgold-400' },
-                  { label: 'Pushed to SOP chute', value: systemStats.sopTriggered, color: 'text-red-400' },
-                  { label: 'Currently on a chute', value: onChute, color: 'text-simteal-400' },
+                  { label: 'Straight through (approved)', value: systemStats.clearedBags, color: 'text-status-success' },
+                  { label: 'Pushed to inspection chute', value: systemStats.flaggedBags, color: 'text-status-warning' },
+                  { label: 'Pushed to SOP chute', value: systemStats.sopTriggered, color: 'text-status-error' },
+                  { label: 'Currently on a chute', value: onChute, color: 'text-accent-blue' },
                 ].map(row => (
                   <div key={row.label} className="flex justify-between">
-                    <span className="text-sim-400">{row.label}</span>
+                    <span className="text-text-muted">{row.label}</span>
                     <span className={`${row.color} tabular-nums font-medium`}>{row.value}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="hbms-control-panel p-4">
-              <h4 className="text-sm font-semibold text-sim-200 mb-3 flex items-center gap-2">
-                <Shield className="w-4 h-4 text-emerald-400" />
+            <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-4">
+              <h4 className="text-sm font-semibold text-text-secondary mb-3 flex items-center gap-2">
+                <Shield className="w-4 h-4 text-status-success" />
                 <span>Detection Matrix</span>
               </h4>
               <div className="space-y-2 text-xs">
                 {[
-                  ['Explosive detection', '99.97%', 'text-green-400'],
-                  ['Weapon screening', '99.85%', 'text-green-400'],
-                  ['Liquid analysis', '98.92%', 'text-green-400'],
-                  ['Behavioural', '96.34%', 'text-simteal-400'],
-                  ['False positive rate', '0.02%', 'text-simgold-400'],
+                  ['Explosive detection', '99.97%', 'text-status-success'],
+                  ['Weapon screening', '99.85%', 'text-status-success'],
+                  ['Liquid analysis', '98.92%', 'text-status-success'],
+                  ['Behavioural', '96.34%', 'text-accent-blue'],
+                  ['False positive rate', '0.02%', 'text-status-warning'],
                 ].map(([label, value, tone]) => (
                   <div key={label} className="flex justify-between">
-                    <span className="text-sim-400">{label}</span>
+                    <span className="text-text-muted">{label}</span>
                     <span className={tone}>{value}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="hbms-control-panel p-4">
-              <h4 className="text-sm font-semibold text-sim-200 mb-3 flex items-center gap-2">
-                <Activity className="w-4 h-4 text-simgold-400" />
+            <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-4">
+              <h4 className="text-sm font-semibold text-text-secondary mb-3 flex items-center gap-2">
+                <Activity className="w-4 h-4 text-accent-blue" />
                 <span>System Performance</span>
               </h4>
               <div className="space-y-2 text-xs">
                 <div className="flex justify-between">
-                  <span className="text-sim-400">Total throughput</span>
-                  <span className="text-simteal-400">
+                  <span className="text-text-muted">Total throughput</span>
+                  <span className="text-accent-blue">
                     {screeningMachines.filter(m => m.status === 'operational').reduce((acc, m) => acc + m.throughput, 0)} BPH
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-sim-400">System efficiency</span>
-                  <span className="text-emerald-400">{systemStats.systemEfficiency.toFixed(2)}%</span>
+                  <span className="text-text-muted">System efficiency</span>
+                  <span className="text-status-success">{systemStats.systemEfficiency.toFixed(2)}%</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-sim-400">Bags in transit</span>
-                  <span className="text-simgold-400">{activeBagCount}</span>
+                  <span className="text-text-muted">Bags in transit</span>
+                  <span className="text-accent-blue">{activeBagCount}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-sim-400">Belt speed</span>
-                  <span className="text-simteal-400">{(BELT_SPEED * simulationSpeed).toFixed(0)} u/s</span>
+                  <span className="text-text-muted">Belt speed</span>
+                  <span className="text-accent-blue">{(BELT_SPEED * simulationSpeed).toFixed(0)} u/s</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-sim-400">Current phase</span>
-                  <span className="text-sim-200 capitalize">{currentPhase.replace(/-/g, ' ')}</span>
+                  <span className="text-text-muted">Current phase</span>
+                  <span className="text-text-primary capitalize">{currentPhase.replace(/-/g, ' ')}</span>
                 </div>
               </div>
             </div>

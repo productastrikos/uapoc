@@ -84,10 +84,10 @@ const StandDetailPanel: React.FC = () => {
         animate={{ x: 0, opacity: 1 }}
         exit={{ x: 380, opacity: 0 }}
         transition={{ type: 'spring', damping: 28, stiffness: 260 }}
-        className="fixed right-0 top-0 bottom-0 z-[60] w-[420px] max-w-[92vw] flex flex-col bg-primary-800/97 backdrop-blur-md border-l border-primary-500/60 shadow-[-16px_0_48px_rgba(0,0,0,0.65)]"
+        className="modal-surface fixed right-0 top-0 bottom-0 z-[60] w-[420px] max-w-[92vw] flex flex-col border-l border-primary-500/60 shadow-[-16px_0_48px_rgba(0,0,0,0.65)]"
       >
       <header className="flex items-center gap-2 px-3 py-2 border-b border-primary-500/40 bg-primary-900/50 shrink-0">
-        <Plane className="w-4 h-4 text-accent-gold shrink-0" />
+        <Plane className="w-4 h-4 text-accent-blue shrink-0" />
         <div className="min-w-0">
           <div className="text-sm font-bold text-text-primary leading-tight truncate">{stand.name}</div>
           <div className="text-[length:calc(10px*var(--fs))] text-text-muted">
@@ -116,7 +116,7 @@ const StandDetailPanel: React.FC = () => {
           />
           <Row
             label="Chocks"
-            value={stand.chocksOn ? <span className="text-emerald-300">On</span> : <span className="text-text-muted">Off</span>}
+            value={stand.chocksOn ? <span className="text-status-success">On</span> : <span className="text-text-muted">Off</span>}
           />
         </section>
 
@@ -152,9 +152,9 @@ const StandDetailPanel: React.FC = () => {
           ) : (
             <div className="space-y-1.5">
               {standAlarms.map((a) => (
-                <div key={a.id} className="flex items-center justify-between gap-2 rounded px-2 py-1.5 bg-primary-900/50 border border-red-500/25">
+                <div key={a.id} className="flex items-center justify-between gap-2 rounded px-2 py-1.5 bg-primary-900/50 border border-status-error/25">
                   <div className="min-w-0">
-                    <div className="text-xs text-red-300 truncate">{a.description}</div>
+                    <div className="text-xs text-status-error truncate">{a.description}</div>
                     <div className="text-[length:calc(10px*var(--fs))] text-text-muted">
                       {a.state} · {new Date(a.raisedAt).toLocaleTimeString()}
                     </div>

@@ -27,7 +27,7 @@ const ApronSimulator: React.FC = () => {
   const stand = stands.find((s) => s.id === selectedStandId) ?? null;
 
   return (
-    <div className="flex items-center gap-3 flex-wrap rounded-lg border border-primary-500/40 bg-primary-800/60 px-3 py-2">
+    <div className="flex items-center gap-3 flex-wrap rounded-lg glass-panel px-3 py-2">
       <span className="flex items-center gap-1.5 shrink-0">
         <SlidersHorizontal className="w-3.5 h-3.5 text-accent-teal" />
         <span className="text-[length:calc(10px*var(--fs))] uppercase tracking-wide text-text-muted">
@@ -58,7 +58,7 @@ const ApronSimulator: React.FC = () => {
             <button
               onClick={() => releaseStand(stand.id)}
               disabled={stand.docking === 'departing'}
-              className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-primary-600/60 border border-primary-500/50 text-xs text-text-secondary hover:text-text-primary disabled:opacity-50"
+              className="chip min-w-[9rem] px-2.5 py-1 disabled:opacity-50"
             >
               <PlaneTakeoff className="w-3.5 h-3.5" />
               {stand.docking === 'departing' ? 'Pushing back…' : 'Release'}
@@ -67,7 +67,7 @@ const ApronSimulator: React.FC = () => {
             <button
               onClick={() => startDocking(stand.id)}
               disabled={stand.maintenance}
-              className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-accent-teal/20 border border-accent-teal/50 text-xs text-accent-teal hover:bg-accent-teal/30 disabled:opacity-40"
+              className="chip px-2.5 py-1 bg-accent-teal/20 text-accent-teal hover:bg-accent-teal/30 disabled:opacity-40"
             >
               <PlaneLanding className="w-3.5 h-3.5" />
               Dock
@@ -79,7 +79,7 @@ const ApronSimulator: React.FC = () => {
               type="checkbox"
               checked={stand.maintenance}
               onChange={(e) => setMaintenance(stand.id, e.target.checked)}
-              className="accent-purple-400"
+              className="accent-blue-500"
             />
             Out of service
           </label>

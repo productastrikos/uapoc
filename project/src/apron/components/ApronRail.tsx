@@ -10,21 +10,25 @@ import React, { useMemo } from 'react';
 import { useApronStore, computeApronRollups } from '../store';
 
 const Block: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
-  <section className="bg-primary-800/70 border border-primary-500/40 rounded-lg overflow-hidden">
-    <header className="px-3 py-2 border-b border-primary-500/40">
+  <section className="glass-panel rounded-lg overflow-hidden">
+    <header className="px-3 py-2 border-b border-white/10">
       <h3 className="text-xs font-semibold text-text-primary uppercase tracking-wide">{title}</h3>
     </header>
     {children}
   </section>
 );
 
-const Stat: React.FC<{ label: string; value: string; unit?: string; tone?: string }> = ({
+/** Tint varies per stat so a row of pills never reads as flat repetition, and
+    never borrows red/green/yellow — those stay reserved for genuine fault or
+    serviceability meaning carried in `tone` instead. */
+const Stat: React.FC<{ label: string; value: string; unit?: string; tone?: string; tint?: string }> = ({
   label,
   value,
   unit,
   tone = 'text-text-primary',
+  tint = 'glass-pill-neutral',
 }) => (
-  <div className="bg-primary-900/50 border border-primary-500/30 rounded px-2 py-1.5">
+  <div className={`glass-pill ${tint} !rounded-lg !px-2 !py-1.5`}>
     <div className="text-[length:calc(10px*var(--fs))] text-text-muted leading-tight">{label}</div>
     <div className={`text-lg font-bold font-mono leading-tight ${tone}`}>{value}</div>
     {unit && <div className="text-[length:calc(9px*var(--fs))] text-text-muted">{unit}</div>}
@@ -61,9 +65,9 @@ const ApronRail: React.FC = () => {
     <div className="shrink-0 space-y-3">
       <Block title="Apron Management System">
         <div className="grid grid-cols-3 gap-1.5 p-2">
-          <Stat label="Total Flight Delays" value="4" unit="per day" tone="text-amber-300" />
-          <Stat label="UnScheduled Flights" value="2" unit="per day" />
-          <Stat label="Scheduled Flights" value="82" unit="per day" />
+          <Stat label="Total Flight Delays" value="4" unit="per day" tone="text-status-warning" tint="glass-pill-blue" />
+          <Stat label="UnScheduled Flights" value="2" unit="per day" tint="glass-pill-teal" />
+          <Stat label="Scheduled Flights" value="82" unit="per day" tint="glass-pill-violet" />
         </div>
       </Block>
 
@@ -72,10 +76,11 @@ const ApronRail: React.FC = () => {
           <Stat
             label="Bay Serviceability"
             value={`${serviceability.toFixed(0)}%`}
-            tone={serviceability < 90 ? 'text-red-400' : 'text-emerald-400'}
+            tone={serviceability < 90 ? 'text-status-error' : 'text-status-success'}
+            tint="glass-pill-blue"
           />
-          <Stat label="Incidents / Accidents" value="0" unit="today" />
-          <Stat label="SLA Target" value="92%" tone="text-accent-teal" />
+          <Stat label="Incidents / Accidents" value="0" unit="today" tint="glass-pill-teal" />
+          <Stat label="SLA Target" value="92%" tone="text-accent-teal" tint="glass-pill-violet" />
         </div>
       </Block>
 
@@ -134,12 +139,12 @@ const ApronRail: React.FC = () => {
               <tr key={r.kind} className="border-b border-primary-600/20">
                 <td className="px-2 py-1 text-text-secondary">{r.label}</td>
                 <td className="px-1 py-1 text-center font-mono text-text-primary">{r.total}</td>
-                <td className="px-1 py-1 text-center font-mono text-emerald-300">{r.active}</td>
+                <td className="px-1 py-1 text-center font-mono text-status-success">{r.active}</td>
                 <td className="px-1 py-1 text-center">
                   <span
                     className={`inline-block min-w-[1.6rem] rounded font-mono ${
                       r.fail > 0
-                        ? 'bg-red-500/20 border border-red-500/50 text-red-300'
+                        ? 'bg-status-error/20 text-status-error'
                         : 'text-text-primary'
                     }`}
                   >

@@ -219,15 +219,6 @@ const SOPConsole: React.FC = () => {
     setTimeout(() => setEmergencyMode(false), 3000);
   };
 
-  const handleTestSOP = (playbook: SOPPlaybook) => {
-    addToast({
-      type: 'info',
-      title: 'SOP Test Mode',
-      message: `Running ${playbook.name} in simulation mode`,
-      duration: 3000
-    });
-  };
-
   const handleEmergencyAction = (action: string) => {
     setEmergencyMode(true);
     addToast({
@@ -243,121 +234,105 @@ const SOPConsole: React.FC = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="space-y-8 h-full overflow-y-auto no-scrollbar"
+      className="space-y-6 h-full overflow-y-auto no-scrollbar"
     >
       {/* Header with Emergency Actions */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
-          <FileText className="h-8 w-8 text-accent-teal" />
+          <div className="p-2 bg-accent-blue/15 rounded-lg">
+            <FileText className="w-5 h-5 text-accent-blue" />
+          </div>
           <div>
-            <h1 className="text-3xl font-bold text-text-primary">SOP Console</h1>
-            <p className="text-text-muted">Standard Operating Procedure orchestration and automation</p>
+            <h1 className="text-2xl font-bold text-white">SOP Console</h1>
+            <p className="text-sm text-text-muted">Standard Operating Procedure orchestration and automation</p>
           </div>
         </div>
-        
+
         {/* Emergency Actions - Top Right */}
-        <div className="flex items-center space-x-3">
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+        <div className="flex items-center space-x-2">
+          <button
             onClick={() => handleEmergencyAction('Emergency SOP Override')}
-            className="px-4 py-2 bg-status-error hover:bg-red-600 text-white rounded-lg font-medium transition-colors"
+            className="btn btn-danger"
           >
             Emergency Override
-          </motion.button>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => handleEmergencyAction('Mass SOP Activation')}
-            className="px-4 py-2 bg-status-warning hover:bg-yellow-600 text-black rounded-lg font-medium transition-colors"
-          >
-            Mass Activation
-          </motion.button>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => handleEmergencyAction('SOP System Health Check')}
-            className="px-4 py-2 bg-status-info hover:bg-blue-600 text-white rounded-lg font-medium transition-colors"
-          >
-            System Health
-          </motion.button>
+          </button>
         </div>
       </div>
 
       {/* AI Advisory Panel */}
-      <div className="bg-gradient-to-br from-purple-900/20 to-purple-800/20 rounded-xl border border-purple-500/30 p-6" style={{ backgroundColor: '#6B46C1' }}>
+      <div className="glass-panel-strong rounded-xl p-6">
         <div className="flex items-center space-x-3 mb-4">
-          <Zap className="h-6 w-6 text-purple-300 animate-pulse" />
-          <h2 className="text-xl font-bold text-white">AI-Powered SOP Insights</h2>
+          <Zap className="h-5 w-5 text-accent-blue" />
+          <h2 className="text-base font-semibold text-white">AI-Powered SOP Insights</h2>
         </div>
-        <div className="grid grid-cols-3 gap-4">
-          <div className="bg-black/20 rounded-lg p-4">
-            <div className="text-2xl font-bold text-purple-200">94.8%</div>
-            <div className="text-sm text-purple-300">Automation Success Rate</div>
+        <div className="grid grid-cols-3 gap-3">
+          <div className="glass-pill glass-pill-blue rounded-lg p-3">
+            <div className="text-xl font-bold text-text-primary">94.8%</div>
+            <div className="text-xs text-text-muted">Automation Success Rate</div>
           </div>
-          <div className="bg-black/20 rounded-lg p-4">
-            <div className="text-2xl font-bold text-yellow-300">3</div>
-            <div className="text-sm text-purple-300">Critical SOPs Active</div>
+          <div className="glass-pill glass-pill-violet rounded-lg p-3">
+            <div className="text-xl font-bold text-text-primary">3</div>
+            <div className="text-xs text-text-muted">Critical SOPs Active</div>
           </div>
-          <div className="bg-black/20 rounded-lg p-4">
-            <div className="text-2xl font-bold text-green-300">18.3m</div>
-            <div className="text-sm text-purple-300">Average Execution Time</div>
+          <div className="glass-pill glass-pill-teal rounded-lg p-3">
+            <div className="text-xl font-bold text-text-primary">18.3m</div>
+            <div className="text-xs text-text-muted">Average Execution Time</div>
           </div>
         </div>
       </div>
 
       {/* Quick Stats */}
-      <div className="grid grid-cols-4 gap-6">
+      <div className="grid grid-cols-4 gap-3">
         {[
-          { label: 'Active SOPs', value: '24', icon: Play, color: 'text-accent-teal', change: '+3' },
-          { label: 'Success Rate', value: '94.8%', icon: CheckCircle, color: 'text-status-success', change: '+1.2%' },
-          { label: 'Avg Duration', value: '18.3m', icon: Clock, color: 'text-accent-gold', change: '-2.1m' },
-          { label: 'Compliance', value: '99.2%', icon: Settings, color: 'text-status-info', change: '+0.3%' },
+          { label: 'Active SOPs', value: '24', icon: Play, change: '+3', tint: 'glass-pill-blue' },
+          { label: 'Success Rate', value: '94.8%', icon: CheckCircle, change: '+1.2%', tint: 'glass-pill-teal' },
+          { label: 'Avg Duration', value: '18.3m', icon: Clock, change: '-2.1m', tint: 'glass-pill-violet' },
+          { label: 'Compliance', value: '99.2%', icon: Settings, change: '+0.3%', tint: 'glass-pill-neutral' },
         ].map((stat, index) => (
           <motion.div
             key={stat.label}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
-            whileHover={{ scale: 1.02, y: -2 }}
-            className="bg-gradient-to-br from-primary-800 to-primary-700 rounded-lg p-6 border border-primary-600 hover:border-accent-teal transition-all duration-300 cursor-pointer hover:shadow-2xl"
+            whileHover={{ y: -2 }}
+            className={`glass-pill ${stat.tint} rounded-lg p-4 cursor-pointer`}
             onClick={() => handlePlaybookClick(sopPlaybooks[0])}
           >
             <div className="flex items-center justify-between mb-2">
-              <stat.icon className={`h-6 w-6 ${stat.color}`} />
+              <stat.icon className="h-5 w-5 text-text-muted" />
               <span className={`text-sm font-medium ${stat.change.startsWith('+') ? 'text-status-success' : 'text-status-warning'}`}>
                 {stat.change}
               </span>
             </div>
-            <div className="text-2xl font-bold text-text-primary">{stat.value}</div>
+            <div className="text-xl font-bold text-text-primary">{stat.value}</div>
             <div className="text-sm text-text-muted">{stat.label}</div>
           </motion.div>
         ))}
       </div>
 
-      <div className="grid grid-cols-12 gap-8">
+      <div className="grid grid-cols-12 gap-6">
         {/* Left Column - SOP Management */}
-        <div className="col-span-8 space-y-8">
+        <div className="col-span-8 space-y-6">
           {/* SOP Playbook Library */}
-          <div className="bg-gradient-to-br from-primary-800 to-primary-700 rounded-xl border border-primary-600 p-8 backdrop-blur-sm">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-text-primary">SOP Playbook Library</h2>
+          <div className="glass-panel rounded-xl p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-base font-semibold text-text-primary">SOP Playbook Library</h2>
               <div className="flex items-center space-x-4 text-sm">
                 <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-status-error rounded-full animate-pulse"></div>
+                  <div className="w-2 h-2 bg-status-error rounded-full"></div>
                   <span className="text-text-muted">Safety Critical</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-status-warning rounded-full"></div>
+                  <div className="w-2 h-2 bg-status-warning rounded-full"></div>
                   <span className="text-text-muted">Approval Required</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-status-success rounded-full"></div>
+                  <div className="w-2 h-2 bg-status-success rounded-full"></div>
                   <span className="text-text-muted">Ready to Execute</span>
                 </div>
               </div>
             </div>
-            
+
             <div className="space-y-4">
               {sopPlaybooks.map((playbook, index) => (
                 <motion.div
@@ -365,43 +340,35 @@ const SOPConsole: React.FC = () => {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  whileHover={{ scale: 1.01, x: 8 }}
-                  className="p-6 bg-gradient-to-r from-primary-800 to-primary-700 rounded-xl border border-primary-600 hover:border-accent-teal transition-all duration-300 cursor-pointer group"
+                  whileHover={{ y: -2 }}
+                  className="p-4 glass-panel rounded-xl hover:border-accent-blue/40 transition-colors duration-200 cursor-pointer group"
                   onClick={() => handlePlaybookClick(playbook)}
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex items-start space-x-4">
-                      <div className={`p-3 rounded-lg ${
-                        playbook.safetyCritical ? 'bg-status-error bg-opacity-20' :
-                        playbook.approvalRequired ? 'bg-status-warning bg-opacity-20' :
-                        'bg-status-success bg-opacity-20'
-                      }`}>
-                        <FileText className={`h-5 w-5 ${
-                          playbook.safetyCritical ? 'text-status-error' :
-                          playbook.approvalRequired ? 'text-status-warning' :
-                          'text-status-success'
-                        }`} />
+                      <div className="p-2 rounded-lg bg-accent-blue/15">
+                        <FileText className="h-5 w-5 text-accent-blue" />
                       </div>
-                      
+
                       <div className="flex-1">
-                        <div className="flex items-center space-x-3 mb-2">
-                          <h3 className="font-semibold text-text-primary group-hover:text-accent-teal transition-colors">
+                        <div className="flex items-center space-x-2 mb-1">
+                          <h3 className="font-semibold text-text-primary group-hover:text-accent-blue transition-colors">
                             {playbook.name} v{playbook.version}
                           </h3>
                           {playbook.safetyCritical && (
-                            <span className="text-xs px-3 py-1 bg-status-error text-white rounded-full font-medium">
+                            <span className="text-xs px-2 py-0.5 bg-status-error/10 text-status-error border border-status-error/30 rounded-full font-medium">
                               SAFETY CRITICAL
                             </span>
                           )}
                           {playbook.approvalRequired && (
-                            <span className="text-xs px-3 py-1 bg-status-warning text-black rounded-full font-medium">
+                            <span className="text-xs px-2 py-0.5 bg-status-warning/10 text-status-warning border border-status-warning/30 rounded-full font-medium">
                               APPROVAL REQUIRED
                             </span>
                           )}
                         </div>
-                        
-                        <p className="text-text-secondary mb-3">{playbook.domain}</p>
-                        
+
+                        <p className="text-sm text-text-secondary mb-2">{playbook.domain}</p>
+
                         <div className="flex items-center space-x-6 text-sm text-text-muted mb-3">
                           <div className="flex items-center space-x-1">
                             <Users className="h-4 w-4" />
@@ -416,54 +383,40 @@ const SOPConsole: React.FC = () => {
                             <span>{playbook.successRate}% success rate</span>
                           </div>
                         </div>
-                        
+
                         {/* Trigger Conditions */}
                         <div className="mb-3">
                           <h4 className="text-sm font-medium text-text-secondary mb-1">Trigger Conditions:</h4>
                           <div className="flex flex-wrap gap-2">
                             {playbook.triggerConditions.slice(0, 2).map((condition, i) => (
-                              <span key={i} className="px-2 py-1 bg-primary-600 text-text-primary rounded text-xs">
+                              <span key={i} className="px-2 py-0.5 bg-primary-600/40 text-text-secondary rounded text-xs">
                                 {condition}
                               </span>
                             ))}
                             {playbook.triggerConditions.length > 2 && (
-                              <span className="px-2 py-1 bg-primary-600 text-text-muted rounded text-xs">
+                              <span className="px-2 py-0.5 bg-primary-600/40 text-text-muted rounded text-xs">
                                 +{playbook.triggerConditions.length - 2} more
                               </span>
                             )}
                           </div>
                         </div>
-                        
+
                         <div className="text-xs text-text-muted">
                           Last updated: {new Date(playbook.lastUpdated).toLocaleDateString()}
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="flex items-center space-x-2">
-                      <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleTestSOP(playbook);
-                        }}
-                        className="px-4 py-2 bg-accent-gold bg-opacity-20 text-accent-gold hover:bg-opacity-30 rounded-lg transition-colors"
-                      >
-                        Test Mode
-                      </motion.button>
-                      
-                      <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
+                      <button
                         onClick={(e) => {
                           e.stopPropagation();
                           handleExecuteSOP(playbook);
                         }}
-                        className="px-4 py-2 bg-accent-teal hover:bg-opacity-80 text-white rounded-lg font-medium transition-colors"
+                        className="btn btn-primary"
                       >
                         Execute SOP
-                      </motion.button>
+                      </button>
                     </div>
                   </div>
                 </motion.div>
@@ -472,8 +425,8 @@ const SOPConsole: React.FC = () => {
           </div>
 
           {/* SOP Execution Timeline */}
-          <div className="bg-gradient-to-br from-primary-800 to-primary-700 rounded-xl border border-primary-600 p-8">
-            <h2 className="text-2xl font-bold text-text-primary mb-6">Daily SOP Execution Timeline</h2>
+          <div className="glass-panel rounded-xl p-6">
+            <h2 className="text-base font-semibold text-text-primary mb-4">Daily SOP Execution Timeline</h2>
             <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={executionData}>
@@ -503,10 +456,10 @@ const SOPConsole: React.FC = () => {
         </div>
 
         {/* Right Column - Analytics */}
-        <div className="col-span-4 space-y-8">
+        <div className="col-span-4 space-y-6">
           {/* Performance Metrics */}
-          <div className="bg-gradient-to-br from-primary-800 to-primary-700 rounded-xl border border-primary-600 p-6">
-            <h3 className="text-lg font-semibold text-text-primary mb-4">Performance Metrics</h3>
+          <div className="glass-panel rounded-xl p-6">
+            <h3 className="text-base font-semibold text-text-primary mb-4">Performance Metrics</h3>
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
                 <RadialBarChart cx="50%" cy="50%" innerRadius="30%" outerRadius="90%" data={performanceMetrics}>
@@ -532,8 +485,8 @@ const SOPConsole: React.FC = () => {
           </div>
 
           {/* Active Executions */}
-          <div className="bg-gradient-to-br from-primary-800 to-primary-700 rounded-xl border border-primary-600 p-6">
-            <h3 className="text-lg font-semibold text-text-primary mb-4">Active Executions</h3>
+          <div className="glass-panel rounded-xl p-6">
+            <h3 className="text-base font-semibold text-text-primary mb-4">Active Executions</h3>
             <div className="space-y-3">
               {[
                 { sop: 'Medical Emergency', step: '2/4', progress: 50, eta: '8 min', status: 'running' },
@@ -545,12 +498,12 @@ const SOPConsole: React.FC = () => {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: index * 0.1 }}
-                  className="p-4 bg-primary-700 rounded-lg border border-primary-600"
+                  className="p-3 glass-panel rounded-lg"
                 >
                   <div className="flex items-center justify-between mb-2">
                     <span className="font-medium text-text-primary">{execution.sop}</span>
                     <div className="flex items-center space-x-2">
-                      <Play className="h-4 w-4 text-accent-teal" />
+                      <Play className="h-4 w-4 text-accent-blue" />
                       <span className="text-sm text-text-muted">{execution.step}</span>
                     </div>
                   </div>
@@ -559,7 +512,7 @@ const SOPConsole: React.FC = () => {
                       initial={{ width: 0 }}
                       animate={{ width: `${execution.progress}%` }}
                       transition={{ duration: 1, delay: index * 0.2 }}
-                      className="h-2 bg-accent-teal rounded-full"
+                      className="h-2 bg-accent-blue rounded-full"
                     />
                   </div>
                   <div className="flex justify-between text-xs text-text-muted">
@@ -569,37 +522,6 @@ const SOPConsole: React.FC = () => {
                     </span>
                   </div>
                 </motion.div>
-              ))}
-            </div>
-          </div>
-
-          {/* Quick Actions */}
-          <div className="bg-gradient-to-br from-primary-800 to-primary-700 rounded-xl border border-primary-600 p-6">
-            <h3 className="text-lg font-semibold text-text-primary mb-4">Quick Actions</h3>
-            <div className="space-y-3">
-              {[
-                { action: 'Create New SOP', icon: FileText, type: 'optimization' },
-                { action: 'Schedule Maintenance', icon: Settings, type: 'operational' },
-                { action: 'Run System Test', icon: Zap, type: 'optimization' },
-                { action: 'Generate Report', icon: CheckCircle, type: 'optimization' },
-              ].map((item, index) => (
-                <motion.button
-                  key={index}
-                  whileHover={{ scale: 1.02, x: 4 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => addToast({
-                    type: 'success',
-                    title: 'Action Initiated',
-                    message: `${item.action} process started`
-                  })}
-                  className={`w-full flex items-center space-x-3 p-4 rounded-lg transition-all duration-300 ${
-                    item.type === 'operational' ? 'bg-orange-600/20 hover:bg-orange-600/30 text-orange-300' :
-                    'bg-blue-600/20 hover:bg-blue-600/30 text-blue-300'
-                  }`}
-                >
-                  <item.icon className="h-5 w-5" />
-                  <span className="text-sm font-medium">{item.action}</span>
-                </motion.button>
               ))}
             </div>
           </div>

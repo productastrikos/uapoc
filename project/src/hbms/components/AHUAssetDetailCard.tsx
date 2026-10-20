@@ -25,7 +25,7 @@ const AHUAssetDetailCard: React.FC<{ asset: AHUAsset; onClose: () => void }> = (
       <div className="flex-shrink-0 px-5 pt-5 pb-3" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
         <div className="flex items-start justify-between gap-2">
           <div>
-            <p className="text-sm font-extrabold text-sim-100">{asset.id}</p>
+            <p className="text-sm font-extrabold text-text-primary">{asset.id}</p>
             <span
               className="inline-block mt-1.5 px-1.5 py-0.5 rounded text-[length:calc(9px*var(--fs))] font-bold uppercase tracking-wide"
               style={{ background: `${color}20`, color, border: `1px solid ${color}55` }}
@@ -33,7 +33,7 @@ const AHUAssetDetailCard: React.FC<{ asset: AHUAsset; onClose: () => void }> = (
               {asset.status}
             </span>
           </div>
-          <button onClick={onClose} className="flex-shrink-0 text-sim-500 hover:text-sim-200 transition-colors" aria-label="Close">
+          <button onClick={onClose} className="flex-shrink-0 text-text-muted hover:text-text-primary transition-colors" aria-label="Close">
             <X className="w-4 h-4" />
           </button>
         </div>

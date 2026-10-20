@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { 
-  Package, Users, Zap, Activity, Clock, AlertTriangle, 
-  CheckCircle, XCircle, Plane, ArrowRight, Settings, 
+import {
+  Package, Users, Zap, Activity, Clock, AlertTriangle,
+  CheckCircle, XCircle, Plane, ArrowRight, Settings,
   Monitor, RotateCcw, Eye, Target, Scan, Shield
 } from 'lucide-react';
 import BaggageOperations from './BaggageOperations';
@@ -199,7 +199,7 @@ const BaggageSystemOverview: React.FC = () => {
   const handleCarouselSelect = useCallback((carousel: Carousel, event: React.MouseEvent) => {
     event.stopPropagation();
     setSelectedCarousel(carousel);
-    
+
     const clickPosition = {
       x: event.clientX,
       y: event.clientY
@@ -248,7 +248,7 @@ const BaggageSystemOverview: React.FC = () => {
       // Simulate real-time updates
       setCarousels(prev => prev.map(carousel => ({
         ...carousel,
-        energyConsumption: carousel.status === 'active' || carousel.status === 'loading' 
+        energyConsumption: carousel.status === 'active' || carousel.status === 'loading'
           ? carousel.energyConsumption + (Math.random() - 0.5) * 20
           : carousel.energyConsumption,
         currentLoad: carousel.status === 'loading' && carousel.currentLoad < carousel.maxCapacity
@@ -270,12 +270,12 @@ const BaggageSystemOverview: React.FC = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'active': return 'text-emerald-400';
-      case 'loading': return 'text-simteal-400';
-      case 'unloading': return 'text-simteal-400';
-      case 'maintenance': return 'text-simgold-400';
-      case 'inactive': return 'text-sim-400';
-      default: return 'text-sim-400';
+      case 'active': return 'text-status-success';
+      case 'loading': return 'text-accent-blue';
+      case 'unloading': return 'text-accent-blue';
+      case 'maintenance': return 'text-status-warning';
+      case 'inactive': return 'text-text-muted';
+      default: return 'text-text-muted';
     }
   };
 
@@ -300,25 +300,25 @@ const BaggageSystemOverview: React.FC = () => {
         {/* Header Section */}
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
           <div>
-            <h1 className="text-xl md:text-2xl font-bold text-white mb-1 flex items-center space-x-3">
-              <div className="p-2 bg-simteal-600/20 rounded-lg border border-simteal-500/30">
-                <Package className="h-6 w-6 text-simteal-400" />
+            <h1 className="text-xl md:text-2xl font-bold text-text-primary mb-1 flex items-center space-x-3">
+              <div className="p-2 bg-accent-blue/10 rounded-lg border border-accent-blue/30">
+                <Package className="h-6 w-6 text-accent-blue" />
               </div>
               <span>Baggage Handling System Overview</span>
             </h1>
-            <p className="text-sm text-sim-400">
+            <p className="text-sm text-text-muted">
               Comprehensive baggage management and real-time monitoring · updated {lastUpdateTime.toLocaleTimeString()}
             </p>
           </div>
 
           {/* Navigation Tabs */}
-          <div className="flex bg-sim-800/50 rounded-lg p-1 border border-sim-700/50">
+          <div className="flex bg-primary-800/50 rounded-lg p-1 border border-primary-600/40">
             <button
               onClick={() => setActiveTab('overview')}
               className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
                 activeTab === 'overview'
-                  ? 'bg-simteal-600 text-white shadow-lg'
-                  : 'text-sim-300 hover:text-white hover:bg-sim-700/50'
+                  ? 'bg-accent-blue text-white shadow-lg'
+                  : 'text-text-secondary hover:text-text-primary hover:bg-primary-700/50'
               }`}
             >
               <Monitor className="w-4 h-4 inline-block mr-2" />
@@ -328,8 +328,8 @@ const BaggageSystemOverview: React.FC = () => {
               onClick={() => setActiveTab('operations')}
               className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
                 activeTab === 'operations'
-                  ? 'bg-simteal-600 text-white position-center shadow-lg'
-                  : 'text-sim-300 hover:text-white hover:bg-sim-700/50'
+                  ? 'bg-accent-blue text-white shadow-lg'
+                  : 'text-text-secondary hover:text-text-primary hover:bg-primary-700/50'
               }`}
             >
               <Activity className="w-4 h-4 inline-block mr-2" />
@@ -339,8 +339,8 @@ const BaggageSystemOverview: React.FC = () => {
               onClick={() => setActiveTab('monitoring')}
               className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
                 activeTab === 'monitoring'
-                  ? 'bg-simteal-600 text-white shadow-lg'
-                  : 'text-sim-300 hover:text-white hover:bg-sim-700/50'
+                  ? 'bg-accent-blue text-white shadow-lg'
+                  : 'text-text-secondary hover:text-text-primary hover:bg-primary-700/50'
               }`}
             >
               <Eye className="w-4 h-4 inline-block mr-2" />
@@ -351,69 +351,69 @@ const BaggageSystemOverview: React.FC = () => {
 
         {/* System Status Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="hbms-control-panel p-4 md:p-6">
+          <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-4 md:p-6">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-lg font-semibold text-sim-100">Total Processed</h3>
-              <Package className="h-6 w-6 text-emerald-400" />
+              <h3 className="text-lg font-semibold text-text-primary">Total Processed</h3>
+              <Package className="h-6 w-6 text-status-success" />
             </div>
             <div className="space-y-2">
-              <p className="text-2xl md:text-3xl font-bold text-emerald-400">
+              <p className="text-2xl md:text-3xl font-bold text-status-success">
                 {systemMetrics.totalBagsProcessed.toLocaleString()}
               </p>
-              <p className="text-sm text-sim-400">Bags handled today</p>
-              <div className="flex items-center text-xs text-emerald-400">
+              <p className="text-sm text-text-muted">Bags handled today</p>
+              <div className="flex items-center text-xs text-status-success">
                 <ArrowRight className="w-3 h-3 mr-1" />
                 +{Math.floor(Math.random() * 50) + 20} in last hour
               </div>
             </div>
           </div>
 
-          <div className="hbms-control-panel p-4 md:p-6">
+          <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-4 md:p-6">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-lg font-semibold text-sim-100">System Efficiency</h3>
-              <Activity className="h-6 w-6 text-simteal-400" />
+              <h3 className="text-lg font-semibold text-text-primary">System Efficiency</h3>
+              <Activity className="h-6 w-6 text-accent-blue" />
             </div>
             <div className="space-y-2">
-              <p className="text-2xl md:text-3xl font-bold text-simteal-400">
+              <p className="text-2xl md:text-3xl font-bold text-accent-blue">
                 {systemMetrics.systemEfficiency.toFixed(2)}%
               </p>
-              <p className="text-sm text-sim-400">Overall performance</p>
-              <div className="w-full bg-sim-700/50 rounded-full h-2">
-                <div 
-                  className="bg-gradient-to-r from-simteal-400 to-emerald-400 h-2 rounded-full transition-all duration-300"
+              <p className="text-sm text-text-muted">Overall performance</p>
+              <div className="w-full bg-primary-900/50 rounded-full h-2">
+                <div
+                  className="bg-accent-blue h-2 rounded-full transition-all duration-300"
                   style={{ width: `${systemMetrics.systemEfficiency}%` }}
                 ></div>
               </div>
             </div>
           </div>
 
-          <div className="hbms-control-panel p-4 md:p-6">
+          <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-4 md:p-6">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-lg font-semibold text-sim-100">Active Carousels</h3>
-              <RotateCcw className={`h-6 w-6 text-simteal-400 ${activeCarousels > 0 ? 'animate-spin' : ''}`} />
+              <h3 className="text-lg font-semibold text-text-primary">Active Carousels</h3>
+              <RotateCcw className={`h-6 w-6 text-accent-blue ${activeCarousels > 0 ? 'animate-spin' : ''}`} />
             </div>
             <div className="space-y-2">
-              <p className="text-2xl md:text-3xl font-bold text-simteal-400">
+              <p className="text-2xl md:text-3xl font-bold text-accent-blue">
                 {activeCarousels}/5
               </p>
-              <p className="text-sm text-sim-400">Operational units</p>
-              <p className="text-xs text-simteal-400">
+              <p className="text-sm text-text-muted">Operational units</p>
+              <p className="text-xs text-accent-blue">
                 Avg uptime: {averageUptime.toFixed(1)}%
               </p>
             </div>
           </div>
 
-          <div className="hbms-control-panel p-4 md:p-6">
+          <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-4 md:p-6">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-lg font-semibold text-sim-100">Maintenance</h3>
-              <AlertTriangle className={`h-6 w-6 ${totalMaintenanceAlerts > 0 ? 'text-simgold-400 animate-pulse' : 'text-sim-400'}`} />
+              <h3 className="text-lg font-semibold text-text-primary">Maintenance</h3>
+              <AlertTriangle className={`h-6 w-6 ${totalMaintenanceAlerts > 0 ? 'text-status-warning animate-pulse' : 'text-text-muted'}`} />
             </div>
             <div className="space-y-2">
-              <p className={`text-2xl md:text-3xl font-bold ${totalMaintenanceAlerts > 0 ? 'text-simgold-400' : 'text-emerald-400'}`}>
+              <p className={`text-2xl md:text-3xl font-bold ${totalMaintenanceAlerts > 0 ? 'text-status-warning' : 'text-status-success'}`}>
                 {totalMaintenanceAlerts}
               </p>
-              <p className="text-sm text-sim-400">Active alerts</p>
-              <p className="text-xs text-sim-400">
+              <p className="text-sm text-text-muted">Active alerts</p>
+              <p className="text-xs text-text-muted">
                 Next: {new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toLocaleDateString()}
               </p>
             </div>
@@ -425,67 +425,67 @@ const BaggageSystemOverview: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             {/* Carousel Status Panel */}
             <div className="lg:col-span-2 space-y-4">
-              <div className="hbms-control-panel p-6">
-                <h3 className="text-xl font-semibold text-sim-100 mb-4 flex items-center space-x-2">
-                  <RotateCcw className="w-5 h-5 text-simteal-400" />
+              <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-6">
+                <h3 className="text-xl font-semibold text-text-primary mb-4 flex items-center space-x-2">
+                  <RotateCcw className="w-5 h-5 text-accent-blue" />
                   <span>Carousel Management</span>
                 </h3>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {carousels.map((carousel) => (
                     <div
                       key={carousel.id}
                       onClick={(e) => handleCarouselSelect(carousel, e)}
-                      className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-300 hover:bg-sim-800/40 ${
+                      className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-300 hover:bg-primary-700/40 ${
                         selectedCarousel.id === carousel.id
-                          ? 'border-simteal-400 bg-simteal-950/30'
-                          : 'border-sim-700/50 bg-sim-800/20'
+                          ? 'border-accent-blue bg-accent-blue/10'
+                          : 'border-primary-600/40 bg-primary-800/20'
                       }`}
                     >
                       <div className="flex items-center justify-between mb-3">
-                        <h4 className="font-semibold text-sim-200">Carousel {carousel.id}</h4>
+                        <h4 className="font-semibold text-text-secondary">Carousel {carousel.id}</h4>
                         <div className={`flex items-center space-x-2 ${getStatusColor(carousel.status)}`}>
                           {getStatusIcon(carousel.status)}
                           <span className="text-sm capitalize">{carousel.status}</span>
                         </div>
                       </div>
-                      
+
                       <div className="space-y-2 text-sm">
                         <div className="flex justify-between">
-                          <span className="text-sim-400">Flight:</span>
-                          <span className="text-sim-200 font-medium">{carousel.assignedFlight}</span>
+                          <span className="text-text-muted">Flight:</span>
+                          <span className="text-text-secondary font-medium">{carousel.assignedFlight}</span>
                         </div>
-                        
+
                         {carousel.status !== 'inactive' && carousel.status !== 'maintenance' && (
                           <>
                             <div className="flex justify-between">
-                              <span className="text-sim-400">Load:</span>
-                              <span className="text-simteal-400">
+                              <span className="text-text-muted">Load:</span>
+                              <span className="text-accent-blue">
                                 {carousel.currentLoad}/{carousel.maxCapacity}
                               </span>
                             </div>
-                            
-                            <div className="w-full bg-sim-700/50 rounded-full h-2">
-                              <div 
-                                className="bg-gradient-to-r from-simteal-400 to-simteal-400 h-2 rounded-full transition-all duration-300"
+
+                            <div className="w-full bg-primary-900/50 rounded-full h-2">
+                              <div
+                                className="bg-accent-blue h-2 rounded-full transition-all duration-300"
                                 style={{ width: `${(carousel.currentLoad / carousel.maxCapacity) * 100}%` }}
                               ></div>
                             </div>
 
                             {carousel.estimatedCompletionTime && (
                               <div className="flex justify-between text-xs">
-                                <span className="text-sim-400">Est. completion:</span>
-                                <span className="text-simgold-400">
+                                <span className="text-text-muted">Est. completion:</span>
+                                <span className="text-accent-blue">
                                   {Math.max(0, Math.floor((carousel.estimatedCompletionTime.getTime() - Date.now()) / 60000))} min left
                                 </span>
                               </div>
                             )}
                           </>
                         )}
-                        
+
                         {carousel.alerts.length > 0 && (
-                          <div className="mt-2 p-2 bg-simgold-950/30 border border-simgold-500/30 rounded">
-                            <div className="flex items-center space-x-2 text-simgold-400 text-xs">
+                          <div className="mt-2 p-2 bg-status-warning/10 border border-status-warning/30 rounded">
+                            <div className="flex items-center space-x-2 text-status-warning text-xs">
                               <AlertTriangle className="w-3 h-3" />
                               <span>{carousel.alerts.length} alert(s)</span>
                             </div>
@@ -500,34 +500,34 @@ const BaggageSystemOverview: React.FC = () => {
 
             {/* Selected Carousel Details */}
             <div className="space-y-4">
-              <div className="hbms-control-panel p-6">
-                <h3 className="text-xl font-semibold text-sim-100 mb-4">
+              <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-6">
+                <h3 className="text-xl font-semibold text-text-primary mb-4">
                   Carousel {selectedCarousel.id} Details
                 </h3>
-                
+
                 <div className="space-y-4">
                   <div className="text-center">
                     <div className={`text-3xl font-bold mb-2 ${getStatusColor(selectedCarousel.status)}`}>
                       {selectedCarousel.status.toUpperCase()}
                     </div>
-                    <p className="text-sim-400">{selectedCarousel.assignedFlight}</p>
+                    <p className="text-text-muted">{selectedCarousel.assignedFlight}</p>
                     {selectedCarousel.estimatedCompletionTime && (
-                      <p className="text-sm text-simgold-400 mt-1">
+                      <p className="text-sm text-accent-blue mt-1">
                         Estimated completion: {selectedCarousel.estimatedCompletionTime.toLocaleTimeString()}
                       </p>
                     )}
                   </div>
 
                   <div className="grid grid-cols-2 gap-4 text-sm">
-                    <div className="text-center p-3 bg-sim-800/30 rounded-lg">
-                      <p className="text-sim-400">Power</p>
-                      <p className="text-lg font-bold text-simgold-400">
+                    <div className="text-center p-3 bg-primary-900/40 rounded-lg">
+                      <p className="text-text-muted">Power</p>
+                      <p className="text-lg font-bold text-accent-blue">
                         {selectedCarousel.energyConsumption.toFixed(1)}W
                       </p>
                     </div>
-                    <div className="text-center p-3 bg-sim-800/30 rounded-lg">
-                      <p className="text-sim-400">Uptime</p>
-                      <p className="text-lg font-bold text-emerald-400">
+                    <div className="text-center p-3 bg-primary-900/40 rounded-lg">
+                      <p className="text-text-muted">Uptime</p>
+                      <p className="text-lg font-bold text-status-success">
                         {selectedCarousel.uptime.toFixed(1)}%
                       </p>
                     </div>
@@ -535,29 +535,29 @@ const BaggageSystemOverview: React.FC = () => {
 
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
-                      <span className="text-sim-400">Total Processed:</span>
-                      <span className="text-sim-200">{selectedCarousel.totalBagsProcessed.toLocaleString()}</span>
+                      <span className="text-text-muted">Total Processed:</span>
+                      <span className="text-text-primary">{selectedCarousel.totalBagsProcessed.toLocaleString()}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-sim-400">Avg Unload Time:</span>
-                      <span className="text-sim-200">{selectedCarousel.averageUnloadTime}min</span>
+                      <span className="text-text-muted">Avg Unload Time:</span>
+                      <span className="text-text-primary">{selectedCarousel.averageUnloadTime}min</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-sim-400">Last Maintenance:</span>
-                      <span className="text-sim-200">{selectedCarousel.lastMaintenance.toLocaleDateString()}</span>
+                      <span className="text-text-muted">Last Maintenance:</span>
+                      <span className="text-text-primary">{selectedCarousel.lastMaintenance.toLocaleDateString()}</span>
                     </div>
                   </div>
 
                   {selectedCarousel.alerts.length > 0 && (
-                    <div className="bg-simgold-950/30 border border-simgold-500/30 rounded-lg p-3">
-                      <h4 className="text-simgold-400 font-medium mb-2 flex items-center">
+                    <div className="bg-status-warning/10 border border-status-warning/30 rounded-lg p-3">
+                      <h4 className="text-status-warning font-medium mb-2 flex items-center">
                         <AlertTriangle className="w-4 h-4 mr-2" />
                         Active Alerts
                       </h4>
-                      <ul className="space-y-1 text-sm text-simgold-200">
+                      <ul className="space-y-1 text-sm text-status-warning">
                         {selectedCarousel.alerts.map((alert, index) => (
                           <li key={index} className="flex items-center">
-                            <span className="w-1.5 h-1.5 bg-simgold-400 rounded-full mr-2"></span>
+                            <span className="w-1.5 h-1.5 bg-status-warning rounded-full mr-2"></span>
                             {alert}
                           </li>
                         ))}
@@ -565,59 +565,59 @@ const BaggageSystemOverview: React.FC = () => {
                     </div>
                   )}
 
-                  <div className="text-center text-xs text-sim-500 border-t border-sim-700/50 pt-3">
-                    Carousel is under {selectedCarousel.status === 'maintenance' ? 'maintenance' : 'automated'} control. 
+                  <div className="text-center text-xs text-text-muted border-t border-primary-600/40 pt-3">
+                    Carousel is under {selectedCarousel.status === 'maintenance' ? 'maintenance' : 'automated'} control.
                     {selectedCarousel.status === 'maintenance' ? ' Manual operation required.' : ' Automated systems enabled.'}
                   </div>
                 </div>
               </div>
 
               {/* Flight Schedule */}
-              <div className="hbms-control-panel p-6">
-                <h3 className="text-lg font-semibold text-sim-100 mb-4 flex items-center space-x-2">
-                  <Plane className="w-5 h-5 text-simteal-400" />
+              <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-6">
+                <h3 className="text-lg font-semibold text-text-primary mb-4 flex items-center space-x-2">
+                  <Plane className="w-5 h-5 text-accent-blue" />
                   <span>Flight Schedule</span>
                 </h3>
-                
+
                 <div className="space-y-3 max-h-80 overflow-y-auto">
                   {flightSchedule.map((flight) => (
-                    <div key={flight.flightNumber} className="p-3 bg-sim-800/30 rounded-lg border border-sim-700/30">
+                    <div key={flight.flightNumber} className="p-3 bg-primary-800/40 rounded-lg border border-primary-600/40">
                       <div className="flex justify-between items-start mb-2">
                         <div>
-                          <h4 className="font-medium text-sim-200">{flight.flightNumber}</h4>
-                          <p className="text-xs text-sim-400">{flight.airline}</p>
+                          <h4 className="font-medium text-text-secondary">{flight.flightNumber}</h4>
+                          <p className="text-xs text-text-muted">{flight.airline}</p>
                         </div>
                         <div className={`px-2 py-1 rounded text-xs ${
-                          flight.type === 'departure' ? 'bg-simteal-950/50 text-simteal-300' : 'bg-green-950/50 text-green-300'
+                          flight.type === 'departure' ? 'bg-accent-blue/10 text-accent-blue' : 'bg-primary-600/30 text-text-secondary'
                         }`}>
                           {flight.type}
                         </div>
                       </div>
-                      
+
                       <div className="grid grid-cols-2 gap-2 text-xs">
                         <div>
-                          <span className="text-sim-400">Time:</span>
-                          <span className="text-sim-200 ml-1">{flight.scheduledTime}</span>
+                          <span className="text-text-muted">Time:</span>
+                          <span className="text-text-primary ml-1">{flight.scheduledTime}</span>
                         </div>
                         <div>
-                          <span className="text-sim-400">{flight.type === 'departure' ? 'Gate:' : 'Carousel:'}</span>
-                          <span className="text-simteal-400 ml-1">{flight.gate || flight.carousel}</span>
+                          <span className="text-text-muted">{flight.type === 'departure' ? 'Gate:' : 'Carousel:'}</span>
+                          <span className="text-accent-blue ml-1">{flight.gate || flight.carousel}</span>
                         </div>
                         <div>
-                          <span className="text-sim-400">Passengers:</span>
-                          <span className="text-sim-200 ml-1">{flight.passengerCount}</span>
+                          <span className="text-text-muted">Passengers:</span>
+                          <span className="text-text-primary ml-1">{flight.passengerCount}</span>
                         </div>
                         <div>
-                          <span className="text-sim-400">Baggage:</span>
-                          <span className="text-emerald-400 ml-1">{flight.baggageCount}</span>
+                          <span className="text-text-muted">Baggage:</span>
+                          <span className="text-status-success ml-1">{flight.baggageCount}</span>
                         </div>
                       </div>
-                      
+
                       <div className="mt-2 text-xs">
                         <span className={`px-2 py-1 rounded ${
-                          flight.status === 'Boarding' || flight.status === 'Check-in' ? 'bg-simgold-950/50 text-simgold-300' :
-                          flight.status === 'Arrived' || flight.status === 'Baggage Claim' ? 'bg-green-950/50 text-green-300' :
-                          'bg-sim-700/50 text-sim-300'
+                          flight.status === 'Boarding' || flight.status === 'Check-in' ? 'bg-accent-blue/10 text-accent-blue' :
+                          flight.status === 'Arrived' || flight.status === 'Baggage Claim' ? 'bg-status-success/10 text-status-success' :
+                          'bg-primary-600/30 text-text-secondary'
                         }`}>
                           {flight.status}
                         </span>
@@ -635,13 +635,13 @@ const BaggageSystemOverview: React.FC = () => {
           <div className="space-y-4">
 
             {/* What this simulation shows */}
-            <div className="hbms-control-panel p-4">
+            <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-4">
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
-                <h3 className="text-base font-semibold text-sim-100 flex items-center space-x-2">
-                  <Target className="w-5 h-5 text-simteal-400" />
+                <h3 className="text-base font-semibold text-text-primary flex items-center space-x-2">
+                  <Target className="w-5 h-5 text-accent-blue" />
                   <span>Baggage Operations Simulation</span>
                 </h3>
-                <p className="text-xs text-sim-400 lg:max-w-3xl lg:text-right">
+                <p className="text-xs text-text-muted lg:max-w-3xl lg:text-right">
                   Check-in induction → multi-tier screening → diverter sortation →{' '}
                   {operationType === 'departure' ? 'make-up and gate loading' : 'carousel delivery'}.
                   Rejected bags are pushed off the sorter deck and ride a chute down to the
@@ -665,54 +665,54 @@ const BaggageSystemOverview: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
 
             {/* System Metrics Chart */}
-            <div className="hbms-control-panel p-6">
-              <h3 className="text-lg font-semibold text-sim-100 mb-4 flex items-center space-x-2">
-                <Activity className="w-5 h-5 text-emerald-400" />
+            <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-6">
+              <h3 className="text-lg font-semibold text-text-primary mb-4 flex items-center space-x-2">
+                <Activity className="w-5 h-5 text-accent-blue" />
                 <span>Real-time Metrics</span>
               </h3>
 
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="text-center p-4 bg-sim-800/30 rounded-lg">
-                    <div className="text-2xl font-bold text-emerald-400">{systemMetrics.bagsInSystem}</div>
-                    <div className="text-sm text-sim-400">Bags in System</div>
-                    <div className="w-full bg-sim-700/50 rounded-full h-2 mt-2">
-                      <div className="bg-emerald-400 h-2 rounded-full transition-all duration-300" style={{ width: `${Math.min(100, (systemMetrics.bagsInSystem / 500) * 100)}%` }}></div>
+                  <div className="text-center p-4 bg-primary-900/40 rounded-lg">
+                    <div className="text-2xl font-bold text-accent-blue">{systemMetrics.bagsInSystem}</div>
+                    <div className="text-sm text-text-muted">Bags in System</div>
+                    <div className="w-full bg-primary-900/50 rounded-full h-2 mt-2">
+                      <div className="bg-accent-blue h-2 rounded-full transition-all duration-300" style={{ width: `${Math.min(100, (systemMetrics.bagsInSystem / 500) * 100)}%` }}></div>
                     </div>
                   </div>
-                  
-                  <div className="text-center p-4 bg-sim-800/30 rounded-lg">
-                    <div className="text-2xl font-bold text-simteal-400">{systemMetrics.averageProcessingTime.toFixed(1)}min</div>
-                    <div className="text-sm text-sim-400">Avg Processing</div>
-                    <div className="w-full bg-sim-700/50 rounded-full h-2 mt-2">
-                      <div className="bg-simteal-400 h-2 rounded-full transition-all duration-300" style={{ width: `${Math.min(100, (systemMetrics.averageProcessingTime / 10) * 100)}%` }}></div>
+
+                  <div className="text-center p-4 bg-primary-900/40 rounded-lg">
+                    <div className="text-2xl font-bold text-accent-blue">{systemMetrics.averageProcessingTime.toFixed(1)}min</div>
+                    <div className="text-sm text-text-muted">Avg Processing</div>
+                    <div className="w-full bg-primary-900/50 rounded-full h-2 mt-2">
+                      <div className="bg-accent-blue h-2 rounded-full transition-all duration-300" style={{ width: `${Math.min(100, (systemMetrics.averageProcessingTime / 10) * 100)}%` }}></div>
                     </div>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-3 gap-3 text-sm">
-                  <div className="text-center p-3 bg-sim-800/20 rounded-lg">
-                    <div className="text-lg font-bold text-simgold-400">{Math.round(systemMetrics.energyConsumption)}kW</div>
-                    <div className="text-xs text-sim-400">Power Usage</div>
+                  <div className="text-center p-3 bg-primary-900/30 rounded-lg">
+                    <div className="text-lg font-bold text-accent-blue">{Math.round(systemMetrics.energyConsumption)}kW</div>
+                    <div className="text-xs text-text-muted">Power Usage</div>
                   </div>
-                  <div className="text-center p-3 bg-sim-800/20 rounded-lg">
-                    <div className="text-lg font-bold text-simgold-400">{systemMetrics.customerSatisfaction}</div>
-                    <div className="text-xs text-sim-400">Satisfaction</div>
+                  <div className="text-center p-3 bg-primary-900/30 rounded-lg">
+                    <div className="text-lg font-bold text-accent-blue">{systemMetrics.customerSatisfaction}</div>
+                    <div className="text-xs text-text-muted">Satisfaction</div>
                   </div>
-                  <div className="text-center p-3 bg-sim-800/20 rounded-lg">
-                    <div className="text-lg font-bold text-simteal-400">{totalMaintenanceAlerts}</div>
-                    <div className="text-xs text-sim-400">Alerts</div>
+                  <div className="text-center p-3 bg-primary-900/30 rounded-lg">
+                    <div className="text-lg font-bold text-accent-blue">{totalMaintenanceAlerts}</div>
+                    <div className="text-xs text-text-muted">Alerts</div>
                   </div>
                 </div>
               </div>
             </div>
 
 
-            
+
             {/* Per-carousel load, so the numbers above have somewhere to land */}
-            <div className="hbms-control-panel p-6">
-              <h3 className="text-lg font-semibold text-sim-100 mb-4 flex items-center space-x-2">
-                <RotateCcw className="w-5 h-5 text-simteal-400" />
+            <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-6">
+              <h3 className="text-lg font-semibold text-text-primary mb-4 flex items-center space-x-2">
+                <RotateCcw className="w-5 h-5 text-accent-blue" />
                 <span>Carousel Load</span>
               </h3>
 
@@ -722,25 +722,25 @@ const BaggageSystemOverview: React.FC = () => {
                   return (
                     <div key={c.id}>
                       <div className="flex justify-between text-xs mb-1">
-                        <span className="text-sim-300">
+                        <span className="text-text-secondary">
                           Carousel {c.id}
-                          <span className="text-sim-500 ml-2">{c.assignedFlight}</span>
+                          <span className="text-text-muted ml-2">{c.assignedFlight}</span>
                         </span>
                         <span className={getStatusColor(c.status)}>{pct}%</span>
                       </div>
-                      <div className="w-full bg-sim-800/60 rounded-full h-2 overflow-hidden">
+                      <div className="w-full bg-primary-800/60 rounded-full h-2 overflow-hidden">
                         <div
                           className={`h-2 rounded-full transition-all duration-500 ${
                             c.status === 'maintenance'
-                              ? 'bg-simgold-500'
+                              ? 'bg-status-warning'
                               : c.status === 'inactive'
-                              ? 'bg-sim-600'
-                              : 'bg-gradient-to-r from-simteal-500 to-emerald-400'
+                              ? 'bg-primary-600'
+                              : 'bg-accent-blue'
                           }`}
                           style={{ width: `${Math.max(pct, 2)}%` }}
                         />
                       </div>
-                      <div className="flex justify-between text-[length:calc(10px*var(--fs))] text-sim-500 mt-0.5">
+                      <div className="flex justify-between text-[length:calc(10px*var(--fs))] text-text-muted mt-0.5">
                         <span>{c.currentLoad}/{c.maxCapacity} bags</span>
                         <span>{c.energyConsumption.toFixed(0)} W · {c.uptime.toFixed(1)}% uptime</span>
                       </div>
@@ -751,55 +751,55 @@ const BaggageSystemOverview: React.FC = () => {
             </div>
 
             {/* Live Activity Feed */}
-            <div className="hbms-control-panel p-6">
-              <h3 className="text-lg font-semibold text-sim-100 mb-4 flex items-center space-x-2">
-                <Clock className="w-5 h-5 text-simteal-400" />
+            <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-6">
+              <h3 className="text-lg font-semibold text-text-primary mb-4 flex items-center space-x-2">
+                <Clock className="w-5 h-5 text-accent-blue" />
                 <span>Live Activity</span>
               </h3>
 
               <div className="space-y-3 max-h-80 overflow-y-auto">
-                <div className="p-3 bg-green-950/20 border border-green-500/30 rounded-lg">
+                <div className="p-3 bg-status-success/10 border border-status-success/30 rounded-lg">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                      <span className="text-sm text-green-300">Carousel 1 - Bag unloaded</span>
+                      <div className="w-2 h-2 bg-status-success rounded-full animate-pulse"></div>
+                      <span className="text-sm text-status-success">Carousel 1 - Bag unloaded</span>
                     </div>
-                    <span className="text-xs text-sim-400">{new Date().toLocaleTimeString()}</span>
+                    <span className="text-xs text-text-muted">{new Date().toLocaleTimeString()}</span>
                   </div>
-                  <p className="text-xs text-sim-400 mt-1 ml-4">Flight AI348 - 156 bags remaining</p>
-                </div>
-                
-                <div className="p-3 bg-simteal-950/20 border border-simteal-500/30 rounded-lg">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-simteal-400 rounded-full animate-pulse"></div>
-                      <span className="text-sm text-simteal-300">Screening system - CTX online</span>
-                    </div>
-                    <span className="text-xs text-sim-400">{new Date(Date.now() - 30000).toLocaleTimeString()}</span>
-                  </div>
-                  <p className="text-xs text-sim-400 mt-1 ml-4">Departure processing active</p>
-                </div>
-                
-                <div className="p-3 bg-simgold-950/20 border border-simgold-500/30 rounded-lg">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-simgold-400 rounded-full animate-pulse"></div>
-                      <span className="text-sm text-simgold-300">Maintenance scheduled</span>
-                    </div>
-                    <span className="text-xs text-sim-400">{new Date(Date.now() - 60000).toLocaleTimeString()}</span>
-                  </div>
-                  <p className="text-xs text-sim-400 mt-1 ml-4">Carousel 4 - Motor bearing replacement</p>
+                  <p className="text-xs text-text-muted mt-1 ml-4">Flight AI348 - 156 bags remaining</p>
                 </div>
 
-                <div className="p-3 bg-simgold-950/20 border border-simgold-500/30 rounded-lg">
+                <div className="p-3 bg-accent-blue/10 border border-accent-blue/30 rounded-lg">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-simgold-400 rounded-full animate-pulse"></div>
-                      <span className="text-sm text-simgold-300">System optimization</span>
+                      <div className="w-2 h-2 bg-accent-blue rounded-full animate-pulse"></div>
+                      <span className="text-sm text-accent-blue">Screening system - CTX online</span>
                     </div>
-                    <span className="text-xs text-sim-400">{new Date(Date.now() - 120000).toLocaleTimeString()}</span>
+                    <span className="text-xs text-text-muted">{new Date(Date.now() - 30000).toLocaleTimeString()}</span>
                   </div>
-                  <p className="text-xs text-sim-400 mt-1 ml-4">Route efficiency improved by 2.3%</p>
+                  <p className="text-xs text-text-muted mt-1 ml-4">Departure processing active</p>
+                </div>
+
+                <div className="p-3 bg-status-warning/10 border border-status-warning/30 rounded-lg">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <div className="w-2 h-2 bg-status-warning rounded-full animate-pulse"></div>
+                      <span className="text-sm text-status-warning">Maintenance scheduled</span>
+                    </div>
+                    <span className="text-xs text-text-muted">{new Date(Date.now() - 60000).toLocaleTimeString()}</span>
+                  </div>
+                  <p className="text-xs text-text-muted mt-1 ml-4">Carousel 4 - Motor bearing replacement</p>
+                </div>
+
+                <div className="p-3 bg-status-success/10 border border-status-success/30 rounded-lg">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <div className="w-2 h-2 bg-status-success rounded-full animate-pulse"></div>
+                      <span className="text-sm text-status-success">System optimization</span>
+                    </div>
+                    <span className="text-xs text-text-muted">{new Date(Date.now() - 120000).toLocaleTimeString()}</span>
+                  </div>
+                  <p className="text-xs text-text-muted mt-1 ml-4">Route efficiency improved by 2.3%</p>
                 </div>
               </div>
             </div>

@@ -133,9 +133,8 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
                       whileHover={{ scale: 1.05, y: -5 }}
                       whileTap={{ scale: 0.98 }}
                       className={`
-                        relative p-8 rounded-2xl border-2 ${config.borderColor}
-                        bg-slate-800/80 backdrop-blur-md
-                        hover:bg-slate-800/95 transition-all duration-300
+                        glass-panel relative p-8 rounded-2xl border-2 ${config.borderColor}
+                        hover:bg-white/[0.08] transition-all duration-300
                         group cursor-pointer overflow-hidden
                         w-full max-w-sm
                       `}
@@ -195,7 +194,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
             >
               <div className="hexagon-container">
                 <div className="hexagon-border">
-                  <div className="hexagon-content">
+                  <div className="hexagon-content glass-panel-strong">
                     <div className="p-8">
                       {/* Back Button */}
                       <button
@@ -274,10 +273,10 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
                           <motion.div
                             initial={{ opacity: 0, y: -10 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="flex items-center gap-2 p-3 bg-red-500/20 border border-red-500/30 rounded-lg"
+                            className="flex items-center gap-2 p-3 bg-status-error/15 border border-status-error/30 rounded-lg"
                           >
-                            <AlertTriangle className="w-5 h-5 text-red-400 flex-shrink-0" />
-                            <span className="text-red-300 text-sm">{error}</span>
+                            <AlertTriangle className="w-5 h-5 text-status-error flex-shrink-0" />
+                            <span className="text-status-error text-sm">{error}</span>
                           </motion.div>
                         )}
 

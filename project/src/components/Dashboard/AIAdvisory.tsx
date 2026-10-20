@@ -50,10 +50,10 @@ const AIAdvisory: React.FC<AIAdvisoryProps> = ({ recommendations }) => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-primary-800 to-primary-700 rounded-lg p-6 border border-accent-teal border-opacity-50">
+    <div className="glass-panel rounded-lg p-6 border border-accent-blue border-opacity-30">
       <div className="flex items-center space-x-3 mb-6">
-        <div className="p-2 bg-accent-teal bg-opacity-20 rounded-lg">
-          <Brain className="h-6 w-6 text-accent-teal" />
+        <div className="p-2 bg-accent-blue bg-opacity-20 rounded-lg">
+          <Brain className="h-6 w-6 text-accent-blue" />
         </div>
         <div>
           <h2 className="text-xl font-bold text-text-primary">AI Advisory System</h2>
@@ -62,7 +62,7 @@ const AIAdvisory: React.FC<AIAdvisoryProps> = ({ recommendations }) => {
         <div className="flex-1"></div>
         <div className="text-right">
           <div className="text-sm text-text-muted">Active Recommendations</div>
-          <div className="text-2xl font-bold text-accent-teal">{recommendations.length}</div>
+          <div className="text-2xl font-bold text-accent-blue">{recommendations.length}</div>
         </div>
       </div>
 
@@ -92,7 +92,7 @@ const AIAdvisory: React.FC<AIAdvisoryProps> = ({ recommendations }) => {
                 
                 <div className="flex items-center space-x-4 mb-4">
                   <div className="flex items-center space-x-2">
-                    <TrendingUp className="h-4 w-4 text-accent-teal" />
+                    <TrendingUp className="h-4 w-4 text-accent-blue" />
                     <span className="text-xs text-text-muted">Confidence:</span>
                     <span className="text-sm font-medium text-text-primary">
                       {(rec.confidence * 100).toFixed(0)}%
@@ -116,7 +116,7 @@ const AIAdvisory: React.FC<AIAdvisoryProps> = ({ recommendations }) => {
                     <motion.button
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
-                      className="flex items-center space-x-2 px-4 py-2 bg-accent-teal hover:bg-opacity-80 text-white rounded-lg font-medium transition-all"
+                      className="flex items-center space-x-2 px-4 py-2 bg-accent-blue hover:bg-accent-blueHover text-white rounded-lg font-medium transition-all"
                     >
                       <Play className="h-4 w-4" />
                       <span>Execute SOP</span>
@@ -131,10 +131,6 @@ const AIAdvisory: React.FC<AIAdvisoryProps> = ({ recommendations }) => {
                     <Eye className="h-4 w-4" />
                     <span>Run Shadow</span>
                   </motion.button>
-                  
-                  <button className="text-xs text-text-muted hover:text-text-primary transition-colors">
-                    View Details →
-                  </button>
                 </div>
               </div>
             </div>

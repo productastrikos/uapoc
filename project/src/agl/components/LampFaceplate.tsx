@@ -21,10 +21,10 @@ const StateChip: React.FC<{ label: string; tone: 'good' | 'warn' | 'bad' | 'idle
   tone,
 }) => {
   const tones = {
-    good: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/40',
-    warn: 'bg-amber-500/15 text-amber-300 border-amber-500/40',
-    bad: 'bg-red-500/15 text-red-300 border-red-500/40',
-    idle: 'bg-slate-500/15 text-slate-300 border-slate-500/40',
+    good: 'bg-status-success/15 text-status-success border-status-success/40',
+    warn: 'bg-status-warning/15 text-status-warning border-status-warning/40',
+    bad: 'bg-status-error/15 text-status-error border-status-error/40',
+    idle: 'bg-primary-600/30 text-text-muted border-primary-500/40',
   };
   return (
     <span className={`px-2 py-0.5 rounded border text-xs font-semibold ${tones[tone]}`}>
@@ -96,7 +96,7 @@ const LampFaceplate: React.FC = () => {
       animate={{ x: 0, opacity: 1 }}
       exit={{ x: 380, opacity: 0 }}
       transition={{ type: 'spring', damping: 28, stiffness: 260 }}
-      className="fixed right-0 top-0 bottom-0 z-[60] w-[420px] max-w-[92vw] bg-primary-800/97 backdrop-blur-md border-l border-primary-500/60 shadow-[-16px_0_48px_rgba(0,0,0,0.65)] overflow-y-auto no-scrollbar"
+      className="modal-surface fixed right-0 top-0 bottom-0 z-[60] w-[420px] max-w-[92vw] border-l border-primary-500/60 shadow-[-16px_0_48px_rgba(0,0,0,0.65)] overflow-y-auto no-scrollbar"
     >
       {/* Header */}
       <div className="sticky top-0 z-10 bg-primary-700/95 backdrop-blur px-3 py-2.5 border-b border-primary-500/50 flex items-start justify-between">
@@ -162,7 +162,7 @@ const LampFaceplate: React.FC = () => {
           </dl>
         </Section>
 
-        <Section title="Control" icon={<Lightbulb className="w-3.5 h-3.5 text-accent-gold" />}>
+        <Section title="Control" icon={<Lightbulb className="w-3.5 h-3.5 text-accent-blue" />}>
           <div className="space-y-2.5">
             <div className="flex items-center justify-between">
               <span className="text-xs text-text-secondary">On / Off Command</span>
@@ -170,10 +170,8 @@ const LampFaceplate: React.FC = () => {
                 <button
                   onClick={() => setLampCommand(fixture.id, true)}
                   disabled={fixture.state === 'failed'}
-                  className={`px-4 py-1 text-xs rounded border transition-colors disabled:opacity-40 disabled:cursor-not-allowed ${
-                    fixture.state === 'on'
-                      ? 'bg-emerald-500/25 border-emerald-400/60 text-emerald-200'
-                      : 'bg-primary-600/50 border-primary-500/50 text-text-secondary hover:text-text-primary'
+                  className={`chip px-4 py-1 text-xs disabled:opacity-40 disabled:cursor-not-allowed ${
+                    fixture.state === 'on' ? 'chip-active' : ''
                   }`}
                 >
                   On
@@ -181,10 +179,8 @@ const LampFaceplate: React.FC = () => {
                 <button
                   onClick={() => setLampCommand(fixture.id, false)}
                   disabled={fixture.state === 'failed'}
-                  className={`px-4 py-1 text-xs rounded border transition-colors disabled:opacity-40 disabled:cursor-not-allowed ${
-                    fixture.state === 'off'
-                      ? 'bg-slate-500/25 border-slate-400/60 text-slate-200'
-                      : 'bg-primary-600/50 border-primary-500/50 text-text-secondary hover:text-text-primary'
+                  className={`chip px-4 py-1 text-xs disabled:opacity-40 disabled:cursor-not-allowed ${
+                    fixture.state === 'off' ? 'chip-active' : ''
                   }`}
                 >
                   Off
@@ -212,10 +208,8 @@ const LampFaceplate: React.FC = () => {
               <span className="text-xs text-text-secondary">Maintenance Mode</span>
               <button
                 onClick={() => setMaintenanceMode(fixture.id, !fixture.maintenanceMode)}
-                className={`px-3 py-1 text-xs rounded border transition-colors ${
-                  fixture.maintenanceMode
-                    ? 'bg-purple-500/25 border-purple-400/60 text-purple-200'
-                    : 'bg-primary-600/50 border-primary-500/50 text-text-secondary hover:text-text-primary'
+                className={`chip px-3 py-1 min-w-[5rem] text-xs text-center ${
+                  fixture.maintenanceMode ? 'chip-active' : ''
                 }`}
               >
                 {fixture.maintenanceMode ? 'Active' : 'Inactive'}
@@ -224,7 +218,7 @@ const LampFaceplate: React.FC = () => {
           </div>
         </Section>
 
-        <Section title="Alarms" icon={<Wrench className="w-3.5 h-3.5 text-red-400" />}>
+        <Section title="Alarms" icon={<Wrench className="w-3.5 h-3.5 text-status-error" />}>
           {tagAlarms.length === 0 ? (
             <p className="text-xs text-text-muted py-1">No active alarms on this tag.</p>
           ) : (
@@ -232,10 +226,10 @@ const LampFaceplate: React.FC = () => {
               {tagAlarms.map((a) => (
                 <div
                   key={a.id}
-                  className="flex items-center justify-between gap-2 bg-primary-900/50 border border-red-500/25 rounded px-2 py-1.5"
+                  className="flex items-center justify-between gap-2 bg-primary-900/50 border border-status-error/25 rounded px-2 py-1.5"
                 >
                   <div className="min-w-0">
-                    <div className="text-xs text-red-300 truncate">{a.description}</div>
+                    <div className="text-xs text-status-error truncate">{a.description}</div>
                     <div className="text-[length:calc(10px*var(--fs))] text-text-muted">
                       {a.state} · {new Date(a.raisedAt).toLocaleTimeString()}
                     </div>
@@ -244,20 +238,20 @@ const LampFaceplate: React.FC = () => {
                     <button
                       onClick={() => ackAlarm(a.id)}
                       disabled={a.state === 'ACK'}
-                      className="px-2 py-0.5 text-[length:calc(10px*var(--fs))] rounded bg-primary-600/60 border border-primary-500/50 text-text-secondary hover:text-text-primary disabled:opacity-40"
+                      className="chip px-2 py-0.5 text-[length:calc(10px*var(--fs))] disabled:opacity-40"
                     >
                       Ack
                     </button>
                     <button
                       onClick={() => shelveAlarm(a.id)}
-                      className="px-2 py-0.5 text-[length:calc(10px*var(--fs))] rounded bg-primary-600/60 border border-primary-500/50 text-text-secondary hover:text-text-primary"
+                      className="chip px-2 py-0.5 text-[length:calc(10px*var(--fs))]"
                     >
                       Shelve
                     </button>
                     <button
                       onClick={() => escalate(a.id)}
                       disabled={!!a.workOrderId}
-                      className="px-2 py-0.5 text-[length:calc(10px*var(--fs))] rounded bg-accent-teal/20 border border-accent-teal/50 text-accent-teal hover:bg-accent-teal/30 disabled:opacity-40"
+                      className="chip px-2 py-0.5 text-[length:calc(10px*var(--fs))] bg-accent-teal/20 text-accent-teal hover:bg-accent-teal/30 disabled:opacity-40"
                     >
                       {a.workOrderId ?? 'Raise WO'}
                     </button>
@@ -346,7 +340,7 @@ const LampFaceplate: React.FC = () => {
               </div>
               <div className="flex justify-between">
                 <dt className="text-text-secondary">Output Current</dt>
-                <dd className={`font-mono ${circuit.faulted ? 'text-red-400' : 'text-text-primary'}`}>
+                <dd className={`font-mono ${circuit.faulted ? 'text-status-error' : 'text-text-primary'}`}>
                   {circuit.outputCurrent.toFixed(1)} A
                 </dd>
               </div>
@@ -354,7 +348,7 @@ const LampFaceplate: React.FC = () => {
                 <dt className="text-text-secondary">Insulation Resistance</dt>
                 <dd
                   className={`font-mono ${
-                    circuit.insulationResistance < 50 ? 'text-amber-400' : 'text-text-primary'
+                    circuit.insulationResistance < 50 ? 'text-status-warning' : 'text-text-primary'
                   }`}
                 >
                   {circuit.insulationResistance} MΩ

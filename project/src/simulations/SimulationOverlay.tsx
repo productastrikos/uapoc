@@ -124,17 +124,17 @@ const SimulationBody: React.FC<{ simulationId: SimulationId; title: string; onCl
 
   return (
     <>
-      {/* Title bar - UPOC/TAMS chrome */}
-      <div className="flex-shrink-0 border-b border-primary-600/60 bg-gradient-to-r from-primary-800 via-primary-700 to-primary-800">
+      {/* Title bar - matches the main app's console header chrome */}
+      <div className="flex-shrink-0 border-b border-primary-600/60 bg-primary-800">
         <div className="flex items-center justify-between px-6 py-4">
           <div className="flex items-center space-x-4 min-w-0">
-            <div className="p-3 rounded-xl bg-gradient-to-br from-accent-teal/25 to-accent-gold/10 border border-accent-teal/30 shadow-lg">
+            <div className="p-3 rounded-xl bg-primary-700/60 border border-primary-600/40">
               <span className="text-2xl leading-none">{subsystem.icon}</span>
             </div>
             <div className="min-w-0">
               <div className="flex items-center space-x-3">
                 <h2 className="text-2xl font-bold text-text-primary truncate">{title}</h2>
-                <span className="flex-shrink-0 px-2.5 py-1 rounded-full text-[length:calc(10px*var(--fs))] font-bold uppercase tracking-widest bg-accent-gold/15 text-accent-gold border border-accent-gold/40">
+                <span className="flex-shrink-0 px-2.5 py-1 rounded-full text-[length:calc(10px*var(--fs))] font-bold uppercase tracking-widest bg-accent-blue/15 text-accent-blue border border-accent-blue/40">
                   Simulation
                 </span>
               </div>
@@ -148,7 +148,7 @@ const SimulationBody: React.FC<{ simulationId: SimulationId; title: string; onCl
             <button
               onClick={handleTriggerEvent}
               title="Raise an incident for this subsystem and open the alert centre"
-              className="flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium bg-accent-gold/15 border border-accent-gold/40 text-accent-gold hover:bg-accent-gold/25 transition-all duration-200 shadow-lg"
+              className="btn btn-secondary"
             >
               <Zap className="w-4 h-4" />
               <span>Trigger Event</span>
@@ -157,16 +157,12 @@ const SimulationBody: React.FC<{ simulationId: SimulationId; title: string; onCl
             <button
               onClick={() => setShowAlertCenter((prev) => !prev)}
               title="Alert centre (Ctrl+A)"
-              className={`relative flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium border transition-all duration-200 shadow-lg ${
-                showAlertCenter
-                  ? "bg-status-error/30 border-status-error text-white"
-                  : "bg-status-error/15 border-status-error/40 text-status-error hover:bg-status-error/25"
-              }`}
+              className={`btn relative ${showAlertCenter ? "btn-danger-active" : "btn-danger"}`}
             >
               <Bell className="w-4 h-4" />
               <span>Alerts</span>
               {newAlerts.length > 0 && (
-                <span className="absolute -top-2 -right-2 bg-status-error text-white text-xs rounded-full w-5 h-5 flex items-center justify-center animate-pulse">
+                <span className="absolute -top-2 -right-2 bg-status-error text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                   {newAlerts.length}
                 </span>
               )}
@@ -176,7 +172,7 @@ const SimulationBody: React.FC<{ simulationId: SimulationId; title: string; onCl
               onClick={onClose}
               aria-label="Close simulation"
               title="Close simulation (Esc)"
-              className="p-2 rounded-lg text-text-secondary hover:text-text-primary bg-primary-900/60 border border-primary-600/60 hover:border-accent-teal/60 transition-all duration-200"
+              className="btn btn-secondary"
             >
               <X className="w-5 h-5" />
             </button>
@@ -270,17 +266,20 @@ const SimulationOverlay: React.FC<SimulationOverlayProps> = ({ simulationId, tit
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className="fixed inset-0 z-[9998] bg-primary-900/80 backdrop-blur-sm"
+          className="fixed inset-0 z-[9998]"
           role="dialog"
           aria-modal="true"
           aria-label={title}
         >
+          {/* Backdrop dim, matching DetailModal's pattern */}
+          <div className="absolute inset-0 bg-black/60" />
+
           <motion.div
             initial={{ opacity: 0, scale: 0.98, y: 12 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.98, y: 12 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
-            className="sim-root sim-surface absolute inset-0 flex flex-col overflow-hidden"
+            className="sim-root modal-surface absolute inset-0 flex flex-col overflow-hidden"
           >
             <SimulationBody simulationId={simulationId} title={title} onClose={onClose} />
           </motion.div>

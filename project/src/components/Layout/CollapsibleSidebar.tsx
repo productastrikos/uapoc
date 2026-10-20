@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion";
 import {
-  ChevronLeft,
-  ChevronRight,
   Plane,
   Users,
   Building,
@@ -22,11 +19,21 @@ interface CollapsibleSidebarProps {
   onModuleChange: (module: string) => void;
 }
 
+/* A fixed-width icon rail, matching the Nest/CCMS sidebar: no expand/collapse
+ * state, so toggling never resizes the content area. Labels surface only as a
+ * hover tooltip, keeping the rail's footprint constant at all times.
+ *
+ * The tooltip is rendered as a `fixed`-position element positioned from the
+ * hovered button's own bounding box, rather than an absolutely-positioned
+ * child of the nav. The nav scrolls (`overflow-y-auto`), and per the CSS spec
+ * that forces its `overflow-x` to compute as `auto` too, so anything
+ * absolutely positioned outside the rail's own width was being silently
+ * clipped instead of floating beside the icon. */
 const CollapsibleSidebar: React.FC<CollapsibleSidebarProps> = ({
   activeModule,
   onModuleChange,
 }) => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [hovered, setHovered] = useState<{ label: string; top: number } | null>(null);
 
   const menuItems = [
     { id: "aocc", label: "UAOC Dashboard", icon: Monitor, shortcut: "Ctrl+1" },
@@ -43,100 +50,64 @@ const CollapsibleSidebar: React.FC<CollapsibleSidebarProps> = ({
     { id: "reports", label: "Analytics & Reporting", icon: BarChart3, shortcut: "Ctrl+0" }
   ];
 
-  return (
-    <motion.div
-      className="fs-chrome bg-primary-700/80 backdrop-blur-sm border-r border-primary-500/50 transition-all duration-300 relative flex flex-col h-full"
-      animate={{ width: collapsed ? 80 : 280 }}
-      initial={{ width: 280 }}
-    >
-      {/* Shimmer Effect Border */}
-      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-teal-400/10 to-transparent animate-shimmer" />
-      
-      {/* Collapse Toggle */}
-      <button
-        onClick={() => setCollapsed(!collapsed)}
-        className="absolute -right-3 top-6 bg-primary-700 border border-primary-500/50 rounded-full p-1 hover:bg-primary-600 transition-colors z-10"
-      >
-        {collapsed ? <ChevronRight className="w-4 h-4 text-teal-400" /> : <ChevronLeft className="w-4 h-4 text-teal-400" />}
-      </button>
+  const showTooltip = (e: React.MouseEvent<HTMLElement>, label: string) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setHovered({ label, top: rect.top + rect.height / 2 });
+  };
 
-      {/* Navigation Menu */}
-      <nav className="flex-1 overflow-y-auto py-4 no-scrollbar mt-4">
+  return (
+    <div className="fs-chrome w-16 shrink-0 bg-primary-800 border-r border-primary-600/50 flex flex-col items-center h-full relative">
+      <nav className="flex-1 overflow-y-auto no-scrollbar py-3">
         <div className="space-y-1 px-2">
           {menuItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeModule === item.id;
-            
+
             return (
-              <motion.button
+              <button
                 key={item.id}
                 onClick={() => onModuleChange(item.id)}
-                className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-left transition-all duration-200 group relative overflow-hidden ${
-                  isActive 
-                    ? 'bg-gradient-to-r from-teal-500/20 to-blue-500/20 text-white border border-teal-500/50' 
-                    : 'text-gray-300 hover:bg-primary-600/50 hover:text-white'
+                onMouseEnter={(e) => showTooltip(e, item.label)}
+                onMouseLeave={() => setHovered(null)}
+                className={`flex items-center justify-center w-11 h-11 rounded-lg transition-colors duration-150 ${
+                  isActive
+                    ? "bg-accent-blue/20 text-accent-blue"
+                    : "text-text-muted hover:bg-primary-700 hover:text-text-primary"
                 }`}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
               >
-                {/* Active item shimmer effect */}
-                {isActive && (
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-teal-400/20 to-transparent animate-shimmer" />
-                )}
-                
-                <Icon className={`w-5 h-5 flex-shrink-0 ${isActive ? 'text-teal-400' : 'text-gray-400 group-hover:text-teal-400'}`} />
-                
-                {!collapsed && (
-                  <>
-                    <span className="text-sm font-medium flex-1 relative z-10">{item.label}</span>
-                    <span className="text-xs text-gray-500 relative z-10">{item.shortcut}</span>
-                  </>
-                )}
-                
-                {/* Tooltip for collapsed state */}
-                {collapsed && (
-                  <div className="absolute left-full ml-2 px-2 py-1 bg-primary-800 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-20">
-                    {item.label}
-                    <div className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-1 border-4 border-transparent border-r-primary-800"></div>
-                  </div>
-                )}
-              </motion.button>
+                <Icon className="w-5 h-5 flex-shrink-0" />
+              </button>
             );
           })}
         </div>
       </nav>
 
       {/* Footer - Powered by Astrikos */}
-      <div className="mt-auto p-4 border-t border-primary-600/50">
-        {collapsed ? (
-          <div className="flex justify-center group relative">
-            <img
-              src="/Astrikos_solo_logo.png"
-              alt="Astrikos"
-              className="h-11 w-auto opacity-90 hover:opacity-100 transition-opacity"
-              style={{ filter: 'brightness(1.6) contrast(1.1)' }}
-            />
-            <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 px-2 py-1 bg-primary-800 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-20">
-              Powered by Astrikos
-            </div>
-          </div>
-        ) : (
-          <div className="flex flex-col items-center space-y-2">
-            <span className="text-[length:calc(11px*var(--fs))] uppercase tracking-widest text-gray-500">Powered by</span>
-            <img
-              src="/Astrikos Logo Transparent Horizontal.png"
-              alt="Astrikos"
-              className="h-14 w-auto max-w-[210px] object-contain opacity-95 hover:opacity-100 transition-opacity"
-              style={{
-                filter: 'brightness(1.9) contrast(1.15) drop-shadow(0 2px 6px rgba(0,0,0,0.5))',
-              }}
-            />
-          </div>
-        )}
+      <div
+        className="py-3"
+        onMouseEnter={(e) => showTooltip(e, "Powered by Astrikos")}
+        onMouseLeave={() => setHovered(null)}
+      >
+        <img
+          src="/Astrikos_solo_logo.png"
+          alt="Astrikos"
+          className="h-7 w-auto opacity-80 hover:opacity-100 transition-opacity"
+          style={{ filter: 'brightness(1.6) contrast(1.1)' }}
+        />
       </div>
-    </motion.div>
+
+      {/* Single shared tooltip, positioned in the viewport so it is never
+          clipped by the nav's scroll container. */}
+      {hovered && (
+        <div
+          className="fixed left-16 ml-2 px-2 py-1 bg-primary-700 text-text-primary text-xs rounded shadow-lg whitespace-nowrap z-50 pointer-events-none -translate-y-1/2"
+          style={{ top: hovered.top }}
+        >
+          {hovered.label}
+        </div>
+      )}
+    </div>
   );
-  
 };
 
 export default CollapsibleSidebar;

@@ -156,14 +156,14 @@ const SecurityOperations: React.FC = () => {
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.8, opacity: 0 }}
-          className="bg-primary-800 rounded-xl border border-accent-teal w-[95vw] h-[95vh] overflow-hidden flex flex-col"
+          className="modal-surface rounded-xl w-[95vw] h-[95vh] overflow-hidden flex flex-col"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Enhanced Header */}
           <div className="flex items-center justify-between p-4 border-b border-primary-600 bg-primary-900">
             <div className="flex items-center space-x-4">
-              <div className="p-2 bg-accent-teal bg-opacity-20 rounded-lg">
-                <Camera className="h-6 w-6 text-accent-teal" />
+              <div className="p-2 bg-accent-blue/15 rounded-lg">
+                <Camera className="h-5 w-5 text-accent-blue" />
               </div>
               <div>
                 <h3 className="text-xl font-bold text-text-primary">{camera.id}</h3>
@@ -204,7 +204,7 @@ const SecurityOperations: React.FC = () => {
             ) : (
               <div className="w-full h-full flex items-center justify-center">
                 <div className="text-center">
-                  <Camera className={`w-20 h-20 mx-auto mb-4 ${camera.status === 'active' ? 'text-accent-teal' : 'text-text-muted'}`} />
+                  <Camera className={`w-20 h-20 mx-auto mb-4 ${camera.status === 'active' ? 'text-accent-blue' : 'text-text-muted'}`} />
                   <p className="text-text-muted text-lg">No video feed available</p>
                 </div>
               </div>
@@ -212,8 +212,8 @@ const SecurityOperations: React.FC = () => {
 
             {/* Enhanced Recording Indicator */}
             {(recordingFeeds[camera.id] || camera.recording) && (
-              <div className="absolute top-4 left-4 flex items-center space-x-3 bg-red-600 bg-opacity-90 px-4 py-2 rounded-lg shadow-lg border border-red-500">
-                <div className="w-4 h-4 bg-red-300 rounded-full animate-pulse shadow-lg"></div>
+              <div className="absolute top-4 left-4 flex items-center space-x-3 bg-status-error/90 px-4 py-2 rounded-lg border border-status-error">
+                <div className="w-4 h-4 bg-status-error rounded-full animate-pulse"></div>
                 <span className="text-white font-bold text-lg tracking-wider">● REC</span>
               </div>
             )}
@@ -238,41 +238,18 @@ const SecurityOperations: React.FC = () => {
 
           {/* Enhanced Controls */}
           <div className="flex items-center justify-between p-6 bg-primary-900 border-t border-primary-600">
-            <div className="flex items-center space-x-4">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+            <div className="flex items-center space-x-2">
+              <button
                 onClick={() => toggleRecording(camera.id)}
-                className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-all shadow-lg ${
-                  recordingFeeds[camera.id] 
-                    ? 'bg-red-600 hover:bg-red-700 text-white border border-red-500' 
-                    : 'bg-green-600 hover:bg-green-700 text-white border border-green-500'
-                }`}
+                className={`btn min-w-[8.5rem] ${recordingFeeds[camera.id] ? 'btn-primary' : 'btn-secondary'}`}
               >
-                <div className={`w-3 h-3 rounded-full ${recordingFeeds[camera.id] ? 'bg-red-300' : 'bg-green-300'}`}></div>
                 <span>{recordingFeeds[camera.id] ? 'Stop Recording' : 'Start Recording'}</span>
-              </motion.button>
-
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-6 py-3 bg-accent-teal hover:bg-opacity-80 text-white rounded-lg font-medium transition-all border border-accent-teal"
-              >
-                PTZ Control
-              </motion.button>
-
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-6 py-3 bg-primary-600 hover:bg-primary-500 text-text-primary rounded-lg font-medium transition-all border border-primary-500"
-              >
-                Snapshot
-              </motion.button>
+              </button>
             </div>
 
             <div className="flex items-center space-x-4 text-sm text-text-muted">
               <div className="flex items-center space-x-2">
-                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                <div className="w-2 h-2 bg-status-success rounded-full animate-pulse"></div>
                 <span>Live Feed</span>
               </div>
               <span>|</span>
@@ -295,10 +272,12 @@ const SecurityOperations: React.FC = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
-          <Shield className="h-8 w-8 text-accent-teal" />
+          <div className="p-2 bg-accent-blue/15 rounded-lg">
+            <Shield className="w-5 h-5 text-accent-blue" />
+          </div>
           <div>
-            <h1 className="text-3xl font-bold text-text-primary">{t('nav.security')}</h1>
-            <p className="text-text-muted">{t('security.subtitle')}</p>
+            <h1 className="text-2xl font-bold text-white">{t('nav.security')}</h1>
+            <p className="text-sm text-text-muted">{t('security.subtitle')}</p>
           </div>
         </div>
 
@@ -308,27 +287,27 @@ const SecurityOperations: React.FC = () => {
       {/* Quick Stats */}
       <div className="grid grid-cols-4 gap-6">
         {[
-          { label: t('security.active_incidents'), value: '3', icon: AlertTriangle, color: 'text-status-error', change: '+1' },
-          { label: t('security.cameras_online'), value: '96/98', icon: Eye, color: 'text-status-success', change: '+2' },
-          { label: t('security.response_time'), value: '2.3m', icon: Phone, color: 'text-accent-teal', change: '-0.5m' },
-          { label: t('security.threat_level'), value: 'Medium', icon: Shield, color: 'text-status-warning', change: 'Stable' },
+          { label: t('security.active_incidents'), value: '3', icon: AlertTriangle, color: 'text-status-error', change: '+1', tint: 'glass-pill-blue' },
+          { label: t('security.cameras_online'), value: '96/98', icon: Eye, color: 'text-status-success', change: '+2', tint: 'glass-pill-teal' },
+          { label: t('security.response_time'), value: '2.3m', icon: Phone, color: 'text-accent-blue', change: '-0.5m', tint: 'glass-pill-violet' },
+          { label: t('security.threat_level'), value: 'Medium', icon: Shield, color: 'text-status-warning', change: 'Stable', tint: 'glass-pill-neutral' },
         ].map((stat, index) => (
           <motion.div
             key={stat.label}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
-            whileHover={{ scale: 1.02, y: -2 }}
-            className="security-gradient rounded-lg p-6 border border-primary-600 hover:border-accent-teal transition-all duration-300 cursor-pointer hover:shadow-2xl"
+            whileHover={{ y: -2 }}
+            className={`glass-pill ${stat.tint} hover:border-accent-blue/40 transition-colors duration-200 cursor-pointer`}
             onClick={() => handleIncidentClick(securityIncidents[0])}
           >
             <div className="flex items-center justify-between mb-2">
-              <stat.icon className={`h-6 w-6 ${stat.color}`} />
+              <stat.icon className="h-5 w-5 text-text-muted" />
               <span className={`text-sm font-medium ${stat.change.startsWith('+') && stat.change !== '+2' ? 'text-status-error' : 'text-status-success'}`}>
                 {stat.change}
               </span>
             </div>
-            <div className="text-2xl font-bold text-text-primary">{stat.value}</div>
+            <div className="text-xl font-bold text-text-primary">{stat.value}</div>
             <div className="text-sm text-text-muted">{stat.label}</div>
           </motion.div>
         ))}
@@ -343,12 +322,12 @@ const SecurityOperations: React.FC = () => {
         {/* Left Column - Incident Management */}
         <div className="col-span-8 space-y-8">
           {/* Live Incident Board */}
-          <div className="security-gradient rounded-xl border border-primary-600 p-8 backdrop-blur-sm">
+          <div className="glass-panel rounded-xl p-6">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-text-primary">{t('security.incident_management')}</h2>
+              <h2 className="text-base font-semibold text-text-primary">{t('security.incident_management')}</h2>
               <div className="flex items-center space-x-4 text-sm">
                 <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-status-error rounded-full animate-pulse"></div>
+                  <div className="w-3 h-3 bg-status-error rounded-full"></div>
                   <span className="text-text-muted">{t('security.critical')}</span>
                 </div>
                 <div className="flex items-center space-x-2">
@@ -368,8 +347,7 @@ const SecurityOperations: React.FC = () => {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  whileHover={{ scale: 1.01, x: 8 }}
-                  className="p-6 bg-gradient-to-r from-primary-800 to-primary-700 rounded-xl border border-primary-600 hover:border-accent-teal transition-all duration-300 cursor-pointer group"
+                  className="p-4 bg-primary-800/60 rounded-xl border border-primary-600/40 hover:border-accent-blue/40 transition-colors duration-200 cursor-pointer group"
                   onClick={() => handleIncidentClick(incident)}
                 >
                   <div className="flex items-start justify-between">
@@ -386,13 +364,13 @@ const SecurityOperations: React.FC = () => {
                       
                       <div className="flex-1">
                         <div className="flex items-center space-x-3 mb-2">
-                          <h3 className="font-semibold text-text-primary group-hover:text-accent-teal transition-colors">
+                          <h3 className="font-semibold text-text-primary group-hover:text-accent-blue transition-colors">
                             {incident.description}
                           </h3>
-                          <span className={`text-xs px-3 py-1 rounded-full font-medium ${
-                            incident.severity === 'critical' ? 'bg-status-error text-white' :
-                            incident.severity === 'high' ? 'bg-status-warning text-black' :
-                            'bg-status-info text-white'
+                          <span className={`text-xs px-2 py-0.5 rounded-full font-medium border ${
+                            incident.severity === 'critical' ? 'bg-status-error/10 text-status-error border-status-error/30' :
+                            incident.severity === 'high' ? 'bg-status-warning/10 text-status-warning border-status-warning/30' :
+                            'bg-accent-blue/10 text-accent-blue border-accent-blue/30'
                           }`}>
                             {incident.severity.toUpperCase()}
                           </span>
@@ -413,10 +391,10 @@ const SecurityOperations: React.FC = () => {
                           </div>
                         </div>
                         <div className="flex items-center space-x-4">
-                          <span className={`text-sm px-2 py-1 rounded-full ${
-                            incident.status === 'resolved' ? 'bg-status-success bg-opacity-20 text-status-success' :
-                            incident.status === 'investigating' ? 'bg-status-warning bg-opacity-20 text-status-warning' :
-                            'bg-status-error bg-opacity-20 text-status-error'
+                          <span className={`text-xs px-2 py-0.5 rounded-full border ${
+                            incident.status === 'resolved' ? 'bg-status-success/10 text-status-success border-status-success/30' :
+                            incident.status === 'investigating' ? 'bg-status-warning/10 text-status-warning border-status-warning/30' :
+                            'bg-status-error/10 text-status-error border-status-error/30'
                           }`}>
                             {incident.status}
                           </span>
@@ -428,30 +406,26 @@ const SecurityOperations: React.FC = () => {
                     </div>
                     <div className="flex items-center space-x-2">
                       {incident.severity === 'critical' && (
-                        <motion.button
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
+                        <button
                           onClick={(e) => {
                             e.stopPropagation();
                             handleEmergencyResponse(incident);
                           }}
-                          className="px-4 py-2 bg-status-error hover:bg-red-600 text-white rounded-lg font-medium transition-colors"
+                          className="btn btn-danger text-xs px-2.5 py-1"
                         >
                           {t('security.emergency_response')}
-                        </motion.button>
+                        </button>
                       )}
-                      
-                      <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
+
+                      <button
                         onClick={(e) => {
                           e.stopPropagation();
                           handleCameraControl(incident.cameraIds[0]);
                         }}
-                        className="px-4 py-2 bg-accent-teal hover:bg-opacity-80 text-white rounded-lg transition-colors"
+                        className="btn btn-secondary text-xs px-2.5 py-1"
                       >
                         {t('security.view_cameras')}
-                      </motion.button>
+                      </button>
                     </div>
                   </div>
                 </motion.div>
@@ -460,8 +434,8 @@ const SecurityOperations: React.FC = () => {
           </div>
 
           {/* CCTV Control Matrix - 3x2 Grid with YouTube Videos */}
-          <div className="security-gradient rounded-xl border border-primary-600 p-8">
-            <h2 className="text-2xl font-bold text-text-primary mb-6">{t('security.cctv_monitoring')}</h2>
+          <div className="glass-panel rounded-xl p-6">
+            <h2 className="text-base font-semibold text-text-primary mb-4">{t('security.cctv_monitoring')}</h2>
             
             {/* 3x2 CCTV Grid with Embedded Videos */}
             <div className="grid grid-cols-3 grid-rows-2 gap-6">
@@ -471,9 +445,9 @@ const SecurityOperations: React.FC = () => {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: index * 0.1 }}
-                  whileHover={{ scale: 1.02 }}
-                  className={`relative p-4 bg-primary-700 rounded-xl border transition-all duration-300 cursor-pointer ${
-                    feed.status === 'maintenance' ? 'border-status-error' : 'border-primary-600 hover:border-accent-teal'
+                  whileHover={{ y: -2 }}
+                  className={`relative p-4 bg-primary-800/60 rounded-xl border transition-colors duration-200 cursor-pointer ${
+                    feed.status === 'maintenance' ? 'border-status-error/30' : 'border-primary-600/40 hover:border-accent-blue/40'
                   }`}
                   onClick={() => handleCameraClick(feed)}
                 >
@@ -490,13 +464,13 @@ const SecurityOperations: React.FC = () => {
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
-                        <Camera className={`w-8 h-8 ${feed.status === 'active' ? 'text-accent-teal' : 'text-text-muted'}`} />
+                        <Camera className={`w-8 h-8 ${feed.status === 'active' ? 'text-accent-blue' : 'text-text-muted'}`} />
                       </div>
                     )}
 
                     {/* Recording Indicator */}
                     {(recordingFeeds[feed.id] || feed.recording) && (
-                      <div className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+                      <div className="absolute top-2 right-2 w-2 h-2 bg-status-error rounded-full animate-pulse"></div>
                     )}
 
                     {/* Maintenance Overlay */}
@@ -507,17 +481,15 @@ const SecurityOperations: React.FC = () => {
                     )}
                     
                     {/* Fullscreen Button */}
-                    <motion.button
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
+                    <button
                       onClick={(e) => {
                         e.stopPropagation();
                         handleFullscreenCamera(feed);
                       }}
-                      className="absolute top-2 left-2 p-1.5 bg-black bg-opacity-60 hover:bg-opacity-80 rounded-lg transition-all"
+                      className="absolute top-2 left-2 p-1.5 bg-black bg-opacity-60 hover:bg-opacity-80 rounded-lg transition-colors"
                     >
                       <Maximize2 className="w-4 h-4 text-white" />
-                    </motion.button>
+                    </button>
                   </div>
                   
                   {/* Camera Info */}
@@ -530,14 +502,14 @@ const SecurityOperations: React.FC = () => {
                     </div>
                     <p className="text-xs text-text-muted truncate">{feed.location}</p>
                     <div className="flex items-center justify-between">
-                      <span className={`text-xs px-2 py-1 rounded-full font-medium ${
-                        feed.status === 'active' ? 'bg-status-success bg-opacity-20 text-status-success' : 
-                        'bg-status-error bg-opacity-20 text-status-error'
+                      <span className={`text-xs px-2 py-0.5 rounded-full font-medium border ${
+                        feed.status === 'active' ? 'bg-status-success/10 text-status-success border-status-success/30' :
+                        'bg-status-error/10 text-status-error border-status-error/30'
                       }`}>
                         {feed.status}
                       </span>
                       {feed.alerts > 0 && (
-                        <span className="text-xs px-2 py-1 rounded-full bg-status-error bg-opacity-20 text-status-error font-medium">
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-status-error/10 text-status-error border border-status-error/30 font-medium">
                           {feed.alerts}
                         </span>
                       )}
@@ -551,45 +523,9 @@ const SecurityOperations: React.FC = () => {
 
         {/* Right Column - Analytics (Rearranged) */}
         <div className="col-span-4 space-y-8">
-          {/* Quick Actions (moved from bottom to top) */}
-          <div className="security-gradient rounded-xl border border-primary-600 p-6">
-            <h3 className="text-lg font-semibold text-text-primary mb-4">{t('security.quick_actions')}</h3>
-            <div className="space-y-3">
-              {[
-                { action: t('security.lockdown_protocol'), icon: Lock, priority: 'critical' },
-                { action: t('security.emergency_broadcast'), icon: Phone, priority: 'high' },
-                { action: t('security.camera_sweep'), icon: Eye, priority: 'medium' },
-                { action: t('security.access_report'), icon: Users, priority: 'low' },
-              ].map((item, index) => (
-                <motion.button
-                  key={index}
-                  whileHover={{ scale: 1.02, x: 4 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => addToast({
-                    type: 'success',
-                    title: t('security.action_initiated'),
-                    message: `${item.action} has been activated`
-                  })}
-                  className="w-full flex items-center space-x-3 p-4 bg-primary-700 rounded-lg hover:bg-primary-600 transition-all duration-300 group"
-                >
-                  <item.icon className="h-5 w-5 text-accent-teal group-hover:scale-110 transition-transform" />
-                  <span className="text-text-primary text-sm font-medium">{item.action}</span>
-                  <span className={`ml-auto text-xs px-2 py-1 rounded-full ${
-                    item.priority === 'critical' ? 'bg-status-error text-white' :
-                    item.priority === 'high' ? 'bg-status-warning text-black' :
-                    item.priority === 'medium' ? 'bg-status-info text-white' :
-                    'bg-primary-600 text-text-muted'
-                  }`}>
-                    {item.priority}
-                  </span>
-                </motion.button>
-              ))}
-            </div>
-          </div>
-
-          {/* Threat Level Trends (moved from top to middle) */}
-          <div className="security-gradient rounded-xl border border-primary-600 p-6">
-            <h3 className="text-lg font-semibold text-text-primary mb-4">{t('security.threat_trends')}</h3>
+          {/* Threat Level Trends */}
+          <div className="glass-panel rounded-xl p-6">
+            <h3 className="text-base font-semibold text-text-primary mb-4">{t('security.threat_trends')}</h3>
             <div className="h-48">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={threatLevels}>
@@ -608,8 +544,8 @@ const SecurityOperations: React.FC = () => {
           </div>
 
           {/* Incident Distribution */}
-          <div className="security-gradient rounded-xl border border-primary-600 p-6">
-            <h3 className="text-lg font-semibold text-text-primary mb-4">{t('security.incident_types')}</h3>
+          <div className="glass-panel rounded-xl p-6">
+            <h3 className="text-base font-semibold text-text-primary mb-4">{t('security.incident_types')}</h3>
             <div className="h-48">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>

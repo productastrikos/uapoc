@@ -29,9 +29,9 @@ import { useHbmsStore } from '../store/useHbmsStore';
 
 const PRIORITY_STYLE: Record<Sop['priority'], { bg: string; color: string; border: string }> = {
   CRITICAL: { bg: 'rgba(239,68,68,0.15)', color: '#fca5a5', border: 'rgba(239,68,68,0.35)' },
-  HIGH: { bg: 'rgba(249,115,22,0.15)', color: '#fdba74', border: 'rgba(249,115,22,0.35)' },
+  HIGH: { bg: 'rgba(239,68,68,0.1)', color: '#fca5a5', border: 'rgba(239,68,68,0.3)' },
   MEDIUM: { bg: 'rgba(245,158,11,0.15)', color: '#fde68a', border: 'rgba(245,158,11,0.3)' },
-  LOW: { bg: 'rgba(1,163,164,0.15)', color: '#9BEAE8', border: 'rgba(1,163,164,0.3)' },
+  LOW: { bg: 'rgba(138,155,168,0.12)', color: '#B8C5D1', border: 'rgba(138,155,168,0.3)' },
 };
 
 /** The automation switches, named so an operator can tell what they do. */
@@ -73,19 +73,16 @@ const SOPManagement: React.FC = () => {
   const complete = running === sop.id && done.length === sop.steps.length;
 
   return (
-    <div className="h-full flex flex-col text-sim-100" style={{ background: 'var(--app-bg)' }}>
+    <div className="h-full flex flex-col text-text-primary bg-primary-900">
       {/* Header */}
-      <div
-        className="px-5 py-3 flex justify-between items-center flex-shrink-0 gap-4 flex-wrap"
-        style={{ background: 'var(--app-panel)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}
-      >
+      <div className="px-5 py-3 flex justify-between items-center flex-shrink-0 gap-4 flex-wrap bg-primary-800 border-b border-primary-600/40">
         <div className="flex items-center gap-3">
-          <div className="p-1.5 rounded-lg" style={{ background: 'rgba(1,163,164,0.15)', color: '#22C7C6' }}>
+          <div className="p-2 bg-accent-blue/15 rounded-lg text-accent-blue">
             <ClipboardList className="w-5 h-5" />
           </div>
           <div>
-            <h1 className="text-base font-bold text-sim-100 leading-tight">Standard Operating Procedures</h1>
-            <p className="text-xs text-sim-400">
+            <h1 className="text-base font-semibold text-white leading-tight">Standard Operating Procedures</h1>
+            <p className="text-xs text-text-muted">
               {SOPS.length} procedures · every alarm this platform raises maps to one of them
             </p>
           </div>
@@ -93,19 +90,16 @@ const SOPManagement: React.FC = () => {
 
         <div className="flex items-center gap-2">
           <div className="relative">
-            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-sim-500" />
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" />
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search procedures…"
-              className="pl-9 pr-3 py-1.5 text-sm rounded-md focus:outline-none focus:ring-1 focus:ring-simteal-500/50"
-              style={{ background: 'var(--app-surface-soft)', border: '1px solid rgba(255,255,255,0.12)', color: 'var(--app-text)', width: 220 }}
+              className="pl-9 pr-3 py-1.5 text-sm rounded-md outline-none bg-primary-800 border border-primary-600 focus:border-accent-blue transition-colors text-text-primary"
+              style={{ width: 220 }}
             />
           </div>
-          <button
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium text-sim-300 hover:text-sim-100 transition-colors"
-            style={{ border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.04)' }}
-          >
+          <button className="btn btn-secondary">
             <Plus className="w-4 h-4" />
             New procedure
           </button>
@@ -122,16 +116,16 @@ const SOPManagement: React.FC = () => {
               <button
                 key={s.id}
                 onClick={() => { setSelectedId(s.id); setRunning(null); setDone([]); }}
-                className="w-full text-left rounded-lg border px-3 py-2.5 transition-all hover:brightness-125"
-                style={{
-                  background: active ? 'rgba(1,163,164,0.12)' : 'var(--app-surface)',
-                  borderColor: active ? 'rgba(1,163,164,0.6)' : 'rgba(255,255,255,0.08)',
-                }}
+                className={`w-full text-left rounded-lg border px-3 py-2.5 transition-colors ${
+                  active
+                    ? 'bg-accent-blue/10 border-accent-blue/50'
+                    : 'bg-primary-800/60 border-primary-600/40 hover:border-primary-500/60'
+                }`}
               >
                 <div className="flex items-start gap-2">
                   <span className="flex-1 min-w-0">
-                    <span className="block text-sm font-semibold text-sim-100 leading-snug">{s.name}</span>
-                    <span className="mt-0.5 block text-xs text-sim-400 font-mono">{s.id} · {s.subsystem}</span>
+                    <span className="block text-sm font-semibold text-text-primary leading-snug">{s.name}</span>
+                    <span className="mt-0.5 block text-xs text-text-secondary font-mono">{s.id} · {s.subsystem}</span>
                   </span>
                   <span
                     className="px-1.5 py-0.5 rounded text-[length:calc(9px*var(--fs))] font-bold shrink-0"
@@ -140,7 +134,7 @@ const SOPManagement: React.FC = () => {
                     {s.priority}
                   </span>
                 </div>
-                <div className="mt-1.5 flex items-center gap-2 text-[length:calc(10px*var(--fs))] text-sim-500">
+                <div className="mt-1.5 flex items-center gap-2 text-[length:calc(10px*var(--fs))] text-text-muted">
                   <span>{s.steps.length} steps</span>
                   <span>·</span>
                   <span>~{sopDuration(s.steps)} min</span>
@@ -153,24 +147,21 @@ const SOPManagement: React.FC = () => {
         </div>
 
         {/* ── Detail ─────────────────────────────────────────────────────── */}
-        <div
-          className="flex-1 min-w-0 overflow-y-auto no-scrollbar rounded-lg border p-4"
-          style={{ background: 'var(--app-surface)', borderColor: 'rgba(255,255,255,0.08)' }}
-        >
+        <div className="flex-1 min-w-0 overflow-y-auto no-scrollbar rounded-lg border p-4 bg-primary-800/60 border-primary-600/40">
           <div className="flex items-start gap-3 flex-wrap">
             <div className="min-w-0 flex-1">
-              <h2 className="text-lg font-bold text-sim-100 leading-tight">{sop.name}</h2>
-              <p className="mt-0.5 text-xs text-sim-400 font-mono">
+              <h2 className="text-lg font-bold text-text-primary leading-tight">{sop.name}</h2>
+              <p className="mt-0.5 text-xs text-text-secondary font-mono">
                 {sop.id} · {sop.subsystem} · {sop.category}
               </p>
             </div>
             <div className="flex items-center gap-3 text-right">
               <div>
-                <div className="text-[length:calc(10px*var(--fs))] uppercase tracking-wide text-sim-500">Duration</div>
-                <div className="text-base font-bold font-mono text-sim-100">~{sopDuration(sop.steps)}m</div>
+                <div className="text-[length:calc(10px*var(--fs))] uppercase tracking-wide text-text-muted">Duration</div>
+                <div className="text-base font-bold font-mono text-text-primary">~{sopDuration(sop.steps)}m</div>
               </div>
               <div>
-                <div className="text-[length:calc(10px*var(--fs))] uppercase tracking-wide text-sim-500">Closed first time</div>
+                <div className="text-[length:calc(10px*var(--fs))] uppercase tracking-wide text-text-muted">Closed first time</div>
                 <div className="text-base font-bold font-mono text-emerald-300">{sop.successRate}%</div>
               </div>
             </div>
@@ -181,35 +172,34 @@ const SOPManagement: React.FC = () => {
             <div className="rounded-md border px-3 py-2" style={{ borderColor: 'rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.03)' }}>
               <div className="flex items-center gap-1.5 mb-1">
                 <Zap className="w-3.5 h-3.5 text-amber-300" />
-                <span className="text-[length:calc(10px*var(--fs))] uppercase tracking-wide text-sim-500">Triggered when</span>
+                <span className="text-[length:calc(10px*var(--fs))] uppercase tracking-wide text-text-muted">Triggered when</span>
               </div>
-              <p className="text-xs text-sim-200 leading-snug">{sop.trigger}</p>
+              <p className="text-xs text-text-primary leading-snug">{sop.trigger}</p>
             </div>
 
-            <div className="rounded-md border border-ai-500/40 px-3 py-2 bg-ai-900/25">
+            <div className="rounded-md border border-accent-blue/40 px-3 py-2 bg-accent-blue/10">
               <div className="flex items-center gap-1.5 mb-1">
-                <Bot className="w-3.5 h-3.5 text-ai-300" />
-                <span className="text-[length:calc(10px*var(--fs))] uppercase tracking-wide text-ai-200">What the AI advises</span>
+                <Bot className="w-3.5 h-3.5 text-accent-blue" />
+                <span className="text-[length:calc(10px*var(--fs))] uppercase tracking-wide text-accent-blue">What the AI advises</span>
               </div>
-              <p className="text-xs text-sim-200 leading-snug">{sop.aiSummary}</p>
+              <p className="text-xs text-text-primary leading-snug">{sop.aiSummary}</p>
             </div>
           </div>
 
           {sop.basis && (
-            <p className="mt-2 flex items-center gap-1.5 text-[length:calc(10px*var(--fs))] text-sim-500 italic">
+            <p className="mt-2 flex items-center gap-1.5 text-[length:calc(10px*var(--fs))] text-text-muted italic">
               <FileText className="w-3 h-3" /> {sop.basis}
             </p>
           )}
 
           {/* Steps */}
           <div className="mt-4 flex items-center gap-2">
-            <h3 className="text-xs font-bold uppercase tracking-widest text-sim-500">Procedure</h3>
+            <h3 className="text-xs font-bold uppercase tracking-widest text-text-muted">Procedure</h3>
             <div className="flex-1 h-px" style={{ background: 'rgba(255,255,255,0.08)' }} />
             <button
               onClick={run}
               disabled={running === sop.id}
-              className="flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-medium transition-colors disabled:opacity-50"
-              style={{ background: 'rgba(1,163,164,0.2)', border: '1px solid rgba(1,163,164,0.6)', color: '#22C7C6' }}
+              className="btn btn-secondary justify-center min-w-[7.5rem] disabled:opacity-60"
             >
               <Clock className="w-3 h-3" />
               {complete ? 'Complete' : running === sop.id ? 'Running…' : 'Run procedure'}
@@ -239,10 +229,10 @@ const SOPManagement: React.FC = () => {
                     {ok ? <CheckCircle2 className="w-3 h-3" /> : st.order}
                   </span>
                   <div className="min-w-0 flex-1">
-                    <p className={`text-xs leading-snug ${ok ? 'text-sim-400 line-through' : 'text-sim-200'}`}>
+                    <p className={`text-xs leading-snug ${ok ? 'text-text-secondary line-through' : 'text-text-primary'}`}>
                       {st.action}
                     </p>
-                    <p className="mt-0.5 text-[length:calc(10px*var(--fs))] text-sim-500">
+                    <p className="mt-0.5 text-[length:calc(10px*var(--fs))] text-text-muted">
                       {st.role} · {st.minutes} min
                       {st.after?.length ? ` · after step ${st.after.join(', ')}` : ''}
                       {st.evidence ? ` · evidence: ${st.evidence}` : ''}
@@ -265,8 +255,7 @@ const SOPManagement: React.FC = () => {
               <div className="flex-1" />
               <button
                 onClick={() => openWorkOrders({ subsystem: sop.subsystem, message: sop.name, priority: sop.priority, status: 'Open' })}
-                className="px-2.5 py-1 rounded text-xs font-medium"
-                style={{ background: 'rgba(1,163,164,0.2)', border: '1px solid rgba(1,163,164,0.6)', color: '#22C7C6' }}
+                className="btn btn-secondary !py-1"
               >
                 Raise follow-up work order
               </button>
@@ -274,7 +263,7 @@ const SOPManagement: React.FC = () => {
           )}
 
           {/* Automation */}
-          <h3 className="mt-4 mb-2 text-xs font-bold uppercase tracking-widest text-sim-500">
+          <h3 className="mt-4 mb-2 text-xs font-bold uppercase tracking-widest text-text-muted">
             Automation
           </h3>
           <div className="grid gap-1.5 sm:grid-cols-3">
@@ -283,18 +272,16 @@ const SOPManagement: React.FC = () => {
               return (
                 <div
                   key={key}
-                  className="rounded-md border px-3 py-2"
-                  style={{
-                    background: on ? 'rgba(1,163,164,0.08)' : 'rgba(255,255,255,0.02)',
-                    borderColor: on ? 'rgba(1,163,164,0.35)' : 'rgba(255,255,255,0.07)',
-                  }}
+                  className={`rounded-md border px-3 py-2 ${
+                    on ? 'bg-accent-blue/10 border-accent-blue/35' : 'bg-white/[0.02] border-primary-600/40'
+                  }`}
                 >
                   <div className="flex items-center gap-1.5">
-                    <Icon className={`w-3.5 h-3.5 ${on ? 'text-accent-teal' : 'text-sim-500'}`} />
-                    <span className={`text-xs font-medium ${on ? 'text-sim-100' : 'text-sim-500'}`}>{label}</span>
+                    <Icon className={`w-3.5 h-3.5 ${on ? 'text-accent-blue' : 'text-text-muted'}`} />
+                    <span className={`text-xs font-medium ${on ? 'text-text-primary' : 'text-text-muted'}`}>{label}</span>
                   </div>
-                  <p className="mt-1 text-[length:calc(10px*var(--fs))] text-sim-500 leading-snug">{hint}</p>
-                  <p className={`mt-1 text-[length:calc(10px*var(--fs))] font-bold ${on ? 'text-accent-teal' : 'text-sim-500'}`}>
+                  <p className="mt-1 text-[length:calc(10px*var(--fs))] text-text-muted leading-snug">{hint}</p>
+                  <p className={`mt-1 text-[length:calc(10px*var(--fs))] font-bold ${on ? 'text-accent-blue' : 'text-text-muted'}`}>
                     {on ? 'ON' : 'OFF'}
                   </p>
                 </div>

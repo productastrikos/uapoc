@@ -174,3 +174,34 @@
   background: linear-gradient(45deg, #b91c1c, #dc2626);
   box-shadow: 0 0 30px rgba(239, 68, 68, 0.5);
 }
+
+/* Glassmorphism — used sparingly, for chrome that should read as floating
+ * above the page (header, banners, modal surfaces) rather than every panel.
+ * `.glass-panel-strong` is the same treatment with a touch more opacity for
+ * surfaces that sit directly over busy/colorful content (e.g. a map). */
+.glass-panel {
+  background: rgba(10, 30, 53, 0.55);
+  backdrop-filter: blur(14px) saturate(1.15);
+  -webkit-backdrop-filter: blur(14px) saturate(1.15);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-panel-strong {
+  background: rgba(8, 24, 42, 0.72);
+  backdrop-filter: blur(18px) saturate(1.2);
+  -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* True overlay surfaces — a modal, drawer or fullscreen panel sitting on top
+ * of the whole page. Unlike the two above, this can never be left reading as
+ * see-through: the alpha alone (not the blur) carries full opacity, so the
+ * page behind is hidden even where backdrop-filter isn't rendered (older
+ * GPUs, some browser/OS combinations, or a transformed ancestor breaking the
+ * backdrop sample). Blur is layered on top only as a finishing touch. */
+.modal-surface {
+  background: #0a1830;
+  backdrop-filter: blur(20px) saturate(1.2);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}

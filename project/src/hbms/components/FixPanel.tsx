@@ -37,10 +37,10 @@ interface Props {
 }
 
 const PRIORITY_TONE: Record<Sop['priority'], string> = {
-  CRITICAL: 'text-red-300 border-red-500/50 bg-red-500/10',
-  HIGH: 'text-orange-300 border-orange-500/50 bg-orange-500/10',
-  MEDIUM: 'text-amber-300 border-amber-500/50 bg-amber-500/10',
-  LOW: 'text-accent-teal border-accent-teal/50 bg-accent-teal/10',
+  CRITICAL: 'text-status-error border-status-error/50 bg-status-error/10',
+  HIGH: 'text-status-warning border-status-warning/50 bg-status-warning/20',
+  MEDIUM: 'text-status-warning border-status-warning/50 bg-status-warning/10',
+  LOW: 'text-accent-blue border-accent-blue/50 bg-accent-blue/10',
 };
 
 const FixPanel: React.FC<Props> = ({
@@ -77,10 +77,12 @@ const FixPanel: React.FC<Props> = ({
   };
 
   return (
-    <section className="rounded-lg border border-ai-500/40 bg-gradient-to-br from-ai-900/30 to-primary-800/70 overflow-hidden">
-      <header className="flex items-center gap-2 px-3 py-2 border-b border-ai-500/25 bg-ai-500/10">
-        <Brain className="w-4 h-4 text-ai-300 shrink-0" />
-        <h4 className="text-xs font-bold uppercase tracking-wide text-ai-200">
+    <section className="glass-panel rounded-lg overflow-hidden">
+      <header className="flex items-center gap-2 px-3 py-2 border-b border-primary-600/40 bg-primary-700/40">
+        <div className="p-1 bg-accent-blue/15 rounded">
+          <Brain className="w-3.5 h-3.5 text-accent-blue shrink-0" />
+        </div>
+        <h4 className="text-xs font-bold uppercase tracking-wide text-white">
           AI advisory &amp; fix
         </h4>
         <div className="flex-1" />
@@ -96,7 +98,7 @@ const FixPanel: React.FC<Props> = ({
         {/* The procedure this maps to. */}
         <div className="rounded-md border border-primary-500/50 bg-primary-900/40 px-2.5 py-2">
           <div className="flex items-center gap-2 flex-wrap">
-            <ClipboardList className="w-3.5 h-3.5 text-accent-teal shrink-0" />
+            <ClipboardList className="w-3.5 h-3.5 text-accent-blue shrink-0" />
             <span className="text-xs font-semibold text-text-primary">{sop.name}</span>
           </div>
           <div className="mt-1 flex items-center gap-2 flex-wrap text-[length:calc(10px*var(--fs))] text-text-muted">
@@ -132,7 +134,7 @@ const FixPanel: React.FC<Props> = ({
                     <span
                       className={`mt-0.5 w-4 h-4 shrink-0 rounded-full flex items-center justify-center text-[length:calc(9px*var(--fs))] font-bold border transition-colors ${
                         complete
-                          ? 'bg-emerald-500/25 border-emerald-400/70 text-emerald-200'
+                          ? 'bg-status-success/25 border-status-success/70 text-status-success'
                           : 'bg-primary-700/60 border-primary-500/60 text-text-muted'
                       }`}
                     >
@@ -159,7 +161,7 @@ const FixPanel: React.FC<Props> = ({
           <button
             onClick={runSop}
             disabled={running}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded bg-accent-teal/20 border border-accent-teal/60 text-xs font-medium text-accent-teal hover:bg-accent-teal/30 disabled:opacity-50 transition-colors"
+            className="btn btn-primary min-w-[10.5rem] disabled:opacity-50"
           >
             <Play className="w-3 h-3" />
             {running ? (done.length === sop.steps.length ? 'Procedure complete' : 'Running…') : 'Run this SOP'}
@@ -167,7 +169,7 @@ const FixPanel: React.FC<Props> = ({
 
           <button
             onClick={raiseWorkOrder}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded bg-primary-600/60 border border-primary-500/60 text-xs text-text-secondary hover:text-text-primary transition-colors"
+            className="btn btn-secondary"
           >
             <Wrench className="w-3 h-3" />
             Raise work order
@@ -191,7 +193,7 @@ const FixPanel: React.FC<Props> = ({
         </div>
 
         {running && done.length === sop.steps.length && (
-          <p className="text-[length:calc(10px*var(--fs))] text-emerald-300">
+          <p className="text-[length:calc(10px*var(--fs))] text-status-success">
             All {sop.steps.length} steps signed off. {sop.autoIncident ? 'An incident was raised automatically. ' : ''}
             {sop.autoClose ? 'The alarm will close once the tag clears.' : 'Close the alarm once the work order is complete.'}
           </p>

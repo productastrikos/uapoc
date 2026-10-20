@@ -25,26 +25,26 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onRemove }) => {
   const getIcon = () => {
     switch (toast.type) {
       case 'success':
-        return <CheckCircle className="h-5 w-5 text-green-400" />;
+        return <CheckCircle className="h-5 w-5 text-status-success" />;
       case 'error':
-        return <XCircle className="h-5 w-5 text-red-400" />;
+        return <XCircle className="h-5 w-5 text-status-error" />;
       case 'warning':
-        return <AlertTriangle className="h-5 w-5 text-yellow-400" />;
+        return <AlertTriangle className="h-5 w-5 text-status-warning" />;
       case 'info':
-        return <Info className="h-5 w-5 text-blue-400" />;
+        return <Info className="h-5 w-5 text-accent-blue" />;
     }
   };
 
   const getBackgroundColor = () => {
     switch (toast.type) {
       case 'success':
-        return 'bg-green-900/80 border-green-500/50';
+        return 'border-status-success/40';
       case 'error':
-        return 'bg-red-900/80 border-red-500/50';
+        return 'border-status-error/40';
       case 'warning':
-        return 'bg-yellow-900/80 border-yellow-500/50';
+        return 'border-status-warning/40';
       case 'info':
-        return 'bg-blue-900/80 border-blue-500/50';
+        return 'border-accent-blue/40';
     }
   };
 
@@ -55,7 +55,7 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onRemove }) => {
       exit={{ opacity: 0, y: -50, scale: 0.9 }}
       transition={{ duration: 0.3 }}
       className={clsx(
-        'relative flex items-start space-x-3 max-w-sm w-full p-4 rounded-lg border backdrop-blur-sm',
+        'glass-panel-strong relative flex items-start space-x-3 max-w-sm w-full p-4 rounded-lg border',
         getBackgroundColor()
       )}
     >
@@ -84,7 +84,7 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onRemove }) => {
 
 export const ToastContainer: React.FC<ToastContainerProps> = ({ toasts, onRemove }) => {
   return (
-    <div className="fixed top-4 right-4 z-50 space-y-2">
+    <div className="fixed top-20 right-4 z-50 space-y-2">
       <AnimatePresence>
         {toasts.map((toast) => (
           <ToastItem

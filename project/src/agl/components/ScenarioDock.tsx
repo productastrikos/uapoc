@@ -57,7 +57,7 @@ const ScenarioDock: React.FC<Props> = ({ onLanding, onTaxi, running, rate, onRat
   const setMode = useAglStore((s) => s.setMode);
 
   return (
-    <div className="bg-primary-800/70 border border-primary-500/40 rounded-lg px-3 py-2 flex flex-col gap-2">
+    <div className="glass-panel rounded-lg px-3 py-2 flex flex-col gap-2">
       <div className="flex items-start gap-4 flex-wrap">
       {/* Movement sequences */}
       <div>
@@ -66,7 +66,9 @@ const ScenarioDock: React.FC<Props> = ({ onLanding, onTaxi, running, rate, onRat
           <button
             onClick={onLanding}
             disabled={running !== null}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-accent-teal/15 border border-accent-teal/50 text-[length:calc(11px*var(--fs))] text-accent-teal hover:bg-accent-teal/25 disabled:opacity-40 transition-colors whitespace-nowrap"
+            className={`chip min-w-[10rem] text-[length:calc(11px*var(--fs))] disabled:opacity-40 disabled:cursor-not-allowed ${
+              running === 'landing' ? 'chip-active' : ''
+            }`}
           >
             <Plane className="w-3.5 h-3.5" />
             {running === 'landing' ? 'Landing…' : 'Arrival RWY 09'}
@@ -74,7 +76,9 @@ const ScenarioDock: React.FC<Props> = ({ onLanding, onTaxi, running, rate, onRat
           <button
             onClick={onTaxi}
             disabled={running !== null}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-emerald-500/15 border border-emerald-500/50 text-[length:calc(11px*var(--fs))] text-emerald-300 hover:bg-emerald-500/25 disabled:opacity-40 transition-colors whitespace-nowrap"
+            className={`chip min-w-[10.5rem] text-[length:calc(11px*var(--fs))] disabled:opacity-40 disabled:cursor-not-allowed ${
+              running === 'taxi' ? 'chip-active' : ''
+            }`}
           >
             <Play className="w-3.5 h-3.5" />
             {running === 'taxi' ? 'Departing…' : 'Departure RWY 27'}
@@ -93,11 +97,7 @@ const ScenarioDock: React.FC<Props> = ({ onLanding, onTaxi, running, rate, onRat
             <button
               key={r}
               onClick={() => onRate(r)}
-              className={`px-2 py-1.5 rounded text-[length:calc(11px*var(--fs))] border transition-colors font-mono ${
-                rate === r
-                  ? 'bg-accent-gold/20 border-accent-gold/60 text-accent-gold'
-                  : 'bg-primary-600/40 border-primary-500/40 text-text-secondary hover:text-text-primary'
-              }`}
+              className={`chip text-[length:calc(11px*var(--fs))] font-mono ${rate === r ? 'chip-active' : ''}`}
             >
               {r}×
             </button>
@@ -105,7 +105,7 @@ const ScenarioDock: React.FC<Props> = ({ onLanding, onTaxi, running, rate, onRat
         </div>
       </div>
 
-      <div className="w-px self-stretch bg-primary-500/40" />
+      <div className="w-px self-stretch bg-white/10" />
 
       {/* Fault injection */}
       <div className="min-w-0">
@@ -119,10 +119,10 @@ const ScenarioDock: React.FC<Props> = ({ onLanding, onTaxi, running, rate, onRat
             <button
               key={f.kind}
               onClick={() => injectFault(f.kind)}
-              className={`px-2 py-1.5 rounded border text-[length:calc(11px*var(--fs))] transition-colors whitespace-nowrap ${
+              className={`chip text-[length:calc(11px*var(--fs))] whitespace-nowrap ${
                 activeFaults.includes(f.kind)
-                  ? 'bg-red-500/25 border-red-500/60 text-red-200'
-                  : 'bg-primary-600/50 border-primary-500/50 text-text-secondary hover:text-text-primary hover:border-primary-400'
+                  ? 'bg-status-error/25 text-status-error hover:bg-status-error/30 hover:text-status-error'
+                  : ''
               }`}
             >
               {f.label}
@@ -131,7 +131,7 @@ const ScenarioDock: React.FC<Props> = ({ onLanding, onTaxi, running, rate, onRat
 
           <button
             onClick={clearFaults}
-            className="flex items-center gap-1.5 px-2 py-1.5 rounded bg-primary-600/50 border border-primary-500/50 text-[length:calc(11px*var(--fs))] text-text-secondary hover:text-text-primary transition-colors whitespace-nowrap"
+            className="chip text-[length:calc(11px*var(--fs))] whitespace-nowrap"
           >
             <RotateCcw className="w-3 h-3" />
             Reset
@@ -139,7 +139,7 @@ const ScenarioDock: React.FC<Props> = ({ onLanding, onTaxi, running, rate, onRat
         </div>
       </div>
 
-      <div className="w-px self-stretch bg-primary-500/40" />
+      <div className="w-px self-stretch bg-white/10" />
 
       {/* Overlay */}
       <div>
@@ -149,39 +149,13 @@ const ScenarioDock: React.FC<Props> = ({ onLanding, onTaxi, running, rate, onRat
             <button
               key={o.id}
               onClick={() => setOverlay(o.id)}
-              className={`px-2 py-1.5 rounded text-[length:calc(11px*var(--fs))] border transition-colors ${
-                overlay === o.id
-                  ? 'bg-accent-teal/25 border-accent-teal/60 text-accent-teal'
-                  : 'bg-primary-600/40 border-primary-500/40 text-text-secondary hover:text-text-primary'
-              }`}
+              className={`chip text-[length:calc(11px*var(--fs))] ${overlay === o.id ? 'chip-active' : ''}`}
             >
               {o.label}
             </button>
           ))}
         </div>
       </div>
-
-      <div className="w-px self-stretch bg-primary-500/40" />
-
-      {/* Operating mode 
-      <div>
-        <h4 className="text-[length:calc(10px*var(--fs))] uppercase tracking-wide text-text-muted mb-1">Mode</h4>
-         <div className="flex gap-1">
-          {MODES.map((m) => (
-            <button
-              key={m.id}
-              onClick={() => setMode(m.id)}
-              className={`px-2 py-1.5 rounded text-[length:calc(11px*var(--fs))] border transition-colors whitespace-nowrap ${
-                mode === m.id
-                  ? 'bg-accent-gold/20 border-accent-gold/60 text-accent-gold'
-                  : 'bg-primary-600/40 border-primary-500/40 text-text-secondary hover:text-text-primary'
-              }`}
-            >
-              {m.label}
-            </button>
-          ))}
-        </div>
-      </div> */}
 
       </div>
 

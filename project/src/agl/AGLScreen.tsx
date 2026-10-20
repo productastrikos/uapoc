@@ -348,26 +348,28 @@ const AGLScreen: React.FC = () => {
     <div className="agl-root flex flex-col h-full min-h-0">
       {/* Header */}
       <div className="flex items-center justify-between mb-3 shrink-0">
-        <div className="flex items-center gap-2">
-          <Lightbulb className="w-5 h-5 text-accent-gold" />
+        <div className="flex items-center gap-3">
+          <div className="p-2 bg-accent-blue/15 rounded-lg">
+            <Lightbulb className="w-5 h-5 text-accent-blue" />
+          </div>
           <div>
-            <h2 className="text-lg font-bold text-text-primary leading-tight">
+            <h2 className="text-2xl font-bold text-white leading-tight">
               Airfield Ground Lighting (AGL)
             </h2>
-            <p className="text-[length:calc(11px*var(--fs))] text-text-muted">
+            <p className="text-sm text-text-muted">
               {totalFixtures} addressable fixtures · {airfield.circuits.length} series circuits ·
               CORTEX ALCMS / LINC 360 ILCMS
             </p>
           </div>
         </div>
         <div className="flex items-center gap-4">
-          <div className="text-right">
+          <div className="glass-pill glass-pill-blue text-right !px-4 !py-2">
             <div className="text-[length:calc(10px*var(--fs))] uppercase tracking-wide text-text-muted">
               Overall Serviceability
             </div>
             <div
               className={`text-xl font-bold font-mono ${
-                overallServiceability < 95 ? 'text-red-400' : 'text-emerald-400'
+                overallServiceability < 95 ? 'text-status-error' : 'text-status-success'
               }`}
             >
               {overallServiceability.toFixed(1)}%
@@ -381,7 +383,7 @@ const AGLScreen: React.FC = () => {
         {/* Canvas takes the room — it is the screen. Controls sit under it as a
             single compact toolbar rather than a column that starves the plan. */}
         <div className="flex-1 flex flex-col min-w-0 gap-2">
-          <div className="flex-1 min-h-0 bg-primary-900/60 border border-primary-500/40 rounded-lg overflow-hidden">
+          <div className="flex-1 min-h-0 glass-panel-strong rounded-lg overflow-hidden">
             <AirfieldCanvas
               overlay={overlay}
               routeTags={routeTags}

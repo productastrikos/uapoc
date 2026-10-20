@@ -29,37 +29,34 @@ const KPICard: React.FC<KPICardProps> = ({
 }) => {
   const getStatusColor = () => {
     switch (status) {
-      case "good": return "border-green-500/30 bg-green-500/5";
-      case "warning": return "border-yellow-500/30 bg-yellow-500/5";
-      case "critical": return "border-red-500/30 bg-red-500/5";
-      default: return "border-primary-700/50 bg-primary-800/30";
+      case "good": return "border-status-success/30";
+      case "warning": return "border-status-warning/30";
+      case "critical": return "border-status-error/30";
+      default: return "border-white/10";
     }
   };
 
   const getTrendColor = () => {
     if (!change) return "";
     switch (change.trend) {
-      case "up": return change.value > 0 ? "text-green-400" : "text-red-400";
-      case "down": return change.value > 0 ? "text-red-400" : "text-green-400";
-      default: return "text-gray-400";
+      case "up": return change.value > 0 ? "text-status-success" : "text-status-error";
+      case "down": return change.value > 0 ? "text-status-error" : "text-status-success";
+      default: return "text-text-muted";
     }
   };
 
   return (
     <motion.div
-      className={`relative overflow-hidden rounded-xl p-6 border transition-all duration-300 cursor-pointer animate-kpi-gradient hover:border-teal-500/50 hover:scale-105 ${getStatusColor()}`}
+      className={`glass-panel relative overflow-hidden rounded-xl p-6 border transition-colors duration-300 cursor-pointer hover:border-accent-blue/50 ${getStatusColor()}`}
       onClick={onClick}
       whileHover={{ y: -2 }}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
     >
-      {/* Background gradient animation */}
-      <div className="absolute inset-0 bg-gradient-to-br from-teal-500/5 via-transparent to-gold-500/5 animate-pulse" />
-      
       <div className="relative z-10">
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center space-x-2">
-            <Icon className="w-6 h-6 text-teal-400" />
+            <Icon className="w-6 h-6 text-accent-blue" />
             <InfoButton
               title={title}
               description={description || `Real-time monitoring of ${title.toLowerCase()} with current value: ${value}${unit || ''}`}
@@ -83,9 +80,9 @@ const KPICard: React.FC<KPICardProps> = ({
         {/* Status indicator */}
         <div className="mt-4 flex items-center space-x-2">
           <div className={`w-2 h-2 rounded-full ${
-            status === 'good' ? 'bg-green-500 animate-pulse' :
-            status === 'warning' ? 'bg-yellow-500 animate-pulse' :
-            status === 'critical' ? 'bg-red-500 animate-pulse' :
+            status === 'good' ? 'bg-status-success animate-pulse' :
+            status === 'warning' ? 'bg-status-warning animate-pulse' :
+            status === 'critical' ? 'bg-status-error animate-pulse' :
             'bg-gray-500'
           }`} />
           <span className="text-xs text-gray-400 capitalize">{status}</span>

@@ -31,9 +31,9 @@ const FaultInjectionPanel: React.FC = () => {
   const target = stands.find((s) => s.id === selectedStandId) ?? stands.find((s) => s.occupied);
 
   return (
-    <section className="flex flex-col rounded-lg border border-primary-500/40 bg-primary-800/50 overflow-hidden">
-      <header className="flex items-center gap-1.5 px-2.5 py-2 border-b border-primary-500/40 bg-primary-900/40 shrink-0">
-        <Zap className="w-3.5 h-3.5 text-accent-gold shrink-0" />
+    <section className="flex flex-col rounded-lg glass-panel overflow-hidden">
+      <header className="flex items-center gap-1.5 px-2.5 py-2 border-b border-white/10 shrink-0">
+        <Zap className="w-3.5 h-3.5 text-accent-blue shrink-0" />
         <h3 className="text-xs font-bold uppercase tracking-wide text-text-primary">
           Fault Injection
         </h3>
@@ -46,10 +46,8 @@ const FaultInjectionPanel: React.FC = () => {
             <button
               key={f.kind}
               onClick={() => injectFault(f.kind, selectedStandId ?? undefined)}
-              className={`flex items-center gap-2 px-2.5 py-2 rounded border text-xs text-left transition-colors ${
-                on
-                  ? 'bg-red-500/25 border-red-500/60 text-red-200'
-                  : 'bg-primary-600/50 border-primary-500/50 text-text-secondary hover:text-text-primary hover:border-primary-400'
+              className={`chip justify-start gap-2 px-2.5 py-2 text-left ${
+                on ? 'bg-status-error/25 text-status-error hover:bg-status-error/30 hover:text-status-error' : ''
               }`}
             >
               <Zap className="w-3 h-3 shrink-0" />
@@ -60,7 +58,7 @@ const FaultInjectionPanel: React.FC = () => {
 
         <button
           onClick={clearFaults}
-          className="flex items-center gap-2 px-2.5 py-2 rounded border border-primary-500/50 bg-primary-600/50 text-xs text-text-secondary hover:text-text-primary transition-colors"
+          className="chip justify-start gap-2 px-2.5 py-2"
         >
           <RotateCcw className="w-3 h-3 shrink-0" />
           Reset all

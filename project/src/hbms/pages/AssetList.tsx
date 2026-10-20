@@ -135,45 +135,42 @@ const AssetList: React.FC = () => {
   );
 
   return (
-    <div
-      className="h-full flex flex-col text-slate-100 overflow-hidden"
-      style={{ background: 'var(--app-bg)' }}
-    >
+    <div className="h-full flex flex-col text-slate-100 overflow-hidden bg-primary-900">
       {/* Header */}
-      <div className="flex-shrink-0 px-5 pt-4 pb-3" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+      <div className="flex-shrink-0 px-5 pt-4 pb-3 border-b border-primary-600/30">
         <div className="flex items-start justify-between gap-4">
           <div>
             <h1 className="text-2xl font-bold text-white tracking-tight">Asset Register</h1>
-            <p className="text-sm text-slate-400 mt-0.5">Long Thanh International Airport — HBMS</p>
+            <p className="text-sm text-text-muted mt-0.5">Long Thanh International Airport — HBMS</p>
           </div>
 
-          {/* Summary badges */}
+          {/* Summary tiles */}
           <div className="flex items-center gap-2 flex-wrap justify-end">
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border" style={{ background: 'rgba(16,185,129,0.08)', borderColor: 'rgba(16,185,129,0.2)' }}>
-              <div className="w-2 h-2 rounded-full" style={{ background: '#10b981' }} />
-              <span className="text-sm font-bold text-emerald-400">{totalActive}</span>
-              <span className="text-xs text-slate-500">Active</span>
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border bg-primary-800/60 border-primary-600/40">
+              <div className="w-2 h-2 rounded-full bg-status-success" />
+              <span className="text-sm font-bold text-text-primary">{totalActive}</span>
+              <span className="text-xs text-text-muted">Active</span>
             </div>
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border" style={{ background: 'rgba(245,158,11,0.08)', borderColor: 'rgba(245,158,11,0.2)' }}>
-              <div className="w-2 h-2 rounded-full" style={{ background: '#f59e0b' }} />
-              <span className="text-sm font-bold text-amber-400">{totalWarning}</span>
-              <span className="text-xs text-slate-500">Warning</span>
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border bg-primary-800/60 border-primary-600/40">
+              <div className="w-2 h-2 rounded-full bg-status-warning" />
+              <span className="text-sm font-bold text-text-primary">{totalWarning}</span>
+              <span className="text-xs text-text-muted">Warning</span>
             </div>
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border" style={{ background: 'rgba(239,68,68,0.08)', borderColor: 'rgba(239,68,68,0.2)' }}>
-              <div className="w-2 h-2 rounded-full" style={{ background: '#ef4444' }} />
-              <span className="text-sm font-bold text-red-400">{totalInactive}</span>
-              <span className="text-xs text-slate-500">Inactive</span>
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border bg-primary-800/60 border-primary-600/40">
+              <div className="w-2 h-2 rounded-full bg-status-error" />
+              <span className="text-sm font-bold text-text-primary">{totalInactive}</span>
+              <span className="text-xs text-text-muted">Inactive</span>
             </div>
-            <div className="px-3 py-1.5 rounded-lg border" style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.1)' }}>
-              <span className="text-sm font-bold text-slate-300">{filtered.length}</span>
-              <span className="text-xs text-slate-500 ml-1.5">Total</span>
+            <div className="px-3 py-1.5 rounded-lg border bg-primary-800/60 border-primary-600/40">
+              <span className="text-sm font-bold text-text-primary">{filtered.length}</span>
+              <span className="text-xs text-text-muted ml-1.5">Total</span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Filter bar */}
-      <div className="flex-shrink-0 px-5 py-3 space-y-2.5" style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+      <div className="flex-shrink-0 px-5 py-3 space-y-2.5 border-b border-primary-600/20">
 
         {/* Search + type + status filters */}
         <div className="flex gap-2 flex-wrap items-center">
@@ -185,8 +182,7 @@ const AssetList: React.FC = () => {
               placeholder="Search name, ID, serial, location…"
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="w-full pl-8 pr-8 py-2 rounded-lg text-sm text-slate-200 placeholder-slate-600 outline-none"
-              style={{ background: 'var(--app-surface-soft)', border: '1px solid rgba(255,255,255,0.1)' }}
+              className="w-full pl-8 pr-8 py-2 rounded-lg text-sm text-slate-200 placeholder-slate-600 outline-none bg-primary-800 border border-primary-600 focus:border-accent-blue transition-colors"
             />
             {search && (
               <button onClick={() => setSearch('')} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300">
@@ -222,8 +218,7 @@ const AssetList: React.FC = () => {
           <select
             value={typeFilter}
             onChange={e => setTypeFilter(e.target.value)}
-            className="py-2 px-3 rounded-lg text-sm text-slate-300 outline-none cursor-pointer"
-            style={{ background: 'var(--app-surface-soft)', border: '1px solid rgba(255,255,255,0.1)' }}
+            className="py-2 px-3 rounded-lg text-sm text-slate-300 outline-none cursor-pointer bg-primary-800 border border-primary-600 focus:border-accent-blue transition-colors"
           >
             <option value="All">All Types</option>
             {availableTypes.map(t => <option key={t} value={t}>{t}</option>)}
@@ -292,7 +287,7 @@ const AssetList: React.FC = () => {
       {/* Table */}
       <div className="flex-1 overflow-auto" style={{ scrollbarWidth: 'thin' }}>
         <table className="w-full border-collapse" style={{ minWidth: '760px' }}>
-          <thead className="sticky top-0 z-10" style={{ background: 'var(--app-panel)', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+          <thead className="sticky top-0 z-10 bg-primary-800 border-b border-primary-600/40">
             <tr>
               <Th label="Asset ID"    col="id"                 className="pl-5 w-32" />
               <Th label="Name"        col="name"               className="min-w-[200px]" />
@@ -326,10 +321,10 @@ const AssetList: React.FC = () => {
                     className="border-b cursor-pointer group transition-colors"
                     style={{
                       borderColor: 'rgba(255,255,255,0.04)',
-                      background: idx % 2 === 0 ? 'rgba(255,255,255,0.01)' : 'transparent',
+                      background: idx % 2 === 0 ? 'rgba(10,58,82,0.25)' : 'transparent',
                     }}
-                    onMouseEnter={e => (e.currentTarget.style.background = 'rgba(59,130,246,0.05)')}
-                    onMouseLeave={e => (e.currentTarget.style.background = idx % 2 === 0 ? 'rgba(255,255,255,0.01)' : 'transparent')}
+                    onMouseEnter={e => (e.currentTarget.style.background = 'rgba(59,130,246,0.08)')}
+                    onMouseLeave={e => (e.currentTarget.style.background = idx % 2 === 0 ? 'rgba(10,58,82,0.25)' : 'transparent')}
                     onClick={() => { const sub = subsystemById(asset.subsystemId); if (sub) openSubsystem(sub.code); }}
                   >
                     {/* ID */}

@@ -27,7 +27,7 @@ const FlightTable: React.FC<FlightTableProps> = ({ flights }) => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-primary-800 to-primary-700 rounded-lg border border-primary-600 overflow-hidden">
+    <div className="glass-panel rounded-lg overflow-hidden">
       <div className="p-6 border-b border-primary-600">
         <div className="flex items-center space-x-3">
           <Plane className="h-6 w-6 text-accent-teal" />
@@ -107,10 +107,10 @@ const FlightTable: React.FC<FlightTableProps> = ({ flights }) => {
                 </td>
                 <td className="p-4">
                   <div className="flex items-center space-x-2">
-                    <button className="text-accent-teal hover:text-accent-gold text-xs transition-colors">
+                    <button className="text-accent-blue hover:text-accent-blueHover text-xs transition-colors">
                       Track
                     </button>
-                    <button className="text-accent-teal hover:text-accent-gold text-xs transition-colors">
+                    <button className="text-accent-blue hover:text-accent-blueHover text-xs transition-colors">
                       Optimize
                     </button>
                     <button className="text-text-muted hover:text-text-primary text-xs transition-colors">

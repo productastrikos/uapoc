@@ -71,8 +71,8 @@ const Dropdown: React.FC<{ value: string; options: { value: string; label: strin
               onClick={() => { onChange(o.value); setOpen(false); }}
               style={{
                 padding: '6px 12px', fontSize: 10.5, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap',
-                color: o.value === value ? '#9BEAE8' : 'var(--ds-text)',
-                background: o.value === value ? 'rgba(34,199,198,0.14)' : 'transparent',
+                color: o.value === value ? '#93C5FD' : 'var(--ds-text)',
+                background: o.value === value ? 'rgba(59,130,246,0.14)' : 'transparent',
               }}
               onMouseEnter={e => { if (o.value !== value) e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; }}
               onMouseLeave={e => { if (o.value !== value) e.currentTarget.style.background = 'transparent'; }}
@@ -92,9 +92,9 @@ const FilterChip: React.FC<{ active: boolean; onClick: () => void; children: Rea
     className="flex-shrink-0 transition-all"
     style={{
       fontSize: 10, fontWeight: 700, padding: '4px 10px', borderRadius: 99,
-      background: active ? 'rgba(34,199,198,0.18)' : 'rgba(255,255,255,0.05)',
-      color: active ? '#9BEAE8' : 'var(--ds-text-muted)',
-      border: `1px solid ${active ? 'rgba(34,199,198,0.45)' : 'rgba(255,255,255,0.1)'}`,
+      background: active ? 'rgba(59,130,246,0.18)' : 'rgba(255,255,255,0.05)',
+      color: active ? '#93C5FD' : 'var(--ds-text-muted)',
+      border: `1px solid ${active ? 'rgba(59,130,246,0.45)' : 'rgba(255,255,255,0.1)'}`,
     }}
   >
     {children}
@@ -230,12 +230,8 @@ const LBMSAHUGrid: React.FC<LBMSAHUGridProps> = ({ focusAssetId }) => {
         <button
           onClick={() => setPage(p => Math.max(0, p - 1))}
           disabled={clampedPage === 0}
-          style={{
-            display: 'flex', alignItems: 'center', gap: 4, padding: '5px 10px', borderRadius: 8,
-            fontSize: 10.5, fontWeight: 700, cursor: clampedPage === 0 ? 'not-allowed' : 'pointer',
-            opacity: clampedPage === 0 ? 0.4 : 1,
-            background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'var(--ds-text-muted)',
-          }}
+          className="btn btn-secondary disabled:opacity-40 disabled:cursor-not-allowed"
+          style={{ fontSize: 10.5 }}
         >
           <ChevronLeft className="w-3 h-3" /> Prev
         </button>
@@ -245,12 +241,8 @@ const LBMSAHUGrid: React.FC<LBMSAHUGridProps> = ({ focusAssetId }) => {
         <button
           onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))}
           disabled={clampedPage >= totalPages - 1}
-          style={{
-            display: 'flex', alignItems: 'center', gap: 4, padding: '5px 10px', borderRadius: 8,
-            fontSize: 10.5, fontWeight: 700, cursor: clampedPage >= totalPages - 1 ? 'not-allowed' : 'pointer',
-            opacity: clampedPage >= totalPages - 1 ? 0.4 : 1,
-            background: 'var(--app-btn)', border: '1px solid transparent', color: '#fff',
-          }}
+          className="btn btn-secondary disabled:opacity-40 disabled:cursor-not-allowed"
+          style={{ fontSize: 10.5 }}
         >
           Next <ChevronRight className="w-3 h-3" />
         </button>

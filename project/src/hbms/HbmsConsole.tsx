@@ -68,11 +68,7 @@ const SubsystemStrip: React.FC = () => {
       <button
         onClick={showAllSubsystems}
         title="All building subsystems"
-        className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md border text-[length:calc(11px*var(--fs))] font-semibold whitespace-nowrap transition-colors ${
-          code === null
-            ? 'bg-accent-teal/20 border-accent-teal/60 text-accent-teal'
-            : 'bg-primary-800/60 border-primary-500/40 text-text-secondary hover:text-text-primary'
-        }`}
+        className={`chip text-[length:calc(11px*var(--fs))] font-semibold whitespace-nowrap ${code === null ? 'chip-active' : ''}`}
       >
         <Grid3x3 className="w-3.5 h-3.5" />
         All
@@ -85,16 +81,12 @@ const SubsystemStrip: React.FC = () => {
             key={s.id}
             onClick={() => openSubsystem(s.code)}
             title={`${s.name} — ${s.availability}% availability`}
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md border text-[length:calc(11px*var(--fs))] font-semibold whitespace-nowrap transition-colors ${
-              active
-                ? 'bg-accent-teal/20 border-accent-teal/60 text-accent-teal'
-                : 'bg-primary-800/60 border-primary-500/40 text-text-secondary hover:text-text-primary'
-            }`}
+            className={`chip text-[length:calc(11px*var(--fs))] font-semibold whitespace-nowrap ${active ? 'chip-active' : ''}`}
           >
             <span style={{ color: active ? undefined : s.color }}>{s.icon}</span>
             {s.acronym}
             {s.alertCount > 0 && (
-              <span className="ml-0.5 px-1 rounded-full bg-red-500/20 text-red-300 text-[length:calc(9px*var(--fs))] font-bold">
+              <span className="ml-0.5 px-1 rounded-full bg-status-error/20 text-status-error text-[length:calc(9px*var(--fs))] font-bold">
                 {s.alertCount}
               </span>
             )}
@@ -134,7 +126,7 @@ const HbmsTabs: React.FC<{ active: HbmsView; onChange: (id: HbmsView) => void }>
           {isActive && (
             <motion.span
               layoutId="hbms-tab"
-              className="absolute inset-0 rounded-full bg-accent-teal"
+              className="absolute inset-0 rounded-full bg-accent-blue"
               transition={{ type: 'spring', damping: 30, stiffness: 320 }}
             />
           )}

@@ -31,8 +31,8 @@ import AiInsightCard from './AiInsightCard';
 const SEVERITY_RANK: Record<AiSeverity, number> = { critical: 0, warning: 1, opportunity: 2 };
 
 const SEVERITY_DOT: Record<AiSeverity, string> = {
-  critical: 'bg-red-400',
-  warning: 'bg-amber-400',
+  critical: 'bg-status-error',
+  warning: 'bg-status-warning',
   opportunity: 'bg-accent-teal',
 };
 
@@ -146,13 +146,13 @@ const AiCopilotDrawer: React.FC = () => {
           <motion.aside
             initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 32, stiffness: 300 }}
-            className="fs-ai fixed top-0 right-0 bottom-0 w-full max-w-[560px] bg-primary-900 border-l border-ai-500/40 z-[61] flex flex-col shadow-2xl"
+            className="fs-ai modal-surface fixed top-0 right-0 bottom-0 w-full max-w-[560px] z-[61] flex flex-col shadow-2xl"
           >
             {/* Header: what this is, and what it is about. Nothing to operate. */}
             <header className="shrink-0 px-4 py-3 border-b border-primary-600 bg-primary-800">
               <div className="flex items-center gap-2.5">
-                <div className="p-1.5 bg-ai-500/20 rounded-lg">
-                  <Brain className="w-5 h-5 text-ai-300" />
+                <div className="p-1.5 bg-accent-blue/20 rounded-lg">
+                  <Brain className="w-5 h-5 text-accent-blue" />
                 </div>
                 <div className="min-w-0">
                   <h2 className="text-base font-bold text-text-primary leading-tight">AI Advisory</h2>

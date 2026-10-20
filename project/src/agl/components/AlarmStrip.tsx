@@ -17,10 +17,10 @@ import { useAglStore } from '../store';
 import { AglAlarm } from '../types';
 
 const stateColour: Record<string, string> = {
-  UNACK: 'text-red-400',
-  UNACK_RTN: 'text-amber-400',
-  ACK: 'text-emerald-400',
-  SHELVED: 'text-slate-500',
+  UNACK: 'text-status-error',
+  UNACK_RTN: 'text-status-warning',
+  ACK: 'text-status-success',
+  SHELVED: 'text-text-muted',
 };
 
 /** Duration since the alarm was raised, in the SCADA ddd hh:mm:ss.mmm form. */
@@ -81,18 +81,18 @@ const AlarmStrip: React.FC<Props> = ({
   const unack = visible.filter((a) => a.state === 'UNACK').length;
 
   return (
-    <div className="border-t border-primary-500/50 bg-primary-900/95 backdrop-blur">
+    <div className="border-t border-white/10 glass-panel-strong">
       <div className="flex items-center justify-between px-3 py-1.5 border-b border-primary-600/40">
         <div className="flex items-center gap-3">
           <span className="flex items-center gap-1.5 text-xs font-semibold text-text-primary">
-            <Bell className={`w-3.5 h-3.5 ${unack > 0 ? 'text-red-400' : 'text-text-muted'}`} />
+            <Bell className={`w-3.5 h-3.5 ${unack > 0 ? 'text-status-error' : 'text-text-muted'}`} />
             Alarms &amp; Events
           </span>
           <span className="text-[length:calc(11px*var(--fs))] text-text-muted">
             Displaying {visible.length} of {alarms.length} alarms · Query: Default · Filter: Active
           </span>
           {unack > 0 && (
-            <span className="px-1.5 py-0.5 rounded bg-red-500/20 border border-red-500/50 text-[length:calc(10px*var(--fs))] font-semibold text-red-300">
+            <span className="px-1.5 py-0.5 rounded bg-status-error/20 border border-status-error/50 text-[length:calc(10px*var(--fs))] font-semibold text-status-error">
               {unack} UNACK
             </span>
           )}
@@ -101,7 +101,7 @@ const AlarmStrip: React.FC<Props> = ({
           <button
             onClick={ackAll}
             disabled={unack === 0}
-            className="flex items-center gap-1 px-2 py-0.5 rounded bg-primary-600/60 border border-primary-500/50 text-[length:calc(11px*var(--fs))] text-text-secondary hover:text-text-primary disabled:opacity-40"
+            className="btn btn-secondary px-2 py-0.5 text-[length:calc(11px*var(--fs))] disabled:opacity-40 disabled:cursor-not-allowed"
           >
             <CheckCheck className="w-3 h-3" />
             Ack All
@@ -160,7 +160,7 @@ const AlarmStrip: React.FC<Props> = ({
                     <td className="px-2 py-1 font-mono text-text-primary whitespace-nowrap">
                       {a.tag}
                     </td>
-                    <td className="px-2 py-1 text-red-300 whitespace-nowrap">{a.description}</td>
+                    <td className="px-2 py-1 text-status-error whitespace-nowrap">{a.description}</td>
                     <td className="px-2 py-1 text-text-muted">DSC</td>
                     <td className="px-2 py-1 text-text-secondary whitespace-nowrap">
                       {new Date(a.raisedAt).toISOString().replace('T', ' ').slice(0, 19)}
@@ -178,7 +178,7 @@ const AlarmStrip: React.FC<Props> = ({
                           escalate(a.id);
                         }}
                         disabled={!!a.workOrderId}
-                        className="px-2 py-0.5 rounded bg-accent-teal/20 border border-accent-teal/50 text-[length:calc(10px*var(--fs))] text-accent-teal hover:bg-accent-teal/30 disabled:opacity-50 whitespace-nowrap"
+                        className="min-w-[4.5rem] px-2 py-0.5 rounded bg-accent-blue/15 border border-accent-blue/40 text-[length:calc(10px*var(--fs))] text-blue-200 hover:bg-accent-blue/25 disabled:opacity-50 whitespace-nowrap"
                       >
                         {a.workOrderId ?? 'Escalate'}
                       </button>

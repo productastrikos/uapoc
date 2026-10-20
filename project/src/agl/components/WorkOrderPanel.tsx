@@ -12,10 +12,10 @@ import { useAglStore } from '../store';
 import { WorkOrderStatus } from '../types';
 
 const STATUS_STYLE: Record<WorkOrderStatus, string> = {
-  open: 'bg-red-500/20 border-red-500/50 text-red-300',
-  dispatched: 'bg-amber-500/20 border-amber-500/50 text-amber-300',
-  in_progress: 'bg-blue-500/20 border-blue-500/50 text-blue-300',
-  closed: 'bg-emerald-500/20 border-emerald-500/50 text-emerald-300',
+  open: 'bg-status-error/20 border-status-error/50 text-status-error',
+  dispatched: 'bg-status-warning/20 border-status-warning/50 text-status-warning',
+  in_progress: 'bg-accent-blue/20 border-accent-blue/50 text-blue-300',
+  closed: 'bg-status-success/20 border-status-success/50 text-status-success',
 };
 
 const NEXT_LABEL: Record<WorkOrderStatus, string | null> = {
@@ -31,8 +31,8 @@ const WorkOrderPanel: React.FC = () => {
   const select = useAglStore((s) => s.select);
 
   return (
-    <section className="shrink-0 bg-primary-800/70 border border-primary-500/40 rounded-lg overflow-hidden">
-      <header className="px-3 py-2 border-b border-primary-500/40 flex items-center justify-between">
+    <section className="shrink-0 glass-panel rounded-lg overflow-hidden">
+      <header className="px-3 py-2 border-b border-white/10 flex items-center justify-between">
         <h3 className="flex items-center gap-1.5 text-xs font-semibold text-text-primary uppercase tracking-wide">
           <ClipboardList className="w-3.5 h-3.5 text-accent-teal" />
           Work Orders
@@ -73,7 +73,7 @@ const WorkOrderPanel: React.FC = () => {
                   {NEXT_LABEL[w.status] && (
                     <button
                       onClick={() => advance(w.id)}
-                      className="flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-primary-600/60 border border-primary-500/50 text-[length:calc(10px*var(--fs))] text-text-secondary hover:text-text-primary"
+                      className="chip flex items-center gap-0.5 px-1.5 py-0.5 text-[length:calc(10px*var(--fs))]"
                     >
                       {NEXT_LABEL[w.status]}
                       <ChevronRight className="w-2.5 h-2.5" />

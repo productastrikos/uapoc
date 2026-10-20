@@ -94,7 +94,7 @@ const RoomDetail: React.FC<{ room?: TerminalRoom }> = ({ room }) => {
     <svg viewBox={`0 0 ${VB_W} ${VB_H}`} preserveAspectRatio="xMidYMid meet" className="absolute inset-0 w-full h-full">
       <defs>
         <pattern id="room-grid" width="8" height="8" patternUnits="userSpaceOnUse">
-          <path d="M8 0H0V8" fill="none" stroke="rgba(1,163,164,0.07)" strokeWidth="0.3" />
+          <path d="M8 0H0V8" fill="none" stroke="rgba(37,99,235,0.07)" strokeWidth="0.3" />
         </pattern>
       </defs>
       <rect x="0" y="0" width={VB_W} height={VB_H} fill="#04101F" />
@@ -106,11 +106,11 @@ const RoomDetail: React.FC<{ room?: TerminalRoom }> = ({ room }) => {
       {/* Structural grid + columns */}
       {Array.from({ length: cols - 1 }, (_, i) => {
         const x = rx + ((i + 1) * rw) / cols;
-        return <line key={`c${i}`} x1={x} y1={ry} x2={x} y2={ry + rh} stroke="rgba(1,163,164,0.14)" strokeWidth="0.25" strokeDasharray="1.5 1.5" />;
+        return <line key={`c${i}`} x1={x} y1={ry} x2={x} y2={ry + rh} stroke="rgba(37,99,235,0.14)" strokeWidth="0.25" strokeDasharray="1.5 1.5" />;
       })}
       {Array.from({ length: rows - 1 }, (_, i) => {
         const y = ry + ((i + 1) * rh) / rows;
-        return <line key={`r${i}`} x1={rx} y1={y} x2={rx + rw} y2={y} stroke="rgba(1,163,164,0.14)" strokeWidth="0.25" strokeDasharray="1.5 1.5" />;
+        return <line key={`r${i}`} x1={rx} y1={y} x2={rx + rw} y2={y} stroke="rgba(37,99,235,0.14)" strokeWidth="0.25" strokeDasharray="1.5 1.5" />;
       })}
       {Array.from({ length: cols - 1 }, (_, i) =>
         Array.from({ length: rows - 1 }, (_, j) => (
@@ -118,7 +118,7 @@ const RoomDetail: React.FC<{ room?: TerminalRoom }> = ({ room }) => {
             key={`p${i}-${j}`}
             x={rx + ((i + 1) * rw) / cols - 0.5}
             y={ry + ((j + 1) * rh) / rows - 0.5}
-            width="1" height="1" fill="rgba(1,163,164,0.30)"
+            width="1" height="1" fill="rgba(37,99,235,0.30)"
           />
         )),
       )}
@@ -333,9 +333,9 @@ const LBMSFloorMap: React.FC<Props> = ({ initialFloor = ALERT_FLOOR }) => {
   }));
 
   const hudBg = 'rgba(8,32,58,0.92)';
-  const hudBorder = 'rgba(1,163,164,0.28)';
+  const hudBorder = 'rgba(37,99,235,0.28)';
   const hudTextMuted = '#8A9BA8';
-  const hudAccent = '#22C7C6';
+  const hudAccent = '#3B82F6';
 
   /** A marker, positioned against the letterboxed drawing and scaled back
    *  down so it keeps its size as the plan zooms in. */
@@ -486,9 +486,9 @@ const LBMSFloorMap: React.FC<Props> = ({ initialFloor = ALERT_FLOOR }) => {
                 title="Open the 360° view of this room"
                 className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border text-[length:calc(10px*var(--fs))] font-bold transition-all hover:brightness-125"
                 style={{
-                  background: showPano ? 'rgba(1,163,164,0.28)' : hudBg,
-                  borderColor: 'rgba(1,163,164,0.45)',
-                  color: '#9BEAE8',
+                  background: showPano ? 'rgba(37,99,235,0.28)' : hudBg,
+                  borderColor: 'rgba(37,99,235,0.45)',
+                  color: '#93C5FD',
                   backdropFilter: 'blur(14px)',
                 }}
               >
@@ -500,9 +500,9 @@ const LBMSFloorMap: React.FC<Props> = ({ initialFloor = ALERT_FLOOR }) => {
               title="Cameras covering this room"
               className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border text-[length:calc(10px*var(--fs))] font-bold transition-all hover:brightness-125"
               style={{
-                background: showCameras ? 'rgba(34,199,198,0.24)' : hudBg,
-                borderColor: 'rgba(34,199,198,0.42)',
-                color: '#9BEAE8',
+                background: showCameras ? 'rgba(59,130,246,0.24)' : hudBg,
+                borderColor: 'rgba(59,130,246,0.42)',
+                color: '#93C5FD',
                 backdropFilter: 'blur(14px)',
               }}
             >
@@ -557,10 +557,10 @@ const LBMSFloorMap: React.FC<Props> = ({ initialFloor = ALERT_FLOOR }) => {
       <div className="absolute top-3 left-3 z-[40] flex items-center gap-2 flex-wrap">
         <div
           className="flex items-center gap-2 px-3 py-1.5 rounded-xl border text-xs font-medium pointer-events-none"
-          style={{ background: hudBg, borderColor: 'rgba(1,163,164,0.28)', backdropFilter: 'blur(14px)' }}
+          style={{ background: hudBg, borderColor: 'rgba(37,99,235,0.28)', backdropFilter: 'blur(14px)' }}
         >
-          <span className="w-2 h-2 rounded-full" style={{ background: '#01A3A4', boxShadow: '0 0 6px #01A3A4' }} />
-          <span className="tracking-widest font-semibold uppercase text-[length:calc(10px*var(--fs))]" style={{ color: '#9BEAE8' }}>
+          <span className="w-2 h-2 rounded-full" style={{ background: '#2563EB', boxShadow: '0 0 6px #2563EB' }} />
+          <span className="tracking-widest font-semibold uppercase text-[length:calc(10px*var(--fs))]" style={{ color: '#93C5FD' }}>
             DPS Terminal — {LEVEL_LABELS[activeFloor] ?? activeFloor}{openZone ? ` · ${openZone.roomName}` : ''}
           </span>
         </div>
@@ -582,7 +582,7 @@ const LBMSFloorMap: React.FC<Props> = ({ initialFloor = ALERT_FLOOR }) => {
               onClick={() => setBase('plan')}
               title="Schematic plan"
               className="flex items-center gap-1 px-2 py-1 rounded-lg text-[length:calc(10px*var(--fs))] font-bold transition-colors"
-              style={{ background: base === 'plan' ? 'rgba(1,163,164,0.22)' : 'transparent', color: base === 'plan' ? hudAccent : hudTextMuted }}
+              style={{ background: base === 'plan' ? 'rgba(37,99,235,0.22)' : 'transparent', color: base === 'plan' ? hudAccent : hudTextMuted }}
             >
               <Square className="w-3 h-3" /> Plan
             </button>
@@ -590,7 +590,7 @@ const LBMSFloorMap: React.FC<Props> = ({ initialFloor = ALERT_FLOOR }) => {
               onClick={() => setBase('geo')}
               title="Real imagery of the airport, with the rooms drawn on it"
               className="flex items-center gap-1 px-2 py-1 rounded-lg text-[length:calc(10px*var(--fs))] font-bold transition-colors"
-              style={{ background: base === 'geo' ? 'rgba(1,163,164,0.22)' : 'transparent', color: base === 'geo' ? hudAccent : hudTextMuted }}
+              style={{ background: base === 'geo' ? 'rgba(37,99,235,0.22)' : 'transparent', color: base === 'geo' ? hudAccent : hudTextMuted }}
             >
               <Globe className="w-3 h-3" /> Real map
             </button>
@@ -658,7 +658,7 @@ const LBMSFloorMap: React.FC<Props> = ({ initialFloor = ALERT_FLOOR }) => {
               title={`${LEVEL_LABELS[floor]} — ${LEVEL_PROGRAMME[floor]}`}
               className="relative px-2 py-1 rounded-lg text-[length:calc(10px*var(--fs))] font-bold transition-colors"
               style={{
-                background: active ? 'rgba(1,163,164,0.22)' : 'transparent',
+                background: active ? 'rgba(37,99,235,0.22)' : 'transparent',
                 color: active ? hudAccent : hudTextMuted,
               }}
             >

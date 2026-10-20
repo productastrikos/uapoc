@@ -60,7 +60,7 @@ const FeedTile: React.FC<{ camera: TerminalCamera; room: TerminalRoom; large?: b
             <div
               key={f}
               className="absolute"
-              style={{ left: `${f * 100}%`, top: '22%', bottom: '42%', width: 2, background: 'rgba(1,163,164,0.18)' }}
+              style={{ left: `${f * 100}%`, top: '22%', bottom: '42%', width: 2, background: 'rgba(37,99,235,0.18)' }}
             />
           ))}
           {/* Scan line */}
@@ -91,7 +91,7 @@ const FeedTile: React.FC<{ camera: TerminalCamera; room: TerminalRoom; large?: b
         </div>
       )}
       {camera.ptz && (
-        <span className="absolute top-1 right-1.5 text-[length:calc(7px*var(--fs))] font-bold px-1 rounded" style={{ background: 'rgba(1,163,164,0.25)', color: '#9BEAE8' }}>
+        <span className="absolute top-1 right-1.5 text-[length:calc(7px*var(--fs))] font-bold px-1 rounded" style={{ background: 'rgba(37,99,235,0.25)', color: '#93C5FD' }}>
           PTZ
         </span>
       )}
@@ -128,15 +128,15 @@ const NearbyCameras: React.FC<Props> = ({ room, level, initialCameraId = null, o
       }`}
       style={{
         background: 'rgba(7,16,40,0.97)',
-        borderColor: alerting > 0 ? 'rgba(249,115,22,0.45)' : 'rgba(1,163,164,0.42)',
+        borderColor: alerting > 0 ? 'rgba(249,115,22,0.45)' : 'rgba(37,99,235,0.42)',
         boxShadow: '0 24px 60px rgba(0,0,0,0.6)',
       }}
     >
       <div
         className="flex items-center gap-2 px-2.5 py-1.5 shrink-0"
-        style={{ borderBottom: '1px solid rgba(1,163,164,0.22)', background: 'rgba(8,32,58,0.9)' }}
+        style={{ borderBottom: '1px solid rgba(37,99,235,0.22)', background: 'rgba(8,32,58,0.9)' }}
       >
-        <Camera className="w-3.5 h-3.5 shrink-0" style={{ color: '#22C7C6' }} />
+        <Camera className="w-3.5 h-3.5 shrink-0" style={{ color: '#3B82F6' }} />
         <div className="min-w-0">
           <div className="text-[length:calc(11px*var(--fs))] font-bold text-text-primary leading-tight truncate">Nearby Cameras</div>
           <div className="text-[8.5px] truncate" style={{ color: '#8A9BA8' }}>
@@ -182,7 +182,7 @@ const NearbyCameras: React.FC<Props> = ({ room, level, initialCameraId = null, o
               className="relative rounded overflow-hidden"
               style={{
                 height: expanded ? 74 : 54,
-                outline: active?.id === c.id ? '1.5px solid #22C7C6' : 'none',
+                outline: active?.id === c.id ? '1.5px solid #3B82F6' : 'none',
                 outlineOffset: -1,
               }}
             >

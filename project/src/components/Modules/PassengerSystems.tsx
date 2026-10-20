@@ -33,11 +33,11 @@ import { useToast } from "../../hooks/useToast";
 // Trend Arrow Component for Data Visualization
 const TrendArrow: React.FC<{ trend: 'up' | 'down' | 'stable'; value?: number }> = ({ trend, value }) => {
   if (trend === 'up') {
-    return <TrendingUp className="w-4 h-4 text-green-400 inline ml-1" />;
+    return <TrendingUp className="w-4 h-4 text-status-success inline ml-1" />;
   } else if (trend === 'down') {
-    return <TrendingDown className="w-4 h-4 text-red-400 inline ml-1" />;
+    return <TrendingDown className="w-4 h-4 text-status-error inline ml-1" />;
   }
-  return <Minus className="w-4 h-4 text-gray-400 inline ml-1" />;
+  return <Minus className="w-4 h-4 text-text-muted inline ml-1" />;
 };
 
 // Enhanced InfoButton with Portal
@@ -559,52 +559,52 @@ const PassengerSystems: React.FC = () => {
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'online':
-        return <CheckCircle className="w-5 h-5 text-green-400 drop-shadow-lg" />;
+        return <CheckCircle className="w-4 h-4 text-status-success" />;
       case 'warning':
-        return <AlertTriangle className="w-5 h-5 text-yellow-400 drop-shadow-lg" />;
+        return <AlertTriangle className="w-4 h-4 text-status-warning" />;
       case 'offline':
-        return <XCircle className="w-5 h-5 text-red-400 drop-shadow-lg" />;
+        return <XCircle className="w-4 h-4 text-status-error" />;
       default:
-        return <Activity className="w-5 h-5 text-gray-400 drop-shadow-lg" />;
+        return <Activity className="w-4 h-4 text-text-muted" />;
     }
   };
 
   const getStatusTextColor = (status: string) => {
     switch (status) {
       case 'online':
-        return 'text-green-400';
+        return 'text-status-success';
       case 'warning':
-        return 'text-yellow-400';
+        return 'text-status-warning';
       case 'offline':
-        return 'text-red-400';
+        return 'text-status-error';
       default:
-        return 'text-gray-400';
+        return 'text-text-muted';
     }
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'online':
-        return 'border-green-500/50 bg-gradient-to-br from-green-500/20 to-green-600/10';
+        return 'bg-status-success/10 text-status-success border-status-success/30';
       case 'warning':
-        return 'border-yellow-500/50 bg-gradient-to-br from-yellow-500/20 to-orange-500/10';
+        return 'bg-status-warning/10 text-status-warning border-status-warning/30';
       case 'offline':
-        return 'border-red-500/50 bg-gradient-to-br from-red-500/20 to-red-600/10';
+        return 'bg-status-error/10 text-status-error border-status-error/30';
       default:
-        return 'border-gray-500/50 bg-gradient-to-br from-gray-500/20 to-gray-600/10';
+        return 'bg-primary-600/30 text-text-muted border-primary-600/50';
     }
   };
 
   const getComponentStatusColor = (status: string) => {
     switch (status) {
       case 'operational':
-        return 'from-green-400 to-green-500';
+        return 'bg-status-success';
       case 'warning':
-        return 'from-yellow-400 to-yellow-500';
+        return 'bg-status-warning';
       case 'critical':
-        return 'from-red-400 to-red-500';
+        return 'bg-status-error';
       default:
-        return 'from-gray-400 to-gray-500';
+        return 'bg-gray-500';
     }
   };
 
@@ -623,11 +623,11 @@ const PassengerSystems: React.FC = () => {
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="bg-gradient-to-br from-primary-800 to-primary-900 rounded-xl p-6 max-w-4xl w-full max-h-[90vh] overflow-hidden border border-primary-600"
+            className="bg-primary-800 rounded-xl p-6 max-w-4xl w-full max-h-[90vh] overflow-hidden border border-primary-600"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-white">{selectedComponent.name}</h2>
+              <h2 className="text-xl font-bold text-white">{selectedComponent.name}</h2>
               <button
                 onClick={() => setShowComponentModal(false)}
                 className="text-gray-400 hover:text-white transition-colors"
@@ -643,8 +643,8 @@ const PassengerSystems: React.FC = () => {
                   onClick={() => setActiveTab(tab)}
                   className={`flex-1 py-2 px-4 text-sm font-medium rounded-lg transition-all ${
                     activeTab === tab
-                      ? 'bg-accent-teal text-white shadow-lg'
-                      : 'text-gray-400 hover:text-white hover:bg-primary-600/50'
+                      ? 'bg-accent-blue text-white'
+                      : 'text-text-muted hover:text-text-primary'
                   }`}
                 >
                   {tab === 'actions' ? 'Action Items' : tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -656,27 +656,25 @@ const PassengerSystems: React.FC = () => {
               {activeTab === 'overview' && (
                 <div className="space-y-4">
                   <div className="grid grid-cols-3 gap-4">
-                    <div className="bg-primary-700/30 p-4 rounded-lg">
+                    <div className="glass-pill glass-pill-blue p-4">
                       <h4 className="text-sm font-semibold text-gray-400 mb-2">Status</h4>
                       <div className="flex items-center space-x-2">
-                        <div className={`w-3 h-3 rounded-full bg-gradient-to-r ${getComponentStatusColor(selectedComponent.status)}`}></div>
+                        <div className={`w-3 h-3 rounded-full ${getComponentStatusColor(selectedComponent.status)}`}></div>
                         <span className={`font-medium ${getStatusTextColor(selectedComponent.status)}`}>
                           {selectedComponent.status.toUpperCase()}
                         </span>
                       </div>
                     </div>
-                    <div className="bg-primary-700/30 p-4 rounded-lg">
+                    <div className="glass-pill glass-pill-teal p-4">
                       <h4 className="text-sm font-semibold text-gray-400 mb-2">Success Rate</h4>
                       <span className="text-white font-medium flex items-center">
                         {selectedComponent.detailedMetrics.successRate}%
-                        <TrendArrow trend={selectedComponent.detailedMetrics.successRate > 95 ? 'stable' : 'down'} />
                       </span>
                     </div>
-                    <div className="bg-primary-700/30 p-4 rounded-lg">
+                    <div className="glass-pill glass-pill-violet p-4">
                       <h4 className="text-sm font-semibold text-gray-400 mb-2">Queue Length</h4>
                       <span className="text-white font-medium flex items-center">
                         {selectedComponent.detailedMetrics.queueLength}
-                        <TrendArrow trend={selectedComponent.detailedMetrics.queueLength > 20 ? 'up' : 'stable'} />
                       </span>
                     </div>
                   </div>
@@ -685,34 +683,32 @@ const PassengerSystems: React.FC = () => {
 
               {activeTab === 'actions' && (
                 <div className="space-y-6">
-                  <div className="bg-primary-700/30 p-6 rounded-lg">
-                    <h4 className="text-lg font-semibold text-white mb-4">Primary Actions</h4>
+                  <div className="glass-panel rounded-lg p-6">
+                    <h4 className="text-base font-semibold text-white mb-4">Primary Actions</h4>
                     <div className="space-y-4">
                       <div className="border-b border-primary-600 pb-4">
                         <div className="flex items-center justify-between mb-2">
                           <h5 className="text-white font-medium">Execute Optimization SOP</h5>
                           <div className="flex items-center space-x-2">
-                            <span className="text-xs text-accent-teal">Confidence: 99%</span>
-                            <span className="text-xs text-green-400">Routine</span>
+                            <span className="text-xs text-blue-200">Confidence: 99%</span>
+                            <span className="text-xs text-status-success">Routine</span>
                           </div>
                         </div>
                         <p className="text-sm text-gray-400 mb-4">
                           Implement AI-recommended optimization with expected {selectedComponent.status === 'warning' ? '25%' : '8%'} performance improvement
                         </p>
                         <div className="flex space-x-3">
-                          <motion.button
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
+                          <button
                             onClick={() => handleExecuteSOP(selectedComponent.id, selectedComponent.name)}
                             disabled={executedSOPs[selectedComponent.id]}
-                            className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                            className={`btn min-w-[9rem] ${
                               executedSOPs[selectedComponent.id]
-                                ? 'bg-green-600/30 text-green-300 cursor-not-allowed'
-                                : 'bg-accent-teal hover:bg-accent-teal/80 text-white'
+                                ? 'btn-secondary opacity-60 cursor-not-allowed'
+                                : 'btn-primary'
                             }`}
                           >
                             {executedSOPs[selectedComponent.id] ? '✓ SOP Executed' : 'Execute SOP'}
-                          </motion.button>
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -750,11 +746,11 @@ const PassengerSystems: React.FC = () => {
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="bg-gradient-to-br from-primary-800 to-primary-900 rounded-xl p-6 max-w-4xl w-full max-h-[90vh] overflow-hidden border border-primary-600"
+            className="bg-primary-800 rounded-xl p-6 max-w-4xl w-full max-h-[90vh] overflow-hidden border border-primary-600"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-white">AI Advisory & Recommendations</h2>
+              <h2 className="text-xl font-bold text-white">AI Advisory & Recommendations</h2>
               <button
                 onClick={() => setShowAIAdvisoryModal(false)}
                 className="text-gray-400 hover:text-white transition-colors"
@@ -770,8 +766,8 @@ const PassengerSystems: React.FC = () => {
                   onClick={() => setActiveTab(tab)}
                   className={`flex-1 py-2 px-4 text-sm font-medium rounded-lg transition-all ${
                     activeTab === tab
-                      ? 'bg-accent-teal text-white shadow-lg'
-                      : 'text-gray-400 hover:text-white hover:bg-primary-600/50'
+                      ? 'bg-accent-blue text-white'
+                      : 'text-text-muted hover:text-text-primary'
                   }`}
                 >
                   {tab === 'actions' ? 'Action Items' : tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -784,14 +780,14 @@ const PassengerSystems: React.FC = () => {
                 <div className="space-y-6">
                   {/* AI Status Display */}
                   <div className="grid grid-cols-2 gap-6">
-                    <div className="bg-primary-700/30 p-4 rounded-lg">
+                    <div className="glass-pill glass-pill-blue p-4">
                       <h4 className="text-sm font-semibold text-gray-400 mb-2">AI Status</h4>
                       <div className="flex items-center space-x-2">
-                        <div className="w-3 h-3 rounded-full bg-gradient-to-r from-green-400 to-green-500"></div>
-                        <span className="text-green-400 font-medium">OPERATIONAL</span>
+                        <div className="w-3 h-3 rounded-full bg-status-success"></div>
+                        <span className="text-status-success font-medium">OPERATIONAL</span>
                       </div>
                     </div>
-                    <div className="bg-primary-700/30 p-4 rounded-lg">
+                    <div className="glass-pill glass-pill-teal p-4">
                       <h4 className="text-sm font-semibold text-gray-400 mb-2">Confidence Level</h4>
                       <span className="text-white font-medium">97.5%</span>
                     </div>
@@ -799,45 +795,25 @@ const PassengerSystems: React.FC = () => {
 
                   {/* Key Metrics Grid - NOW 5 COLUMNS */}
                   <div className="grid grid-cols-5 gap-3">
-                    <div className="bg-green-500/10 p-4 rounded-lg border border-green-500/30">
-                      <div className="text-xl font-bold text-green-400 flex items-center">
-                        {aiAdvisoryData.apiSuccessRate}%
-                        <TrendArrow trend={aiAdvisoryData.apiSuccessRateTrend} />
+                    {[
+                      { value: `${aiAdvisoryData.apiSuccessRate}%`, trend: aiAdvisoryData.apiSuccessRateTrend, label: 'API Success', tint: 'glass-pill-blue' },
+                      { value: `${aiAdvisoryData.avgResponseTime}ms`, trend: aiAdvisoryData.responseTimeTrend, label: 'Response Time', tint: 'glass-pill-teal' },
+                      { value: aiAdvisoryData.activeConnections, trend: aiAdvisoryData.connectionsTrend, label: 'Connections', tint: 'glass-pill-violet' },
+                      { value: aiAdvisoryData.dataProcessed, trend: aiAdvisoryData.dataProcessedTrend, label: 'Data/hr', tint: 'glass-pill-neutral' },
+                      { value: aiAdvisoryData.cpuUsage, trend: aiAdvisoryData.cpuUsageTrend, label: 'CPU Usage', tint: 'glass-pill-blue' },
+                    ].map((tile) => (
+                      <div key={tile.label} className={`glass-pill ${tile.tint} p-3`}>
+                        <div className="text-xl font-bold text-text-primary flex items-center">
+                          {tile.value}
+                          <TrendArrow trend={tile.trend} />
+                        </div>
+                        <div className="text-xs text-text-muted">{tile.label}</div>
                       </div>
-                      <div className="text-xs text-gray-400">API Success</div>
-                    </div>
-                    <div className="bg-blue-500/10 p-4 rounded-lg border border-blue-500/30">
-                      <div className="text-xl font-bold text-blue-400 flex items-center">
-                        {aiAdvisoryData.avgResponseTime}ms
-                        <TrendArrow trend={aiAdvisoryData.responseTimeTrend} />
-                      </div>
-                      <div className="text-xs text-gray-400">Response Time</div>
-                    </div>
-                    <div className="bg-purple-500/10 p-4 rounded-lg border border-purple-500/30">
-                      <div className="text-xl font-bold text-purple-400 flex items-center">
-                        {aiAdvisoryData.activeConnections}
-                        <TrendArrow trend={aiAdvisoryData.connectionsTrend} />
-                      </div>
-                      <div className="text-xs text-gray-400">Connections</div>
-                    </div>
-                    <div className="bg-teal-500/10 p-4 rounded-lg border border-teal-500/30">
-                      <div className="text-xl font-bold text-teal-400 flex items-center">
-                        {aiAdvisoryData.dataProcessed}
-                        <TrendArrow trend={aiAdvisoryData.dataProcessedTrend} />
-                      </div>
-                      <div className="text-xs text-gray-400">Data/hr</div>
-                    </div>
-                    <div className="bg-yellow-500/10 p-4 rounded-lg border border-yellow-500/30">
-                      <div className="text-xl font-bold text-yellow-400 flex items-center">
-                        {aiAdvisoryData.cpuUsage}
-                        <TrendArrow trend={aiAdvisoryData.cpuUsageTrend} />
-                      </div>
-                      <div className="text-xs text-gray-400">CPU Usage</div>
-                    </div>
+                    ))}
                   </div>
 
                   {/* AI Analysis Summary */}
-                  <div className="bg-primary-700/30 p-4 rounded-lg">
+                  <div className="glass-panel rounded-lg p-4">
                     <h4 className="text-sm font-semibold text-gray-400 mb-2">AI Analysis Summary</h4>
                     <p className="text-gray-300">
                       AI-powered analysis of passenger system performance indicates optimal operational efficiency across most components. 
@@ -849,8 +825,8 @@ const PassengerSystems: React.FC = () => {
 
               {activeTab === 'actions' && (
                 <div className="space-y-6">
-                  <div className="bg-primary-700/30 p-6 rounded-lg">
-                    <h4 className="text-lg font-semibold text-white mb-4">AI Recommendations</h4>
+                  <div className="glass-panel rounded-lg p-6">
+                    <h4 className="text-base font-semibold text-white mb-4">AI Recommendations</h4>
                     
                     <div className="space-y-4">
                       {aiAdvisoryData.recommendations.map((recommendation, index) => (
@@ -858,8 +834,8 @@ const PassengerSystems: React.FC = () => {
                           <div className="flex items-center justify-between mb-2">
                             <h5 className="text-white font-medium">Recommendation #{index + 1}</h5>
                             <div className="flex items-center space-x-2">
-                              <span className="text-xs text-accent-teal">High Priority</span>
-                              <span className="text-xs text-green-400">AI Generated</span>
+                              <span className="text-xs text-blue-200">High Priority</span>
+                              <span className="text-xs text-accent-blue">AI Generated</span>
                             </div>
                           </div>
                           <p className="text-sm text-gray-400 mb-3">
@@ -874,16 +850,16 @@ const PassengerSystems: React.FC = () => {
 
               {activeTab === 'execution' && (
                 <div className="space-y-6">
-                  <div className="bg-primary-700/30 p-6 rounded-lg">
-                    <h4 className="text-lg font-semibold text-white mb-4">Execute AI Recommendations</h4>
+                  <div className="glass-panel rounded-lg p-6">
+                    <h4 className="text-base font-semibold text-white mb-4">Execute AI Recommendations</h4>
                     
                     <div className="space-y-4">
                       <div className="border-b border-primary-600 pb-4">
                         <div className="flex items-center justify-between mb-2">
                           <h5 className="text-white font-medium">System-wide AI Optimization</h5>
                           <div className="flex items-center space-x-2">
-                            <span className="text-xs text-accent-teal">Confidence: 97.5%</span>
-                            <span className="text-xs text-green-400">Safe</span>
+                            <span className="text-xs text-blue-200">Confidence: 97.5%</span>
+                            <span className="text-xs text-status-success">Safe</span>
                           </div>
                         </div>
                         <p className="text-sm text-gray-400 mb-4">
@@ -891,30 +867,24 @@ const PassengerSystems: React.FC = () => {
                         </p>
                         
                         <div className="flex space-x-3">
-                          <motion.button
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
+                          <button
                             onClick={handleAIRecommendationExecute}
-                            className={`px-6 py-3 rounded-lg font-medium transition-all flex items-center space-x-2 ${
-                              aiRecommendationExecuted
-                                ? 'bg-green-600/30 text-green-300'
-                                : 'bg-accent-teal hover:bg-accent-teal/80 text-white'
-                            }`}
+                            className={`btn min-w-[13rem] ${aiRecommendationExecuted ? 'btn-secondary' : 'btn-primary'}`}
                           >
-                            <Zap className="w-5 h-5" />
+                            <Zap className="w-4 h-4" />
                             <span>{aiRecommendationExecuted ? '✓ AI Optimization Active' : 'Execute AI Optimization'}</span>
-                          </motion.button>
+                          </button>
                         </div>
                       </div>
 
                       {/* Execution Status */}
                       {aiRecommendationExecuted && (
-                        <div className="bg-green-500/10 rounded-lg p-4 border border-green-500/30">
+                        <div className="glass-panel rounded-lg p-4 border border-status-success/30 bg-status-success/10">
                           <div className="flex items-center space-x-3">
-                            <CheckCircle className="w-6 h-6 text-green-400" />
+                            <CheckCircle className="w-6 h-6 text-status-success" />
                             <div>
-                              <h6 className="text-green-300 font-medium">AI Optimization Executed Successfully</h6>
-                              <p className="text-green-400/80 text-sm">System performance enhanced across all components</p>
+                              <h6 className="text-status-success font-medium">AI Optimization Executed Successfully</h6>
+                              <p className="text-status-success/80 text-sm">System performance enhanced across all components</p>
                             </div>
                           </div>
                         </div>
@@ -927,7 +897,7 @@ const PassengerSystems: React.FC = () => {
               {activeTab !== 'overview' && activeTab !== 'actions' && activeTab !== 'execution' && (
                 <div className="flex items-center justify-center h-full">
                   <div className="text-center">
-                    <Brain className="w-12 h-12 text-purple-400 mx-auto mb-4" />
+                    <Brain className="w-12 h-12 text-accent-blue mx-auto mb-4" />
                     <p className="text-gray-400">AI {activeTab} content will be displayed here.</p>
                   </div>
                 </div>
@@ -947,10 +917,7 @@ const PassengerSystems: React.FC = () => {
     >
       {/* Enhanced Background */}
       <div className="fixed inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-slate-900 to-black"></div>
-        <div className="absolute top-1/3 left-1/5 w-80 h-80 bg-gradient-to-r from-purple-600/25 via-blue-600/15 to-teal-600/25 rounded-full mix-blend-multiply filter blur-3xl opacity-60 animate-pulse"></div>
-        <div className="absolute bottom-1/3 right-1/5 w-96 h-96 bg-gradient-to-r from-green-600/25 via-teal-600/15 to-blue-600/25 rounded-full mix-blend-multiply filter blur-3xl opacity-60 animate-pulse" style={{animationDelay: '3s'}}></div>
-        <div className="absolute top-2/3 left-1/2 w-72 h-72 bg-gradient-to-r from-pink-600/25 via-purple-600/15 to-indigo-600/25 rounded-full mix-blend-multiply filter blur-3xl opacity-60 animate-pulse" style={{animationDelay: '6s'}}></div>
+        <div className="absolute inset-0 bg-primary-900"></div>
       </div>
 
       <div className="relative z-10 space-y-6 p-6">
@@ -959,73 +926,40 @@ const PassengerSystems: React.FC = () => {
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           onClick={handleAIAdvisoryClick}
-          whileHover={{ 
-            scale: 1.01, 
-            y: -2,
-            boxShadow: "0 25px 50px -12px rgba(168, 85, 247, 0.4)"
-          }}
-          whileTap={{ scale: 0.99 }}
-          className="relative overflow-hidden bg-gradient-to-br from-indigo-950/60 via-purple-950/60 to-violet-950/60 rounded-xl p-4 border border-indigo-800/50 backdrop-blur-sm shadow-2xl cursor-pointer transition-all duration-300 group w-full"
+          whileHover={{ y: -2 }}
+          className="relative overflow-hidden glass-panel-strong rounded-xl p-4 cursor-pointer transition-colors duration-200 group w-full"
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-indigo-900/30 via-purple-900/20 to-violet-900/30 rounded-xl"></div>
-          
-          {/* Hover glow effect */}
-          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/8 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1200"></div>
-          </div>
-          
           <div className="relative z-10">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center space-x-3">
-                <Brain className="w-6 h-6 text-indigo-400 drop-shadow-lg" />
-                <h3 className="text-lg font-semibold text-white drop-shadow-md">AI Advisory & Recommendations</h3>
+                <Brain className="w-5 h-5 text-accent-blue" />
+                <h3 className="text-base font-semibold text-white">AI Advisory & Recommendations</h3>
                 <InfoButtonWithPortal description="AI-powered analysis providing real-time recommendations for system optimization. Click to view detailed insights and execute recommendations." />
               </div>
             </div>
             
             {/* Compact Metrics Display - NOW 5 COLUMNS */}
             <div className="grid grid-cols-5 gap-3">
-              <div className="text-center p-3 bg-gradient-to-br from-green-500/20 to-green-600/10 rounded-lg border border-green-500/30">
-                <div className="text-xl font-bold text-green-400 flex items-center justify-center">
-                  {aiAdvisoryData.apiSuccessRate}%
-                  <TrendArrow trend={aiAdvisoryData.apiSuccessRateTrend} />
+              {[
+                { value: `${aiAdvisoryData.apiSuccessRate}%`, trend: aiAdvisoryData.apiSuccessRateTrend, label: 'API Success', tint: 'glass-pill-blue' },
+                { value: `${aiAdvisoryData.avgResponseTime}ms`, trend: aiAdvisoryData.responseTimeTrend, label: 'Response Time', tint: 'glass-pill-teal' },
+                { value: aiAdvisoryData.activeConnections, trend: aiAdvisoryData.connectionsTrend, label: 'Connections', tint: 'glass-pill-violet' },
+                { value: aiAdvisoryData.dataProcessed, trend: aiAdvisoryData.dataProcessedTrend, label: 'Data/hr', tint: 'glass-pill-neutral' },
+                { value: aiAdvisoryData.cpuUsage, trend: aiAdvisoryData.cpuUsageTrend, label: 'CPU Usage', tint: 'glass-pill-blue' },
+              ].map((tile) => (
+                <div key={tile.label} className={`text-center glass-pill ${tile.tint} p-3`}>
+                  <div className="text-xl font-bold text-text-primary flex items-center justify-center">
+                    {tile.value}
+                    <TrendArrow trend={tile.trend} />
+                  </div>
+                  <div className="text-xs text-text-muted">{tile.label}</div>
                 </div>
-                <div className="text-xs text-gray-400">API Success</div>
-              </div>
-              <div className="text-center p-3 bg-gradient-to-br from-blue-500/20 to-blue-600/10 rounded-lg border border-blue-500/30">
-                <div className="text-xl font-bold text-blue-400 flex items-center justify-center">
-                  {aiAdvisoryData.avgResponseTime}ms
-                  <TrendArrow trend={aiAdvisoryData.responseTimeTrend} />
-                </div>
-                <div className="text-xs text-gray-400">Response Time</div>
-              </div>
-              <div className="text-center p-3 bg-gradient-to-br from-purple-500/20 to-purple-600/10 rounded-lg border border-purple-500/30">
-                <div className="text-xl font-bold text-purple-400 flex items-center justify-center">
-                  {aiAdvisoryData.activeConnections}
-                  <TrendArrow trend={aiAdvisoryData.connectionsTrend} />
-                </div>
-                <div className="text-xs text-gray-400">Connections</div>
-              </div>
-              <div className="text-center p-3 bg-gradient-to-br from-teal-500/20 to-teal-600/10 rounded-lg border border-teal-500/30">
-                <div className="text-xl font-bold text-teal-400 flex items-center justify-center">
-                  {aiAdvisoryData.dataProcessed}
-                  <TrendArrow trend={aiAdvisoryData.dataProcessedTrend} />
-                </div>
-                <div className="text-xs text-gray-400">Data/hr</div>
-              </div>
-              {/* NEW 5TH KPI CARD - CPU USAGE */}
-              <div className="text-center p-3 bg-gradient-to-br from-yellow-500/20 to-yellow-600/10 rounded-lg border border-yellow-500/30">
-                <div className="text-xl font-bold text-yellow-400 flex items-center justify-center">
-                  {aiAdvisoryData.cpuUsage}
-                  <TrendArrow trend={aiAdvisoryData.cpuUsageTrend} />
-                </div>
-                <div className="text-xs text-gray-400">CPU Usage</div>
-              </div>
+              ))}
             </div>
 
             {/* Click to view hint */}
             <div className="mt-3 text-center">
-             {/*} <div className="inline-flex items-center space-x-2 text-indigo-300 text-sm bg-indigo-800/30 px-3 py-1 rounded-full border border-indigo-500/50">
+             {/*} <div className="inline-flex items-center space-x-2 text-accent-blue text-sm bg-accent-blue/10 px-3 py-1 rounded-full border border-accent-blue/50">
                  <Eye className="w-3 h-3" />
                 <span>Click to view detailed AI insights and execute recommendations</span>
               </div>*/}
@@ -1040,56 +974,38 @@ const PassengerSystems: React.FC = () => {
           className="flex items-center justify-between"
         >
           <div className="flex items-center space-x-4">
-            <div className="p-4 bg-gradient-to-br from-purple-500/30 to-purple-600/20 rounded-xl shadow-lg backdrop-blur-sm">
-              <Server className="w-7 h-7 text-purple-400 drop-shadow-lg" />
+            <div className="p-2 bg-accent-blue/15 rounded-lg">
+              <Server className="w-5 h-5 text-accent-blue" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-white drop-shadow-lg">Passenger Systems</h1>
-              <p className="text-gray-400 text-lg">Technical System Monitoring & Integration Health</p>
+              <h1 className="text-2xl font-bold text-white">Passenger Systems</h1>
+              <p className="text-text-muted text-sm">Technical System Monitoring & Integration Health</p>
             </div>
             <InfoButtonWithPortal description="Monitor and manage all passenger processing systems including CUPPS, CUSS, PTS, SACS, BHS, and PCDS. Track system health, performance metrics, and integration status in real-time." />
           </div>
           
           {/* Enhanced Emergency Actions */}
-          <div className="flex space-x-3">
-            <motion.button 
+          <div className="flex space-x-2">
+            <button
               onClick={handleSystemRestart}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className={`px-6 py-3 rounded-lg transition-all duration-300 transform shadow-2xl font-medium ${
-                systemRestarting 
-                  ? 'bg-gradient-to-r from-red-700 via-red-600 to-pink-700 animate-pulse' 
-                  : 'bg-gradient-to-r from-red-600 via-red-500 to-pink-600 hover:from-red-700 hover:via-red-600 hover:to-pink-700'
-              } text-white hover:shadow-red-500/50`}
+              className={`btn min-w-[9rem] ${systemRestarting ? 'btn-danger-active' : 'btn-danger'}`}
             >
               <span>{systemRestarting ? 'Restarting...' : 'System Restart'}</span>
-            </motion.button>
+            </button>
 
-            <motion.button 
+            <button
               onClick={handleActivateBackup}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className={`px-6 py-3 rounded-lg transition-all duration-300 transform shadow-2xl font-medium ${
-                backupActive 
-                  ? 'bg-gradient-to-r from-orange-700 via-yellow-600 to-amber-700 animate-pulse' 
-                  : 'bg-gradient-to-r from-orange-600 via-yellow-500 to-amber-600 hover:from-orange-700 hover:via-yellow-600 hover:to-amber-700'
-              } text-white hover:shadow-orange-500/50`}
+              className={`btn min-w-[9rem] ${backupActive ? 'btn-primary' : 'btn-secondary'}`}
             >
               <span>{backupActive ? 'Backup Active' : 'Activate Backup'}</span>
-            </motion.button>
+            </button>
 
-            <motion.button 
+            <button
               onClick={handleHealthCheck}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className={`px-6 py-3 rounded-lg transition-all duration-300 transform shadow-2xl font-medium ${
-                healthCheckActive 
-                  ? 'bg-gradient-to-r from-blue-700 via-cyan-600 to-teal-700 animate-pulse' 
-                  : 'bg-gradient-to-r from-blue-600 via-cyan-500 to-teal-600 hover:from-blue-700 hover:via-cyan-600 hover:to-teal-700'
-              } text-white hover:shadow-blue-500/50`}
+              className={`btn min-w-[8rem] ${healthCheckActive ? 'btn-primary' : 'btn-secondary'}`}
             >
               <span>{healthCheckActive ? 'Checking...' : 'Health Check'}</span>
-            </motion.button>
+            </button>
           </div>
         </motion.div>
 
@@ -1099,68 +1015,56 @@ const PassengerSystems: React.FC = () => {
           animate={{ y: 0, opacity: 1 }}
           className="relative"
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-600/5 via-transparent to-blue-600/5 rounded-xl blur-xl"></div>
-          
-          <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {systems.map((system, index) => (
               <motion.div
                 key={system.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className={`relative overflow-hidden p-6 rounded-xl border cursor-pointer transition-all duration-300 group backdrop-blur-sm shadow-2xl ${getStatusColor(system.status)} hover:scale-105 hover:shadow-2xl`}
-                whileHover={{ 
-                  scale: 1.02,
-                  y: -4,
-                  boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.4)"
-                }}
+                className="relative overflow-hidden p-4 rounded-xl border cursor-pointer transition-colors duration-200 group bg-primary-800/60 border-primary-600/40 hover:border-accent-blue/40"
+                whileHover={{ y: -2 }}
                 onClick={() => handleSystemClick(system)}
               >
-                <div className="absolute inset-0 bg-gradient-to-tr from-white/5 via-transparent to-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl"></div>
-                
                 <div className="relative z-10">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center space-x-2">
                       {getStatusIcon(system.status)}
-                      <span className="text-sm font-medium text-white uppercase drop-shadow-sm">{system.id}</span>
+                      <span className="text-sm font-medium text-white uppercase">{system.id}</span>
                       <InfoButtonWithPortal description={`${system.name} - Monitor performance, uptime, and integration status. Click for detailed metrics and controls.`} />
                     </div>
-                    <span className={`px-3 py-1 rounded-full text-xs font-bold shadow-lg ${
-                      system.status === 'online' ? 'bg-gradient-to-r from-green-500 to-green-600 text-white' :
-                      system.status === 'warning' ? 'bg-gradient-to-r from-yellow-500 to-orange-500 text-white' :
-                      'bg-gradient-to-r from-red-500 to-red-600 text-white'
-                    }`}>
+                    <span className={`px-2 py-0.5 rounded-full text-xs font-semibold border ${getStatusColor(system.status)}`}>
                       {system.status.toUpperCase()}
                     </span>
                   </div>
-                  
-                  <h3 className="text-lg font-semibold text-white mb-2 drop-shadow-md group-hover:text-teal-100 transition-colors duration-300">{system.name}</h3>
+
+                  <h3 className="text-base font-semibold text-white mb-2 group-hover:text-blue-200 transition-colors duration-200">{system.name}</h3>
                   
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
                       <span className="text-gray-400">Uptime</span>
-                      <span className="text-white font-medium drop-shadow-sm flex items-center">
+                      <span className="text-white font-medium flex items-center">
                         {system.uptime}%
                         <TrendArrow trend={system.performance.trend} />
                       </span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-gray-400">Response Time</span>
-                      <span className="text-white font-medium drop-shadow-sm">{system.responseTime}ms</span>
+                      <span className="text-white font-medium">{system.responseTime}ms</span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-gray-400">Throughput</span>
-                      <span className="text-white font-medium drop-shadow-sm">{system.throughput}</span>
+                      <span className="text-white font-medium">{system.throughput}</span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-gray-400">Passengers Processed</span>
-                      <span className="text-white font-medium drop-shadow-sm">{system.passengersProcessed.toLocaleString()}</span>
+                      <span className="text-white font-medium">{system.passengersProcessed.toLocaleString()}</span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-gray-400">Error Rate</span>
-                      <span className={`font-medium drop-shadow-sm ${
-                        system.errorRate < 2 ? 'text-green-400' : 
-                        system.errorRate < 5 ? 'text-yellow-400' : 'text-red-400'
+                      <span className={`font-medium ${
+                        system.errorRate < 2 ? 'text-status-success' :
+                        system.errorRate < 5 ? 'text-status-warning' : 'text-status-error'
                       }`}>{system.errorRate}%</span>
                     </div>
                   </div>
@@ -1169,20 +1073,14 @@ const PassengerSystems: React.FC = () => {
                     <div className="w-full bg-gray-700/50 rounded-full h-2 shadow-inner overflow-hidden">
                       <div 
                         className={`h-2 rounded-full transition-all duration-500 shadow-sm relative ${
-                          system.uptime >= 99 ? 'bg-gradient-to-r from-green-400 to-green-500' :
-                          system.uptime >= 95 ? 'bg-gradient-to-r from-yellow-400 to-yellow-500' : 
-                          'bg-gradient-to-r from-red-400 to-red-500'
+                          system.uptime >= 99 ? 'bg-status-success' :
+                          system.uptime >= 95 ? 'bg-status-warning' :
+                          'bg-status-error'
                         }`}
                         style={{ width: `${system.uptime}%` }}
-                      >
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent transform -skew-x-12 animate-pulse"></div>
-                      </div>
+                      />
                     </div>
                   </div>
-                </div>
-
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/8 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1200"></div>
                 </div>
               </motion.div>
             ))}
@@ -1193,78 +1091,76 @@ const PassengerSystems: React.FC = () => {
         <motion.div 
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="relative overflow-hidden bg-gradient-to-br from-gray-900/50 to-gray-800/50 rounded-xl p-8 border border-gray-600/50 backdrop-blur-sm shadow-2xl"
+          className="relative overflow-hidden glass-panel rounded-xl p-6"
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-teal-600/10 via-transparent to-blue-600/10 rounded-xl"></div>
-          
           <div className="relative z-10">
-            <div className="flex items-center space-x-3 mb-6">
-              <Database className="w-6 h-6 text-teal-400 drop-shadow-lg" />
-              <h3 className="text-xl font-semibold text-white drop-shadow-md">System Architecture</h3>
+            <div className="flex items-center space-x-3 mb-4">
+              <Database className="w-5 h-5 text-accent-blue" />
+              <h3 className="text-base font-semibold text-white">System Architecture</h3>
               <InfoButtonWithPortal description="Visual representation of passenger system architecture showing data flow between CUPPS, CUSS, PTS, SACS, BHS, and PCDS components. Click on any component for detailed information and actions." />
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="space-y-4">
-                <h4 className="text-base font-semibold text-teal-400 mb-4 drop-shadow-md">Passenger Processing Layer</h4>
+                <h4 className="text-sm font-semibold text-text-muted mb-3">Passenger Processing Layer</h4>
                 <div className="space-y-3">
                   {systemComponents.filter(comp => comp.layer === 'processing').map((component) => (
                     <motion.div 
                       key={component.id} 
-                      whileHover={{ scale: 1.02, x: 4 }}
-                      className="flex items-center justify-between p-4 bg-gradient-to-r from-primary-700/30 to-primary-800/30 rounded-lg shadow-lg backdrop-blur-sm cursor-pointer hover:bg-primary-600/40 transition-all duration-300 group border border-primary-600/30"
+                      whileHover={{ y: -2 }}
+                      className="flex items-center justify-between p-3 bg-primary-800/60 rounded-lg cursor-pointer transition-colors duration-200 group border border-primary-600/40 hover:border-accent-blue/40"
                       onClick={() => handleComponentClick(component)}
                     >
                       <span className="text-sm text-gray-300 font-medium group-hover:text-white transition-colors">{component.name}</span>
                       <div className="flex items-center space-x-2">
                         {executedSOPs[component.id] && (
-                          <CheckCircle className="w-3 h-3 text-green-400" />
+                          <CheckCircle className="w-3 h-3 text-status-success" />
                         )}
-                        <span className={`w-3 h-3 bg-gradient-to-r ${getComponentStatusColor(component.status)} rounded-full animate-pulse shadow-lg`}></span>
+                        <span className={`w-3 h-3 ${getComponentStatusColor(component.status)} rounded-full`}></span>
                       </div>
                     </motion.div>
                   ))}
                 </div>
               </div>
-              
+
               <div className="space-y-4">
-                <h4 className="text-base font-semibold text-blue-400 mb-4 drop-shadow-md">Security & Control Layer</h4>
+                <h4 className="text-sm font-semibold text-text-muted mb-3">Security & Control Layer</h4>
                 <div className="space-y-3">
                   {systemComponents.filter(comp => comp.layer === 'security').map((component) => (
                     <motion.div 
                       key={component.id}
-                      whileHover={{ scale: 1.02, x: 4 }}
-                      className="flex items-center justify-between p-4 bg-gradient-to-r from-primary-700/30 to-primary-800/30 rounded-lg shadow-lg backdrop-blur-sm cursor-pointer hover:bg-primary-600/40 transition-all duration-300 group border border-primary-600/30"
+                      whileHover={{ y: -2 }}
+                      className="flex items-center justify-between p-3 bg-primary-800/60 rounded-lg cursor-pointer transition-colors duration-200 group border border-primary-600/40 hover:border-accent-blue/40"
                       onClick={() => handleComponentClick(component)}
                     >
                       <span className="text-sm text-gray-300 font-medium group-hover:text-white transition-colors">{component.name}</span>
                       <div className="flex items-center space-x-2">
                         {executedSOPs[component.id] && (
-                          <CheckCircle className="w-3 h-3 text-green-400" />
+                          <CheckCircle className="w-3 h-3 text-status-success" />
                         )}
-                        <span className={`w-3 h-3 bg-gradient-to-r ${getComponentStatusColor(component.status)} rounded-full animate-pulse shadow-lg`}></span>
+                        <span className={`w-3 h-3 ${getComponentStatusColor(component.status)} rounded-full`}></span>
                       </div>
                     </motion.div>
                   ))}
                 </div>
               </div>
-              
+
               <div className="space-y-4">
-                <h4 className="text-base font-semibold text-purple-400 mb-4 drop-shadow-md">Integration Layer</h4>
+                <h4 className="text-sm font-semibold text-text-muted mb-3">Integration Layer</h4>
                 <div className="space-y-3">
                   {systemComponents.filter(comp => comp.layer === 'integration').map((component) => (
                     <motion.div 
                       key={component.id}
-                      whileHover={{ scale: 1.02, x: 4 }}
-                      className="p-4 bg-gradient-to-r from-primary-700/30 to-primary-800/30 rounded-lg text-center shadow-lg backdrop-blur-sm cursor-pointer hover:bg-primary-600/40 transition-all duration-300 group border border-primary-600/30"
+                      whileHover={{ y: -2 }}
+                      className="p-3 bg-primary-800/60 rounded-lg text-center cursor-pointer transition-colors duration-200 group border border-primary-600/40 hover:border-accent-blue/40"
                       onClick={() => handleComponentClick(component)}
                     >
                       <span className="text-sm text-gray-300 group-hover:text-white transition-colors block mb-1">{component.name.replace(' Rate', '').replace(' Calls', '')}</span>
-                      <div className="text-lg font-bold text-white drop-shadow-md group-hover:text-teal-300 transition-colors">
+                      <div className="text-lg font-bold text-white group-hover:text-blue-200 transition-colors">
                         {component.metrics?.dataFlow || component.metrics?.apiCalls || 'N/A'}
                       </div>
                       {executedSOPs[component.id] && (
-                        <CheckCircle className="w-3 h-3 text-green-400 mx-auto mt-1" />
+                        <CheckCircle className="w-3 h-3 text-status-success mx-auto mt-1" />
                       )}
                     </motion.div>
                   ))}

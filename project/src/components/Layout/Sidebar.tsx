@@ -49,9 +49,6 @@ const CollapsibleSidebar: React.FC<CollapsibleSidebarProps> = ({
       animate={{ width: collapsed ? 80 : 280 }}
       initial={{ width: 280 }}
     >
-      {/* Shimmer Effect Border */}
-      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-teal-400/10 to-transparent animate-shimmer" />
-      
       {/* Collapse Toggle */}
       <button
         onClick={() => setCollapsed(!collapsed)}
@@ -72,18 +69,13 @@ const CollapsibleSidebar: React.FC<CollapsibleSidebarProps> = ({
                 key={item.id}
                 onClick={() => onModuleChange(item.id)}
                 className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-left transition-all duration-200 group relative overflow-hidden ${
-                  isActive 
-                    ? 'bg-gradient-to-r from-teal-500/20 to-blue-500/20 text-white border border-teal-500/50' 
+                  isActive
+                    ? 'bg-accent-teal/15 text-white border border-accent-teal/40'
                     : 'text-gray-300 hover:bg-primary-600/50 hover:text-white'
                 }`}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                {/* Active item shimmer effect */}
-                {isActive && (
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-teal-400/20 to-transparent animate-shimmer" />
-                )}
-                
                 <Icon className={`w-5 h-5 flex-shrink-0 ${isActive ? 'text-teal-400' : 'text-gray-400 group-hover:text-teal-400'}`} />
                 
                 {!collapsed && (

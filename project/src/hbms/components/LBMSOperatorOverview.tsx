@@ -39,14 +39,14 @@ const BarPanel: React.FC<BarPanelProps> = ({ title, spec, categories, yMax, onCl
       title={onClick ? `${title} — click to view all AHU units` : undefined}
       style={{
         flex: 1, minWidth: 0, borderRadius: 10, padding: '8px 10px 10px', display: 'flex', flexDirection: 'column', gap: 6,
-        background: 'var(--app-surface)', border: `1px solid ${onClick ? 'rgba(34,199,198,0.35)' : 'rgba(255,255,255,0.08)'}`,
+        background: 'var(--app-surface)', border: `1px solid ${onClick ? 'rgba(59,130,246,0.35)' : 'rgba(255,255,255,0.08)'}`,
         cursor: onClick ? 'pointer' : 'default', transition: 'transform 0.15s ease, border-color 0.15s ease',
       }}
       onMouseEnter={onClick ? (e => { e.currentTarget.style.transform = 'translateY(-2px)'; }) : undefined}
       onMouseLeave={onClick ? (e => { e.currentTarget.style.transform = 'translateY(0)'; }) : undefined}
     >
       <div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-        <p style={{ fontSize: 10, fontWeight: 700, color: onClick ? '#22C7C6' : 'var(--ds-text)', textAlign: 'center', textTransform: 'uppercase', letterSpacing: '0.03em' }}>
+        <p style={{ fontSize: 10, fontWeight: 700, color: onClick ? '#3B82F6' : 'var(--ds-text)', textAlign: 'center', textTransform: 'uppercase', letterSpacing: '0.03em' }}>
           {title}
         </p>
         {spec && (
@@ -88,7 +88,7 @@ const BarPanel: React.FC<BarPanelProps> = ({ title, spec, categories, yMax, onCl
         ))}
       </div>
       {onClick && (
-        <p style={{ fontSize: 8.5, fontWeight: 700, color: '#22C7C6', textAlign: 'center', marginTop: 1 }}>
+        <p style={{ fontSize: 8.5, fontWeight: 700, color: '#3B82F6', textAlign: 'center', marginTop: 1 }}>
           Click here to view all AHU →
         </p>
       )}
@@ -155,7 +155,7 @@ const LBMSOperatorOverview: React.FC<LBMSOperatorOverviewProps> = ({ autoOpenGri
         <button
           onClick={() => setShowAHUGrid(false)}
           className="flex-shrink-0 flex items-center gap-1.5 self-start px-2.5 py-1 rounded-lg text-[length:calc(10px*var(--fs))] font-bold transition-all hover:brightness-125"
-          style={{ background: 'rgba(255,255,255,0.06)', color: '#9BEAE8', border: '1px solid rgba(34,199,198,0.3)' }}
+          style={{ background: 'rgba(255,255,255,0.06)', color: '#93C5FD', border: '1px solid rgba(59,130,246,0.3)' }}
         >
           <ArrowLeft className="w-3 h-3" /> Back to overview
         </button>

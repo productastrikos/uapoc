@@ -126,12 +126,12 @@ const UniversalPopup: React.FC<UniversalPopupProps> = ({ isOpen, data, onClose, 
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'operational': return 'text-emerald-400 bg-emerald-950/30 border-emerald-500/50';
-      case 'warning': return 'text-simgold-400 bg-simgold-950/30 border-simgold-500/50';
-      case 'critical': return 'text-red-400 bg-red-950/30 border-red-500/50';
-      case 'maintenance': return 'text-simteal-400 bg-simteal-950/30 border-simteal-500/50';
-      case 'offline': return 'text-sim-400 bg-sim-950/30 border-sim-500/50';
-      default: return 'text-sim-400 bg-sim-950/30 border-sim-500/50';
+      case 'operational': return 'text-status-success bg-status-success/10 border-status-success/40';
+      case 'warning': return 'text-status-warning bg-status-warning/10 border-status-warning/40';
+      case 'critical': return 'text-status-error bg-status-error/10 border-status-error/40';
+      case 'maintenance': return 'text-accent-blue bg-accent-blue/10 border-accent-blue/40';
+      case 'offline': return 'text-text-muted bg-primary-800/40 border-primary-600/40';
+      default: return 'text-text-muted bg-primary-800/40 border-primary-600/40';
     }
   };
 
@@ -152,16 +152,16 @@ const UniversalPopup: React.FC<UniversalPopupProps> = ({ isOpen, data, onClose, 
     entries: Array<[string, any]>
   ) =>
     entries.length > 0 && (
-      <div className="bg-sim-800/30 rounded-lg p-3 border border-sim-700/30">
-        <h4 className="text-xs font-semibold text-sim-200 mb-2.5 flex items-center space-x-2 uppercase tracking-wide">
+      <div className="bg-primary-800/40 rounded-lg p-3 border border-primary-600/40">
+        <h4 className="text-xs font-semibold text-text-secondary mb-2.5 flex items-center space-x-2 uppercase tracking-wide">
           {icon}
           <span>{title}</span>
         </h4>
         <div className="grid grid-cols-1 gap-1.5">
           {entries.map(([key, value]) => (
             <div key={key} className="flex justify-between items-start gap-4">
-              <span className="text-xs text-sim-400">{formatKey(key)}</span>
-              <span className="text-xs font-medium text-sim-200 text-right break-words max-w-[62%]">
+              <span className="text-xs text-text-muted">{formatKey(key)}</span>
+              <span className="text-xs font-medium text-text-secondary text-right break-words max-w-[62%]">
                 {formatValue(key, value)}
               </span>
             </div>
@@ -171,9 +171,13 @@ const UniversalPopup: React.FC<UniversalPopupProps> = ({ isOpen, data, onClose, 
     );
 
   return createPortal(
+    // `sim-root` re-establishes the simulation subsystem's CSS scope: this
+    // panel is portaled onto <body>, outside the DOM subtree that normally
+    // carries that class, so anything here relying on scoped tokens would
+    // otherwise lose them.
     <div className="sim-root" style={{ position: 'fixed', inset: 0, zIndex: 10050 }}>
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/55 backdrop-blur-[2px]" onClick={onClose} />
+      <div className="absolute inset-0 bg-black/50" onClick={onClose} />
 
       {/* Panel */}
       <div
@@ -181,7 +185,7 @@ const UniversalPopup: React.FC<UniversalPopupProps> = ({ isOpen, data, onClose, 
         role="dialog"
         aria-modal="true"
         aria-label={data.title}
-        className="absolute flex flex-col rounded-xl shadow-2xl border border-sim-700/60 bg-sim-900/95 backdrop-blur-lg overflow-hidden"
+        className="absolute flex flex-col rounded-xl shadow-2xl modal-surface overflow-hidden"
         style={{
           left: placement.left,
           top: placement.top,
@@ -190,15 +194,15 @@ const UniversalPopup: React.FC<UniversalPopupProps> = ({ isOpen, data, onClose, 
         }}
       >
         {/* Header */}
-        <div className="p-4 border-b border-sim-700/50 bg-gradient-to-r from-sim-800/70 to-sim-700/40 flex-shrink-0">
+        <div className="p-4 border-b border-primary-600/40 bg-primary-800 flex-shrink-0">
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center space-x-3 min-w-0">
               <div className={`p-2 rounded-lg border flex-shrink-0 ${getStatusColor(data.status)}`}>
                 {getTypeIcon(data.type)}
               </div>
               <div className="min-w-0">
-                <h3 className="text-base font-bold text-sim-100 truncate">{data.title}</h3>
-                <p className="text-xs text-sim-400 capitalize truncate">
+                <h3 className="text-base font-bold text-text-primary truncate">{data.title}</h3>
+                <p className="text-xs text-text-muted capitalize truncate">
                   {data.type} • {data.status}
                 </p>
               </div>
@@ -206,20 +210,20 @@ const UniversalPopup: React.FC<UniversalPopupProps> = ({ isOpen, data, onClose, 
             <button
               onClick={onClose}
               aria-label="Close details"
-              className="p-2 hover:bg-sim-700/50 rounded-lg transition-colors text-sim-400 hover:text-sim-100 flex-shrink-0"
+              className="p-2 hover:bg-primary-700/50 rounded-lg transition-colors text-text-muted hover:text-text-primary flex-shrink-0"
             >
               <X className="w-4 h-4" />
             </button>
           </div>
-          {data.description && <p className="text-xs text-sim-300 mt-2 leading-snug">{data.description}</p>}
+          {data.description && <p className="text-xs text-text-secondary mt-2 leading-snug">{data.description}</p>}
         </div>
 
         {/* Content */}
         <div className="p-3 space-y-3 flex-1 overflow-y-auto min-h-0">
           {data.coordinates && typeof data.coordinates.x === 'number' && (
-            <div className="bg-sim-800/30 rounded-lg p-3 border border-sim-700/30">
-              <h4 className="text-xs font-semibold text-sim-200 mb-1.5 uppercase tracking-wide">Location</h4>
-              <div className="text-xs text-sim-400 tabular-nums">
+            <div className="bg-primary-800/40 rounded-lg p-3 border border-primary-600/40">
+              <h4 className="text-xs font-semibold text-text-secondary mb-1.5 uppercase tracking-wide">Location</h4>
+              <div className="text-xs text-text-muted tabular-nums">
                 X: {data.coordinates.x.toFixed(1)} &nbsp;|&nbsp; Y: {data.coordinates.y.toFixed(1)}
               </div>
             </div>
@@ -228,28 +232,28 @@ const UniversalPopup: React.FC<UniversalPopupProps> = ({ isOpen, data, onClose, 
           {data.realTimeData &&
             section(
               'Real-time Data',
-              <Activity className="w-3.5 h-3.5 text-simteal-400" />,
+              <Activity className="w-3.5 h-3.5 text-accent-blue" />,
               Object.entries(data.realTimeData)
             )}
 
           {data.operationalParams &&
             section(
               'Operational Parameters',
-              <TrendingUp className="w-3.5 h-3.5 text-emerald-400" />,
+              <TrendingUp className="w-3.5 h-3.5 text-status-success" />,
               Object.entries(data.operationalParams)
             )}
 
           {data.maintenanceSchedule &&
-            section('Maintenance', <Clock className="w-3.5 h-3.5 text-simgold-400" />, [
+            section('Maintenance', <Clock className="w-3.5 h-3.5 text-status-warning" />, [
               ['lastMaintenance', data.maintenanceSchedule.lastMaintenance],
               ['nextMaintenance', data.maintenanceSchedule.nextMaintenance],
               ['maintenanceType', data.maintenanceSchedule.maintenanceType],
             ])}
 
           {data.historicalTrends && data.historicalTrends.values.length > 0 && (
-            <div className="bg-sim-800/30 rounded-lg p-3 border border-sim-700/30">
-              <h4 className="text-xs font-semibold text-sim-200 mb-2.5 flex items-center space-x-2 uppercase tracking-wide">
-                <TrendingUp className="w-3.5 h-3.5 text-simgold-400" />
+            <div className="bg-primary-800/40 rounded-lg p-3 border border-primary-600/40">
+              <h4 className="text-xs font-semibold text-text-secondary mb-2.5 flex items-center space-x-2 uppercase tracking-wide">
+                <TrendingUp className="w-3.5 h-3.5 text-accent-blue" />
                 <span>Trend ({data.historicalTrends.period})</span>
               </h4>
               <div className="h-16 flex items-end space-x-1">
@@ -258,14 +262,14 @@ const UniversalPopup: React.FC<UniversalPopupProps> = ({ isOpen, data, onClose, 
                   return (
                     <div
                       key={index}
-                      className="flex-1 bg-gradient-to-t from-simgold-600 to-simgold-400 rounded-t transition-all duration-300 min-h-[3px]"
+                      className="flex-1 bg-accent-blue rounded-t transition-all duration-300 min-h-[3px]"
                       style={{ height: `${(value / maxValue) * 100}%` }}
                       title={`${data.historicalTrends!.labels[index]}: ${value.toFixed(1)}`}
                     />
                   );
                 })}
               </div>
-              <div className="flex justify-between text-[length:calc(10px*var(--fs))] text-sim-500 mt-1.5">
+              <div className="flex justify-between text-[length:calc(10px*var(--fs))] text-text-muted mt-1.5">
                 <span>{data.historicalTrends.labels[0]}</span>
                 <span>{data.historicalTrends.labels[data.historicalTrends.labels.length - 1]}</span>
               </div>
@@ -273,9 +277,9 @@ const UniversalPopup: React.FC<UniversalPopupProps> = ({ isOpen, data, onClose, 
           )}
 
           {data.alerts && data.alerts.length > 0 && (
-            <div className="bg-sim-800/30 rounded-lg p-3 border border-sim-700/30">
-              <h4 className="text-xs font-semibold text-sim-200 mb-2.5 flex items-center space-x-2 uppercase tracking-wide">
-                <AlertTriangle className="w-3.5 h-3.5 text-red-400" />
+            <div className="bg-primary-800/40 rounded-lg p-3 border border-primary-600/40">
+              <h4 className="text-xs font-semibold text-text-secondary mb-2.5 flex items-center space-x-2 uppercase tracking-wide">
+                <AlertTriangle className="w-3.5 h-3.5 text-status-error" />
                 <span>Alerts</span>
               </h4>
               <div className="space-y-2">
@@ -284,14 +288,14 @@ const UniversalPopup: React.FC<UniversalPopupProps> = ({ isOpen, data, onClose, 
                     key={index}
                     className={`p-2 rounded border-l-2 ${
                       alert.level === 'critical'
-                        ? 'border-red-500 bg-red-950/20'
+                        ? 'border-status-error bg-status-error/10'
                         : alert.level === 'warning'
-                        ? 'border-simgold-500 bg-simgold-950/20'
-                        : 'border-simteal-500 bg-simteal-950/20'
+                        ? 'border-status-warning bg-status-warning/10'
+                        : 'border-accent-blue bg-accent-blue/10'
                     }`}
                   >
-                    <p className="text-xs text-sim-200">{alert.message}</p>
-                    <p className="text-[length:calc(10px*var(--fs))] text-sim-400 mt-0.5">{new Date(alert.timestamp).toLocaleString()}</p>
+                    <p className="text-xs text-text-secondary">{alert.message}</p>
+                    <p className="text-[length:calc(10px*var(--fs))] text-text-muted mt-0.5">{new Date(alert.timestamp).toLocaleString()}</p>
                   </div>
                 ))}
               </div>
@@ -300,8 +304,8 @@ const UniversalPopup: React.FC<UniversalPopupProps> = ({ isOpen, data, onClose, 
         </div>
 
         {/* Footer */}
-        <div className="px-4 py-2.5 border-t border-sim-700/50 bg-sim-800/30 flex-shrink-0">
-          <div className="flex justify-between items-center text-[length:calc(10px*var(--fs))] text-sim-500">
+        <div className="px-4 py-2.5 border-t border-primary-600/40 bg-primary-800/30 flex-shrink-0">
+          <div className="flex justify-between items-center text-[length:calc(10px*var(--fs))] text-text-muted">
             <span>Updated {new Date().toLocaleTimeString()}</span>
             <span className="truncate ml-3">ID: {data.id}</span>
           </div>

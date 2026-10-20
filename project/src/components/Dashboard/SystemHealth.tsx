@@ -39,7 +39,7 @@ const SystemHealth: React.FC = () => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-primary-800 to-primary-700 rounded-lg border border-primary-600 p-6">
+    <div className="glass-panel rounded-lg p-6">
       <div className="flex items-center space-x-3 mb-6">
         <Activity className="h-6 w-6 text-accent-teal" />
         <h2 className="text-xl font-bold text-text-primary">System Health Monitor</h2>
@@ -105,7 +105,7 @@ const SystemHealth: React.FC = () => {
             initial={{ width: 0 }}
             animate={{ width: '96.3%' }}
             transition={{ duration: 1.5 }}
-            className="h-2 bg-gradient-to-r from-status-success to-accent-teal rounded-full"
+            className="h-2 bg-status-success rounded-full"
           />
         </div>
       </div>

@@ -204,7 +204,7 @@ const HbmsDashboard: React.FC = () => {
       {/* ── Left: map over the subsystem grid ── */}
       <div className="flex-[7] min-w-0 flex flex-col overflow-hidden">
         <div
-          className={mapMaximized ? 'fixed inset-0 z-[2000] overflow-hidden' : 'rounded-2xl overflow-hidden shrink-0 relative'}
+          className={mapMaximized ? 'fixed inset-0 z-[2000] overflow-hidden' : 'glass-panel rounded-2xl overflow-hidden shrink-0 relative'}
           style={mapMaximized ? undefined : { flex: '0 0 58%' }}
         >
           {map}
@@ -222,12 +222,12 @@ const HbmsDashboard: React.FC = () => {
 
         {showToast && alerts[0] && (
           <div
-            className="shrink-0 flex items-start gap-2 rounded-xl p-2.5 border relative"
-            style={{ background: 'rgba(239,68,68,0.12)', borderColor: 'rgba(239,68,68,0.3)' }}
+            className="glass-panel shrink-0 flex items-start gap-2 rounded-xl p-2.5 relative"
+            style={{ boxShadow: 'inset 0 0 0 1px rgba(248,113,113,0.3)' }}
           >
-            <div className="w-2 h-2 rounded-full mt-1.5 shrink-0 bg-red-400" />
+            <div className="w-2 h-2 rounded-full mt-1.5 shrink-0 bg-status-error" />
             <div className="flex-1 min-w-0">
-              <p className="text-xs font-bold text-red-300">Just now — {alerts[0].subsystem}</p>
+              <p className="text-xs font-bold text-status-error">Just now — {alerts[0].subsystem}</p>
               <p className="text-xs text-text-muted leading-snug truncate">{alerts[0].message}</p>
             </div>
             <button onClick={() => setShowToast(false)} className="text-text-muted hover:text-text-primary shrink-0">
@@ -299,38 +299,36 @@ const HbmsDashboard: React.FC = () => {
           <button
             onClick={() => setShowHealthFormula(true)}
             title="View the formula and data sources behind this number"
-            className="rounded-xl p-3 border text-left transition-all hover:brightness-110 active:scale-[0.98]"
-            style={{ background: 'rgba(16,185,129,0.08)', borderColor: 'rgba(16,185,129,0.4)' }}
+            className="glass-pill glass-pill-teal text-left transition-all hover:brightness-110 active:scale-[0.98]"
           >
             <p className="text-xs font-semibold text-text-muted uppercase tracking-widest mb-1">Sys Health</p>
-            <p className="text-2xl font-bold text-emerald-400">{health.toFixed(1)}%</p>
+            <p className="text-2xl font-bold text-status-success">{health.toFixed(1)}%</p>
             <div className="mt-2 w-full h-2 rounded-full overflow-hidden flex" style={{ background: 'rgba(255,255,255,0.06)' }}>
-              <div style={{ width: `${(operational / total) * 100}%`, background: '#10b981' }} />
-              <div style={{ width: `${(warning / total) * 100}%`, background: '#f59e0b' }} />
-              <div style={{ width: `${(down / total) * 100}%`, background: '#ef4444' }} />
+              <div style={{ width: `${(operational / total) * 100}%`, background: '#34D399' }} />
+              <div style={{ width: `${(warning / total) * 100}%`, background: '#E6B85C' }} />
+              <div style={{ width: `${(down / total) * 100}%`, background: '#F87171' }} />
             </div>
             <div className="flex justify-between mt-1.5">
-              <span className="text-xs text-emerald-500 font-semibold">{operational} OK</span>
-              <span className="text-xs text-red-400 font-semibold">{down} down</span>
+              <span className="text-xs text-status-success font-semibold">{operational} OK</span>
+              <span className="text-xs text-status-error font-semibold">{down} down</span>
             </div>
           </button>
 
           <button
             onClick={() => openAlerts(isLbmsAdmin ? 'LBMS' : undefined)}
             title="View all alerts"
-            className="rounded-xl p-3 border text-left transition-all hover:brightness-110 active:scale-[0.98]"
-            style={{ background: 'rgba(239,68,68,0.08)', borderColor: 'rgba(239,68,68,0.4)' }}
+            className="glass-pill glass-pill-blue text-left transition-all hover:brightness-110 active:scale-[0.98]"
           >
             <p className="text-xs font-semibold text-text-muted uppercase tracking-widest mb-1">Alerts</p>
-            <p className="text-2xl font-bold text-red-400">{totalAlerts}</p>
+            <p className="text-2xl font-bold text-status-error">{totalAlerts}</p>
             <div className="mt-2 w-full h-2 rounded-full overflow-hidden flex" style={{ background: 'rgba(255,255,255,0.06)' }}>
-              <div style={{ width: `${(critical / Math.max(alerts.length, 1)) * 100}%`, background: '#ef4444' }} />
+              <div style={{ width: `${(critical / Math.max(alerts.length, 1)) * 100}%`, background: '#F87171' }} />
               <div style={{ width: `${(high / Math.max(alerts.length, 1)) * 100}%`, background: '#f97316' }} />
-              <div style={{ width: `${(medium / Math.max(alerts.length, 1)) * 100}%`, background: '#eab308' }} />
+              <div style={{ width: `${(medium / Math.max(alerts.length, 1)) * 100}%`, background: '#E6B85C' }} />
             </div>
             <div className="flex justify-between mt-1.5">
-              <span className="text-xs text-red-400 font-semibold">{critical} crit</span>
-              <span className="text-xs text-yellow-400 font-semibold">{medium} med</span>
+              <span className="text-xs text-status-error font-semibold">{critical} crit</span>
+              <span className="text-xs text-status-warning font-semibold">{medium} med</span>
             </div>
           </button>
         </div>

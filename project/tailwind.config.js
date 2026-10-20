@@ -47,6 +47,13 @@ export default {
           gold: '#E6B85C',
           teal: '#01A3A4',
           purple: '#A855F7',
+          /* The standard button/action color going forward — a clean, calm
+           * blue rather than the red/amber/purple variety that was scattered
+           * across modules for no semantic reason. Red and amber stay, but
+           * only for a short, deliberate list of genuinely critical/warning
+           * actions; everything else routes through this one blue. */
+          blue: '#3B82F6',
+          blueHover: '#2563EB',
         },
 
         /* Everything the *model* says wears this ramp, and nothing else does.
@@ -67,10 +74,13 @@ export default {
           secondary: '#B8C5D1',
           muted: '#8A9BA8',
         },
+        /* Softer, less saturated than the stock Tailwind 500-weights, and
+         * picked to sit comfortably next to accent.blue instead of fighting
+         * it — the brief was "blueish, not neon traffic-light colours". */
         status: {
-          success: '#10B981',
-          warning: '#F59E0B',
-          error: '#EF4444',
+          success: '#34D399',
+          warning: '#E6B85C',
+          error: '#F87171',
           info: '#3B82F6',
         },
 
@@ -124,7 +134,10 @@ export default {
         },
       },
       backgroundImage: {
-        'gradient-mesh': 'radial-gradient(circle at 20% 50%, rgba(1, 163, 164, 0.3) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(230, 184, 92, 0.2) 0%, transparent 50%), radial-gradient(circle at 40% 80%, rgba(14, 85, 106, 0.4) 0%, transparent 50%)',
+        /* A single calm teal glow over the navy base, echoing the CCMS
+         * reference look, instead of three overlapping teal/gold/blue
+         * blotches competing for attention. */
+        'gradient-mesh': 'radial-gradient(circle at 50% 0%, rgba(1, 163, 164, 0.12) 0%, transparent 55%)',
         'runway-pattern': 'repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(230, 184, 92, 0.1) 10px, rgba(230, 184, 92, 0.1) 20px)',
       },
       animation: {

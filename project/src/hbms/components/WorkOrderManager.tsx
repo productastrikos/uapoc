@@ -51,12 +51,12 @@ export interface WorkOrder {
 // All 13 Subsystems
 const SUBSYSTEMS = [
   { id: 1, name: 'Security and Access Control System', acronym: 'SACS', color: '#DC2626' },
-  { id: 2, name: 'Public Address System', acronym: 'PAS', color: '#7C3AED' },
+  { id: 2, name: 'Public Address System', acronym: 'PAS', color: '#016E70' },
   { id: 3, name: 'Fire Alarm System', acronym: 'FAS', color: '#DC2626' },
   { id: 4, name: 'Master Clock System', acronym: 'MCS', color: '#018587' },
   { id: 5, name: 'LBMS (HVAC)', acronym: 'LBMS', color: '#059669' },
   { id: 6, name: 'Integrated Aircraft Stand System', acronym: 'IASS', color: '#018587' },
-  { id: 7, name: 'Visual Docking Guidance System', acronym: 'VDGS', color: '#7C3AED' },
+  { id: 7, name: 'Visual Docking Guidance System', acronym: 'VDGS', color: '#5FDCDA' },
   { id: 8, name: 'Security Screening Equipment', acronym: 'SSE', color: '#DB2777' },
   { id: 9, name: 'Baggage Handling System', acronym: 'BHS', color: '#D97706' },
   { id: 10, name: 'Conveyor Monitoring System', acronym: 'CMS', color: '#EA580C' },
@@ -363,30 +363,30 @@ const WorkOrderManager: React.FC = () => {
   const getPriorityColor = (priority: Priority) => {
     switch (priority) {
       case 'Critical':
-        return 'text-red-400 bg-red-950/30 border-red-500/50';
+        return 'text-status-error bg-status-error/10 border-status-error/30';
       case 'High':
-        return 'text-orange-400 bg-orange-950/20 border-orange-500/30';
+        return 'text-status-warning bg-status-warning/20 border-status-warning/40';
       case 'Medium':
-        return 'text-yellow-400 bg-yellow-950/20 border-yellow-500/30';
+        return 'text-status-warning bg-status-warning/10 border-status-warning/25';
       case 'Low':
-        return 'text-simteal-400 bg-simteal-950/20 border-simteal-500/30';
+        return 'text-accent-blue bg-accent-blue/10 border-accent-blue/30';
       default:
-        return 'text-sim-400 bg-sim-900/20 border-sim-600/30';
+        return 'text-text-secondary bg-primary-600/30 border-primary-600/50';
     }
   };
 
   const getStatusColor = (status: WorkOrderStatus) => {
     switch (status) {
       case 'Open':
-        return 'text-simteal-400 bg-simteal-950/20 border-simteal-500/30';
+        return 'text-accent-blue bg-accent-blue/10 border-accent-blue/30';
       case 'In Progress':
-        return 'text-amber-400 bg-amber-950/20 border-amber-500/30';
+        return 'text-status-warning bg-status-warning/10 border-status-warning/30';
       case 'Completed':
-        return 'text-emerald-400 bg-emerald-950/20 border-emerald-500/30';
+        return 'text-status-success bg-status-success/10 border-status-success/30';
       case 'Cancelled':
-        return 'text-sim-400 bg-sim-900/20 border-sim-600/30';
+        return 'text-text-secondary bg-primary-600/30 border-primary-600/50';
       default:
-        return 'text-sim-400 bg-sim-900/20 border-sim-600/30';
+        return 'text-text-secondary bg-primary-600/30 border-primary-600/50';
     }
   };
 
@@ -521,37 +521,33 @@ const WorkOrderManager: React.FC = () => {
 
   return (
     <div
-      className="h-full overflow-y-auto no-scrollbar text-sim-100 overflow-x-hidden"
+      className="h-full overflow-y-auto no-scrollbar text-text-primary overflow-x-hidden"
       style={{ background: 'var(--app-bg)' }}
     >
       <div className="p-4 md:p-6 max-w-[1600px] mx-auto space-y-6">
 
         {/* ═══════════ HEADER ═══════════ */}
         <div
-          className="rounded-2xl border px-6 py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4"
-          style={{
-            background: 'var(--app-surface)',
-            borderColor: 'rgba(1,163,164,0.2)',
-            boxShadow: '0 4px 40px rgba(1,163,164,0.06)',
-          }}
+          className="glass-panel rounded-2xl px-6 py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4"
+          style={{ boxShadow: '0 4px 40px rgba(1,163,164,0.06)' }}
         >
           <div className="flex items-center gap-4">
             <div
               className="w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0"
-              style={{ background: 'linear-gradient(135deg, #016E70, #01A3A4)', boxShadow: '0 4px 20px rgba(1,163,164,0.4)' }}
+              style={{ background: '#3B82F6', boxShadow: '0 4px 20px rgba(1,163,164,0.4)' }}
             >
               <FileText size={22} className="text-white" />
             </div>
             <div>
               <h1 className="text-2xl font-bold text-white tracking-tight">Work Order Manager</h1>
-              <p className="text-xs text-sim-400 mt-0.5">Manage maintenance, repairs &amp; inspections across all subsystems</p>
+              <p className="text-xs text-text-secondary mt-0.5">Manage maintenance, repairs &amp; inspections across all subsystems</p>
             </div>
           </div>
 
           <div className="flex gap-3 flex-wrap">
             <button
               onClick={exportToCSV}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium border border-white/10 text-sim-300 hover:text-white transition-all"
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium border border-white/10 text-text-secondary hover:text-white transition-all"
               style={{ background: 'rgba(255,255,255,0.06)' }}
             >
               <Download className="w-4 h-4" />
@@ -563,7 +559,7 @@ const WorkOrderManager: React.FC = () => {
                 setShowCreateForm(true);
               }}
               className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-white transition-all hover:brightness-110"
-              style={{ background: 'linear-gradient(135deg, #016E70, #01A3A4)', boxShadow: '0 4px 16px rgba(1,163,164,0.3)' }}
+              style={{ background: '#3B82F6', boxShadow: '0 4px 16px rgba(1,163,164,0.3)' }}
             >
               <Plus className="w-4 h-4" />
               Create Work Order
@@ -574,43 +570,35 @@ const WorkOrderManager: React.FC = () => {
         {/* ═══════════ STATS CARDS ═══════════ */}
         <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
           {[
-            { label: 'Total', value: stats.total, color: '#8A9BA8', bg: 'rgba(138,155,168,0.08)', border: 'rgba(138,155,168,0.15)' },
-            { label: 'Open', value: stats.open, color: '#22C7C6', bg: 'rgba(1,163,164,0.1)', border: 'rgba(1,163,164,0.2)' },
-            { label: 'In Progress', value: stats.inProgress, color: '#fbbf24', bg: 'rgba(245,158,11,0.1)', border: 'rgba(245,158,11,0.2)' },
-            { label: 'Completed', value: stats.completed, color: '#34d399', bg: 'rgba(16,185,129,0.1)', border: 'rgba(16,185,129,0.2)' },
-            { label: 'Critical', value: stats.critical, color: '#f87171', bg: 'rgba(239,68,68,0.1)', border: 'rgba(239,68,68,0.2)' },
-            { label: 'High', value: stats.high, color: '#fb923c', bg: 'rgba(249,115,22,0.1)', border: 'rgba(249,115,22,0.2)' },
+            { label: 'Total', value: stats.total, color: '#8A9BA8', tint: 'glass-pill-neutral' },
+            { label: 'Open', value: stats.open, color: '#3B82F6', tint: 'glass-pill-blue' },
+            { label: 'In Progress', value: stats.inProgress, color: '#E6B85C', tint: 'glass-pill-violet' },
+            { label: 'Completed', value: stats.completed, color: '#34D399', tint: 'glass-pill-teal' },
+            { label: 'Critical', value: stats.critical, color: '#F87171', tint: 'glass-pill-blue' },
+            { label: 'High', value: stats.high, color: '#E6B85C', tint: 'glass-pill-violet' },
           ].map((card, i) => (
             <div
               key={i}
-              className="rounded-2xl border p-4"
-              style={{ background: card.bg, borderColor: card.border }}
+              className={`glass-pill ${card.tint} p-4`}
             >
-              <p className="text-xs text-sim-400 mb-2">{card.label}</p>
+              <p className="text-xs text-text-secondary mb-2">{card.label}</p>
               <p className="text-2xl font-bold" style={{ color: card.color }}>{card.value}</p>
             </div>
           ))}
         </div>
 
         {/* ═══════════ SEARCH & FILTERS ═══════════ */}
-        <div
-          className="rounded-2xl border p-5 space-y-4"
-          style={{
-            background: 'var(--app-surface)',
-            borderColor: 'rgba(255,255,255,0.06)',
-          }}
-        >
+        <div className="glass-panel rounded-2xl p-5 space-y-4">
           <div className="flex flex-col md:flex-row gap-4">
             {/* Search */}
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-sim-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary" />
               <input
                 type="text"
                 placeholder="Search by ID, title, or subsystem..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm text-sim-100 placeholder-sim-500 focus:outline-none focus:ring-1 focus:ring-simteal-500/50 border border-white/06"
-                style={{ background: 'rgba(255,255,255,0.06)', borderColor: 'rgba(255,255,255,0.08)' }}
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm bg-primary-800 text-text-primary placeholder-text-muted border border-primary-600 focus:outline-none focus:border-accent-blue transition-colors"
               />
             </div>
 
@@ -623,8 +611,7 @@ const WorkOrderManager: React.FC = () => {
                   setSortBy(by as 'date' | 'priority' | 'status');
                   setSortOrder(ord as 'asc' | 'desc');
                 }}
-                className="px-3 py-2.5 rounded-xl text-sm border focus:outline-none"
-                style={{ background: 'rgba(255,255,255,0.06)', borderColor: 'rgba(255,255,255,0.08)', color: '#B8C5D1' }}
+                className="px-3 py-2.5 rounded-xl text-sm bg-primary-800 text-text-secondary border border-primary-600 focus:outline-none focus:border-accent-blue transition-colors"
               >
                 <option value="date-desc">Newest First</option>
                 <option value="date-asc">Oldest First</option>
@@ -634,12 +621,7 @@ const WorkOrderManager: React.FC = () => {
 
               <button
                 onClick={() => setShowFilters(!showFilters)}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm border transition-all"
-                style={{
-                  background: showFilters ? 'rgba(1,163,164,0.15)' : 'rgba(255,255,255,0.06)',
-                  borderColor: showFilters ? 'rgba(1,163,164,0.4)' : 'rgba(255,255,255,0.08)',
-                  color: showFilters ? '#5FDCDA' : '#8A9BA8',
-                }}
+                className={`chip px-4 py-2.5 text-sm ${showFilters ? 'chip-active' : ''}`}
               >
                 <Filter className="w-4 h-4" />
                 Filters
@@ -669,12 +651,11 @@ const WorkOrderManager: React.FC = () => {
                 },
               ].map((f, i) => (
                 <div key={i}>
-                  <label className="text-xs text-sim-500 mb-1.5 block uppercase tracking-wide">{f.label}</label>
+                  <label className="text-xs text-text-muted mb-1.5 block uppercase tracking-wide">{f.label}</label>
                   <select
                     value={f.value}
                     onChange={(e) => f.onChange(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl text-sm border focus:outline-none"
-                    style={{ background: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.08)', color: '#B8C5D1' }}
+                    className="w-full px-3 py-2 rounded-xl text-sm bg-primary-800 text-text-secondary border border-primary-600 focus:outline-none focus:border-accent-blue transition-colors"
                   >
                     {f.options.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
                   </select>
@@ -687,7 +668,7 @@ const WorkOrderManager: React.FC = () => {
         {/* ═══════════ WORK ORDER LIST ═══════════ */}
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <p className="text-sm text-sim-400">
+            <p className="text-sm text-text-secondary">
               Showing <span className="text-white font-medium">{filteredWorkOrders.length}</span> of <span className="text-white font-medium">{workOrders.length}</span> work orders
             </p>
           </div>
@@ -697,9 +678,9 @@ const WorkOrderManager: React.FC = () => {
               className="rounded-2xl border p-12 text-center"
               style={{ background: 'rgba(7,16,40,0.6)', borderColor: 'rgba(255,255,255,0.06)' }}
             >
-              <FileText size={40} className="mx-auto mb-3 text-sim-600" />
-              <p className="text-sim-400 font-medium">No work orders found</p>
-              <p className="text-sim-600 text-sm mt-1">Try adjusting your search or filters</p>
+              <FileText size={40} className="mx-auto mb-3 text-text-muted" />
+              <p className="text-text-secondary font-medium">No work orders found</p>
+              <p className="text-text-muted text-sm mt-1">Try adjusting your search or filters</p>
             </div>
           ) : (
             filteredWorkOrders.map((wo) => {
@@ -707,7 +688,7 @@ const WorkOrderManager: React.FC = () => {
               return (
                 <div
                   key={wo.id}
-                  className="rounded-2xl border p-5 flex flex-col md:flex-row md:items-center gap-4 transition-all hover:border-simteal-500/20 cursor-pointer"
+                  className="rounded-2xl border p-5 flex flex-col md:flex-row md:items-center gap-4 transition-all hover:border-accent-blue/20 cursor-pointer"
                   style={{
                     background: 'var(--app-surface)',
                     borderColor: 'rgba(255,255,255,0.06)',
@@ -728,17 +709,17 @@ const WorkOrderManager: React.FC = () => {
                   {/* Content */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap mb-1.5">
-                      <span className="font-mono text-xs font-bold text-sim-400">{wo.id}</span>
+                      <span className="font-mono text-xs font-bold text-text-secondary">{wo.id}</span>
                       <span className="text-xs font-bold px-2 py-0.5 rounded-lg border" style={{ color: subColor, background: `${subColor}15`, borderColor: `${subColor}30` }}>{wo.subsystemAcronym}</span>
                       <span className={`text-xs font-bold px-2 py-0.5 rounded-lg border ${getPriorityColor(wo.priority)}`}>{wo.priority}</span>
                       <span className={`text-xs font-bold px-2 py-0.5 rounded-lg border ${getStatusColor(wo.status)}`}>{wo.status}</span>
                     </div>
-                    <p className="text-sm font-semibold text-sim-200 truncate">{wo.title}</p>
-                    <div className="flex items-center gap-4 mt-1 flex-wrap text-xs text-sim-500">
+                    <p className="text-sm font-semibold text-text-primary truncate">{wo.title}</p>
+                    <div className="flex items-center gap-4 mt-1 flex-wrap text-xs text-text-muted">
                       <span className="flex items-center gap-1"><User className="w-3 h-3" /> {wo.assignedTo}</span>
                       <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {formatDate(wo.createdDate)}</span>
                       <span className="flex items-center gap-1"><Calendar className="w-3 h-3" /> Due: {new Date(wo.targetDate).toLocaleDateString()}</span>
-                      <span className="capitalize text-sim-600">{wo.category}</span>
+                      <span className="capitalize text-text-muted">{wo.category}</span>
                     </div>
                   </div>
 
@@ -765,8 +746,8 @@ const WorkOrderManager: React.FC = () => {
                           setWorkOrders(updated);
                           localStorage.setItem('hbms_work_orders_v1', JSON.stringify(updated));
                         }}
-                        className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold text-white transition-all hover:brightness-110"
-                        style={{ background: wo.status === 'Open' ? 'linear-gradient(135deg, #d97706, #f59e0b)' : 'linear-gradient(135deg, #059669, #10b981)' }}
+                        className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold text-white transition-all hover:brightness-110 min-w-[5.5rem]"
+                        style={{ background: wo.status === 'Open' ? '#F59E0B' : '#10B981' }}
                       >
                         {wo.status === 'Open' ? 'Start' : 'Complete'}
                       </button>
@@ -787,12 +768,8 @@ const WorkOrderManager: React.FC = () => {
           onClick={() => setShowDetailModal(false)}
         >
           <div
-            className="rounded-2xl border p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
-            style={{
-              background: 'var(--app-panel)',
-              borderColor: 'rgba(1,163,164,0.25)',
-              boxShadow: '0 0 80px rgba(1,163,164,0.12)',
-            }}
+            className="modal-surface rounded-2xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
+            style={{ boxShadow: '0 0 80px rgba(1,163,164,0.12)' }}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal header */}
@@ -806,7 +783,7 @@ const WorkOrderManager: React.FC = () => {
                 </div>
                 <div>
                   <div className="flex items-center gap-2 mb-0.5">
-                    <span className="font-mono text-sm font-bold text-sim-300">{selectedWorkOrder.id}</span>
+                    <span className="font-mono text-sm font-bold text-text-secondary">{selectedWorkOrder.id}</span>
                     <span className={`text-xs font-bold px-2 py-0.5 rounded-lg border ${getPriorityColor(selectedWorkOrder.priority)}`}>{selectedWorkOrder.priority}</span>
                     <span className={`text-xs font-bold px-2 py-0.5 rounded-lg border ${getStatusColor(selectedWorkOrder.status)}`}>{selectedWorkOrder.status}</span>
                   </div>
@@ -815,7 +792,7 @@ const WorkOrderManager: React.FC = () => {
               </div>
               <button
                 onClick={() => setShowDetailModal(false)}
-                className="p-2 rounded-xl text-sim-400 hover:text-white transition-all"
+                className="p-2 rounded-xl text-text-secondary hover:text-white transition-all"
                 style={{ background: 'rgba(255,255,255,0.05)' }}
               >
                 <XCircle className="w-5 h-5" />
@@ -833,26 +810,26 @@ const WorkOrderManager: React.FC = () => {
                 { label: 'Linked Alert', value: selectedWorkOrder.linkedAlertId || 'None' },
               ].map((item, i) => (
                 <div key={i} className="rounded-xl p-3" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
-                  <p className="text-xs text-sim-500 mb-1">{item.label}</p>
-                  <p className="text-sm text-sim-200 font-medium truncate">{item.value}</p>
+                  <p className="text-xs text-text-muted mb-1">{item.label}</p>
+                  <p className="text-sm text-text-primary font-medium truncate">{item.value}</p>
                 </div>
               ))}
             </div>
 
             {/* Description */}
             <div className="rounded-xl p-4 mb-4" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
-              <p className="text-xs text-sim-500 mb-2 uppercase tracking-wide">Description</p>
-              <p className="text-sm text-sim-300">{selectedWorkOrder.description}</p>
+              <p className="text-xs text-text-muted mb-2 uppercase tracking-wide">Description</p>
+              <p className="text-sm text-text-secondary">{selectedWorkOrder.description}</p>
             </div>
 
             {/* Notes */}
             {selectedWorkOrder.notes.length > 0 && (
               <div className="rounded-xl p-4 mb-4" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
-                <p className="text-xs text-sim-500 mb-2 uppercase tracking-wide">Notes</p>
+                <p className="text-xs text-text-muted mb-2 uppercase tracking-wide">Notes</p>
                 <ul className="space-y-1">
                   {selectedWorkOrder.notes.map((note, i) => (
-                    <li key={i} className="text-sm text-sim-300 flex items-start gap-2">
-                      <span className="text-simteal-400 flex-shrink-0">•</span>
+                    <li key={i} className="text-sm text-text-secondary flex items-start gap-2">
+                      <span className="text-accent-blue flex-shrink-0">•</span>
                       {note}
                     </li>
                   ))}
@@ -876,14 +853,14 @@ const WorkOrderManager: React.FC = () => {
                     setSelectedWorkOrder({ ...selectedWorkOrder, status: newStatus });
                   }}
                   className="flex-1 py-2.5 rounded-xl font-semibold text-sm text-white transition-all hover:brightness-110"
-                  style={{ background: selectedWorkOrder.status === 'Open' ? 'linear-gradient(135deg, #d97706, #f59e0b)' : 'linear-gradient(135deg, #059669, #10b981)' }}
+                  style={{ background: selectedWorkOrder.status === 'Open' ? '#F59E0B' : '#10B981' }}
                 >
                   {selectedWorkOrder.status === 'Open' ? 'Mark In Progress' : 'Mark Completed'}
                 </button>
               )}
               <button
                 onClick={() => setShowDetailModal(false)}
-                className="px-5 py-2.5 rounded-xl text-sm font-medium border border-white/10 text-sim-400 hover:text-white transition-all"
+                className="px-5 py-2.5 rounded-xl text-sm font-medium border border-white/10 text-text-secondary hover:text-white transition-all"
                 style={{ background: 'rgba(255,255,255,0.05)' }}
               >
                 Close
@@ -901,28 +878,24 @@ const WorkOrderManager: React.FC = () => {
           onClick={() => setShowCreateForm(false)}
         >
           <div
-            className="rounded-2xl border p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
-            style={{
-              background: 'var(--app-panel)',
-              borderColor: 'rgba(1,163,164,0.28)',
-              boxShadow: '0 0 80px rgba(1,163,164,0.12)',
-            }}
+            className="modal-surface rounded-2xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
+            style={{ boxShadow: '0 0 80px rgba(1,163,164,0.12)' }}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal header */}
             <div className="flex items-center justify-between mb-5">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #016E70, #01A3A4)' }}>
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: '#3B82F6' }}>
                   <Plus className="w-5 h-5 text-white" />
                 </div>
                 <div>
                   <h2 className="text-lg font-bold text-white">Create Work Order</h2>
-                  <p className="text-xs text-sim-400">HBMS &middot; Long Thanh International Airport</p>
+                  <p className="text-xs text-text-secondary">HBMS &middot; Long Thanh International Airport</p>
                 </div>
               </div>
               <button
                 onClick={() => setShowCreateForm(false)}
-                className="p-2 rounded-xl text-sim-400 hover:text-white transition-all"
+                className="p-2 rounded-xl text-text-secondary hover:text-white transition-all"
                 style={{ background: 'rgba(255,255,255,0.05)' }}
               >
                 <XCircle className="w-5 h-5" />
@@ -932,8 +905,8 @@ const WorkOrderManager: React.FC = () => {
             <div className="space-y-4">
               {/* Subsystem */}
               <div>
-                <label className="text-xs text-sim-400 mb-1.5 block uppercase tracking-wide">
-                  Subsystem <span className="text-red-400">*</span>
+                <label className="text-xs text-text-secondary mb-1.5 block uppercase tracking-wide">
+                  Subsystem <span className="text-status-error">*</span>
                 </label>
                 <select
                   value={formData.subsystemId || ''}
@@ -942,7 +915,7 @@ const WorkOrderManager: React.FC = () => {
                     const sub = SUBSYSTEMS.find(s => s.id === id);
                     if (sub) setFormData({ ...formData, subsystemId: id, subsystemName: sub.name, subsystemAcronym: sub.acronym });
                   }}
-                  className="w-full px-4 py-2.5 rounded-xl text-sm border focus:outline-none focus:ring-1 focus:ring-simteal-500"
+                  className="w-full px-4 py-2.5 rounded-xl text-sm border focus:outline-none focus:ring-1 focus:ring-accent-blue"
                   style={{ background: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.08)', color: '#E6EEF6' }}
                 >
                   <option value="">-- Select Subsystem --</option>
@@ -965,13 +938,13 @@ const WorkOrderManager: React.FC = () => {
                   },
                 ].map((field) => (
                   <div key={field.key}>
-                    <label className="text-xs text-sim-400 mb-1.5 block uppercase tracking-wide">
-                      {field.label} <span className="text-red-400">*</span>
+                    <label className="text-xs text-text-secondary mb-1.5 block uppercase tracking-wide">
+                      {field.label} <span className="text-status-error">*</span>
                     </label>
                     <select
                       value={field.value}
                       onChange={(e) => field.onChange(e.target.value)}
-                      className="w-full px-4 py-2.5 rounded-xl text-sm border focus:outline-none focus:ring-1 focus:ring-simteal-500"
+                      className="w-full px-4 py-2.5 rounded-xl text-sm border focus:outline-none focus:ring-1 focus:ring-accent-blue"
                       style={{ background: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.08)', color: '#E6EEF6' }}
                     >
                       {field.options.map(o => <option key={o} value={o}>{o}</option>)}
@@ -982,30 +955,30 @@ const WorkOrderManager: React.FC = () => {
 
               {/* Title */}
               <div>
-                <label className="text-xs text-sim-400 mb-1.5 block uppercase tracking-wide">
-                  Title <span className="text-red-400">*</span>
+                <label className="text-xs text-text-secondary mb-1.5 block uppercase tracking-wide">
+                  Title <span className="text-status-error">*</span>
                 </label>
                 <input
                   type="text"
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                   placeholder="Brief description of the work order"
-                  className="w-full px-4 py-2.5 rounded-xl text-sm border focus:outline-none focus:ring-1 focus:ring-simteal-500 text-sim-100 placeholder-sim-500"
+                  className="w-full px-4 py-2.5 rounded-xl text-sm border focus:outline-none focus:ring-1 focus:ring-accent-blue text-text-primary placeholder-text-muted"
                   style={{ background: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.08)' }}
                 />
               </div>
 
               {/* Description */}
               <div>
-                <label className="text-xs text-sim-400 mb-1.5 block uppercase tracking-wide">
-                  Description <span className="text-red-400">*</span>
+                <label className="text-xs text-text-secondary mb-1.5 block uppercase tracking-wide">
+                  Description <span className="text-status-error">*</span>
                 </label>
                 <textarea
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   placeholder="Detailed description of the issue and required work"
                   rows={4}
-                  className="w-full px-4 py-2.5 rounded-xl text-sm border focus:outline-none focus:ring-1 focus:ring-simteal-500 text-sim-100 placeholder-sim-500 resize-none"
+                  className="w-full px-4 py-2.5 rounded-xl text-sm border focus:outline-none focus:ring-1 focus:ring-accent-blue text-text-primary placeholder-text-muted resize-none"
                   style={{ background: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.08)' }}
                 />
               </div>
@@ -1013,26 +986,26 @@ const WorkOrderManager: React.FC = () => {
               {/* Assigned To + Target Date */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-xs text-sim-400 mb-1.5 block uppercase tracking-wide">Assigned To</label>
+                  <label className="text-xs text-text-secondary mb-1.5 block uppercase tracking-wide">Assigned To</label>
                   <input
                     type="text"
                     value={formData.assignedTo}
                     onChange={(e) => setFormData({ ...formData, assignedTo: e.target.value })}
                     placeholder="Team or person name"
-                    className="w-full px-4 py-2.5 rounded-xl text-sm border focus:outline-none focus:ring-1 focus:ring-simteal-500 text-sim-100 placeholder-sim-500"
+                    className="w-full px-4 py-2.5 rounded-xl text-sm border focus:outline-none focus:ring-1 focus:ring-accent-blue text-text-primary placeholder-text-muted"
                     style={{ background: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.08)' }}
                   />
                 </div>
                 <div>
-                  <label className="text-xs text-sim-400 mb-1.5 block uppercase tracking-wide">
-                    Target Date <span className="text-red-400">*</span>
+                  <label className="text-xs text-text-secondary mb-1.5 block uppercase tracking-wide">
+                    Target Date <span className="text-status-error">*</span>
                   </label>
                   <input
                     type="date"
                     value={formData.targetDate}
                     onChange={(e) => setFormData({ ...formData, targetDate: e.target.value })}
                     min={new Date().toISOString().split('T')[0]}
-                    className="w-full px-4 py-2.5 rounded-xl text-sm border focus:outline-none focus:ring-1 focus:ring-simteal-500 text-sim-100"
+                    className="w-full px-4 py-2.5 rounded-xl text-sm border focus:outline-none focus:ring-1 focus:ring-accent-blue text-text-primary"
                     style={{ background: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.08)' }}
                   />
                 </div>
@@ -1043,14 +1016,14 @@ const WorkOrderManager: React.FC = () => {
                 <button
                   onClick={handleCreateWorkOrder}
                   className="flex-1 py-2.5 rounded-xl font-semibold text-sm text-white flex items-center justify-center gap-2 transition-all hover:brightness-110"
-                  style={{ background: 'linear-gradient(135deg, #016E70, #01A3A4)' }}
+                  style={{ background: '#3B82F6' }}
                 >
                   <Plus className="w-4 h-4" />
                   Create Work Order
                 </button>
                 <button
                   onClick={() => setShowCreateForm(false)}
-                  className="px-5 py-2.5 rounded-xl text-sm font-medium border border-white/10 text-sim-400 hover:text-white transition-all"
+                  className="px-5 py-2.5 rounded-xl text-sm font-medium border border-white/10 text-text-secondary hover:text-white transition-all"
                   style={{ background: 'rgba(255,255,255,0.05)' }}
                 >
                   Cancel

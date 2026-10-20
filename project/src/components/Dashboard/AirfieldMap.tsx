@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 
 const AirfieldMap: React.FC = () => {
   return (
-    <div className="bg-gradient-to-br from-primary-800 to-primary-700 rounded-lg border border-primary-600 overflow-hidden h-96">
+    <div className="glass-panel-strong rounded-lg overflow-hidden h-96">
       <div className="p-6 border-b border-primary-600">
         <div className="flex items-center space-x-3">
           <MapPin className="h-6 w-6 text-accent-teal" />
@@ -31,7 +31,7 @@ const AirfieldMap: React.FC = () => {
         {/* Runways */}
         <div className="absolute inset-4">
           {/* Main Runway 27/09 */}
-          <div className="absolute top-1/2 left-4 right-4 h-8 bg-gradient-to-r from-primary-600 via-primary-500 to-primary-600 rounded-sm border-2 border-accent-gold border-opacity-50 transform -translate-y-1/2">
+          <div className="absolute top-1/2 left-4 right-4 h-8 bg-primary-600 rounded-sm border-2 border-accent-gold border-opacity-50 transform -translate-y-1/2">
             <div className="absolute inset-0 bg-runway-pattern opacity-30"></div>
             <div className="absolute left-2 top-1/2 transform -translate-y-1/2 text-xs text-accent-gold font-bold">27</div>
             <div className="absolute right-2 top-1/2 transform -translate-y-1/2 text-xs text-accent-gold font-bold">09</div>
@@ -42,7 +42,7 @@ const AirfieldMap: React.FC = () => {
           <div className="absolute bottom-16 left-1/4 right-1/4 h-14 bg-primary-600 rounded-sm border border-primary-500"></div>
 
           {/* Terminal Building */}
-          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-32 h-16 bg-gradient-to-br from-primary-600 to-primary-700 rounded-lg border border-accent-teal border-opacity-50">
+          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-32 h-16 bg-primary-700 rounded-lg border border-accent-teal border-opacity-50">
             <div className="p-2">
               <div className="text-xs text-text-primary font-semibold">Terminal</div>
               <div className="text-xs text-text-muted">Gates A1-A12</div>

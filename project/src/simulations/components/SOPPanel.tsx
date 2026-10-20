@@ -32,27 +32,30 @@ interface SOPPanelProps {
   className?: string;
 }
 
-const ACCENT: Record<SOPAccent, { text: string; border: string; bg: string; bar: string; dot: string }> = {
+// Legacy prop values (`red` / `gold` / `teal`) are kept for API compatibility
+// with callers elsewhere in the simulation subsystem; they now map onto the
+// app's three semantic tones instead of the old sim/simgold/simteal ramp.
+const ACCENT: Record<SOPAccent, { text: string; border: string; bg: string; barClass: string; spin: string }> = {
   red: {
-    text: 'text-red-300',
-    border: 'border-red-500/45',
-    bg: 'bg-red-950/25',
-    bar: 'from-red-500 to-simgold-500',
-    dot: 'bg-red-400',
+    text: 'text-status-error',
+    border: 'border-status-error/45',
+    bg: 'bg-status-error/10',
+    barClass: 'bg-status-error',
+    spin: 'border-status-error',
   },
   gold: {
-    text: 'text-simgold-300',
-    border: 'border-simgold-500/45',
-    bg: 'bg-simgold-950/25',
-    bar: 'from-simgold-500 to-simteal-500',
-    dot: 'bg-simgold-400',
+    text: 'text-status-warning',
+    border: 'border-status-warning/45',
+    bg: 'bg-status-warning/10',
+    barClass: 'bg-status-warning',
+    spin: 'border-status-warning',
   },
   teal: {
-    text: 'text-simteal-300',
-    border: 'border-simteal-500/45',
-    bg: 'bg-simteal-950/25',
-    bar: 'from-simteal-500 to-emerald-500',
-    dot: 'bg-simteal-400',
+    text: 'text-accent-blue',
+    border: 'border-accent-blue/45',
+    bg: 'bg-accent-blue/10',
+    barClass: 'bg-accent-blue',
+    spin: 'border-accent-blue',
   },
 };
 
@@ -95,28 +98,28 @@ const SOPPanel: React.FC<SOPPanelProps> = ({
   return (
     <div className={`hbms-control-panel flex flex-col ${className}`}>
       {/* Header */}
-      <div className={`p-4 border-b border-sim-700/50 ${active ? tone.bg : ''}`}>
+      <div className={`p-4 border-b border-primary-600/40 ${active ? tone.bg : ''}`}>
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-center space-x-2.5 min-w-0">
             <div
               className={`p-2 rounded-lg border ${
-                active ? `${tone.border} ${tone.bg}` : 'border-sim-600/50 bg-sim-800/40'
+                active ? `${tone.border} ${tone.bg}` : 'border-primary-600/40 bg-primary-800/40'
               }`}
             >
               {active ? (
                 <ShieldAlert className={`w-4 h-4 ${tone.text}`} />
               ) : (
-                <ClipboardList className="w-4 h-4 text-sim-400" />
+                <ClipboardList className="w-4 h-4 text-text-muted" />
               )}
             </div>
             <div className="min-w-0">
-              <h4 className="text-sm font-bold text-sim-100 truncate">{title}</h4>
-              <p className="text-[length:calc(11px*var(--fs))] text-sim-400 truncate">{trigger}</p>
+              <h4 className="text-sm font-bold text-text-primary truncate">{title}</h4>
+              <p className="text-[length:calc(11px*var(--fs))] text-text-muted truncate">{trigger}</p>
             </div>
           </div>
           <span
             className={`flex-shrink-0 px-2 py-0.5 rounded-full text-[length:calc(10px*var(--fs))] font-bold uppercase tracking-wider border ${
-              active ? `${tone.border} ${tone.text} ${tone.bg}` : 'border-sim-600/50 text-sim-400'
+              active ? `${tone.border} ${tone.text} ${tone.bg}` : 'border-primary-600/40 text-text-muted'
             }`}
           >
             {active ? 'Running' : 'Standby'}
@@ -124,7 +127,7 @@ const SOPPanel: React.FC<SOPPanelProps> = ({
         </div>
 
         <div className="mt-3 flex items-center justify-between text-[length:calc(11px*var(--fs))]">
-          <span className="text-sim-400">
+          <span className="text-text-muted">
             {priority ? (
               <>
                 Priority: <span className={tone.text}>{priority.toUpperCase()}</span>
@@ -133,19 +136,19 @@ const SOPPanel: React.FC<SOPPanelProps> = ({
               'Procedure ready'
             )}
           </span>
-          <span className="text-sim-300 font-medium tabular-nums">
+          <span className="text-text-secondary font-medium tabular-nums">
             Step {active ? Math.min(clamped + 1, steps.length) : 0}/{steps.length}
           </span>
         </div>
 
-        <div className="mt-2 w-full bg-sim-800/60 rounded-full h-1.5 overflow-hidden">
+        <div className="mt-2 w-full bg-primary-800/60 rounded-full h-1.5 overflow-hidden">
           <div
-            className={`h-1.5 rounded-full bg-gradient-to-r ${tone.bar} transition-all duration-700`}
+            className={`h-1.5 rounded-full transition-all duration-700 ${tone.barClass}`}
             style={{ width: `${progress}%` }}
           />
         </div>
 
-        {subtitle && <p className="mt-2 text-[length:calc(11px*var(--fs))] text-sim-400 leading-snug">{subtitle}</p>}
+        {subtitle && <p className="mt-2 text-[length:calc(11px*var(--fs))] text-text-muted leading-snug">{subtitle}</p>}
       </div>
 
       {/* Steps */}
@@ -162,49 +165,43 @@ const SOPPanel: React.FC<SOPPanelProps> = ({
                   isNow
                     ? `${tone.border} ${tone.bg}`
                     : isDone
-                    ? 'border-emerald-500/30 bg-emerald-950/15'
-                    : 'border-sim-700/40 bg-sim-800/20'
+                    ? 'border-status-success/30 bg-status-success/10'
+                    : 'border-primary-700/40 bg-primary-800/20'
                 }`}
               >
                 <div className="flex items-start gap-2.5">
                   <div className="flex-shrink-0 mt-0.5">
                     {isDone ? (
-                      <CheckCircle className="w-4 h-4 text-emerald-400" />
+                      <CheckCircle className="w-4 h-4 text-status-success" />
                     ) : isNow ? (
-                      <div className={`w-4 h-4 rounded-full border-2 border-t-transparent animate-spin ${
-                        accent === 'red'
-                          ? 'border-red-400'
-                          : accent === 'gold'
-                          ? 'border-simgold-400'
-                          : 'border-simteal-400'
-                      }`} />
+                      <div className={`w-4 h-4 rounded-full border-2 border-t-transparent animate-spin ${tone.spin}`} />
                     ) : (
-                      <Circle className="w-4 h-4 text-sim-600" />
+                      <Circle className="w-4 h-4 text-text-muted" />
                     )}
                   </div>
 
                   <div className="min-w-0 flex-1">
                     <p
                       className={`text-xs leading-snug ${
-                        isNow ? 'text-sim-100 font-semibold' : isDone ? 'text-sim-300' : 'text-sim-400'
+                        isNow ? 'text-text-primary font-semibold' : isDone ? 'text-text-secondary' : 'text-text-muted'
                       }`}
                     >
-                      <span className="text-sim-500 tabular-nums mr-1.5">{String(i + 1).padStart(2, '0')}</span>
+                      <span className="text-text-muted tabular-nums mr-1.5">{String(i + 1).padStart(2, '0')}</span>
                       {step.action}
                     </p>
 
                     <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-[length:calc(10px*var(--fs))]">
                       {step.responsible && (
-                        <span className="flex items-center gap-1 text-sim-500">
+                        <span className="flex items-center gap-1 text-text-muted">
                           <User className="w-3 h-3" />
                           {step.responsible}
                         </span>
                       )}
                       {step.duration != null && (
-                        <span className="text-sim-500 tabular-nums">{step.duration}s</span>
+                        <span className="text-text-muted tabular-nums">{step.duration}s</span>
                       )}
                       {step.critical && (
-                        <span className="px-1.5 py-0.5 rounded bg-red-950/40 border border-red-500/30 text-red-300 font-semibold">
+                        <span className="px-1.5 py-0.5 rounded bg-status-error/10 border border-status-error/30 text-status-error font-semibold">
                           CRITICAL
                         </span>
                       )}

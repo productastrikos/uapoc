@@ -109,7 +109,7 @@ const ApronScreen: React.FC = () => {
       {/* Header */}
       <div className="flex items-center justify-between mb-3 shrink-0">
         <div className="flex items-center gap-2">
-          <ParkingSquare className="w-5 h-5 text-accent-gold" />
+          <ParkingSquare className="w-5 h-5 text-accent-blue" />
           <div>
             <h2 className="text-lg font-bold text-text-primary leading-tight">
               Apron Management System
@@ -122,15 +122,15 @@ const ApronScreen: React.FC = () => {
         </div>
         {/* Capacity at a glance. An apron controller's first question is how
             many stands they have left, not how many exist. */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
           {([
-            ['Available', String(available), available > 4 ? 'text-emerald-300' : 'text-amber-300'],
-            ['Occupied', `${occupied}/${stands.length}`, 'text-accent-teal'],
-            ['Utilisation', `${utilisation}%`, utilisation > 85 ? 'text-amber-300' : 'text-text-primary'],
-            ['Docking', String(docking), docking > 0 ? 'text-amber-300' : 'text-text-muted'],
-            ['Faults', String(faults), faults > 0 ? 'text-red-300' : 'text-text-muted'],
-          ] as const).map(([label, value, tone]) => (
-            <div key={label} className="text-right">
+            ['Available', String(available), available > 4 ? 'text-status-success' : 'text-status-warning', 'glass-pill-neutral'],
+            ['Occupied', `${occupied}/${stands.length}`, 'text-accent-teal', 'glass-pill-teal'],
+            ['Utilisation', `${utilisation}%`, utilisation > 85 ? 'text-status-warning' : 'text-text-primary', 'glass-pill-blue'],
+            ['Docking', String(docking), docking > 0 ? 'text-accent-blue' : 'text-text-muted', 'glass-pill-violet'],
+            ['Faults', String(faults), faults > 0 ? 'text-status-error' : 'text-text-muted', 'glass-pill-neutral'],
+          ] as const).map(([label, value, tone, tint]) => (
+            <div key={label} className={`glass-pill ${tint} text-right !px-3 !py-1.5`}>
               <div className="text-[length:calc(10px*var(--fs))] uppercase tracking-wide text-text-muted">
                 {label}
               </div>
@@ -163,7 +163,7 @@ const ApronScreen: React.FC = () => {
             <button
               onClick={() => setPage((n) => Math.max(0, n - 1))}
               disabled={clampedPage === 0}
-              className="flex items-center gap-1 px-2.5 py-1.5 rounded border border-primary-500/50 bg-primary-700/50 text-xs text-text-secondary hover:text-text-primary disabled:opacity-40 transition-colors"
+              className="chip disabled:opacity-40"
             >
               <ChevronLeft className="w-3.5 h-3.5" /> Prev
             </button>
@@ -184,7 +184,7 @@ const ApronScreen: React.FC = () => {
             <button
               onClick={() => setPage((n) => Math.min(totalPages - 1, n + 1))}
               disabled={clampedPage >= totalPages - 1}
-              className="flex items-center gap-1 px-2.5 py-1.5 rounded border border-primary-500/50 bg-primary-700/50 text-xs text-text-secondary hover:text-text-primary disabled:opacity-40 transition-colors"
+              className="chip disabled:opacity-40"
             >
               Next <ChevronRight className="w-3.5 h-3.5" />
             </button>

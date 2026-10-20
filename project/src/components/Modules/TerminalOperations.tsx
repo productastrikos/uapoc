@@ -87,9 +87,9 @@ const InfoButtonWithPortal: React.FC<{ description: string }> = ({ description }
 // Trend Arrow Component
 const TrendArrow: React.FC<{ trend: 'up' | 'down' | 'stable'; value?: number }> = ({ trend, value }) => {
   if (trend === 'up') {
-    return <TrendingUp className="w-4 h-4 text-green-400 inline ml-1" />;
+    return <TrendingUp className="w-4 h-4 text-status-success inline ml-1" />;
   } else if (trend === 'down') {
-    return <TrendingDown className="w-4 h-4 text-red-400 inline ml-1" />;
+    return <TrendingDown className="w-4 h-4 text-status-error inline ml-1" />;
   }
   return <Minus className="w-4 h-4 text-gray-400 inline ml-1" />;
 };
@@ -450,15 +450,6 @@ const TerminalOperations: React.FC = () => {
     }
   }, [selectedZone, addToast]);
 
-  const handleExecuteStrategicAction = useCallback((insightId: string, actionItem: string) => {
-    addToast({
-      type: 'success',
-      title: 'Strategic Action Initiated',
-      message: `Initiated: ${actionItem.substring(0, 50)}...`,
-      duration: 4000
-    });
-  }, [addToast]);
-
   const handleExecuteProtocol = useCallback((protocolId: string, protocolTitle: string) => {
     addToast({
       type: 'success',
@@ -469,10 +460,10 @@ const TerminalOperations: React.FC = () => {
   }, [addToast]);
 
   const getZoneStatusColor = useCallback((alertLevel: string, occupancyRate: number) => {
-    if (alertLevel === 'critical') return 'bg-red-500/30 border-red-500/50';
-    if (alertLevel === 'warning') return 'bg-yellow-500/30 border-yellow-500/50';
-    if (occupancyRate > 0.8) return 'bg-orange-500/30 border-orange-500/50';
-    return 'bg-green-500/30 border-green-500/50';
+    if (alertLevel === 'critical') return 'bg-status-error/30 border-status-error/50';
+    if (alertLevel === 'warning') return 'bg-status-warning/30 border-status-warning/50';
+    if (occupancyRate > 0.8) return 'bg-status-warning/30 border-status-warning/50';
+    return 'bg-status-success/30 border-status-success/50';
   }, []);
 
   const getOccupancyRate = useCallback((zone: TerminalZone) => {
@@ -498,24 +489,24 @@ const TerminalOperations: React.FC = () => {
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.9, opacity: 0, y: 20 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
-            className="bg-gradient-to-br from-primary-800/95 to-primary-900/95 rounded-2xl p-8 w-full max-w-7xl max-h-[95vh] overflow-hidden border border-primary-600/50 shadow-2xl backdrop-blur-lg"
+            className="bg-gradient-to-br from-primary-800/95 to-primary-900/95 rounded-2xl p-6 w-full max-w-7xl max-h-[95vh] overflow-hidden border border-primary-600/50 shadow-xl"
             onClick={handleModalContentClick}
           >
             {/* Modal Header */}
             <div className="flex items-center justify-between mb-8">
               <div className="flex items-center space-x-4">
-                <div className="p-3 bg-gradient-to-r from-blue-500/30 to-purple-500/30 rounded-xl backdrop-blur-sm">
-                  <Brain className="w-8 h-8 text-blue-400 drop-shadow-lg" />
+                <div className="p-2 bg-accent-blue/15 rounded-lg">
+                  <Brain className="w-5 h-5 text-accent-blue" />
                 </div>
                 <div>
-                  <h2 className="text-3xl font-bold text-white drop-shadow-lg">AI Terminal Intelligence Center</h2>
-                  <p className="text-gray-400 text-lg">Predictive Analytics & Autonomous Response Protocol</p>
+                  <h2 className="text-xl font-bold text-white">AI Terminal Intelligence Center</h2>
+                  <p className="text-text-muted text-sm">Predictive Analytics & Autonomous Response Protocol</p>
                 </div>
               </div>
               <div className="flex items-center space-x-4">
                 <div className="text-right">
                   <div className="text-sm text-gray-400">Live Data Stream</div>
-                  <div className="text-lg text-green-400 font-mono">{currentTime.toLocaleTimeString()}</div>
+                  <div className="text-sm text-text-primary font-mono">{currentTime.toLocaleTimeString()}</div>
                 </div>
                 <button
                   onClick={handleCloseAIModal}
@@ -538,10 +529,10 @@ const TerminalOperations: React.FC = () => {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex-1 py-4 px-6 text-sm font-medium rounded-xl transition-all duration-300 relative overflow-hidden ${
+                  className={`flex-1 py-2 px-4 text-sm font-medium rounded-lg transition-colors duration-200 relative overflow-hidden ${
                     activeTab === tab.id
-                      ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg transform scale-105'
-                      : 'text-gray-400 hover:text-white hover:bg-primary-600/50'
+                      ? 'bg-accent-blue text-white'
+                      : 'text-text-muted hover:text-text-primary hover:bg-primary-600/50'
                   }`}
                 >
                   <div className="relative z-10 flex items-center justify-center space-x-2">
@@ -568,9 +559,9 @@ const TerminalOperations: React.FC = () => {
                         <div className="flex items-start justify-between mb-4">
                           <div className="flex items-center space-x-3">
                             <div className={`p-2 rounded-lg ${
-                              insight.impact === 'Critical' ? 'bg-red-500/20 text-red-400' :
-                              insight.impact === 'High' ? 'bg-orange-500/20 text-orange-400' :
-                              'bg-blue-500/20 text-blue-400'
+                              insight.impact === 'Critical' ? 'bg-accent-blue/15 text-accent-blue' :
+                              insight.impact === 'High' ? 'bg-accent-blue/15 text-accent-blue' :
+                              'bg-accent-blue/15 text-accent-blue'
                             }`}>
                               <Brain className="w-5 h-5" />
                             </div>
@@ -578,9 +569,9 @@ const TerminalOperations: React.FC = () => {
                               <h4 className="text-lg font-semibold text-white">{insight.title}</h4>
                               <div className="flex items-center space-x-4 mt-1">
                                 <span className={`px-2 py-1 rounded-full text-xs font-medium border ${
-                                  insight.impact === 'Critical' ? 'bg-red-500/20 text-red-400 border-red-500/50' :
-                                  insight.impact === 'High' ? 'bg-orange-500/20 text-orange-400 border-orange-500/50' :
-                                  'bg-blue-500/20 text-blue-400 border-blue-500/50'
+                                  insight.impact === 'Critical' ? 'bg-status-error/10 text-status-error border-status-error/30' :
+                                  insight.impact === 'High' ? 'bg-status-warning/10 text-status-warning border-status-warning/30' :
+                                  'bg-accent-blue/10 text-blue-200 border-accent-blue/30'
                                 }`}>
                                   {insight.impact} Impact
                                 </span>
@@ -588,7 +579,7 @@ const TerminalOperations: React.FC = () => {
                                   <Timer className="w-3 h-3 mr-1" />
                                   {insight.timeframe}
                                 </span>
-                                <span className="text-xs text-green-400 flex items-center">
+                                <span className="text-xs text-status-success flex items-center">
                                   <Target className="w-3 h-3 mr-1" />
                                   {insight.confidence}% confidence
                                 </span>
@@ -601,13 +592,13 @@ const TerminalOperations: React.FC = () => {
                         
                         {insight.affectedFlights.length > 0 && (
                           <div className="mb-4">
-                            <h6 className="text-xs font-medium text-yellow-400 mb-2 flex items-center">
+                            <h6 className="text-xs font-medium text-text-muted mb-2 flex items-center">
                               <Plane className="w-3 h-3 mr-1" />
                               AFFECTED FLIGHTS
                             </h6>
                             <div className="flex flex-wrap gap-2">
                               {insight.affectedFlights.map((flight, idx) => (
-                                <span key={`flight-${idx}`} className="px-2 py-1 bg-yellow-500/20 text-yellow-300 rounded text-xs font-mono border border-yellow-500/30">
+                                <span key={`flight-${idx}`} className="px-2 py-1 bg-primary-700/50 text-text-secondary rounded text-xs font-mono border border-primary-600/40">
                                   {flight}
                                 </span>
                               ))}
@@ -625,7 +616,7 @@ const TerminalOperations: React.FC = () => {
                               <span className="text-sm text-gray-300">{action}</span>
                               <button 
                                 onClick={() => handleExecuteProtocol(`pred-${index}-${idx}`, action)}
-                                className="px-3 py-1 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg text-xs hover:from-blue-700 hover:to-purple-700 transition-colors flex items-center space-x-1"
+                                className="btn btn-secondary text-xs px-2.5 py-1"
                               >
                                 <PlayCircle className="w-3 h-3" />
                                 <span>Execute</span>
@@ -641,9 +632,9 @@ const TerminalOperations: React.FC = () => {
 
               {activeTab === 'protocols' && (
                 <div className="space-y-6">
-                  <div className="bg-gradient-to-r from-red-500/10 to-orange-500/10 p-6 rounded-xl border border-red-500/30 backdrop-blur-sm">
-                    <h4 className="text-xl font-semibold text-white mb-2 flex items-center">
-                      <Shield className="w-6 h-6 mr-2 text-red-400" />
+                  <div className="bg-primary-800/60 p-4 rounded-xl border border-primary-600/40">
+                    <h4 className="text-base font-semibold text-white mb-2 flex items-center">
+                      <Shield className="w-5 h-5 mr-2 text-accent-blue" />
                       Emergency Response Protocols
                     </h4>
                     <p className="text-gray-300 text-sm">Automated protocols ready for immediate deployment based on current operational conditions</p>
@@ -661,9 +652,9 @@ const TerminalOperations: React.FC = () => {
                         <div className="flex items-start justify-between mb-4">
                           <div className="flex items-center space-x-3">
                             <div className={`p-2 rounded-lg ${
-                              protocol.protocol.startsWith('IMMEDIATE') ? 'bg-red-500/20 text-red-400' :
-                              protocol.protocol.startsWith('URGENT') ? 'bg-orange-500/20 text-orange-400' :
-                              'bg-blue-500/20 text-blue-400'
+                              protocol.protocol.startsWith('IMMEDIATE') ? 'bg-accent-blue/15 text-accent-blue' :
+                              protocol.protocol.startsWith('URGENT') ? 'bg-accent-blue/15 text-accent-blue' :
+                              'bg-accent-blue/15 text-accent-blue'
                             }`}>
                               <Shield className="w-5 h-5" />
                             </div>
@@ -671,9 +662,9 @@ const TerminalOperations: React.FC = () => {
                               <div className="flex items-center space-x-2 mb-1">
                                 <span className="text-xs text-gray-400 font-mono">{protocol.protocol}</span>
                                 <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                  protocol.protocol.startsWith('IMMEDIATE') ? 'bg-red-600 text-white' :
-                                  protocol.protocol.startsWith('URGENT') ? 'bg-orange-600 text-white' :
-                                  'bg-blue-600 text-white'
+                                  protocol.protocol.startsWith('IMMEDIATE') ? 'bg-status-error/10 text-status-error border border-status-error/30' :
+                                  protocol.protocol.startsWith('URGENT') ? 'bg-status-warning/10 text-status-warning border border-status-warning/30' :
+                                  'bg-accent-blue/10 text-blue-200 border border-accent-blue/30'
                                 }`}>
                                   {protocol.protocol.split('-')[0]}
                                 </span>
@@ -683,7 +674,7 @@ const TerminalOperations: React.FC = () => {
                           </div>
                           <button 
                             onClick={() => handleExecuteProtocol(protocol.protocol, protocol.title)}
-                            className="px-4 py-2 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-lg text-sm transition-colors flex items-center space-x-2 shadow-lg"
+                            className="btn btn-danger"
                           >
                             <PlayCircle className="w-4 h-4" />
                             <span>EXECUTE</span>
@@ -706,11 +697,11 @@ const TerminalOperations: React.FC = () => {
                         <div className="flex items-center justify-between">
                           <div className="text-sm">
                             <span className="text-gray-400">Expected Impact: </span>
-                            <span className="text-green-400">{protocol.estimatedImpact}</span>
+                            <span className="text-status-success">{protocol.estimatedImpact}</span>
                           </div>
                           <div className="text-sm">
                             <span className="text-gray-400">Cost: </span>
-                            <span className="text-yellow-400">{protocol.cost}</span>
+                            <span className="text-text-primary">{protocol.cost}</span>
                           </div>
                         </div>
                       </motion.div>
@@ -724,8 +715,8 @@ const TerminalOperations: React.FC = () => {
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     {/* Congestion Heatmap */}
                     <div className="bg-gradient-to-br from-primary-700/40 to-primary-800/40 p-6 rounded-xl border border-primary-600/40 backdrop-blur-sm">
-                      <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
-                        <Radar className="w-5 h-5 mr-2 text-purple-400" />
+                      <h4 className="text-base font-semibold text-white mb-4 flex items-center">
+                        <Radar className="w-5 h-5 mr-2 text-accent-blue" />
                         Real-time Congestion Analysis
                       </h4>
                       <div className="space-y-3">
@@ -739,17 +730,17 @@ const TerminalOperations: React.FC = () => {
                                   animate={{ width: `${zone.congestion}%` }}
                                   transition={{ delay: index * 0.1, duration: 1 }}
                                   className={`h-full rounded-full ${
-                                    zone.temperature === 'critical' ? 'bg-red-500' :
-                                    zone.temperature === 'hot' ? 'bg-orange-500' :
-                                    zone.temperature === 'warm' ? 'bg-yellow-500' :
-                                    'bg-green-500'
+                                    zone.temperature === 'critical' ? 'bg-status-error' :
+                                    zone.temperature === 'hot' ? 'bg-status-warning' :
+                                    zone.temperature === 'warm' ? 'bg-status-warning/60' :
+                                    'bg-status-success'
                                   }`}
                                 />
                               </div>
                               <span className="text-xs text-gray-400 w-8 text-right">{zone.congestion}%</span>
                               <div className="text-xs text-gray-500">{zone.throughput}/hr</div>
                               {zone.alerts > 0 && (
-                                <span className="text-xs bg-red-500 text-white px-2 py-1 rounded-full animate-pulse">{zone.alerts}</span>
+                                <span className="text-xs bg-status-error/10 text-status-error border border-status-error/30 px-2 py-0.5 rounded-full">{zone.alerts}</span>
                               )}
                             </div>
                           </div>
@@ -759,7 +750,7 @@ const TerminalOperations: React.FC = () => {
 
                     {/* Performance Metrics */}
                     <div className="bg-gradient-to-br from-primary-700/40 to-primary-800/40 p-6 rounded-xl border border-primary-600/40 backdrop-blur-sm">
-                      <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
+                      <h4 className="text-base font-semibold text-white mb-4 flex items-center">
                         <Gauge className="w-5 h-5 mr-2 text-blue-400" />
                         Performance Dashboard
                       </h4>
@@ -778,20 +769,10 @@ const TerminalOperations: React.FC = () => {
                                   initial={{ width: 0 }}
                                   animate={{ width: `${metric.value}%` }}
                                   transition={{ delay: index * 0.2, duration: 1 }}
-                                  className={`h-full rounded-full ${
-                                    metric.color === 'green' ? 'bg-green-400' :
-                                    metric.color === 'blue' ? 'bg-blue-400' :
-                                    metric.color === 'yellow' ? 'bg-yellow-400' :
-                                    'bg-purple-400'
-                                  }`}
+                                  className="h-full rounded-full bg-accent-blue"
                                 />
                               </div>
-                              <span className={`text-sm font-semibold ${
-                                metric.color === 'green' ? 'text-green-400' :
-                                metric.color === 'blue' ? 'text-blue-400' :
-                                metric.color === 'yellow' ? 'text-yellow-400' :
-                                'text-purple-400'
-                              }`}>
+                              <span className="text-sm font-semibold text-text-primary">
                                 {metric.value}%
                               </span>
                             </div>
@@ -803,8 +784,8 @@ const TerminalOperations: React.FC = () => {
 
                   {/* Advanced Chart */}
                   <div className="bg-gradient-to-br from-primary-700/40 to-primary-800/40 p-6 rounded-xl border border-primary-600/40 backdrop-blur-sm">
-                    <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
-                      <BarChart3 className="w-5 h-5 mr-2 text-teal-400" />
+                    <h4 className="text-base font-semibold text-white mb-4 flex items-center">
+                      <BarChart3 className="w-5 h-5 mr-2 text-accent-blue" />
                       24-Hour Advanced Flow Analytics
                     </h4>
                     <div className="h-80">
@@ -836,11 +817,11 @@ const TerminalOperations: React.FC = () => {
 
               {activeTab === 'simulation' && (
                 <div className="text-center py-20">
-                  <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-2xl mb-6">
-                    <PlayCircle className="w-10 h-10 text-blue-400" />
+                  <div className="inline-flex items-center justify-center w-20 h-20 bg-accent-blue/15 rounded-2xl mb-6">
+                    <PlayCircle className="w-10 h-10 text-accent-blue" />
                   </div>
-                  <h3 className="text-2xl font-bold text-white mb-4">Advanced Scenario Simulation</h3>
-                  <p className="text-gray-400 text-lg mb-8">
+                  <h3 className="text-lg font-semibold text-white mb-2">Advanced Scenario Simulation</h3>
+                  <p className="text-text-muted text-sm mb-8">
                     Real-time scenario simulation and predictive modeling capabilities available in full deployment
                   </p>
                   <div className="grid grid-cols-3 gap-4 max-w-2xl mx-auto">
@@ -862,9 +843,9 @@ const TerminalOperations: React.FC = () => {
 
               {activeTab === 'insights' && (
                 <div className="space-y-6">
-                  <div className="bg-gradient-to-r from-purple-500/10 to-blue-500/10 p-6 rounded-xl border border-purple-500/30 backdrop-blur-sm">
-                    <h4 className="text-xl font-semibold text-white mb-2 flex items-center">
-                      <Lightbulb className="w-6 h-6 mr-2 text-purple-400" />
+                  <div className="bg-accent-blue/10 p-6 rounded-xl border border-accent-blue/30">
+                    <h4 className="text-base font-semibold text-white mb-2 flex items-center">
+                      <Lightbulb className="w-5 h-5 mr-2 text-accent-blue" />
                       Strategic Long-Term Insights
                     </h4>
                     <p className="text-gray-300 text-sm">AI-generated strategic recommendations for operational excellence and infrastructure optimization</p>
@@ -882,29 +863,29 @@ const TerminalOperations: React.FC = () => {
                         <div className="flex items-start justify-between mb-6">
                           <div className="flex items-center space-x-3">
                             <div className={`p-3 rounded-xl ${
-                              insight.impact === 'High' ? 'bg-orange-500/20 text-orange-400' :
-                              'bg-blue-500/20 text-blue-400'
+                              insight.impact === 'High' ? 'bg-accent-blue/15 text-accent-blue' :
+                              'bg-accent-blue/15 text-accent-blue'
                             }`}>
                               <Target className="w-6 h-6" />
                             </div>
                             <div>
                               <div className="flex items-center space-x-2 mb-1">
-                                <span className="text-xs text-purple-400 font-medium bg-purple-500/20 px-2 py-1 rounded-full border border-purple-500/30">
+                                <span className="text-xs text-blue-200 font-medium bg-accent-blue/10 px-2 py-1 rounded-full border border-accent-blue/30">
                                   {insight.category}
                                 </span>
                                 <span className={`text-xs font-medium px-2 py-1 rounded-full ${
-                                  insight.impact === 'High' ? 'bg-orange-600 text-white' : 'bg-blue-600 text-white'
+                                  insight.impact === 'High' ? 'bg-status-warning/10 text-status-warning border border-status-warning/30' : 'bg-accent-blue/10 text-blue-200 border border-accent-blue/30'
                                 }`}>
                                   {insight.impact} Impact
                                 </span>
                               </div>
-                              <h4 className="text-xl font-semibold text-white">{insight.title}</h4>
+                              <h4 className="text-base font-semibold text-white">{insight.title}</h4>
                               <div className="flex items-center space-x-4 mt-2">
                                 <span className="text-sm text-gray-400 flex items-center">
                                   <Timer className="w-4 h-4 mr-1" />
                                   {insight.timeframe}
                                 </span>
-                                <span className="text-sm text-green-400 flex items-center">
+                                <span className="text-sm text-status-success flex items-center">
                                   <TrendingUp className="w-4 h-4 mr-1" />
                                   {insight.expectedROI}
                                 </span>
@@ -925,17 +906,17 @@ const TerminalOperations: React.FC = () => {
                               </div>
                               <div className="flex justify-between">
                                 <span className="text-xs text-gray-400">Expected ROI:</span>
-                                <span className="text-xs text-green-400 font-semibold">{insight.expectedROI}</span>
+                                <span className="text-xs text-status-success font-semibold">{insight.expectedROI}</span>
                               </div>
                             </div>
                           </div>
-                          
+
                           <div className="bg-primary-600/20 p-4 rounded-lg border border-primary-500/30">
-                            <h6 className="text-sm font-medium text-green-400 mb-3">KEY PERFORMANCE METRICS</h6>
+                            <h6 className="text-sm font-medium text-status-success mb-3">KEY PERFORMANCE METRICS</h6>
                             <div className="space-y-1">
                               {insight.keyMetrics.map((metric, idx) => (
                                 <div key={idx} className="text-xs text-gray-300 flex items-center">
-                                  <CheckCircle className="w-3 h-3 text-green-400 mr-2 flex-shrink-0" />
+                                  <CheckCircle className="w-3 h-3 text-status-success mr-2 flex-shrink-0" />
                                   {metric}
                                 </div>
                               ))}
@@ -944,7 +925,7 @@ const TerminalOperations: React.FC = () => {
                         </div>
                         
                         <div className="space-y-3">
-                          <h6 className="text-sm font-medium text-yellow-400 mb-3 flex items-center">
+                          <h6 className="text-sm font-medium text-accent-blue mb-3 flex items-center">
                             <Lightning className="w-4 h-4 mr-1" />
                             STRATEGIC ACTION ITEMS
                           </h6>
@@ -956,13 +937,6 @@ const TerminalOperations: React.FC = () => {
                                 </div>
                                 <span className="text-sm text-gray-300">{actionItem}</span>
                               </div>
-                              <button 
-                                onClick={() => handleExecuteStrategicAction(insight.id, actionItem)}
-                                className="px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg text-xs hover:from-purple-700 hover:to-blue-700 transition-colors flex items-center space-x-2"
-                              >
-                                <PlayCircle className="w-3 h-3" />
-                                <span>Initiate</span>
-                              </button>
                             </div>
                           ))}
                         </div>
@@ -997,11 +971,11 @@ const TerminalOperations: React.FC = () => {
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
-            className="bg-gradient-to-br from-primary-800 to-primary-900 rounded-xl p-6 w-full max-w-6xl max-h-[90vh] overflow-hidden border border-primary-600 shadow-2xl"
+            className="bg-gradient-to-br from-primary-800 to-primary-900 rounded-xl p-6 w-full max-w-6xl max-h-[90vh] overflow-hidden border border-primary-600 shadow-xl"
             onClick={handleModalContentClick}
           >
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-white drop-shadow-lg">{selectedZone.name}</h2>
+              <h2 className="text-lg font-semibold text-white">{selectedZone.name}</h2>
               <button
                 onClick={handleCloseZoneModal}
                 className="text-gray-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/10"
@@ -1013,24 +987,24 @@ const TerminalOperations: React.FC = () => {
             <div className="h-96 overflow-y-auto pr-2">
               <div className="space-y-6">
                 <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
-                  <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
-                    <Activity className="w-5 h-5 mr-2 text-teal-400" />
+                  <h4 className="text-base font-semibold text-white mb-4 flex items-center">
+                    <Activity className="w-5 h-5 mr-2 text-accent-blue" />
                     Live Alerts & Predictive Actions
                   </h4>
                   <div className="space-y-3">
                     {selectedZone.realTimeAlerts.map((alert) => (
                       <div key={alert.id} className={`p-4 rounded-lg border ${
-                        alert.severity === 'critical' ? 'bg-red-500/10 border-red-500/30' :
-                        alert.severity === 'high' ? 'bg-orange-500/10 border-orange-500/30' :
-                        alert.severity === 'medium' ? 'bg-yellow-500/10 border-yellow-500/30' :
-                        'bg-blue-500/10 border-blue-500/30'
+                        alert.severity === 'critical' ? 'bg-primary-800/60 border-primary-600/40' :
+                        alert.severity === 'high' ? 'bg-primary-800/60 border-primary-600/40' :
+                        alert.severity === 'medium' ? 'bg-primary-800/60 border-primary-600/40' :
+                        'bg-primary-800/60 border-primary-600/40'
                       }`}>
                         <div className="flex items-center justify-between mb-2">
                           <span className={`px-2 py-1 rounded text-xs font-medium ${
-                            alert.severity === 'critical' ? 'bg-red-600 text-white' :
-                            alert.severity === 'high' ? 'bg-orange-600 text-white' :
-                            alert.severity === 'medium' ? 'bg-yellow-600 text-white' :
-                            'bg-blue-600 text-white'
+                            alert.severity === 'critical' ? 'bg-status-error/10 text-status-error border border-status-error/30' :
+                            alert.severity === 'high' ? 'bg-status-warning/10 text-status-warning border border-status-warning/30' :
+                            alert.severity === 'medium' ? 'bg-status-warning/10 text-status-warning border border-status-warning/30' :
+                            'bg-accent-blue/10 text-blue-200 border border-accent-blue/30'
                           }`}>
                             {alert.severity.toUpperCase()}
                           </span>
@@ -1040,7 +1014,7 @@ const TerminalOperations: React.FC = () => {
                         
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
                           <div className="bg-primary-600/20 p-3 rounded-lg">
-                            <h6 className="text-xs font-medium text-yellow-400 mb-1">PREDICTED IMPACT</h6>
+                            <h6 className="text-xs font-medium text-text-muted mb-1">PREDICTED IMPACT</h6>
                             <p className="text-xs text-gray-300">{alert.predictedImpact}</p>
                           </div>
                           <div className="bg-primary-600/20 p-3 rounded-lg">
@@ -1058,13 +1032,13 @@ const TerminalOperations: React.FC = () => {
                           <div className="flex space-x-2">
                             <button 
                               onClick={() => handleExecuteAction(alert.id, 'resolve')}
-                              className="px-3 py-1 bg-gradient-to-r from-teal-600 to-teal-700 text-white rounded text-xs hover:from-teal-700 hover:to-teal-800 transition-colors"
+                              className="btn btn-primary text-xs px-2.5 py-1"
                             >
                               Execute AI Action
                             </button>
                             <button 
                               onClick={() => handleExecuteAction(alert.id, 'acknowledge')}
-                              className="px-3 py-1 bg-gradient-to-r from-gray-600 to-gray-700 text-white rounded text-xs hover:from-gray-700 hover:to-gray-800 transition-colors"
+                              className="btn btn-secondary text-xs px-2.5 py-1"
                             >
                               Acknowledge Alert
                             </button>
@@ -1074,7 +1048,7 @@ const TerminalOperations: React.FC = () => {
                     ))}
                     {selectedZone.realTimeAlerts.length === 0 && (
                       <div className="text-center py-8">
-                        <CheckCircle className="w-12 h-12 text-green-400 mx-auto mb-3" />
+                        <CheckCircle className="w-12 h-12 text-status-success mx-auto mb-3" />
                         <p className="text-gray-400">No active alerts - optimal performance maintained</p>
                       </div>
                     )}
@@ -1098,9 +1072,6 @@ const TerminalOperations: React.FC = () => {
         {/* Enhanced Background */}
         <div className="fixed inset-0 -z-10">
           <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-slate-900 to-black"></div>
-          <div className="absolute top-1/4 right-1/4 w-80 h-80 bg-gradient-to-r from-blue-600/25 via-teal-600/15 to-cyan-600/25 rounded-full mix-blend-multiply filter blur-3xl opacity-60 animate-pulse"></div>
-          <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-purple-600/25 via-indigo-600/15 to-blue-600/25 rounded-full mix-blend-multiply filter blur-3xl opacity-60 animate-pulse" style={{animationDelay: '3s'}}></div>
-          <div className="absolute top-3/4 left-1/2 w-72 h-72 bg-gradient-to-r from-teal-600/25 via-cyan-600/15 to-blue-600/25 rounded-full mix-blend-multiply filter blur-3xl opacity-60 animate-pulse" style={{animationDelay: '6s'}}></div>
         </div>
 
         {/* Container with proper spacing */}
@@ -1112,31 +1083,26 @@ const TerminalOperations: React.FC = () => {
             className="flex items-center justify-between w-full"
           >
             <div className="flex items-center space-x-4">
-              <div className="p-4 bg-gradient-to-br from-blue-500/30 to-cyan-600/20 rounded-xl shadow-lg backdrop-blur-sm">
-                <Users className="w-7 h-7 text-cyan-400 drop-shadow-lg" />
+              <div className="p-2 bg-accent-blue/15 rounded-lg">
+                <Users className="w-5 h-5 text-accent-blue" />
               </div>
               <div>
-                <h1 className="text-3xl font-bold text-white drop-shadow-lg">Terminal Operations Command Center</h1>
-                <p className="text-gray-400 text-lg">AI-Enhanced Passenger Flow & Predictive Management</p>
+                <h1 className="text-2xl font-bold text-white">Terminal Operations Command Center</h1>
+                <p className="text-text-muted text-sm">AI-Enhanced Passenger Flow & Predictive Management</p>
               </div>
               <InfoButtonWithPortal description="Advanced terminal operations monitoring with AI-powered predictions, real-time passenger flow optimization, and automated response protocols for operational excellence." />
             </div>
             
-            <div className="flex space-x-3">
+            <div className="flex space-x-2">
               <SimulationLauncher simulationId="baggage" label="Baggage Simulation" />
 
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+              <button
                 onClick={() => setLiveDataEnabled(!liveDataEnabled)}
-                className={`px-6 py-3 rounded-lg transition-all duration-300 transform shadow-2xl font-medium ${
-                  liveDataEnabled 
-                    ? 'bg-gradient-to-r from-green-600 via-green-500 to-teal-600' 
-                    : 'bg-gradient-to-r from-gray-600 via-gray-500 to-gray-600'
-                } text-white hover:shadow-green-500/50`}
+                className="btn btn-secondary"
               >
+                <span className={`w-1.5 h-1.5 rounded-full ${liveDataEnabled ? 'bg-status-success' : 'bg-text-muted'}`}></span>
                 <span>{liveDataEnabled ? 'Live Data: ACTIVE' : 'Live Data: PAUSED'}</span>
-              </motion.button>
+              </button>
             </div>
           </motion.div>
 
@@ -1145,25 +1111,14 @@ const TerminalOperations: React.FC = () => {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             onClick={handleAIAdvisoryClick}
-            whileHover={{ 
-              scale: 1.01, 
-              y: -2,
-              boxShadow: "0 25px 50px -12px rgba(59, 130, 246, 0.4)"
-            }}
-            whileTap={{ scale: 0.99 }}
-            className="w-full relative overflow-hidden bg-gradient-to-br from-blue-950/60 via-indigo-950/60 to-cyan-950/60 rounded-xl p-6 border border-blue-800/50 backdrop-blur-sm shadow-2xl cursor-pointer transition-all duration-300 group"
+            whileHover={{ y: -2 }}
+            className="w-full relative overflow-hidden glass-panel hover:border-accent-blue/40 rounded-xl p-4 cursor-pointer transition-colors duration-200 group"
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-900/30 via-indigo-900/20 to-cyan-900/30 rounded-xl"></div>
-            
-            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/8 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1200"></div>
-            </div>
-            
             <div className="relative z-10">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center space-x-3">
-                  <Brain className="w-6 h-6 text-blue-400 drop-shadow-lg" />
-                  <h3 className="text-xl font-semibold text-white drop-shadow-md">AI Terminal Intelligence Center</h3>
+                  <Brain className="w-5 h-5 text-accent-blue" />
+                  <h3 className="text-base font-semibold text-white">AI Terminal Intelligence Center</h3>
                   <InfoButtonWithPortal description="AI-powered predictive analysis with actionable recommendations for optimizing terminal operations and preventing bottlenecks before they occur." />
                 </div>
                 {/*} <div className="flex items-center space-x-2 text-blue-300 text-sm bg-blue-800/30 px-4 py-2 rounded-full border border-blue-500/50">
@@ -1173,40 +1128,40 @@ const TerminalOperations: React.FC = () => {
               </div>
               
               <div className="grid grid-cols-5 gap-4">
-                <div className="text-center p-4 bg-gradient-to-br from-green-500/20 to-green-600/10 rounded-lg border border-green-500/30">
-                  <div className="text-2xl font-bold text-green-400 flex items-center justify-center">
+                <div className="glass-pill glass-pill-blue text-center">
+                  <div className="text-xl font-bold text-text-primary flex items-center justify-center">
                     {aiAdvisoryData.overallEfficiency}%
                     <TrendArrow trend={aiAdvisoryData.efficiencyTrend} />
                   </div>
-                  <div className="text-xs text-gray-400">Terminal Efficiency</div>
+                  <div className="text-xs text-text-muted">Terminal Efficiency</div>
                 </div>
-                <div className="text-center p-4 bg-gradient-to-br from-blue-500/20 to-blue-600/10 rounded-lg border border-blue-500/30">
-                  <div className="text-2xl font-bold text-blue-400 flex items-center justify-center">
+                <div className="glass-pill glass-pill-teal text-center">
+                  <div className="text-xl font-bold text-text-primary flex items-center justify-center">
                     {aiAdvisoryData.avgJourneyTime}
                     <TrendArrow trend={aiAdvisoryData.journeyTimeTrend} />
                   </div>
-                  <div className="text-xs text-gray-400">Average Journey</div>
+                  <div className="text-xs text-text-muted">Average Journey</div>
                 </div>
-                <div className="text-center p-4 bg-gradient-to-br from-purple-500/20 to-purple-600/10 rounded-lg border border-purple-500/30">
-                  <div className="text-2xl font-bold text-purple-400 flex items-center justify-center">
+                <div className="glass-pill glass-pill-violet text-center">
+                  <div className="text-xl font-bold text-text-primary flex items-center justify-center">
                     {aiAdvisoryData.activePassengers}
                     <TrendArrow trend={aiAdvisoryData.passengersTrend} />
                   </div>
-                  <div className="text-xs text-gray-400">Active Passengers</div>
+                  <div className="text-xs text-text-muted">Active Passengers</div>
                 </div>
-                <div className="text-center p-4 bg-gradient-to-br from-yellow-500/20 to-yellow-600/10 rounded-lg border border-yellow-500/30">
-                  <div className="text-2xl font-bold text-yellow-400 flex items-center justify-center">
+                <div className="glass-pill glass-pill-neutral text-center">
+                  <div className="text-xl font-bold text-text-primary flex items-center justify-center">
                     {aiAdvisoryData.criticalAlerts}
                     <TrendArrow trend={aiAdvisoryData.alertsTrend} />
                   </div>
-                  <div className="text-xs text-gray-400">Critical Alerts</div>
+                  <div className="text-xs text-text-muted">Critical Alerts</div>
                 </div>
-                <div className="text-center p-4 bg-gradient-to-br from-teal-500/20 to-teal-600/10 rounded-lg border border-teal-500/30">
-                  <div className="text-2xl font-bold text-teal-400 flex items-center justify-center">
+                <div className="glass-pill glass-pill-blue text-center">
+                  <div className="text-xl font-bold text-text-primary flex items-center justify-center">
                     {aiAdvisoryData.biometricSuccess}
                     <TrendArrow trend={aiAdvisoryData.biometricTrend} />
                   </div>
-                  <div className="text-xs text-gray-400">Biometric Success</div>
+                  <div className="text-xs text-text-muted">Biometric Success</div>
                 </div>
               </div>
             </div>
@@ -1223,27 +1178,25 @@ const TerminalOperations: React.FC = () => {
             className="w-full grid grid-cols-10 gap-6"
           >
             {/* Real-time Terminal Map - 70% */}
-            <div className="col-span-7 relative overflow-hidden bg-gradient-to-br from-primary-800/50 to-primary-900/50 rounded-xl p-6 border border-primary-600 backdrop-blur-sm shadow-2xl">
-              <div className="absolute inset-0 bg-gradient-to-r from-teal-600/10 via-transparent to-blue-600/10 rounded-xl"></div>
-              
+            <div className="col-span-7 relative overflow-hidden glass-panel-strong rounded-xl p-5">
               <div className="relative z-10">
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center space-x-3">
-                    <MapPin className="w-6 h-6 text-teal-400 drop-shadow-lg" />
-                    <h3 className="text-xl font-bold text-white drop-shadow-md">Real-time Terminal Operations Map</h3>
+                    <MapPin className="w-5 h-5 text-accent-blue" />
+                    <h3 className="text-base font-semibold text-white">Real-time Terminal Operations Map</h3>
                     <InfoButtonWithPortal description="Interactive terminal visualization showing real-time passenger density, operational status, and AI-predicted bottlenecks across all processing zones." />
                   </div>
                   <div className="flex space-x-2">
                     <span className="flex items-center space-x-1 text-sm text-gray-400">
-                      <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                      <div className="w-2 h-2 bg-status-success rounded-full"></div>
                       <span>Optimal</span>
                     </span>
                     <span className="flex items-center space-x-1 text-sm text-gray-400">
-                      <div className="w-3 h-3 bg-yellow-500 rounded-full animate-pulse"></div>
+                      <div className="w-2 h-2 bg-status-warning rounded-full"></div>
                       <span>Warning</span>
                     </span>
                     <span className="flex items-center space-x-1 text-sm text-gray-400">
-                      <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+                      <div className="w-2 h-2 bg-status-error rounded-full"></div>
                       <span>Critical</span>
                     </span>
                   </div>
@@ -1266,8 +1219,7 @@ const TerminalOperations: React.FC = () => {
                     {/* Dynamic Zone Markers */}
                     {terminalZones.map((zone, index) => {
                       const occupancyRate = getOccupancyRate(zone);
-                      const pulseIntensity = zone.alertLevel === 'critical' ? 'animate-pulse' : 
-                                           zone.alertLevel === 'warning' ? 'animate-pulse' : '';
+                      const pulseIntensity = '';
                       
                       return (
                         <motion.div
@@ -1287,9 +1239,9 @@ const TerminalOperations: React.FC = () => {
                           <div className={`relative w-16 h-16 rounded-full border-2 transition-all duration-300 group-hover:scale-110 ${getZoneStatusColor(zone.alertLevel, occupancyRate / 100)} backdrop-blur-sm`}>
                             <div 
                               className={`absolute inset-2 rounded-full transition-all duration-500 ${
-                                zone.alertLevel === 'critical' ? 'bg-red-400/60' :
-                                zone.alertLevel === 'warning' ? 'bg-yellow-400/60' :
-                                'bg-green-400/60'
+                                zone.alertLevel === 'critical' ? 'bg-status-error/60' :
+                                zone.alertLevel === 'warning' ? 'bg-status-warning/60' :
+                                'bg-status-success/60'
                               }`}
                               style={{ 
                                 transform: `scale(${Math.max(0.3, occupancyRate / 100)})`
@@ -1305,7 +1257,7 @@ const TerminalOperations: React.FC = () => {
                             </div>
 
                             {zone.realTimeAlerts.length > 0 && (
-                              <div className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center animate-pulse">
+                              <div className="absolute -top-1 -right-1 w-5 h-5 bg-status-error rounded-full flex items-center justify-center">
                                 <span className="text-xs text-white font-bold">{zone.realTimeAlerts.length}</span>
                               </div>
                             )}
@@ -1330,9 +1282,9 @@ const TerminalOperations: React.FC = () => {
                               <div className="flex justify-between">
                                 <span>Status:</span>
                                 <span className={`font-medium ${
-                                  zone.alertLevel === 'critical' ? 'text-red-400' :
-                                  zone.alertLevel === 'warning' ? 'text-yellow-400' :
-                                  'text-green-400'
+                                  zone.alertLevel === 'critical' ? 'text-status-error' :
+                                  zone.alertLevel === 'warning' ? 'text-status-warning' :
+                                  'text-status-success'
                                 }`}>
                                   {zone.alertLevel.toUpperCase()}
                                 </span>
@@ -1364,9 +1316,9 @@ const TerminalOperations: React.FC = () => {
                     <div key={zone.id} className="text-center p-2 bg-primary-700/30 rounded-lg backdrop-blur-sm">
                       <div className="text-sm font-medium text-white">{zone.name.split(' ')[0]}</div>
                       <div className={`text-xs ${
-                        zone.alertLevel === 'critical' ? 'text-red-400' :
-                        zone.alertLevel === 'warning' ? 'text-yellow-400' :
-                        'text-green-400'
+                        zone.alertLevel === 'critical' ? 'text-status-error' :
+                        zone.alertLevel === 'warning' ? 'text-status-warning' :
+                        'text-status-success'
                       }`}>
                         {getOccupancyRate(zone).toFixed(0)}% capacity
                       </div>
@@ -1377,14 +1329,12 @@ const TerminalOperations: React.FC = () => {
             </div>
 
             {/* FIXED: Quick Actions Panel - 30% - Enhanced to fix visibility issue */}
-            <div className="col-span-3 relative bg-gradient-to-br from-primary-800/50 to-primary-900/50 rounded-xl p-6 border border-primary-600 backdrop-blur-sm shadow-2xl z-10">
-              <div className="absolute inset-0 bg-gradient-to-r from-orange-600/5 via-transparent to-red-600/5 rounded-xl pointer-events-none"></div>
-              
+            <div className="col-span-3 relative glass-panel rounded-xl p-5 z-10">
               <div className="relative z-10">
-                <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
-                  <AlertTriangle className="w-5 h-5 mr-2 text-yellow-400 animate-pulse" />
+                <h3 className="text-base font-semibold text-white mb-4 flex items-center">
+                  <AlertTriangle className="w-5 h-5 mr-2 text-accent-blue" />
                   Critical Operational Alerts
-                  <span className="ml-auto text-xs bg-red-600 text-white px-2 py-1 rounded-full animate-pulse">LIVE</span>
+                  <span className="ml-auto flex items-center gap-1.5 text-xs text-text-muted"><span className="w-1.5 h-1.5 rounded-full bg-status-success"></span>LIVE</span>
                 </h3>
                 <div className="space-y-4  overflow-y-auto">
                   {terminalZones
@@ -1395,39 +1345,39 @@ const TerminalOperations: React.FC = () => {
                         key={zone.id} 
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        className="p-4 bg-gradient-to-r from-primary-700/50 to-primary-800/30 rounded-lg cursor-pointer hover:bg-primary-600/60 transition-all duration-300 border border-primary-600/40 backdrop-blur-sm shadow-lg hover:shadow-xl"
+                        className="p-3 bg-primary-800/60 rounded-lg cursor-pointer transition-colors duration-200 border border-primary-600/40 hover:border-accent-blue/40"
                         onClick={() => handleZoneClick(zone)}
                       >
                         <div className="flex items-center justify-between mb-3">
                           <span className="text-sm font-semibold text-white">{zone.name}</span>
                           <div className="flex items-center space-x-2">
-                            <span className={`px-2 py-1 rounded-full text-xs font-medium animate-pulse ${
-                              zone.alertLevel === 'critical' ? 'bg-red-600 text-white shadow-red-500/50' :
-                              zone.alertLevel === 'warning' ? 'bg-yellow-600 text-white shadow-yellow-500/50' :
-                              'bg-blue-600 text-white shadow-blue-500/50'
-                            } shadow-lg`}>
+                            <span className={`px-2 py-0.5 rounded-full text-xs font-medium border ${
+                              zone.alertLevel === 'critical' ? 'bg-status-error/10 text-status-error border-status-error/30' :
+                              zone.alertLevel === 'warning' ? 'bg-status-warning/10 text-status-warning border-status-warning/30' :
+                              'bg-accent-blue/10 text-blue-200 border-accent-blue/30'
+                            }`}>
                               {zone.realTimeAlerts.length} alert{zone.realTimeAlerts.length > 1 ? 's' : ''}
                             </span>
                           </div>
                         </div>
                         <div className="text-xs text-gray-300 mb-2 line-clamp-2">
-                          <span className="text-yellow-400 font-medium">Latest:</span> {zone.realTimeAlerts[0]?.message.substring(0, 70)}...
+                          <span className="text-text-muted font-medium">Latest:</span> {zone.realTimeAlerts[0]?.message.substring(0, 70)}...
                         </div>
-                        <div className="text-xs text-orange-300 mb-3 line-clamp-2">
-                          <span className="text-red-400 font-medium">Impact:</span> {zone.realTimeAlerts[0]?.predictedImpact.substring(0, 65)}...
+                        <div className="text-xs text-gray-300 mb-3 line-clamp-2">
+                          <span className="text-text-muted font-medium">Impact:</span> {zone.realTimeAlerts[0]?.predictedImpact.substring(0, 65)}...
                         </div>
                         <div className="grid grid-cols-2 gap-2 text-xs">
                           <div className="bg-primary-800/50 p-2 rounded border border-primary-600/30">
                             <div className="text-gray-400">Cost Impact</div>
-                            <div className="text-red-300 font-semibold">{zone.realTimeAlerts[0]?.potentialCost}</div>
+                            <div className="text-text-primary font-semibold">{zone.realTimeAlerts[0]?.potentialCost}</div>
                           </div>
                           <div className="bg-primary-800/50 p-2 rounded border border-primary-600/30">
                             <div className="text-gray-400">Resolution ETA</div>
-                            <div className="text-blue-300 font-semibold">{zone.realTimeAlerts[0]?.estimatedResolutionTime}</div>
+                            <div className="text-text-primary font-semibold">{zone.realTimeAlerts[0]?.estimatedResolutionTime}</div>
                           </div>
                         </div>
                         <div className="mt-3 flex justify-end">
-                          <span className="text-xs text-cyan-400 flex items-center">
+                          <span className="text-xs text-accent-blue flex items-center">
                             <Eye className="w-3 h-3 mr-1" />
                             Click for details
                           </span>
@@ -1436,16 +1386,16 @@ const TerminalOperations: React.FC = () => {
                   ))}
                   {terminalZones.filter(zone => zone.realTimeAlerts.length > 0).length === 0 && (
                     <div className="text-center py-8">
-                      <CheckCircle className="w-12 h-12 text-green-400 mx-auto mb-3" />
+                      <CheckCircle className="w-12 h-12 text-status-success mx-auto mb-3" />
                       <p className="text-gray-400 text-sm">No critical alerts - operations optimal</p>
                       <div className="mt-4 grid grid-cols-2 gap-2">
-                        <div className="p-3 bg-green-500/10 rounded-lg border border-green-500/30">
+                        <div className="p-3 bg-primary-800/60 rounded-lg border border-primary-600/40">
                           <div className="text-xs text-gray-400">System Health</div>
-                          <div className="text-lg text-green-400 font-bold">98.2%</div>
+                          <div className="text-lg text-text-primary font-bold">98.2%</div>
                         </div>
-                        <div className="p-3 bg-blue-500/10 rounded-lg border border-blue-500/30">
+                        <div className="p-3 bg-primary-800/60 rounded-lg border border-primary-600/40">
                           <div className="text-xs text-gray-400">SLA Compliance</div>
-                          <div className="text-lg text-blue-400 font-bold">94.1%</div>
+                          <div className="text-lg text-text-primary font-bold">94.1%</div>
                         </div>
                       </div>
                     </div>
@@ -1462,9 +1412,9 @@ const TerminalOperations: React.FC = () => {
             className="w-full grid grid-cols-1 lg:grid-cols-2 gap-6"
           >
             {/* 24-Hour Flow Chart */}
-            <div className="bg-gradient-to-br from-primary-800/50 to-primary-900/50 rounded-xl p-6 border border-primary-600 backdrop-blur-sm shadow-2xl">
-              <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
-                <BarChart3 className="w-5 h-5 mr-2 text-teal-400" />
+            <div className="bg-primary-800/60 rounded-xl p-5 border border-primary-600/40">
+              <h3 className="text-base font-semibold text-white mb-4 flex items-center">
+                <BarChart3 className="w-5 h-5 mr-2 text-accent-blue" />
                 24-Hour Passenger Flow Analytics
               </h3>
               <div className="h-64">
@@ -1493,9 +1443,9 @@ const TerminalOperations: React.FC = () => {
             </div>
 
             {/* FIXED: Advanced Congestion Heatmap - Reduced to 5 items to match graph */}
-            <div className="bg-gradient-to-br from-primary-800/50 to-primary-900/50 rounded-xl p-6 border border-primary-600 backdrop-blur-sm shadow-2xl">
-              <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
-                <Radar className="w-5 h-5 mr-2 text-purple-400" />
+            <div className="bg-primary-800/60 rounded-xl p-5 border border-primary-600/40">
+              <h3 className="text-base font-semibold text-white mb-4 flex items-center">
+                <Radar className="w-5 h-5 mr-2 text-accent-blue" />
                 Real-time Congestion Matrix
               </h3>
               <div className="space-y-4">
@@ -1515,17 +1465,17 @@ const TerminalOperations: React.FC = () => {
                           animate={{ width: `${zone.congestion}%` }}
                           transition={{ delay: index * 0.1, duration: 1 }}
                           className={`h-full rounded-full ${
-                            zone.temperature === 'critical' ? 'bg-red-500' :
-                            zone.temperature === 'hot' ? 'bg-orange-500' :
-                                                        zone.temperature === 'warm' ? 'bg-yellow-500' :
-                            'bg-green-500'
+                            zone.temperature === 'critical' ? 'bg-status-error' :
+                            zone.temperature === 'hot' ? 'bg-status-warning' :
+                                                        zone.temperature === 'warm' ? 'bg-status-warning/60' :
+                            'bg-status-success'
                           }`}
                         />
                       </div>
                       <span className="text-xs text-gray-400 w-10 text-right">{zone.congestion}%</span>
                       <div className="text-xs text-gray-500 w-12 text-right">{zone.throughput}/hr</div>
                       {zone.alerts > 0 && (
-                        <span className="text-xs bg-red-500 text-white px-2 py-1 rounded-full animate-pulse">{zone.alerts}</span>
+                        <span className="text-xs bg-status-error/10 text-status-error border border-status-error/30 px-2 py-0.5 rounded-full">{zone.alerts}</span>
                       )}
                     </div>
                   </motion.div>
@@ -1534,15 +1484,15 @@ const TerminalOperations: React.FC = () => {
               
               {/* Mini Performance Dashboard */}
               <div className="mt-6 grid grid-cols-2 gap-4">
-                <div className="p-3 bg-gradient-to-r from-green-500/10 to-green-600/10 rounded-lg border border-green-500/30">
+                <div className="p-3 bg-primary-800/60 rounded-lg border border-primary-600/40">
                   <div className="text-xs text-gray-400 mb-1">Terminal Efficiency</div>
-                  <div className="text-xl font-bold text-green-400">89.2%</div>
-                  <div className="text-xs text-green-300">+2.1% from yesterday</div>
+                  <div className="text-xl font-bold text-text-primary">89.2%</div>
+                  <div className="text-xs text-text-muted">+2.1% from yesterday</div>
                 </div>
-                <div className="p-3 bg-gradient-to-r from-blue-500/10 to-blue-600/10 rounded-lg border border-blue-500/30">
+                <div className="p-3 bg-primary-800/60 rounded-lg border border-primary-600/40">
                   <div className="text-xs text-gray-400 mb-1">SLA Compliance</div>
-                  <div className="text-xl font-bold text-blue-400">94.1%</div>
-                  <div className="text-xs text-blue-300">Target: 95%</div>
+                  <div className="text-xl font-bold text-text-primary">94.1%</div>
+                  <div className="text-xs text-text-muted">Target: 95%</div>
                 </div>
               </div>
             </div>

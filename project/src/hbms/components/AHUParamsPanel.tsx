@@ -86,9 +86,9 @@ const ManualControl: React.FC<{ on: boolean; size: number; labelSize: number; on
           fontSize: Math.round(labelSize * 1.2), fontWeight: 700,
           padding: `${Math.round(size * 0.22)}px ${Math.round(size * 0.55)}px`,
           borderRadius: 999, whiteSpace: 'nowrap',
-          border: `1px solid ${on ? 'rgba(34,199,198,0.5)' : 'rgba(255,255,255,0.15)'}`,
-          color: on ? '#22C7C6' : 'var(--ds-text-muted)',
-          background: on ? 'rgba(34,199,198,0.12)' : 'transparent',
+          border: `1px solid ${on ? 'rgba(59,130,246,0.5)' : 'rgba(255,255,255,0.15)'}`,
+          color: on ? '#3B82F6' : 'var(--ds-text-muted)',
+          background: on ? 'rgba(59,130,246,0.12)' : 'transparent',
         }}
       >
         {on ? 'Manual' : 'Auto'}

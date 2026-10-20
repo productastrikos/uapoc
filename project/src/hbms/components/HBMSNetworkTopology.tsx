@@ -86,7 +86,7 @@ const HBMSNetworkTopology: React.FC<HBMSNetworkTopologyProps> = ({ subsystems, c
       <div className="flex items-center justify-between mb-2 gap-2">
         <div className="flex items-center gap-1.5 min-w-0">
           <Radio className="w-3.5 h-3.5 flex-shrink-0" style={{ color: downCount > 0 ? '#ef4444' : '#10b981' }} />
-          <span className="text-xs font-bold text-sim-200 truncate">HBMS Network</span>
+          <span className="text-xs font-bold text-text-primary truncate">HBMS Network</span>
         </div>
         <span className="text-[length:calc(9px*var(--fs))] font-bold flex-shrink-0" style={{ color: downCount > 0 ? '#f87171' : '#34d399' }}>
           {N - downCount}/{N} online
@@ -117,12 +117,12 @@ const HBMSNetworkTopology: React.FC<HBMSNetworkTopologyProps> = ({ subsystems, c
           className="absolute flex flex-col items-center justify-center rounded-full"
           style={{
             left: `${CENTER}%`, top: `${CENTER}%`, width: 44, height: 44, marginLeft: -22, marginTop: -22,
-            background: 'rgba(1,163,164,0.14)', border: '2px solid #01A3A4', boxShadow: '0 0 12px rgba(1,163,164,0.35)',
+            background: 'rgba(37,99,235,0.14)', border: '2px solid #2563EB', boxShadow: '0 0 12px rgba(37,99,235,0.35)',
           }}
           title="HBMS — Central Platform"
         >
-          <Server className="w-3.5 h-3.5" style={{ color: '#22C7C6' }} />
-          <span className="text-[length:calc(7px*var(--fs))] font-bold" style={{ color: '#9BEAE8' }}>HBMS</span>
+          <Server className="w-3.5 h-3.5" style={{ color: '#3B82F6' }} />
+          <span className="text-[length:calc(7px*var(--fs))] font-bold" style={{ color: '#93C5FD' }}>HBMS</span>
         </div>
 
         {/* Subsystem nodes */}
@@ -157,7 +157,7 @@ const HBMSNetworkTopology: React.FC<HBMSNetworkTopologyProps> = ({ subsystems, c
             {selected.sub.acronym} — {selected.sub.name} · {selected.health === 'ok' ? 'Healthy' : 'Down'}
           </span>
         ) : (
-          <span className="text-[length:calc(9px*var(--fs))] text-sim-500">Click a node to toggle its status (demo)</span>
+          <span className="text-[length:calc(9px*var(--fs))] text-text-muted">Click a node to toggle its status (demo)</span>
         )}
       </div>
     </div>

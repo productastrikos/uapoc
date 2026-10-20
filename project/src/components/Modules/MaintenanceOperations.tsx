@@ -129,37 +129,39 @@ const MaintenanceOperations: React.FC = () => {
     >
       {/* Header */}
       <div className="flex items-center space-x-4">
-        <Wrench className="h-8 w-8 text-accent-teal" />
+        <div className="p-2 bg-accent-blue/15 rounded-lg">
+          <Wrench className="w-5 h-5 text-accent-blue" />
+        </div>
         <div>
-          <h1 className="text-3xl font-bold text-text-primary">{t('nav.maintenance')}</h1>
-          <p className="text-text-muted">{t('maintenance.subtitle')}</p>
+          <h1 className="text-2xl font-bold text-white">{t('nav.maintenance')}</h1>
+          <p className="text-sm text-text-muted">{t('maintenance.subtitle')}</p>
         </div>
       </div>
 
       {/* Quick Stats */}
-      <div className="grid grid-cols-4 gap-6">
+      <div className="grid grid-cols-4 gap-4">
         {[
-          { label: t('maintenance.active_work_orders'), value: '12', icon: Tool, color: 'text-accent-teal', change: '+3' },
-          { label: t('maintenance.asset_health'), value: '89.2%', icon: TrendingUp, color: 'text-status-success', change: '+2.1%' },
-          { label: t('maintenance.mtbf'), value: '8,760h', icon: Clock, color: 'text-accent-gold', change: '+240h' },
-          { label: t('maintenance.cost_savings'), value: '$24.5K', icon: CheckCircle, color: 'text-status-info', change: '+12%' },
+          { label: t('maintenance.active_work_orders'), value: '12', icon: Tool, change: '+3' },
+          { label: t('maintenance.asset_health'), value: '89.2%', icon: TrendingUp, change: '+2.1%' },
+          { label: t('maintenance.mtbf'), value: '8,760h', icon: Clock, change: '+240h' },
+          { label: t('maintenance.cost_savings'), value: '$24.5K', icon: CheckCircle, change: '+12%' },
         ].map((stat, index) => (
           <motion.div
             key={stat.label}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
-            whileHover={{ scale: 1.02, y: -2 }}
-            className="maintenance-gradient rounded-lg p-6 border border-primary-600 hover:border-accent-teal transition-all duration-300 cursor-pointer hover:shadow-2xl"
+            whileHover={{ y: -2 }}
+            className={`glass-pill ${['glass-pill-blue', 'glass-pill-teal', 'glass-pill-violet', 'glass-pill-neutral'][index % 4]} hover:border-white/20 transition-colors duration-200 cursor-pointer`}
             onClick={() => handleWorkOrderClick(workOrders[0])}
           >
             <div className="flex items-center justify-between mb-2">
-              <stat.icon className={`h-6 w-6 ${stat.color}`} />
+              <stat.icon className="h-5 w-5 text-text-muted" />
               <span className={`text-sm font-medium ${stat.change.startsWith('+') ? 'text-status-success' : 'text-status-warning'}`}>
                 {stat.change}
               </span>
             </div>
-            <div className="text-2xl font-bold text-text-primary">{stat.value}</div>
+            <div className="text-xl font-bold text-text-primary">{stat.value}</div>
             <div className="text-sm text-text-muted">{stat.label}</div>
           </motion.div>
         ))}
@@ -174,12 +176,12 @@ const MaintenanceOperations: React.FC = () => {
         {/* Left Column - Work Orders */}
         <div className="col-span-8 space-y-8">
           {/* Active Work Orders */}
-          <div className="maintenance-gradient rounded-xl border border-primary-600 p-8 backdrop-blur-sm">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-text-primary">{t('maintenance.work_order_management')}</h2>
+          <div className="glass-panel-strong rounded-xl p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-base font-semibold text-text-primary">{t('maintenance.work_order_management')}</h2>
               <div className="flex items-center space-x-4 text-sm">
                 <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-status-error rounded-full animate-pulse"></div>
+                  <div className="w-3 h-3 bg-status-error rounded-full"></div>
                   <span className="text-text-muted">{t('maintenance.critical')}</span>
                 </div>
                 <div className="flex items-center space-x-2">
@@ -200,8 +202,7 @@ const MaintenanceOperations: React.FC = () => {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  whileHover={{ scale: 1.01, x: 8 }}
-                  className="p-6 bg-gradient-to-r from-primary-800 to-primary-700 rounded-xl border border-primary-600 hover:border-accent-teal transition-all duration-300 cursor-pointer group"
+                  className="p-4 bg-primary-800/60 rounded-xl border border-primary-600/40 hover:border-accent-blue/40 transition-colors duration-200 cursor-pointer group"
                   onClick={() => handleWorkOrderClick(workOrder)}
                 >
                   <div className="flex items-start justify-between">
@@ -212,20 +213,20 @@ const MaintenanceOperations: React.FC = () => {
                         'bg-status-info bg-opacity-20'
                       }`}>
                         {workOrder.workType === 'emergency' ? <AlertTriangle className="h-5 w-5 text-status-error" /> :
-                         workOrder.workType === 'predictive' ? <TrendingUp className="h-5 w-5 text-accent-teal" /> :
+                         workOrder.workType === 'predictive' ? <TrendingUp className="h-5 w-5 text-accent-blue" /> :
                          workOrder.workType === 'preventive' ? <Calendar className="h-5 w-5 text-status-success" /> :
                          <Wrench className="h-5 w-5 text-status-warning" />}
                       </div>
                       
                       <div className="flex-1">
                         <div className="flex items-center space-x-3 mb-2">
-                          <h3 className="font-semibold text-text-primary group-hover:text-accent-teal transition-colors">
+                          <h3 className="font-semibold text-text-primary group-hover:text-accent-blue transition-colors">
                             {workOrder.woNumber} - {workOrder.assetName}
                           </h3>
-                          <span className={`text-xs px-3 py-1 rounded-full font-medium ${
-                            workOrder.priority === 'critical' ? 'bg-status-error text-white' :
-                            workOrder.priority === 'high' ? 'bg-status-warning text-black' :
-                            'bg-status-info text-white'
+                          <span className={`text-xs px-2 py-0.5 rounded-full font-medium border ${
+                            workOrder.priority === 'critical' ? 'bg-status-error/10 text-status-error border-status-error/30' :
+                            workOrder.priority === 'high' ? 'bg-status-warning/10 text-status-warning border-status-warning/30' :
+                            'bg-accent-blue/10 text-blue-200 border-accent-blue/30'
                           }`}>
                             {workOrder.priority.toUpperCase()}
                           </span>
@@ -249,11 +250,11 @@ const MaintenanceOperations: React.FC = () => {
                         </div>
 
                         <div className="flex items-center space-x-4">
-                          <span className={`text-sm px-2 py-1 rounded-full ${
-                            workOrder.status === 'completed' ? 'bg-status-success bg-opacity-20 text-status-success' :
-                            workOrder.status === 'in_progress' ? 'bg-status-info bg-opacity-20 text-status-info' :
-                            workOrder.status === 'assigned' ? 'bg-status-warning bg-opacity-20 text-status-warning' :
-                            'bg-primary-600 text-text-muted'
+                          <span className={`text-xs px-2 py-0.5 rounded-full border ${
+                            workOrder.status === 'completed' ? 'bg-status-success/10 text-status-success border-status-success/30' :
+                            workOrder.status === 'in_progress' ? 'bg-accent-blue/10 text-blue-200 border-accent-blue/30' :
+                            workOrder.status === 'assigned' ? 'bg-status-warning/10 text-status-warning border-status-warning/30' :
+                            'bg-primary-600/30 text-text-muted border-primary-600/50'
                           }`}>
                             {workOrder.status.replace('_', ' ')}
                           </span>
@@ -266,31 +267,27 @@ const MaintenanceOperations: React.FC = () => {
 
                     <div className="flex items-center space-x-2">
                       {workOrder.status === 'assigned' && (
-                        <motion.button
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
+                        <button
                           onClick={(e) => {
                             e.stopPropagation();
                             handleExecuteAction('schedule', workOrder);
                           }}
-                          className="px-4 py-2 bg-accent-teal hover:bg-opacity-80 text-white rounded-lg font-medium transition-colors"
+                          className="btn btn-secondary text-xs px-2.5 py-1"
                         >
                           {t('maintenance.start_work')}
-                        </motion.button>
+                        </button>
                       )}
-                      
+
                       {workOrder.status === 'in_progress' && (
-                        <motion.button
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
+                        <button
                           onClick={(e) => {
                             e.stopPropagation();
                             handleExecuteAction('complete', workOrder);
                           }}
-                          className="px-4 py-2 bg-status-success hover:bg-green-600 text-white rounded-lg transition-colors"
+                          className="btn btn-secondary text-xs px-2.5 py-1"
                         >
                           {t('maintenance.complete')}
-                        </motion.button>
+                        </button>
                       )}
                     </div>
                   </div>
@@ -300,8 +297,8 @@ const MaintenanceOperations: React.FC = () => {
           </div>
 
           {/* Asset Health Dashboard */}
-          <div className="maintenance-gradient rounded-xl border border-primary-600 p-8">
-            <h2 className="text-2xl font-bold text-text-primary mb-6">{t('maintenance.asset_health_monitoring')}</h2>
+          <div className="glass-panel rounded-xl p-6">
+            <h2 className="text-base font-semibold text-text-primary mb-4">{t('maintenance.asset_health_monitoring')}</h2>
             
             <div className="grid grid-cols-1 gap-4">
               {assetHealth.map((asset, index) => (
@@ -310,8 +307,7 @@ const MaintenanceOperations: React.FC = () => {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  whileHover={{ scale: 1.01 }}
-                  className="p-6 bg-primary-700 rounded-xl border border-primary-600 hover:border-accent-teal transition-all duration-300 cursor-pointer"
+                  className="p-4 bg-primary-800/60 rounded-xl border border-primary-600/40 hover:border-accent-blue/40 transition-colors duration-200 cursor-pointer"
                   onClick={() => addToast({
                     type: 'info',
                     title: t('maintenance.asset_selected'),
@@ -323,8 +319,8 @@ const MaintenanceOperations: React.FC = () => {
                     <div className="flex items-center space-x-2">
                       {asset.trend === 'improving' ? <TrendingUp className="h-4 w-4 text-status-success" /> :
                        asset.trend === 'declining' ? <TrendingUp className="h-4 w-4 text-status-error rotate-180" /> :
-                       <div className="w-4 h-4 rounded-full bg-accent-gold"></div>}
-                      <span className="text-lg font-bold text-accent-teal">{asset.health}%</span>
+                       <div className="w-2 h-2 rounded-full bg-text-muted"></div>}
+                      <span className="text-lg font-bold text-text-primary">{asset.health}%</span>
                     </div>
                   </div>
                   
@@ -334,9 +330,9 @@ const MaintenanceOperations: React.FC = () => {
                       animate={{ width: `${asset.health}%` }}
                       transition={{ duration: 1, delay: index * 0.2 }}
                       className={`h-3 rounded-full ${
-                        asset.health > 90 ? 'bg-gradient-to-r from-status-success to-accent-teal' :
-                        asset.health > 75 ? 'bg-gradient-to-r from-accent-gold to-status-warning' :
-                        'bg-gradient-to-r from-status-error to-red-600'
+                        asset.health > 90 ? 'bg-status-success' :
+                        asset.health > 75 ? 'bg-status-warning' :
+                        'bg-status-error'
                       }`}
                     />
                   </div>
@@ -363,8 +359,8 @@ const MaintenanceOperations: React.FC = () => {
         {/* Right Column - Analytics */}
         <div className="col-span-4 space-y-8">
           {/* Maintenance Cost Trends */}
-          <div className="maintenance-gradient rounded-xl border border-primary-600 p-6">
-            <h3 className="text-lg font-semibold text-text-primary mb-4">{t('maintenance.cost_analysis')}</h3>
+          <div className="glass-panel rounded-xl p-6">
+            <h3 className="text-base font-semibold text-text-primary mb-4">{t('maintenance.cost_analysis')}</h3>
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={maintenanceCosts}>
@@ -393,10 +389,10 @@ const MaintenanceOperations: React.FC = () => {
           </div>
 
           {/* Predictive Alerts */}
-          <div className="maintenance-gradient rounded-xl border border-primary-600 p-6">
+          <div className="glass-panel rounded-xl p-6">
             <div className="flex items-center space-x-2 mb-4">
-              <Zap className="h-5 w-5 text-accent-teal animate-pulse" />
-              <h3 className="text-lg font-semibold text-text-primary">{t('maintenance.predictive_alerts')}</h3>
+              <Zap className="h-5 w-5 text-accent-blue" />
+              <h3 className="text-base font-semibold text-text-primary">{t('maintenance.predictive_alerts')}</h3>
             </div>
             <div className="space-y-3">
               {[
@@ -409,8 +405,7 @@ const MaintenanceOperations: React.FC = () => {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: index * 0.1 }}
-                  whileHover={{ scale: 1.02 }}
-                  className="p-4 bg-primary-700 rounded-lg border border-primary-600 hover:border-accent-teal transition-all duration-300 cursor-pointer"
+                  className="p-4 bg-primary-800/60 rounded-lg border border-primary-600/40 hover:border-accent-blue/40 transition-colors duration-200 cursor-pointer"
                   onClick={() => addToast({
                     type: 'info',
                     title: t('maintenance.alert_details'),
@@ -419,10 +414,10 @@ const MaintenanceOperations: React.FC = () => {
                 >
                   <div className="flex items-center justify-between mb-2">
                     <span className="font-medium text-text-primary text-sm">{alert.asset}</span>
-                    <span className={`text-xs px-2 py-1 rounded-full ${
-                      alert.priority === 'high' ? 'bg-status-error bg-opacity-20 text-status-error' :
-                      alert.priority === 'medium' ? 'bg-status-warning bg-opacity-20 text-status-warning' :
-                      'bg-status-info bg-opacity-20 text-status-info'
+                    <span className={`text-xs px-2 py-0.5 rounded-full border ${
+                      alert.priority === 'high' ? 'bg-status-error/10 text-status-error border-status-error/30' :
+                      alert.priority === 'medium' ? 'bg-status-warning/10 text-status-warning border-status-warning/30' :
+                      'bg-accent-blue/10 text-blue-200 border-accent-blue/30'
                     }`}>
                       {alert.priority}
                     </span>
@@ -430,37 +425,9 @@ const MaintenanceOperations: React.FC = () => {
                   <p className="text-text-secondary text-xs mb-2">{alert.prediction}</p>
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-text-muted">{t('maintenance.confidence')}</span>
-                    <span className="text-accent-teal font-medium text-sm">{alert.confidence}%</span>
+                    <span className="text-text-primary font-medium text-sm">{alert.confidence}%</span>
                   </div>
                 </motion.div>
-              ))}
-            </div>
-          </div>
-
-          {/* Quick Actions */}
-          <div className="maintenance-gradient rounded-xl border border-primary-600 p-6">
-            <h3 className="text-lg font-semibold text-text-primary mb-4">{t('maintenance.quick_actions')}</h3>
-            <div className="space-y-3">
-              {[
-                { action: t('maintenance.create_work_order'), icon: Tool },
-                { action: t('maintenance.schedule_pm'), icon: Calendar },
-                { action: t('maintenance.parts_inventory'), icon: CheckCircle },
-                { action: t('maintenance.technician_dispatch'), icon: Zap },
-              ].map((item, index) => (
-                <motion.button
-                  key={index}
-                  whileHover={{ scale: 1.02, x: 4 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => addToast({
-                    type: 'success',
-                    title: t('maintenance.action_initiated'),
-                    message: `${item.action} process started`
-                  })}
-                  className="w-full flex items-center space-x-3 p-4 bg-primary-700 rounded-lg hover:bg-primary-600 transition-all duration-300 group"
-                >
-                  <item.icon className="h-5 w-5 text-accent-teal group-hover:scale-110 transition-transform" />
-                  <span className="text-text-primary text-sm font-medium">{item.action}</span>
-                </motion.button>
               ))}
             </div>
           </div>

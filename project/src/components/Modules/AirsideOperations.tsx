@@ -19,9 +19,7 @@ import {
   Brain, 
   Target, 
   Settings, 
-  Download, 
-  RefreshCw, 
-  CheckCircle, 
+  CheckCircle,
   AlertTriangle, 
   Database, 
   Wifi, 
@@ -42,9 +40,9 @@ const TrendArrow: React.FC<{ trend: 'up' | 'down' | 'stable'; value?: number }> 
   // Scopes the AI Advisory drawer to this console.
   useAiDomain('airside');
   if (trend === 'up') {
-    return <TrendingUp className="w-4 h-4 text-green-400 inline ml-1" />;
+    return <TrendingUp className="w-4 h-4 text-status-success inline ml-1" />;
   } else if (trend === 'down') {
-    return <TrendingDown className="w-4 h-4 text-red-400 inline ml-1" />;
+    return <TrendingDown className="w-4 h-4 text-status-error inline ml-1" />;
   }
   return <Minus className="w-4 h-4 text-gray-400 inline ml-1" />;
 };
@@ -355,18 +353,18 @@ useEffect(() => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'operational': return 'border-green-500/50 bg-gradient-to-br from-green-500/20 to-green-600/10';
-      case 'warning': return 'border-yellow-500/50 bg-gradient-to-br from-yellow-500/20 to-orange-500/10';
-      case 'critical': return 'border-red-500/50 bg-gradient-to-br from-red-500/20 to-red-600/10';
-      default: return 'border-gray-500/50 bg-gradient-to-br from-gray-500/20 to-gray-600/10';
+      case 'operational': return 'border-status-success/50 bg-status-success/10';
+      case 'warning': return 'border-status-warning/50 bg-status-warning/10';
+      case 'critical': return 'border-status-error/50 bg-status-error/10';
+      default: return 'border-gray-500/50 bg-gray-500/10';
     }
   };
 
   const getStatusTextColor = (status: string) => {
     switch (status) {
-      case 'operational': return 'text-green-400';
-      case 'warning': return 'text-yellow-400';
-      case 'critical': return 'text-red-400';
+      case 'operational': return 'text-status-success';
+      case 'warning': return 'text-status-warning';
+      case 'critical': return 'text-status-error';
       default: return 'text-gray-400';
     }
   };
@@ -386,18 +384,11 @@ useEffect(() => {
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="bg-gradient-to-br from-primary-800 to-primary-900 rounded-xl p-6 max-w-6xl w-full max-h-[90vh] overflow-hidden border border-primary-600 shadow-2xl"
+            className="bg-primary-800 rounded-xl p-6 max-w-6xl w-full max-h-[90vh] overflow-hidden border border-primary-600 shadow-xl"
             onClick={(e) => e.stopPropagation()}
-            style={{
-              boxShadow: `
-                0 25px 50px -12px rgba(0, 0, 0, 0.6),
-                0 0 0 1px rgba(255, 255, 255, 0.05),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1)
-              `
-            }}
           >
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-white drop-shadow-lg">Aircraft {selectedAircraft.id}</h2>
+              <h2 className="text-lg font-semibold text-white">Aircraft {selectedAircraft.id}</h2>
               <button
                 onClick={() => setShowModal(false)}
                 className="text-gray-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/10"
@@ -413,15 +404,9 @@ useEffect(() => {
                   onClick={() => setActiveTab(tab)}
                   className={`flex-1 py-3 px-4 text-sm font-medium rounded-lg transition-all duration-300 relative overflow-hidden ${
                     activeTab === tab
-                      ? 'bg-gradient-to-r from-accent-teal to-teal-600 text-white shadow-2xl'
+                      ? 'bg-accent-blue text-white shadow-md'
                       : 'text-gray-400 hover:text-white hover:bg-primary-600/50'
                   }`}
-                  style={activeTab === tab ? {
-                    boxShadow: `
-                      0 4px 20px rgba(20, 184, 166, 0.4),
-                      inset 0 1px 0 rgba(255, 255, 255, 0.2)
-                    `
-                  } : {}}
                 >
                   <span className="relative z-10">
                     {tab === 'actions' ? 'Action Items' : tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -447,14 +432,12 @@ useEffect(() => {
                       <h4 className="text-sm font-semibold text-gray-400 mb-2">Speed</h4>
                       <span className="text-white font-medium flex items-center">
                         {selectedAircraft.speed} kt
-                        <TrendArrow trend={selectedAircraft.speed > 400 ? 'up' : selectedAircraft.speed < 50 ? 'down' : 'stable'} />
                       </span>
                     </div>
                     <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
                       <h4 className="text-sm font-semibold text-gray-400 mb-2">Altitude</h4>
                       <span className="text-white font-medium flex items-center">
                         {selectedAircraft.altitude} ft
-                        <TrendArrow trend={selectedAircraft.altitude > 30000 ? 'up' : selectedAircraft.altitude === 0 ? 'down' : 'stable'} />
                       </span>
                     </div>
                   </div>
@@ -491,7 +474,7 @@ useEffect(() => {
                         </div>
                         <div className="flex justify-between items-center">
                           <span className="text-gray-400">Performance:</span>
-                          <span className={`font-medium flex items-center ${selectedAircraft.performance.changePercent > 0 ? 'text-green-400' : 'text-red-400'}`}>
+                          <span className={`font-medium flex items-center ${selectedAircraft.performance.changePercent > 0 ? 'text-status-success' : 'text-status-error'}`}>
                             {selectedAircraft.performance.changePercent > 0 ? '+' : ''}{selectedAircraft.performance.changePercent}%
                             <TrendArrow trend={selectedAircraft.performance.trend} />
                           </span>
@@ -510,8 +493,8 @@ useEffect(() => {
                 <div className="space-y-6">
                   <div className="grid grid-cols-2 gap-6">
                     <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
-                      <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
-                        <BarChart3 className="w-5 h-5 mr-2 text-teal-400" />
+                      <h4 className="text-base font-semibold text-white mb-4 flex items-center">
+                        <BarChart3 className="w-5 h-5 mr-2 text-accent-blue" />
                         Flight Performance (24h)
                       </h4>
                       <div className="h-48">
@@ -532,8 +515,8 @@ useEffect(() => {
                     </div>
                     
                     <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
-                      <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
-                        <BarChart3 className="w-5 h-5 mr-2 text-purple-400" />
+                      <h4 className="text-base font-semibold text-white mb-4 flex items-center">
+                        <BarChart3 className="w-5 h-5 mr-2 text-accent-blue" />
                         Operational Metrics
                       </h4>
                       <div className="space-y-4">
@@ -541,21 +524,18 @@ useEffect(() => {
                           <span className="text-gray-300">Fuel Efficiency</span>
                           <div className="flex items-center">
                             <span className="text-white font-medium mr-2">{(selectedAircraft.fuel / selectedAircraft.passengers * 100).toFixed(1)} kg/pax</span>
-                            <TrendArrow trend={selectedAircraft.fuel > 10000 ? 'up' : 'down'} />
                           </div>
                         </div>
                         <div className="flex justify-between items-center p-3 bg-primary-600/30 rounded-lg">
                           <span className="text-gray-300">On-Time Performance</span>
                           <div className="flex items-center">
-                            <span className="text-green-400 font-medium mr-2">94.2%</span>
-                            <TrendArrow trend="up" />
+                            <span className="text-status-success font-medium mr-2">94.2%</span>
                           </div>
                         </div>
                         <div className="flex justify-between items-center p-3 bg-primary-600/30 rounded-lg">
                           <span className="text-gray-300">Communication Quality</span>
                           <div className="flex items-center">
                             <span className="text-white font-medium mr-2">Excellent</span>
-                            <TrendArrow trend="stable" />
                           </div>
                         </div>
                       </div>
@@ -566,31 +546,31 @@ useEffect(() => {
 
               {activeTab === 'insights' && (
                 <div className="space-y-6">
-                  <div className="bg-gradient-to-br from-purple-900/50 to-purple-800/30 p-6 rounded-lg backdrop-blur-sm border border-purple-500/30">
-                    <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
-                      <Brain className="w-5 h-5 mr-2 text-purple-400" />
+                  <div className="glass-panel-strong p-6 rounded-lg">
+                    <h4 className="text-base font-semibold text-white mb-4 flex items-center">
+                      <Brain className="w-5 h-5 mr-2 text-accent-blue" />
                       AI Flight Analysis
                     </h4>
-                    
+
                     <div className="space-y-4">
-                      <div className="bg-purple-800/30 p-4 rounded-lg">
-                        <h5 className="text-purple-300 font-medium mb-2">Performance Assessment</h5>
+                      <div className="bg-accent-blue/10 p-4 rounded-lg">
+                        <h5 className="text-accent-blue font-medium mb-2">Performance Assessment</h5>
                         <p className="text-gray-300 text-sm mb-3">
-                          {selectedAircraft.status === 'critical' 
+                          {selectedAircraft.status === 'critical'
                             ? `Critical situation detected. Aircraft experiencing technical difficulties requiring immediate ground assistance and priority handling.`
                             : selectedAircraft.status === 'warning'
                             ? `Minor delays detected in taxi operations. Recommend expedited ground handling to minimize further delays.`
                             : `Optimal flight performance maintained. Aircraft operating within all safety parameters and scheduled timeline.`
                           }
                         </p>
-                        <div className="flex items-center text-xs text-purple-400">
+                        <div className="flex items-center text-xs text-accent-blue">
                           <Target className="w-3 h-3 mr-1" />
                           Analysis Confidence: {selectedAircraft.status === 'critical' ? '98%' : selectedAircraft.status === 'warning' ? '89%' : '96%'}
                         </div>
                       </div>
 
-                      <div className="bg-blue-800/30 p-4 rounded-lg">
-                        <h5 className="text-blue-300 font-medium mb-2">Operational Recommendations</h5>
+                      <div className="bg-primary-700/30 border border-primary-600/40 p-4 rounded-lg">
+                        <h5 className="text-text-primary font-medium mb-2">Operational Recommendations</h5>
                         <ul className="text-gray-300 text-sm space-y-2">
                           <li className="flex items-start">
                             <CheckCircle className="w-3 h-3 text-blue-400 mt-1 mr-2 flex-shrink-0" />
@@ -615,15 +595,15 @@ useEffect(() => {
                         </ul>
                       </div>
 
-                      <div className="bg-green-800/30 p-4 rounded-lg">
-                        <h5 className="text-green-300 font-medium mb-2">Safety Indicators</h5>
+                      <div className="bg-primary-700/30 border border-primary-600/40 p-4 rounded-lg">
+                        <h5 className="text-text-primary font-medium mb-2">Safety Indicators</h5>
                         <div className="grid grid-cols-2 gap-4 mt-3">
                           <div className="text-center">
-                            <div className="text-2xl font-bold text-green-400">{selectedAircraft.status === 'operational' ? '100%' : selectedAircraft.status === 'warning' ? '85%' : '60%'}</div>
+                            <div className="text-xl font-bold text-text-primary">{selectedAircraft.status === 'operational' ? '100%' : selectedAircraft.status === 'warning' ? '85%' : '60%'}</div>
                             <div className="text-xs text-gray-400">Safety Score</div>
                           </div>
                           <div className="text-center">
-                            <div className="text-2xl font-bold text-green-400">{selectedAircraft.passengers}</div>
+                            <div className="text-xl font-bold text-text-primary">{selectedAircraft.passengers}</div>
                             <div className="text-xs text-gray-400">Passengers Safe</div>
                           </div>
                         </div>
@@ -636,8 +616,8 @@ useEffect(() => {
               {activeTab === 'actions' && (
                 <div className="space-y-6">
                   <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-6 rounded-lg backdrop-blur-sm border border-primary-600/30">
-                    <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
-                      <Zap className="w-5 h-5 mr-2 text-yellow-400" />
+                    <h4 className="text-base font-semibold text-white mb-4 flex items-center">
+                      <Zap className="w-5 h-5 mr-2 text-accent-blue" />
                       Available Actions
                     </h4>
                     
@@ -648,113 +628,33 @@ useEffect(() => {
                             {selectedAircraft.status === 'critical' ? 'Execute Emergency SOP' : 'Request Priority Handling'}
                           </h5>
                           <div className="flex items-center space-x-2">
-                            <span className="text-xs text-accent-teal bg-accent-teal/20 px-2 py-1 rounded-full">
+                            <span className="text-xs text-blue-200 bg-accent-blue/10 border border-accent-blue/30 px-2 py-1 rounded-full">
                               Priority: {selectedAircraft.status === 'critical' ? 'Emergency' : 'High'}
                             </span>
-                            <span className="text-xs text-green-400 bg-green-400/20 px-2 py-1 rounded-full">ATC Approved</span>
+                            <span className="text-xs text-status-success bg-status-success/10 border border-status-success/30 px-2 py-1 rounded-full">ATC Approved</span>
                           </div>
                         </div>
                         <p className="text-sm text-gray-400 mb-4">
-                          {selectedAircraft.status === 'critical' 
+                          {selectedAircraft.status === 'critical'
                             ? `Initiate emergency response protocol for ${selectedAircraft.id}. Ground crews and medical assistance will be dispatched immediately.`
                             : `Request priority ground handling and expedited taxi clearance for ${selectedAircraft.id} to minimize delays.`
                           }
                         </p>
                         <div className="flex space-x-3">
-                          <motion.button
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
+                          <button
                             onClick={() => handleExecuteSOP(selectedAircraft.id, selectedAircraft.id)}
                             disabled={executedSOPs[selectedAircraft.id]}
-                            className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 flex items-center space-x-2 ${
+                            className={`btn min-w-[11rem] ${
                               executedSOPs[selectedAircraft.id]
-                                ? 'bg-green-600/30 text-green-300 cursor-not-allowed'
+                                ? 'btn-secondary cursor-not-allowed opacity-70'
                                 : selectedAircraft.status === 'critical'
-                                ? 'bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white shadow-lg hover:shadow-red-500/30'
-                                : 'bg-gradient-to-r from-accent-teal to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white shadow-lg hover:shadow-teal-500/30'
+                                ? 'btn-danger'
+                                : 'btn-primary'
                             }`}
-                            style={!executedSOPs[selectedAircraft.id] ? {
-                              boxShadow: `
-                                0 4px 20px ${selectedAircraft.status === 'critical' ? 'rgba(239, 68, 68, 0.3)' : 'rgba(20, 184, 166, 0.3)'},
-                                inset 0 1px 0 rgba(255, 255, 255, 0.2)
-                              `
-                            } : {}}
                           >
                             <Zap className="w-4 h-4" />
                             <span>{executedSOPs[selectedAircraft.id] ? '✓ Protocol Executed' : 'Execute Protocol'}</span>
-                          </motion.button>
-                        </div>
-                      </div>
-
-                      <div className="border-b border-primary-600/50 pb-4">
-                        <div className="flex items-center justify-between mb-3">
-                          <h5 className="text-white font-medium">Download Flight Report</h5>
-                          <span className="text-xs text-blue-400 bg-blue-400/20 px-2 py-1 rounded-full">PDF Export</span>
-                        </div>
-                        <p className="text-sm text-gray-400 mb-4">
-                          Generate comprehensive flight report including performance metrics, fuel consumption, and operational data.
-                        </p>
-                        <div className="flex space-x-3">
-                          <motion.button
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                            onClick={() => {
-                              // Simulate report download
-                              addToast({
-                                type: 'success',
-                                title: 'Report Downloaded',
-                                message: `Flight report for ${selectedAircraft.id} downloaded successfully.`,
-                                duration: 3000
-                              });
-                              console.log('Download Report API called for:', selectedAircraft.id);
-                            }}
-                            className="px-6 py-3 rounded-lg font-medium bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-blue-500/30 transition-all duration-300 flex items-center space-x-2"
-                            style={{
-                              boxShadow: `
-                                0 4px 20px rgba(59, 130, 246, 0.3),
-                                inset 0 1px 0 rgba(255, 255, 255, 0.2)
-                              `
-                            }}
-                          >
-                            <Download className="w-4 h-4" />
-                            <span>Download Report</span>
-                          </motion.button>
-                        </div>
-                      </div>
-
-                      <div className="pb-4">
-                        <div className="flex items-center justify-between mb-3">
-                          <h5 className="text-white font-medium">Communication Test</h5>
-                          <span className="text-xs text-purple-400 bg-purple-400/20 px-2 py-1 rounded-full">Radio Check</span>
-                        </div>
-                        <p className="text-sm text-gray-400 mb-4">
-                          Initiate radio communication test with aircraft to verify all systems operational.
-                        </p>
-                        <div className="flex space-x-3">
-                          <motion.button
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                            onClick={() => {
-                              // Simulate communication test
-                              addToast({
-                                type: 'success',
-                                title: 'Communication Test Complete',
-                                message: `Radio check successful for ${selectedAircraft.id}. All systems nominal.`,
-                                duration: 3000
-                              });
-                              console.log('Communication Test API called for:', selectedAircraft.id);
-                            }}
-                            className="px-6 py-3 rounded-lg font-medium bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white shadow-lg hover:shadow-purple-500/30 transition-all duration-300 flex items-center space-x-2"
-                            style={{
-                              boxShadow: `
-                                0 4px 20px rgba(147, 51, 234, 0.3),
-                                inset 0 1px 0 rgba(255, 255, 255, 0.2)
-                              `
-                            }}
-                          >
-                            <Activity className="w-4 h-4" />
-                            <span>Test Communication</span>
-                          </motion.button>
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -765,44 +665,44 @@ useEffect(() => {
               {activeTab === 'evidence' && (
                 <div className="space-y-6">
                   <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-6 rounded-lg backdrop-blur-sm border border-primary-600/30">
-                    <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
-                      <FileText className="w-5 h-5 mr-2 text-indigo-400" />
+                    <h4 className="text-base font-semibold text-white mb-4 flex items-center">
+                      <FileText className="w-5 h-5 mr-2 text-accent-blue" />
                       Flight Data & Evidence
                     </h4>
                     
                     <div className="space-y-4">
-                      <div className="bg-indigo-800/30 p-4 rounded-lg">
-                        <h5 className="text-indigo-300 font-medium mb-3 flex items-center">
+                      <div className="bg-primary-700/30 border border-primary-600/40 p-4 rounded-lg">
+                        <h5 className="text-text-primary font-medium mb-3 flex items-center">
                           <Database className="w-4 h-4 mr-2" />
                           Flight Data Sources
                         </h5>
                         <div className="space-y-2 text-sm">
                           <div className="flex justify-between items-center p-2 bg-primary-600/20 rounded">
                             <span className="text-gray-300">Transponder Signal</span>
-                            <span className="text-green-400 flex items-center">
-                              <div className="w-2 h-2 bg-green-400 rounded-full mr-2"></div>
+                            <span className="text-status-success flex items-center">
+                              <div className="w-2 h-2 bg-status-success rounded-full mr-2"></div>
                               Strong
                             </span>
                           </div>
                           <div className="flex justify-between items-center p-2 bg-primary-600/20 rounded">
                             <span className="text-gray-300">Radio Communication</span>
-                            <span className="text-green-400 flex items-center">
-                              <div className="w-2 h-2 bg-green-400 rounded-full mr-2"></div>
+                            <span className="text-status-success flex items-center">
+                              <div className="w-2 h-2 bg-status-success rounded-full mr-2"></div>
                               Clear
                             </span>
                           </div>
                           <div className="flex justify-between items-center p-2 bg-primary-600/20 rounded">
                             <span className="text-gray-300">Radar Contact</span>
-                            <span className="text-green-400 flex items-center">
-                              <div className="w-2 h-2 bg-green-400 rounded-full mr-2"></div>
+                            <span className="text-status-success flex items-center">
+                              <div className="w-2 h-2 bg-status-success rounded-full mr-2"></div>
                               Positive
                             </span>
                           </div>
                         </div>
                       </div>
 
-                      <div className="bg-blue-800/30 p-4 rounded-lg">
-                        <h5 className="text-blue-300 font-medium mb-3 flex items-center">
+                      <div className="bg-primary-700/30 border border-primary-600/40 p-4 rounded-lg">
+                        <h5 className="text-text-primary font-medium mb-3 flex items-center">
                           <Activity className="w-4 h-4 mr-2" />
                           Recent Communications
                         </h5>
@@ -822,19 +722,19 @@ useEffect(() => {
                         </div>
                       </div>
 
-                      <div className="bg-green-800/30 p-4 rounded-lg">
-                        <h5 className="text-green-300 font-medium mb-3 flex items-center">
+                      <div className="bg-primary-700/30 border border-primary-600/40 p-4 rounded-lg">
+                        <h5 className="text-text-primary font-medium mb-3 flex items-center">
                           <Monitor className="w-4 h-4 mr-2" />
                           Surveillance Systems
                         </h5>
                         <div className="grid grid-cols-2 gap-3">
                           <div className="bg-primary-600/30 p-3 rounded text-center">
-                            <Camera className="w-8 h-8 text-green-400 mx-auto mb-2" />
+                            <Camera className="w-8 h-8 text-status-success mx-auto mb-2" />
                             <div className="text-sm text-white font-medium">Ground Radar</div>
                             <div className="text-xs text-gray-400">Tracking</div>
                           </div>
                           <div className="bg-primary-600/30 p-3 rounded text-center">
-                            <Wifi className="w-8 h-8 text-green-400 mx-auto mb-2" />
+                            <Wifi className="w-8 h-8 text-status-success mx-auto mb-2" />
                             <div className="text-sm text-white font-medium">ADS-B Signal</div>
                             <div className="text-xs text-gray-400">Received</div>
                           </div>
@@ -866,18 +766,11 @@ useEffect(() => {
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="bg-gradient-to-br from-primary-800 to-primary-900 rounded-xl p-6 max-w-6xl w-full max-h-[90vh] overflow-hidden border border-primary-600 shadow-2xl"
+            className="bg-primary-800 rounded-xl p-6 max-w-6xl w-full max-h-[90vh] overflow-hidden border border-primary-600 shadow-xl"
             onClick={(e) => e.stopPropagation()}
-            style={{
-              boxShadow: `
-                0 25px 50px -12px rgba(0, 0, 0, 0.6),
-                0 0 0 1px rgba(255, 255, 255, 0.05),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1)
-              `
-            }}
           >
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-white drop-shadow-lg">AI Airside Advisory</h2>
+              <h2 className="text-lg font-semibold text-white">AI Airside Advisory</h2>
               <button
                 onClick={() => setShowAIAdvisoryModal(false)}
                 className="text-gray-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/10"
@@ -893,15 +786,9 @@ useEffect(() => {
                   onClick={() => setActiveTab(tab)}
                   className={`flex-1 py-3 px-4 text-sm font-medium rounded-lg transition-all duration-300 relative overflow-hidden ${
                     activeTab === tab
-                      ? 'bg-gradient-to-r from-accent-teal to-teal-600 text-white shadow-2xl'
+                      ? 'bg-accent-blue text-white shadow-md'
                       : 'text-gray-400 hover:text-white hover:bg-primary-600/50'
                   }`}
-                  style={activeTab === tab ? {
-                    boxShadow: `
-                      0 4px 20px rgba(20, 184, 166, 0.4),
-                      inset 0 1px 0 rgba(255, 255, 255, 0.2)
-                    `
-                  } : {}}
                 >
                   <span className="relative z-10">
                     {tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -914,40 +801,40 @@ useEffect(() => {
               {activeTab === 'overview' && (
                 <div className="space-y-6">
                   <div className="grid grid-cols-5 gap-3">
-                    <div className="bg-green-500/10 p-4 rounded-lg border border-green-500/30 backdrop-blur-sm">
-                      <div className="text-xl font-bold text-green-400 flex items-center justify-center">
+                    <div className="glass-pill glass-pill-blue p-4">
+                      <div className="text-xl font-bold text-text-primary flex items-center justify-center">
                         {aiAdvisoryData.runwayEfficiency}%
                         <TrendArrow trend={aiAdvisoryData.runwayEfficiencyTrend} />
                       </div>
-                      <div className="text-xs text-gray-400 text-center">Runway Efficiency</div>
+                      <div className="text-xs text-text-muted text-center">Runway Efficiency</div>
                     </div>
-                    <div className="bg-blue-500/10 p-4 rounded-lg border border-blue-500/30 backdrop-blur-sm">
-                      <div className="text-xl font-bold text-blue-400 flex items-center justify-center">
+                    <div className="glass-pill glass-pill-teal p-4">
+                      <div className="text-xl font-bold text-text-primary flex items-center justify-center">
                         {aiAdvisoryData.avgTaxiTime}
                         <TrendArrow trend={aiAdvisoryData.taxiTimeTrend} />
                       </div>
-                      <div className="text-xs text-gray-400 text-center">Avg Taxi Time</div>
+                      <div className="text-xs text-text-muted text-center">Avg Taxi Time</div>
                     </div>
-                    <div className="bg-purple-500/10 p-4 rounded-lg border border-purple-500/30 backdrop-blur-sm">
-                      <div className="text-xl font-bold text-purple-400 flex items-center justify-center">
+                    <div className="glass-pill glass-pill-violet p-4">
+                      <div className="text-xl font-bold text-text-primary flex items-center justify-center">
                         {aiAdvisoryData.activeMovements}
                         <TrendArrow trend={aiAdvisoryData.movementsTrend} />
                       </div>
-                      <div className="text-xs text-gray-400 text-center">Active Movements</div>
+                      <div className="text-xs text-text-muted text-center">Active Movements</div>
                     </div>
-                    <div className="bg-teal-500/10 p-4 rounded-lg border border-teal-500/30 backdrop-blur-sm">
-                      <div className="text-xl font-bold text-teal-400 flex items-center justify-center">
+                    <div className="glass-pill glass-pill-neutral p-4">
+                      <div className="text-xl font-bold text-text-primary flex items-center justify-center">
                         {aiAdvisoryData.fuelSavings}
                         <TrendArrow trend={aiAdvisoryData.fuelSavingsTrend} />
                       </div>
-                      <div className="text-xs text-gray-400 text-center">Fuel Savings</div>
+                      <div className="text-xs text-text-muted text-center">Fuel Savings</div>
                     </div>
-                    <div className="bg-yellow-500/10 p-4 rounded-lg border border-yellow-500/30 backdrop-blur-sm">
-                      <div className="text-xl font-bold text-yellow-400 flex items-center justify-center">
+                    <div className="glass-pill glass-pill-blue p-4">
+                      <div className="text-xl font-bold text-text-primary flex items-center justify-center">
                         {aiAdvisoryData.weatherImpact}
                         <TrendArrow trend={aiAdvisoryData.weatherImpactTrend} />
                       </div>
-                      <div className="text-xs text-gray-400 text-center">Weather Impact</div>
+                      <div className="text-xs text-text-muted text-center">Weather Impact</div>
                     </div>
                   </div>
 
@@ -965,29 +852,29 @@ useEffect(() => {
                 <div className="space-y-6">
                   <div className="grid grid-cols-2 gap-6">
                     <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
-                      <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
-                        <PieChart className="w-5 h-5 mr-2 text-purple-400" />
+                      <h4 className="text-base font-semibold text-white mb-4 flex items-center">
+                        <PieChart className="w-5 h-5 mr-2 text-accent-blue" />
                         Runway Utilization
                       </h4>
                       <div className="space-y-3">
                         <div className="flex justify-between items-center p-3 bg-primary-600/30 rounded-lg">
                           <span className="text-gray-300">Runway 27</span>
-                          <span className="text-teal-400 font-medium">75% utilization</span>
+                          <span className="text-text-primary font-medium">75% utilization</span>
                         </div>
                         <div className="flex justify-between items-center p-3 bg-primary-600/30 rounded-lg">
                           <span className="text-gray-300">Runway 09</span>
-                          <span className="text-yellow-400 font-medium">45% utilization</span>
+                          <span className="text-text-primary font-medium">45% utilization</span>
                         </div>
                         <div className="flex justify-between items-center p-3 bg-primary-600/30 rounded-lg">
                           <span className="text-gray-300">Taxiway Alpha</span>
-                          <span className="text-green-400 font-medium">68% utilization</span>
+                          <span className="text-text-primary font-medium">68% utilization</span>
                         </div>
                       </div>
                     </div>
                     
                     <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-4 rounded-lg backdrop-blur-sm border border-primary-600/30">
-                      <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
-                        <BarChart3 className="w-5 h-5 mr-2 text-teal-400" />
+                      <h4 className="text-base font-semibold text-white mb-4 flex items-center">
+                        <BarChart3 className="w-5 h-5 mr-2 text-accent-blue" />
                         Traffic Patterns
                       </h4>
                       <div className="h-48">
@@ -1012,29 +899,29 @@ useEffect(() => {
 
               {activeTab === 'predictions' && (
                 <div className="space-y-6">
-                  <div className="bg-gradient-to-br from-purple-900/50 to-purple-800/30 p-6 rounded-lg backdrop-blur-sm border border-purple-500/30">
-                    <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
-                      <Brain className="w-5 h-5 mr-2 text-purple-400" />
+                  <div className="glass-panel-strong p-6 rounded-lg">
+                    <h4 className="text-base font-semibold text-white mb-4 flex items-center">
+                      <Brain className="w-5 h-5 mr-2 text-accent-blue" />
                       Predictive Analytics
                     </h4>
-                    
+
                     <div className="space-y-4">
-                      <div className="bg-purple-800/30 p-4 rounded-lg">
-                        <h5 className="text-purple-300 font-medium mb-2">Next 2 Hours Forecast</h5>
+                      <div className="bg-accent-blue/10 p-4 rounded-lg">
+                        <h5 className="text-accent-blue font-medium mb-2">Next 2 Hours Forecast</h5>
                         <div className="grid grid-cols-2 gap-4">
                           <div className="text-center p-3 bg-primary-600/30 rounded-lg">
-                            <div className="text-2xl font-bold text-yellow-400">+18%</div>
+                            <div className="text-xl font-bold text-text-primary">+18%</div>
                             <div className="text-xs text-gray-400">Traffic Increase</div>
                           </div>
                           <div className="text-center p-3 bg-primary-600/30 rounded-lg">
-                            <div className="text-2xl font-bold text-red-400">-8%</div>
+                            <div className="text-xl font-bold text-text-primary">-8%</div>
                             <div className="text-xs text-gray-400">Efficiency Drop</div>
                           </div>
                         </div>
                       </div>
 
-                      <div className="bg-blue-800/30 p-4 rounded-lg">
-                        <h5 className="text-blue-300 font-medium mb-2">Weather Impact Prediction</h5>
+                      <div className="bg-primary-700/30 border border-primary-600/40 p-4 rounded-lg">
+                        <h5 className="text-text-primary font-medium mb-2">Weather Impact Prediction</h5>
                         <p className="text-gray-300 text-sm mb-3">
                           Incoming weather system at 15:30 local time may impact visibility by 20%. 
                           Recommend switching to ILS approaches and extending separation minimums.
@@ -1045,20 +932,20 @@ useEffect(() => {
                         </div>
                       </div>
 
-                      <div className="bg-green-800/30 p-4 rounded-lg">
-                        <h5 className="text-green-300 font-medium mb-2">Optimization Potential</h5>
+                      <div className="bg-primary-700/30 border border-primary-600/40 p-4 rounded-lg">
+                        <h5 className="text-text-primary font-medium mb-2">Optimization Potential</h5>
                         <div className="space-y-2">
                           <div className="flex justify-between items-center">
                             <span className="text-gray-300 text-sm">Taxi Time Reduction</span>
-                            <span className="text-green-400 font-medium">up to 21%</span>
+                            <span className="text-status-success font-medium">up to 21%</span>
                           </div>
                           <div className="flex justify-between items-center">
                             <span className="text-gray-300 text-sm">Fuel Efficiency Gain</span>
-                            <span className="text-green-400 font-medium">up to 15%</span>
+                            <span className="text-status-success font-medium">up to 15%</span>
                           </div>
                           <div className="flex justify-between items-center">
                             <span className="text-gray-300 text-sm">Runway Throughput</span>
-                            <span className="text-green-400 font-medium">up to 12%</span>
+                            <span className="text-status-success font-medium">up to 12%</span>
                           </div>
                         </div>
                       </div>
@@ -1070,8 +957,8 @@ useEffect(() => {
               {activeTab === 'actions' && (
                 <div className="space-y-6">
                   <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-6 rounded-lg backdrop-blur-sm border border-primary-600/30">
-                    <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
-                      <Target className="w-5 h-5 mr-2 text-yellow-400" />
+                    <h4 className="text-base font-semibold text-white mb-4 flex items-center">
+                      <Target className="w-5 h-5 mr-2 text-accent-blue" />
                       AI Recommendations
                     </h4>
                     
@@ -1081,17 +968,15 @@ useEffect(() => {
                           <div className="flex items-center justify-between mb-2">
                             <h5 className="text-white font-medium">Recommendation #{index + 1}</h5>
                             <div className="flex items-center space-x-2">
-                              <span className="text-xs text-accent-teal bg-accent-teal/20 px-2 py-1 rounded-full">High Priority</span>
-                              <span className="text-xs text-green-400 bg-green-400/20 px-2 py-1 rounded-full">AI Generated</span>
+                              <span className="text-xs text-blue-200 bg-accent-blue/10 border border-accent-blue/30 px-2 py-1 rounded-full">High Priority</span>
+                              <span className="text-xs text-status-success bg-status-success/10 border border-status-success/30 px-2 py-1 rounded-full">AI Generated</span>
                             </div>
                           </div>
                           <p className="text-sm text-gray-400 mb-3">
                             {recommendation}
                           </p>
                           <div className="flex space-x-3">
-                            <motion.button
-                              whileHover={{ scale: 1.02 }}
-                              whileTap={{ scale: 0.98 }}
+                            <button
                               onClick={() => {
                                 addToast({
                                   type: 'success',
@@ -1101,32 +986,10 @@ useEffect(() => {
                                 });
                                 console.log('Executed recommendation:', recommendation);
                               }}
-                              className="px-4 py-2 rounded-lg font-medium bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-blue-500/30 transition-all duration-300"
-                              style={{
-                                boxShadow: `
-                                  0 4px 20px rgba(59, 130, 246, 0.3),
-                                  inset 0 1px 0 rgba(255, 255, 255, 0.2)
-                                `
-                              }}
+                              className="btn btn-secondary text-xs px-2.5 py-1"
                             >
                               Execute
-                            </motion.button>
-                            <motion.button
-                              whileHover={{ scale: 1.02 }}
-                              whileTap={{ scale: 0.98 }}
-                              onClick={() => {
-                                addToast({
-                                  type: 'info',
-                                  title: 'Review Started',
-                                  message: `Reviewing AI recommendation #${index + 1}.`,
-                                  duration: 3000
-                                });
-                                console.log('Reviewed recommendation:', recommendation);
-                              }}
-                              className="px-4 py-2 rounded-lg font-medium bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white shadow-lg transition-all duration-300"
-                            >
-                              Review
-                            </motion.button>
+                            </button>
                           </div>
                         </div>
                       ))}
@@ -1138,8 +1001,8 @@ useEffect(() => {
               {activeTab === 'execution' && (
                 <div className="space-y-6">
                   <div className="bg-gradient-to-br from-primary-700/50 to-primary-800/30 p-6 rounded-lg backdrop-blur-sm border border-primary-600/30">
-                    <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
-                      <Zap className="w-5 h-5 mr-2 text-yellow-400" />
+                    <h4 className="text-base font-semibold text-white mb-4 flex items-center">
+                      <Zap className="w-5 h-5 mr-2 text-accent-blue" />
                       Execute AI Optimization
                     </h4>
                     
@@ -1148,8 +1011,8 @@ useEffect(() => {
                         <div className="flex items-center justify-between mb-3">
                           <h5 className="text-white font-medium">Airside AI Enhancement</h5>
                           <div className="flex items-center space-x-2">
-                            <span className="text-xs text-accent-teal bg-accent-teal/20 px-2 py-1 rounded-full">Confidence: 94.2%</span>
-                            <span className="text-xs text-green-400 bg-green-400/20 px-2 py-1 rounded-full">ATC Approved</span>
+                            <span className="text-xs text-blue-200 bg-accent-blue/10 border border-accent-blue/30 px-2 py-1 rounded-full">Confidence: 94.2%</span>
+                            <span className="text-xs text-status-success bg-status-success/10 border border-status-success/30 px-2 py-1 rounded-full">ATC Approved</span>
                           </div>
                         </div>
                         <p className="text-sm text-gray-400 mb-4">
@@ -1159,86 +1022,42 @@ useEffect(() => {
                         </p>
                         
                         <div className="flex space-x-3">
-                          <motion.button
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
+                          <button
                             onClick={handleAIOptimizationExecute}
-                            className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 flex items-center space-x-2 ${
-                              aiOptimizationExecuted
-                                ? 'bg-green-600/30 text-green-300'
-                                : 'bg-gradient-to-r from-accent-teal to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white shadow-lg hover:shadow-teal-500/30'
-                            }`}
-                            style={!aiOptimizationExecuted ? {
-                              boxShadow: `
-                                0 4px 20px rgba(20, 184, 166, 0.3),
-                                inset 0 1px 0 rgba(255, 255, 255, 0.2)
-                              `
-                            } : {}}
+                            className={`btn min-w-[13rem] ${aiOptimizationExecuted ? 'btn-secondary' : 'btn-primary'}`}
                           >
-                            <Zap className="w-5 h-5" />
+                            <Zap className="w-4 h-4" />
                             <span>
                               {aiOptimizationExecuted ? '✓ AI Optimization Active' : 'Execute AI Optimization'}
                             </span>
-                          </motion.button>
-                          
-                          <motion.button
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                            onClick={() => {
-                              addToast({
-                                type: 'info',
-                                title: 'Simulation Started',
-                                message: 'Simulating AI optimization changes...',
-                                duration: 3000
-                              });
-                              setTimeout(() => {
-                                addToast({
-                                  type: 'success',
-                                  title: 'Simulation Complete',
-                                  message: 'Changes simulated with 92% success rate.',
-                                  duration: 3000
-                                });
-                              }, 2000);
-                              console.log('Simulate Changes executed');
-                            }}
-                            className="px-6 py-3 rounded-lg font-medium bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white shadow-lg hover:shadow-purple-500/30 transition-all duration-300 flex items-center space-x-2"
-                            style={{
-                              boxShadow: `
-                                0 4px 20px rgba(147, 51, 234, 0.3),
-                                inset 0 1px 0 rgba(255, 255, 255, 0.2)
-                              `
-                            }}
-                          >
-                            <RefreshCw className="w-5 h-5" />
-                            <span>Simulate Changes</span>
-                          </motion.button>
+                          </button>
                         </div>
                       </div>
 
                       {aiOptimizationExecuted && (
-                        <div className="bg-green-500/10 rounded-lg p-4 border border-green-500/30 backdrop-blur-sm">
+                        <div className="bg-primary-800/60 rounded-lg p-4 border border-primary-600/40">
                           <div className="flex items-center space-x-3">
-                            <CheckCircle className="w-6 h-6 text-green-400" />
+                            <CheckCircle className="w-6 h-6 text-status-success" />
                             <div>
-                              <h6 className="text-green-300 font-medium">AI Optimization Successfully Applied</h6>
-                              <p className="text-green-400/80 text-sm">
+                              <h6 className="text-text-primary font-medium">AI Optimization Successfully Applied</h6>
+                              <p className="text-text-muted text-sm">
                                 Airside operations enhanced across all aircraft and ground systems. Real-time monitoring active.
                               </p>
                             </div>
                           </div>
                           
                           <div className="mt-4 grid grid-cols-3 gap-4">
-                            <div className="text-center p-3 bg-green-600/20 rounded-lg">
-                              <div className="text-lg font-bold text-green-400">-21%</div>
+                            <div className="text-center p-3 bg-primary-700/40 rounded-lg">
+                              <div className="text-lg font-bold text-text-primary">-21%</div>
                               <div className="text-xs text-gray-400">Taxi Time</div>
                             </div>
-                            <div className="text-center p-3 bg-green-600/20 rounded-lg">
-                              <div className="text-lg font-bold text-green-400">+8%</div>
-                              <div className="text-xs text-gray-400">Runway Efficiency</div>
+                            <div className="text-center p-3 bg-primary-700/40 rounded-lg">
+                              <div className="text-lg font-bold text-text-primary">+8%</div>
+                              <div className="text-xs text-text-muted">Runway Efficiency</div>
                             </div>
-                            <div className="text-center p-3 bg-green-600/20 rounded-lg">
-                              <div className="text-lg font-bold text-green-400">+15%</div>
-                              <div className="text-xs text-gray-400">Fuel Savings</div>
+                            <div className="text-center p-3 bg-primary-700/40 rounded-lg">
+                              <div className="text-lg font-bold text-text-primary">+15%</div>
+                              <div className="text-xs text-text-muted">Fuel Savings</div>
                             </div>
                           </div>
                         </div>
@@ -1260,12 +1079,9 @@ useEffect(() => {
       animate={{ opacity: 1 }}
       className="relative min-h-screen overflow-hidden"
     >
-      {/* Enhanced Background */}
+      {/* Background */}
       <div className="fixed inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-slate-900 to-black"></div>
-        <div className="absolute top-1/4 right-1/4 w-80 h-80 bg-gradient-to-r from-blue-600/25 via-teal-600/15 to-cyan-600/25 rounded-full mix-blend-multiply filter blur-3xl opacity-60"></div>
-        <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-purple-600/25 via-indigo-600/15 to-blue-600/25 rounded-full mix-blend-multiply filter blur-3xl opacity-60"></div>
-        <div className="absolute top-3/4 left-1/2 w-72 h-72 bg-gradient-to-r from-teal-600/25 via-cyan-600/15 to-blue-600/25 rounded-full mix-blend-multiply filter blur-3xl opacity-60"></div>
+        <div className="absolute inset-0 bg-primary-900"></div>
       </div>
 
       <div className="relative z-10 space-y-6 p-6">
@@ -1274,64 +1090,53 @@ useEffect(() => {
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           onClick={handleAIAdvisoryClick}
-          whileHover={{ 
-            scale: 1.01, 
-            y: -2,
-            boxShadow: "0 25px 50px -12px rgba(59, 130, 246, 0.4)"
-          }}
-          whileTap={{ scale: 0.99 }}
-          className="relative overflow-hidden bg-gradient-to-br from-blue-950/60 via-indigo-950/60 to-cyan-950/60 rounded-xl p-4 border border-blue-800/50 backdrop-blur-sm shadow-2xl cursor-pointer transition-all duration-300 group w-full"
+          whileHover={{ y: -2 }}
+          className="relative overflow-hidden glass-panel-strong rounded-xl p-4 hover:border-accent-blue/40 cursor-pointer transition-colors duration-200 group w-full"
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/30 via-indigo-900/20 to-cyan-900/30 rounded-xl"></div>
-          
-          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/8 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1200"></div>
-          </div>
-          
           <div className="relative z-10">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center space-x-3">
-                <Brain className="w-6 h-6 text-blue-400 drop-shadow-lg" />
-                <h3 className="text-lg font-semibold text-white drop-shadow-md">AI Airside Operations Advisory</h3>
+                <Brain className="w-5 h-5 text-accent-blue" />
+                <h3 className="text-base font-semibold text-white">AI Airside Operations Advisory</h3>
                 <InfoButtonWithPortal description="AI-powered airside operations analysis with runway efficiency optimization, taxi time reduction, and fuel savings recommendations." />
               </div>
             </div>
             
             <div className="grid grid-cols-5 gap-3">
-              <div className="text-center p-3 bg-gradient-to-br from-green-500/20 to-green-600/10 rounded-lg border border-green-500/30">
-                <div className="text-xl font-bold text-green-400 flex items-center justify-center">
+              <div className="text-center glass-pill glass-pill-blue p-3">
+                <div className="text-xl font-bold text-text-primary flex items-center justify-center">
                   {aiAdvisoryData.runwayEfficiency}%
                   <TrendArrow trend={aiAdvisoryData.runwayEfficiencyTrend} />
                 </div>
-                <div className="text-xs text-gray-400">Runway Efficiency</div>
+                <div className="text-xs text-text-muted">Runway Efficiency</div>
               </div>
-              <div className="text-center p-3 bg-gradient-to-br from-blue-500/20 to-blue-600/10 rounded-lg border border-blue-500/30">
-                <div className="text-xl font-bold text-blue-400 flex items-center justify-center">
+              <div className="text-center glass-pill glass-pill-teal p-3">
+                <div className="text-xl font-bold text-text-primary flex items-center justify-center">
                   {aiAdvisoryData.avgTaxiTime}
                   <TrendArrow trend={aiAdvisoryData.taxiTimeTrend} />
                 </div>
-                <div className="text-xs text-gray-400">Avg Taxi Time</div>
+                <div className="text-xs text-text-muted">Avg Taxi Time</div>
               </div>
-              <div className="text-center p-3 bg-gradient-to-br from-purple-500/20 to-purple-600/10 rounded-lg border border-purple-500/30">
-                <div className="text-xl font-bold text-purple-400 flex items-center justify-center">
+              <div className="text-center glass-pill glass-pill-violet p-3">
+                <div className="text-xl font-bold text-text-primary flex items-center justify-center">
                   {aiAdvisoryData.activeMovements}
                   <TrendArrow trend={aiAdvisoryData.movementsTrend} />
                 </div>
-                <div className="text-xs text-gray-400">Active Movements</div>
+                <div className="text-xs text-text-muted">Active Movements</div>
               </div>
-              <div className="text-center p-3 bg-gradient-to-br from-teal-500/20 to-teal-600/10 rounded-lg border border-teal-500/30">
-                <div className="text-xl font-bold text-teal-400 flex items-center justify-center">
+              <div className="text-center glass-pill glass-pill-neutral p-3">
+                <div className="text-xl font-bold text-text-primary flex items-center justify-center">
                   {aiAdvisoryData.fuelSavings}
                   <TrendArrow trend={aiAdvisoryData.fuelSavingsTrend} />
                 </div>
-                <div className="text-xs text-gray-400">Fuel Savings</div>
+                <div className="text-xs text-text-muted">Fuel Savings</div>
               </div>
-              <div className="text-center p-3 bg-gradient-to-br from-yellow-500/20 to-yellow-600/10 rounded-lg border border-yellow-500/30">
-                <div className="text-xl font-bold text-yellow-400 flex items-center justify-center">
+              <div className="text-center glass-pill glass-pill-blue p-3">
+                <div className="text-xl font-bold text-text-primary flex items-center justify-center">
                   {aiAdvisoryData.weatherImpact}
                   <TrendArrow trend={aiAdvisoryData.weatherImpactTrend} />
                 </div>
-                <div className="text-xs text-gray-400">Weather Impact</div>
+                <div className="text-xs text-text-muted">Weather Impact</div>
               </div>
             </div>
           </div>
@@ -1344,116 +1149,67 @@ useEffect(() => {
           className="flex items-center justify-between"
         >
           <div className="flex items-center space-x-4">
-            <div className="p-4 bg-gradient-to-br from-blue-500/30 to-cyan-600/20 rounded-xl shadow-lg backdrop-blur-sm">
-              <Plane className="w-7 h-7 text-cyan-400 drop-shadow-lg" />
+            <div className="p-2 bg-accent-blue/15 rounded-lg">
+              <Plane className="w-5 h-5 text-accent-blue" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-white drop-shadow-lg">Airside Operations</h1>
-              <p className="text-gray-400 text-lg">Real-time runway and taxiway management</p>
+              <h1 className="text-2xl font-bold text-white">Airside Operations</h1>
+              <p className="text-text-muted text-sm">Real-time runway and taxiway management</p>
             </div>
             <InfoButtonWithPortal description="Comprehensive airside operations monitoring including aircraft movements, runway utilization, taxi optimization, and ground control coordination." />
           </div>
           
           {/* Enhanced Emergency Actions */}
-          <div className="flex space-x-3">
+          <div className="flex space-x-2">
             <SimulationLauncher simulationId="flight-ops" label="Flight Operations Simulation" />
 
-            <motion.button
+            <button
               onClick={handleGroundStop}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className={`px-6 py-3 rounded-lg transition-all duration-300 transform shadow-2xl font-medium ${
-                groundStopActive 
-                  ? 'bg-gradient-to-r from-red-700 via-red-600 to-pink-700' 
-                  : 'bg-gradient-to-r from-red-600 via-red-500 to-pink-600 hover:from-red-700 hover:via-red-600 hover:to-pink-700'
-              } text-white hover:shadow-red-500/50`}
-              style={!groundStopActive ? {
-                boxShadow: `
-                  0 4px 20px rgba(239, 68, 68, 0.3),
-                  inset 0 1px 0 rgba(255, 255, 255, 0.2)
-                `
-              } : {}}
+              className={`btn min-w-[10rem] ${groundStopActive ? 'btn-danger-active' : 'btn-danger'}`}
             >
               <span>{groundStopActive ? 'Ground Stop Active' : 'Ground Stop'}</span>
-            </motion.button>
+            </button>
 
-            <motion.button 
+            <button
               onClick={handleRunwayClosure}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className={`px-6 py-3 rounded-lg transition-all duration-300 transform shadow-2xl font-medium ${
-                runwayClosureActive 
-                  ? 'bg-gradient-to-r from-orange-700 via-yellow-600 to-amber-700' 
-                  : 'bg-gradient-to-r from-orange-600 via-yellow-500 to-amber-600 hover:from-orange-700 hover:via-yellow-600 hover:to-amber-700'
-              } text-white hover:shadow-orange-500/50`}
-              style={!runwayClosureActive ? {
-                boxShadow: `
-                  0 4px 20px rgba(251, 146, 60, 0.3),
-                  inset 0 1px 0 rgba(255, 255, 255, 0.2)
-                `
-              } : {}}
+              className={`btn min-w-[9rem] ${runwayClosureActive ? 'btn-primary' : 'btn-secondary'}`}
             >
               <span>{runwayClosureActive ? 'Runway Closed' : 'Close Runway'}</span>
-            </motion.button>
+            </button>
 
-            <motion.button 
+            <button
               onClick={handleWeatherRedirect}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className={`px-6 py-3 rounded-lg transition-all duration-300 transform shadow-2xl font-medium ${
-                weatherRedirectActive 
-                  ? 'bg-gradient-to-r from-blue-700 via-cyan-600 to-teal-700' 
-                  : 'bg-gradient-to-r from-blue-600 via-cyan-500 to-teal-600 hover:from-blue-700 hover:via-cyan-600 hover:to-teal-700'
-              } text-white hover:shadow-blue-500/50`}
-              style={!weatherRedirectActive ? {
-                boxShadow: `
-                  0 4px 20px rgba(59, 130, 246, 0.3),
-                  inset 0 1px 0 rgba(255, 255, 255, 0.2)
-                `
-              } : {}}
+              className={`btn min-w-[12rem] ${weatherRedirectActive ? 'btn-primary' : 'btn-secondary'}`}
             >
               <span>{weatherRedirectActive ? 'Weather Alert Active' : 'Weather Redirect'}</span>
-            </motion.button>
+            </button>
           </div>
         </motion.div>
 
         {/* Quick Stats */}
-        <div className="grid grid-cols-4 gap-6">
+        <div className="grid grid-cols-4 gap-4">
           {[
-            { label: 'Active Movements', value: aiAdvisoryData.activeMovements, icon: Plane, color: 'text-accent-teal', trend: aiAdvisoryData.movementsTrend, change: aiOptimizationExecuted ? 34.8 : 0 },
-            { label: 'Avg Taxi Time', value: aiAdvisoryData.avgTaxiTime, icon: Clock, color: 'text-status-success', trend: aiAdvisoryData.taxiTimeTrend, change: aiOptimizationExecuted ? -21.1 : 0 },
-            { label: 'Wind Speed', value: '8 KT', icon: Wind, color: 'text-accent-gold', trend: 'stable', change: 0 },
-            { label: 'Temperature', value: '28°C', icon: Thermometer, color: 'text-status-info', trend: 'up', change: 2.1 },
+            { label: 'Active Movements', value: aiAdvisoryData.activeMovements, icon: Plane, color: 'text-accent-blue', trend: aiAdvisoryData.movementsTrend, change: aiOptimizationExecuted ? 34.8 : 0, tint: 'glass-pill-blue' },
+            { label: 'Avg Taxi Time', value: aiAdvisoryData.avgTaxiTime, icon: Clock, color: 'text-accent-blue', trend: aiAdvisoryData.taxiTimeTrend, change: aiOptimizationExecuted ? -21.1 : 0, tint: 'glass-pill-teal' },
+            { label: 'Wind Speed', value: '8 KT', icon: Wind, color: 'text-accent-blue', trend: 'stable', change: 0, tint: 'glass-pill-violet' },
+            { label: 'Temperature', value: '28°C', icon: Thermometer, color: 'text-accent-blue', trend: 'up', change: 2.1, tint: 'glass-pill-neutral' },
           ].map((stat, index) => (
             <motion.div
               key={stat.label}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              whileHover={{ 
-                scale: 1.02,
-                y: -4,
-                boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.4)"
-              }}
-              className="bg-gradient-to-br from-primary-800/50 to-primary-700/50 rounded-lg p-6 border border-primary-600 cursor-pointer transition-all duration-300 group backdrop-blur-sm shadow-2xl"
-              style={{
-                boxShadow: `
-                  0 8px 32px rgba(0, 0, 0, 0.3),
-                  inset 0 1px 0 rgba(255, 255, 255, 0.1)
-                `
-              }}
+              className={`glass-pill ${stat.tint} rounded-lg p-4 transition-colors duration-200 group`}
             >
-              <div className="absolute inset-0 bg-gradient-to-tr from-white/5 via-transparent to-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
-              
               <div className="relative z-10">
                 <div className="flex items-center space-x-3">
-                  <stat.icon className={`h-6 w-6 ${stat.color} drop-shadow-lg`} />
+                  <stat.icon className={`h-5 w-5 ${stat.color}`} />
                   <div>
-                    <div className="text-2xl font-bold text-text-primary drop-shadow-md flex items-center">
+                    <div className="text-xl font-bold text-text-primary flex items-center">
                       {stat.value}
                       <TrendArrow trend={stat.trend} />
                       {stat.change !== 0 && (
-                        <span className={`text-sm ml-2 ${stat.change > 0 ? 'text-green-400' : 'text-red-400'}`}>
+                        <span className={`text-sm ml-2 ${stat.change > 0 ? 'text-status-success' : 'text-status-error'}`}>
                           {stat.change > 0 ? '+' : ''}{stat.change.toFixed(1)}%
                         </span>
                       )}
@@ -1461,10 +1217,6 @@ useEffect(() => {
                     <div className="text-sm text-text-muted">{stat.label}</div>
                   </div>
                 </div>
-              </div>
-
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/8 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1200"></div>
               </div>
             </motion.div>
           ))}
@@ -1481,21 +1233,14 @@ useEffect(() => {
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="relative overflow-hidden bg-gradient-to-br from-primary-800/50 to-primary-700/50 rounded-lg border border-primary-600 p-6 backdrop-blur-sm shadow-2xl"
-              style={{
-                boxShadow: `
-                  0 8px 32px rgba(0, 0, 0, 0.3),
-                  inset 0 1px 0 rgba(255, 255, 255, 0.1)
-                `
-              }}
+              className="relative overflow-hidden bg-primary-800/60 rounded-lg border border-primary-600/40 p-5"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-teal-600/10 via-transparent to-blue-600/10 rounded-lg"></div>
               
               <div className="relative z-10">
                 <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-xl font-bold text-text-primary drop-shadow-md">Surface Movement Control</h2>
+                  <h2 className="text-base font-semibold text-text-primary">Surface Movement Control</h2>
                   <div className="flex items-center space-x-2">
-                    <Eye className="h-4 w-4 text-accent-teal drop-shadow-lg" />
+                    <Eye className="h-4 w-4 text-accent-blue" />
                     <span className="text-sm text-text-muted">A-SMGCS Active</span>
                     <InfoButtonWithPortal description="Advanced Surface Movement Guidance and Control System provides real-time aircraft tracking and collision avoidance on airport surface." />
                   </div>
@@ -1504,9 +1249,9 @@ useEffect(() => {
                 <div className="relative h-80 bg-primary-900/50 rounded-lg overflow-hidden border border-primary-700/50 backdrop-blur-sm">
                   <div className="absolute inset-4">
                     {/* Main Runway */}
-                    <div className="absolute top-1/2 left-4 right-4 h-12 bg-gradient-to-r from-primary-600 via-primary-500 to-primary-600 rounded-sm border-2 border-accent-gold border-opacity-50 transform -translate-y-1/2 shadow-lg">
-                      <div className="absolute left-2 top-1/2 transform -translate-y-1/2 text-sm text-accent-gold font-bold drop-shadow-md">27</div>
-                      <div className="absolute right-2 top-1/2 transform -translate-y-1/2 text-sm text-accent-gold font-bold drop-shadow-md">09</div>
+                    <div className="absolute top-1/2 left-4 right-4 h-12 bg-primary-600 rounded-sm border-2 border-accent-gold border-opacity-50 transform -translate-y-1/2 shadow-lg">
+                      <div className="absolute left-2 top-1/2 transform -translate-y-1/2 text-sm text-accent-gold font-bold">27</div>
+                      <div className="absolute right-2 top-1/2 transform -translate-y-1/2 text-sm text-accent-gold font-bold">09</div>
                     </div>
 
                     {/* Taxiways */}
@@ -1526,12 +1271,12 @@ useEffect(() => {
                         onClick={() => handleAircraftClick(aircraft)}
                       >
                         <div className="relative">
-                          <Plane className={`h-6 w-6 drop-shadow-lg transition-all duration-300 ${
-                            aircraft.status === 'operational' ? 'text-accent-teal' : 
-                            aircraft.status === 'warning' ? 'text-yellow-400' : 'text-red-400'
+                          <Plane className={`h-6 w-6 transition-all duration-300 ${
+                            aircraft.status === 'operational' ? 'text-accent-teal' :
+                            aircraft.status === 'warning' ? 'text-status-warning' : 'text-status-error'
                           } group-hover:scale-125`} />
                           
-                          <div className="absolute -top-8 -left-6 bg-gradient-to-r from-primary-700 to-primary-800 rounded px-2 py-1 text-xs text-text-primary border border-primary-600 transform -rotate-90 shadow-lg backdrop-blur-sm">
+                          <div className="absolute -top-8 -left-6 bg-primary-700 rounded px-2 py-1 text-xs text-text-primary border border-primary-600 transform -rotate-90 shadow-lg">
                             {aircraft.id}
                           </div>
                           
@@ -1541,9 +1286,9 @@ useEffect(() => {
                             animate={{ pathLength: 1, opacity: 0.6 }}
                             transition={{ duration: 2, delay: index * 0.5 }}
                             className={`absolute -left-20 top-2 w-20 h-1 rounded-full shadow-lg ${
-                              aircraft.status === 'operational' ? 'bg-gradient-to-r from-transparent to-accent-teal' : 
-                              aircraft.status === 'warning' ? 'bg-gradient-to-r from-transparent to-yellow-400' : 
-                              'bg-gradient-to-r from-transparent to-red-400'
+                              aircraft.status === 'operational' ? 'bg-gradient-to-r from-transparent to-accent-teal' :
+                              aircraft.status === 'warning' ? 'bg-gradient-to-r from-transparent to-status-warning' :
+                              'bg-gradient-to-r from-transparent to-status-error'
                             }`}
                           />
                         </div>
@@ -1562,18 +1307,11 @@ useEffect(() => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="relative overflow-hidden bg-gradient-to-br from-primary-800/50 to-primary-700/50 rounded-lg border border-primary-600 p-6 backdrop-blur-sm shadow-2xl"
-              style={{
-                boxShadow: `
-                  0 8px 32px rgba(0, 0, 0, 0.3),
-                  inset 0 1px 0 rgba(255, 255, 255, 0.1)
-                `
-              }}
+              className="relative overflow-hidden bg-primary-800/60 rounded-lg border border-primary-600/40 p-5"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-600/10 via-transparent to-blue-600/10 rounded-lg"></div>
               
               <div className="relative z-10">
-                <h2 className="text-xl font-bold text-text-primary mb-6 drop-shadow-md">TOBT/TSAT Optimization Timeline</h2>
+                <h2 className="text-base font-semibold text-text-primary mb-4">TOBT/TSAT Optimization Timeline</h2>
                 
                 <div className="space-y-4">
                   {[
@@ -1586,22 +1324,19 @@ useEffect(() => {
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.2 }}
-                      whileHover={{ scale: 1.02, x: 4 }}
-                      className="flex items-center space-x-4 p-4 bg-gradient-to-r from-primary-700/50 to-primary-800/30 rounded-lg border border-primary-600 transition-all duration-300 group backdrop-blur-sm shadow-lg"
+                      className="flex items-center space-x-4 p-3 bg-primary-800/60 rounded-lg border border-primary-600/40 hover:border-accent-blue/40 transition-colors duration-200 group"
                     >
-                      <div className="absolute inset-0 bg-gradient-to-tr from-white/5 via-transparent to-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
-                      
-                      <div className="relative z-10 w-16 text-text-primary font-semibold drop-shadow-md">{opt.flight}</div>
+                      <div className="relative z-10 w-16 text-text-primary font-semibold">{opt.flight}</div>
                       <div className="relative z-10 flex-1">
                         <div className="flex items-center space-x-4">
                           <div className="text-sm">
                             <span className="text-text-muted">Current:</span>
                             <span className="text-text-primary ml-1 font-medium">{opt.currentTOBT}</span>
                           </div>
-                          <div className="text-accent-teal">→</div>
+                          <div className="text-text-muted">→</div>
                           <div className="text-sm">
                             <span className="text-text-muted">Optimal:</span>
-                            <span className="text-accent-teal ml-1 font-semibold drop-shadow-sm">{opt.optimizedTOBT}</span>
+                            <span className="text-accent-blue ml-1 font-semibold">{opt.optimizedTOBT}</span>
                           </div>
                           <div className="text-sm">
                             <span className="text-text-muted">Savings:</span>
@@ -1611,11 +1346,9 @@ useEffect(() => {
                       </div>
                       <div className="relative z-10 text-right">
                         <div className="text-sm text-text-muted">Confidence</div>
-                        <div className="text-accent-gold font-semibold drop-shadow-sm">{opt.confidence}%</div>
+                        <div className="text-text-primary font-semibold">{opt.confidence}%</div>
                       </div>
-                      <motion.button 
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
+                      <button
                         onClick={() => {
                           addToast({
                             type: 'success',
@@ -1625,16 +1358,10 @@ useEffect(() => {
                           });
                           console.log('Optimized TOBT/TSAT for:', opt.flight);
                         }}
-                        className="relative z-10 px-4 py-2 bg-gradient-to-r from-accent-teal to-teal-600 text-white rounded-lg hover:from-teal-600 hover:to-teal-700 transition-all duration-300 font-medium shadow-lg hover:shadow-teal-500/30"
-                        style={{
-                          boxShadow: `
-                            0 4px 20px rgba(20, 184, 166, 0.3),
-                            inset 0 1px 0 rgba(255, 255, 255, 0.2)
-                          `
-                        }}
+                        className="relative z-10 btn btn-secondary text-xs px-2.5 py-1"
                       >
                         Apply
-                      </motion.button>
+                      </button>
                     </motion.div>
                   ))}
                 </div>
@@ -1649,18 +1376,11 @@ useEffect(() => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="relative overflow-hidden bg-gradient-to-br from-primary-800/50 to-primary-700/50 rounded-lg border border-primary-600 p-6 backdrop-blur-sm shadow-2xl"
-              style={{
-                boxShadow: `
-                  0 8px 32px rgba(0, 0, 0, 0.3),
-                  inset 0 1px 0 rgba(255, 255, 255, 0.1)
-                `
-              }}
+              className="relative overflow-hidden bg-primary-800/60 rounded-lg border border-primary-600/40 p-5"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-green-600/10 via-transparent to-teal-600/10 rounded-lg"></div>
               
               <div className="relative z-10">
-                <h3 className="text-lg font-semibold text-text-primary mb-4 drop-shadow-md">Taxi Time Trends</h3>
+                <h3 className="text-base font-semibold text-text-primary mb-4">Taxi Time Trends</h3>
                 <div className="h-48">
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={taxiTimeData}>
@@ -1685,35 +1405,26 @@ useEffect(() => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="relative overflow-hidden bg-gradient-to-br from-primary-800/50 to-primary-700/50 rounded-lg border border-primary-600 p-6 backdrop-blur-sm shadow-2xl"
-              style={{
-                boxShadow: `
-                  0 8px 32px rgba(0, 0, 0, 0.3),
-                  inset 0 1px 0 rgba(255, 255, 255, 0.1)
-                `
-              }}
+              className="relative overflow-hidden bg-primary-800/60 rounded-lg border border-primary-600/40 p-5"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-yellow-600/10 via-transparent to-orange-600/10 rounded-lg"></div>
               
               <div className="relative z-10">
-                <h3 className="text-lg font-semibold text-text-primary mb-4 drop-shadow-md">Runway Occupancy</h3>
+                <h3 className="text-base font-semibold text-text-primary mb-4">Runway Occupancy</h3>
                 <div className="space-y-4">
                   {runwayOccupancy.map((runway, index) => (
                     <div key={runway.name} className="space-y-2">
                       <div className="flex justify-between items-center">
-                        <span className="text-text-primary font-medium drop-shadow-sm">Runway {runway.name}</span>
-                        <span className="text-accent-teal font-semibold drop-shadow-sm">{runway.value}%</span>
+                        <span className="text-text-primary font-medium">Runway {runway.name}</span>
+                        <span className="text-text-primary font-semibold">{runway.value}%</span>
                       </div>
                       <div className="w-full bg-primary-600/50 rounded-full h-3 shadow-inner overflow-hidden">
                         <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: `${runway.value}%` }}
                           transition={{ duration: 1, delay: index * 0.2 }}
-                          className="h-3 rounded-full shadow-lg relative"
+                          className="h-3 rounded-full shadow-lg"
                           style={{ backgroundColor: runway.color }}
-                        >
-                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent transform -skew-x-12"></div>
-                        </motion.div>
+                        />
                       </div>
                     </div>
                   ))}
@@ -1726,18 +1437,11 @@ useEffect(() => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
-              className="relative overflow-hidden bg-gradient-to-br from-primary-800/50 to-primary-700/50 rounded-lg border border-primary-600 p-6 backdrop-blur-sm shadow-2xl"
-              style={{
-                boxShadow: `
-                  0 8px 32px rgba(0, 0, 0, 0.3),
-                  inset 0 1px 0 rgba(255, 255, 255, 0.1)
-                `
-              }}
+              className="relative overflow-hidden bg-primary-800/60 rounded-lg border border-primary-600/40 p-5"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-transparent to-cyan-600/10 rounded-lg"></div>
               
               <div className="relative z-10">
-                <h3 className="text-lg font-semibold text-text-primary mb-4 drop-shadow-md">Weather Conditions</h3>
+                <h3 className="text-base font-semibold text-text-primary mb-4">Weather Conditions</h3>
                 <div className="space-y-3">
                   <div className="flex justify-between p-2 bg-primary-700/30 rounded-lg backdrop-blur-sm">
                     <span className="text-text-muted">Wind:</span>

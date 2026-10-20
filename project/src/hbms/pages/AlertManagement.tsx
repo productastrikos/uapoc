@@ -10,13 +10,13 @@ type SubsystemFilter = string; // 'all' or any HBMS acronym
 const SUBSYSTEM_TABS = [
   { id: 'all',   label: 'All',   color: '#22C7C6' },
   { id: 'BHS',   label: 'BHS',   color: '#14B8A6' },
-  { id: 'VDGS',  label: 'VDGS',  color: '#7C3AED' },
+  { id: 'VDGS',  label: 'VDGS',  color: '#5FDCDA' },
   { id: 'CMS',   label: 'CMS',   color: '#14B8A6' },
   { id: 'SCADA', label: 'SCADA', color: '#01A3A4' },
   { id: 'SACS',  label: 'SACS',  color: '#DC2626' },
   { id: 'PAS',   label: 'PAS',   color: '#018587' },
   { id: 'FAS',   label: 'FAS',   color: '#EA580C' },
-  { id: 'MCS',   label: 'MCS',   color: '#8B5CF6' },
+  { id: 'MCS',   label: 'MCS',   color: '#C09429' },
   { id: 'LBMS',  label: 'LBMS',  color: '#018587' },
   { id: 'IASS',  label: 'IASS',  color: '#059669' },
   { id: 'SSE',   label: 'SSE',   color: '#DB2777' },
@@ -57,7 +57,7 @@ const statusDot = (s: string) => {
   return '#8A9BA8';
 };
 
-const inputCls = 'w-full px-3 py-1.5 text-sm rounded-md focus:outline-none focus:ring-1 focus:ring-simteal-500/50';
+const inputCls = 'w-full px-3 py-1.5 text-sm rounded-md focus:outline-none focus:ring-1 focus:ring-accent-blue/50';
 const inputStyle = { background: 'var(--app-surface-soft)', border: '1px solid rgba(255,255,255,0.12)', color: 'var(--app-text)' };
 
 const AlertManagement: React.FC = () => {
@@ -113,50 +113,49 @@ const AlertManagement: React.FC = () => {
     : scopedIncidents.filter(i => i.subsystem === effectiveFilter);
 
   return (
-    <div className="h-full flex flex-col text-sim-100" style={{ background: 'var(--app-bg)' }}>
+    <div className="h-full flex flex-col text-text-primary" style={{ background: 'var(--app-bg)' }}>
 
       {/* Header */}
       <div className="px-6 py-3 flex justify-between items-center flex-shrink-0" style={{ background: 'var(--app-panel)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-1 rounded-lg p-1" style={{ background: 'rgba(255,255,255,0.06)' }}>
+          <div className="flex items-center gap-1 rounded-lg p-1 bg-primary-800/40">
             {(['alerts', 'incidents'] as MainTab[]).map(tab => (
               <button
                 key={tab}
                 onClick={() => setMainTab(tab)}
-                className={`px-4 py-1.5 rounded-md text-sm font-semibold transition-colors capitalize ${mainTab === tab ? 'text-white shadow' : 'text-sim-400 hover:text-sim-200'}`}
-                style={mainTab === tab ? { background: 'rgba(249,115,22,0.2)', border: '1px solid rgba(249,115,22,0.35)', color: '#fb923c' } : {}}
+                className={`chip capitalize ${mainTab === tab ? 'chip-active' : ''}`}
               >
                 {tab === 'alerts' ? 'Alert Management' : 'Incident Management'}
               </button>
             ))}
           </div>
-          <span className="text-xs text-sim-500 flex items-center gap-1">
+          <span className="text-xs text-text-muted flex items-center gap-1">
             Updated: {new Date().toLocaleTimeString()} <Info className="w-3.5 h-3.5" />
           </span>
         </div>
         <div className="flex items-center gap-2">
-          <button className="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium text-sim-300 hover:text-sim-100 transition-colors" style={{ border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.04)' }}>
+          <button className="chip">
             <SlidersHorizontal className="w-4 h-4" />
             Configure Table View
           </button>
           {mainTab === 'incidents' && (
-            <button className="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium text-sim-300 hover:text-sim-100" style={{ border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.04)' }}>
+            <button className="chip">
               View Self
             </button>
           )}
           {mainTab === 'alerts' && (
-            <button className="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium text-sim-300 hover:text-sim-100" style={{ border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.04)' }}>
+            <button className="chip">
               Group
             </button>
           )}
           <button
             onClick={() => mainTab === 'alerts' ? setShowCreateAlert(true) : setShowCreateIncident(true)}
-            className="flex items-center gap-2 px-4 py-1.5 bg-orange-500 hover:bg-orange-600 text-white rounded-md text-sm font-medium transition-colors"
+            className="flex items-center gap-2 px-4 py-1.5 bg-accent-blue hover:bg-accent-blueHover text-white rounded-md text-sm font-medium transition-colors"
           >
             <Plus className="w-4 h-4" />
             {mainTab === 'alerts' ? 'Create Alert' : 'Create Incident'}
           </button>
-          <button className="text-xs text-simteal-400 font-medium hover:text-simteal-300 transition-colors" onClick={() => setSubsystemFilter('all')}>Reset Filters</button>
+          <button className="text-xs text-accent-blue font-medium hover:text-accent-blue transition-colors" onClick={() => setSubsystemFilter('all')}>Reset Filters</button>
         </div>
       </div>
 
@@ -175,7 +174,7 @@ const AlertManagement: React.FC = () => {
           </button>
         ))}
         <div className="ml-auto flex items-center gap-2 py-2">
-          <span className="text-[length:calc(10px*var(--fs))] text-sim-500">
+          <span className="text-[length:calc(10px*var(--fs))] text-text-muted">
             {mainTab === 'alerts' ? `${filteredAlerts.length} alerts` : `${filteredIncidents.length} incidents`}
           </span>
         </div>
@@ -186,10 +185,10 @@ const AlertManagement: React.FC = () => {
         <>
           {/* Filters */}
           <div className="px-6 py-3 flex-shrink-0" style={{ background: 'var(--app-surface-soft)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-            <div className="text-[length:calc(10px*var(--fs))] font-semibold text-sim-500 uppercase tracking-wider mb-2">Filters</div>
+            <div className="text-[length:calc(10px*var(--fs))] font-semibold text-text-muted uppercase tracking-wider mb-2">Filters</div>
             <div className="grid grid-cols-5 gap-3">
               <div className="relative">
-                <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-sim-500" />
+                <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" />
                 <input type="text" placeholder="Search Device Name" className={`${inputCls} pl-9 w-full`} style={inputStyle} />
               </div>
               <input type="text" placeholder="Date Range" className={`${inputCls} w-full`} style={inputStyle} defaultValue="4/7/2026 - 4/21/2026" />
@@ -204,9 +203,9 @@ const AlertManagement: React.FC = () => {
             <div className={`flex-1 flex flex-col ${viewMode === 'split' ? 'border-r' : ''}`} style={{ borderColor: 'rgba(255,255,255,0.08)' }}>
               <div className="flex-1 overflow-auto">
                 <table className="w-full text-sm text-left">
-                  <thead className="text-xs font-semibold text-sim-400 uppercase sticky top-0 z-10" style={{ background: 'var(--app-panel)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+                  <thead className="text-xs font-semibold text-text-secondary uppercase sticky top-0 z-10" style={{ background: 'var(--app-panel)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
                     <tr>
-                      <th className="px-4 py-3 w-10"><input type="checkbox" className="rounded" style={{ accentColor: '#f97316' }} /></th>
+                      <th className="px-4 py-3 w-10"><input type="checkbox" className="rounded" style={{ accentColor: '#3B82F6' }} /></th>
                       <th className="px-4 py-3">Alert Category</th>
                       <th className="px-4 py-3">Device Name</th>
                       <th className="px-4 py-3">Subsystem</th>
@@ -225,12 +224,12 @@ const AlertManagement: React.FC = () => {
                           onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.04)')}
                           onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
                         >
-                          <td className="px-4 py-3"><input type="checkbox" className="rounded" style={{ accentColor: '#f97316' }} /></td>
+                          <td className="px-4 py-3"><input type="checkbox" className="rounded" style={{ accentColor: '#3B82F6' }} /></td>
                           <td className="px-4 py-3">
-                            <div className="font-medium text-sim-200">{alert.category}</div>
-                            <div className="text-[length:calc(10px*var(--fs))] text-sim-500 uppercase mt-0.5">{alert.subsystemLabel}</div>
+                            <div className="font-medium text-text-primary">{alert.category}</div>
+                            <div className="text-[length:calc(10px*var(--fs))] text-text-muted uppercase mt-0.5">{alert.subsystemLabel}</div>
                           </td>
-                          <td className="px-4 py-3 text-sim-400">{alert.device}</td>
+                          <td className="px-4 py-3 text-text-secondary">{alert.device}</td>
                           <td className="px-4 py-3">
                             <span className="text-[length:calc(10px*var(--fs))] font-bold px-2 py-0.5 rounded" style={{ background: 'rgba(1,163,164,0.15)', color: '#5FDCDA', border: '1px solid rgba(1,163,164,0.25)' }}>{alert.subsystemLabel}</span>
                           </td>
@@ -238,29 +237,29 @@ const AlertManagement: React.FC = () => {
                             <span className="px-2 py-0.5 font-bold text-[length:calc(10px*var(--fs))] rounded" style={{ background: ps.bg, color: ps.color, border: `1px solid ${ps.border}` }}>{alert.priority}</span>
                           </td>
                           <td className="px-4 py-3">
-                            <span className="text-xs flex items-center gap-1.5 text-sim-300">
+                            <span className="text-xs flex items-center gap-1.5 text-text-secondary">
                               <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: statusDot(alert.status) }} />
                               {alert.status.replace('_', ' ')}
                             </span>
                           </td>
-                          <td className="px-4 py-3 text-sim-400 text-xs">
+                          <td className="px-4 py-3 text-text-secondary text-xs">
                             <div>{alert.date},</div>
                             <div>{alert.time}</div>
                           </td>
-                          <td className="px-4 py-3 text-right text-sim-500">
-                            <button className="hover:text-sim-300 mr-2" onClick={e => { e.stopPropagation(); openAlertDetails(alert); }}><Info className="w-4 h-4 inline" /></button>
-                            <button className="hover:text-sim-300"><CheckCircle className="w-4 h-4 inline" /></button>
+                          <td className="px-4 py-3 text-right text-text-muted">
+                            <button className="hover:text-text-primary mr-2" onClick={e => { e.stopPropagation(); openAlertDetails(alert); }}><Info className="w-4 h-4 inline" /></button>
+                            <button className="hover:text-text-primary"><CheckCircle className="w-4 h-4 inline" /></button>
                           </td>
                         </tr>
                       );
                     })}
                     {filteredAlerts.length === 0 && (
-                      <tr><td colSpan={8} className="px-4 py-12 text-center text-sim-600 text-sm">No alerts for this subsystem</td></tr>
+                      <tr><td colSpan={8} className="px-4 py-12 text-center text-text-muted text-sm">No alerts for this subsystem</td></tr>
                     )}
                   </tbody>
                 </table>
               </div>
-              <div className="px-6 py-3 flex justify-between items-center text-sm text-sim-500 flex-shrink-0" style={{ borderTop: '1px solid rgba(255,255,255,0.06)', background: 'var(--app-panel)' }}>
+              <div className="px-6 py-3 flex justify-between items-center text-sm text-text-muted flex-shrink-0" style={{ borderTop: '1px solid rgba(255,255,255,0.06)', background: 'var(--app-panel)' }}>
                 <div>Items per page <select className="ml-2 rounded px-1 py-0.5 text-xs" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: '#8A9BA8' }}><option>25</option></select></div>
                 <div>1–{filteredAlerts.length} of {filteredAlerts.length}</div>
               </div>
@@ -269,7 +268,7 @@ const AlertManagement: React.FC = () => {
             {viewMode === 'split' && (
               <div className="w-1/3 relative" style={{ background: 'var(--app-surface-soft)' }}>
                 <TerminalMap subsystem={subsystemFilter === 'all' ? 'LBMS' : subsystemFilter} compact />
-                <button onClick={() => setViewMode('list')} className="absolute top-4 right-4 p-1.5 rounded-md shadow-md z-[1001] text-sim-300 hover:text-white" style={{ background: 'rgba(7,16,40,0.9)', border: '1px solid rgba(255,255,255,0.12)' }}>
+                <button onClick={() => setViewMode('list')} className="absolute top-4 right-4 p-1.5 rounded-md shadow-md z-[1001] text-text-secondary hover:text-white" style={{ background: 'rgba(7,16,40,0.9)', border: '1px solid rgba(255,255,255,0.12)' }}>
                   <Maximize2 className="w-4 h-4" />
                 </button>
               </div>
@@ -282,10 +281,10 @@ const AlertManagement: React.FC = () => {
       {mainTab === 'incidents' && (
         <>
           <div className="px-6 py-3 flex-shrink-0" style={{ background: 'var(--app-surface-soft)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-            <div className="text-[length:calc(10px*var(--fs))] font-semibold text-sim-500 uppercase tracking-wider mb-2">Filters</div>
+            <div className="text-[length:calc(10px*var(--fs))] font-semibold text-text-muted uppercase tracking-wider mb-2">Filters</div>
             <div className="grid grid-cols-5 gap-3">
               <div className="relative">
-                <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-sim-500" />
+                <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" />
                 <input type="text" placeholder="Search Incident Title" className={`${inputCls} pl-9 w-full`} style={inputStyle} />
               </div>
               <input type="text" placeholder="Date Range" className={`${inputCls} w-full`} style={inputStyle} defaultValue="4/7/2026 - 4/21/2026" />
@@ -298,9 +297,9 @@ const AlertManagement: React.FC = () => {
           <div className="flex-1 flex flex-col overflow-hidden">
             <div className="flex-1 overflow-auto">
               <table className="w-full text-sm text-left">
-                <thead className="text-xs font-semibold text-sim-400 uppercase sticky top-0 z-10" style={{ background: 'var(--app-panel)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+                <thead className="text-xs font-semibold text-text-secondary uppercase sticky top-0 z-10" style={{ background: 'var(--app-panel)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
                   <tr>
-                    <th className="px-4 py-3 w-10"><input type="checkbox" className="rounded" style={{ accentColor: '#f97316' }} /></th>
+                    <th className="px-4 py-3 w-10"><input type="checkbox" className="rounded" style={{ accentColor: '#3B82F6' }} /></th>
                     <th className="px-4 py-3">Incident ID</th>
                     <th className="px-4 py-3">Title / Category</th>
                     <th className="px-4 py-3">Sub System</th>
@@ -321,11 +320,11 @@ const AlertManagement: React.FC = () => {
                         onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.04)')}
                         onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
                       >
-                        <td className="px-4 py-3"><input type="checkbox" className="rounded" style={{ accentColor: '#f97316' }} /></td>
-                        <td className="px-4 py-3 text-simteal-400 font-mono text-xs">{inc.id}</td>
+                        <td className="px-4 py-3"><input type="checkbox" className="rounded" style={{ accentColor: '#3B82F6' }} /></td>
+                        <td className="px-4 py-3 text-accent-blue font-mono text-xs">{inc.id}</td>
                         <td className="px-4 py-3">
-                          <div className="font-medium text-sim-200">{inc.title}</div>
-                          <div className="text-[length:calc(10px*var(--fs))] text-sim-500 uppercase mt-0.5">{inc.category}</div>
+                          <div className="font-medium text-text-primary">{inc.title}</div>
+                          <div className="text-[length:calc(10px*var(--fs))] text-text-muted uppercase mt-0.5">{inc.category}</div>
                         </td>
                         <td className="px-4 py-3">
                           <span className="text-[length:calc(10px*var(--fs))] font-bold px-2 py-0.5 rounded" style={{ background: 'rgba(1,163,164,0.15)', color: '#5FDCDA', border: '1px solid rgba(1,163,164,0.25)' }}>{inc.subsystemLabel}</span>
@@ -334,33 +333,33 @@ const AlertManagement: React.FC = () => {
                           <span className="px-2 py-0.5 font-bold text-[length:calc(10px*var(--fs))] rounded" style={{ background: ps.bg, color: ps.color, border: `1px solid ${ps.border}` }}>{inc.severity}</span>
                         </td>
                         <td className="px-4 py-3">
-                          <span className="text-xs flex items-center gap-1.5 text-sim-300">
+                          <span className="text-xs flex items-center gap-1.5 text-text-secondary">
                             <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: statusDot(inc.status) }} />
                             {inc.status}
                           </span>
                         </td>
                         <td className="px-4 py-3 text-center">
-                          <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{ background: 'rgba(249,115,22,0.15)', color: '#fb923c', border: '1px solid rgba(249,115,22,0.3)' }}>{inc.linked}</span>
+                          <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{ background: 'rgba(59,130,246,0.15)', color: '#93C5FD', border: '1px solid rgba(59,130,246,0.3)' }}>{inc.linked}</span>
                         </td>
-                        <td className="px-4 py-3 text-sim-400 text-xs">
+                        <td className="px-4 py-3 text-text-secondary text-xs">
                           <div>{inc.date},</div>
                           <div>{inc.time}</div>
                         </td>
-                        <td className="px-4 py-3 text-sim-400 text-xs">{inc.assignee}</td>
-                        <td className="px-4 py-3 text-right text-sim-500">
-                          <button className="hover:text-sim-300 mr-2" onClick={e => { e.stopPropagation(); setShowLinkedIncident(true); }}><ChevronRight className="w-4 h-4 inline" /></button>
-                          <button className="hover:text-sim-300"><CheckCircle className="w-4 h-4 inline" /></button>
+                        <td className="px-4 py-3 text-text-secondary text-xs">{inc.assignee}</td>
+                        <td className="px-4 py-3 text-right text-text-muted">
+                          <button className="hover:text-text-primary mr-2" onClick={e => { e.stopPropagation(); setShowLinkedIncident(true); }}><ChevronRight className="w-4 h-4 inline" /></button>
+                          <button className="hover:text-text-primary"><CheckCircle className="w-4 h-4 inline" /></button>
                         </td>
                       </tr>
                     );
                   })}
                   {filteredIncidents.length === 0 && (
-                    <tr><td colSpan={10} className="px-4 py-12 text-center text-sim-600 text-sm">No incidents for this subsystem</td></tr>
+                    <tr><td colSpan={10} className="px-4 py-12 text-center text-text-muted text-sm">No incidents for this subsystem</td></tr>
                   )}
                 </tbody>
               </table>
             </div>
-            <div className="px-6 py-3 flex justify-between items-center text-sm text-sim-500 flex-shrink-0" style={{ borderTop: '1px solid rgba(255,255,255,0.06)', background: 'var(--app-panel)' }}>
+            <div className="px-6 py-3 flex justify-between items-center text-sm text-text-muted flex-shrink-0" style={{ borderTop: '1px solid rgba(255,255,255,0.06)', background: 'var(--app-panel)' }}>
               <div>Items per page <select className="ml-2 rounded px-1 py-0.5 text-xs" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: '#8A9BA8' }}><option>25</option></select></div>
               <div>1–{filteredIncidents.length} of {filteredIncidents.length}</div>
             </div>
@@ -373,11 +372,11 @@ const AlertManagement: React.FC = () => {
         <div className="fixed inset-0 z-[1100] flex justify-end" style={{ background: 'rgba(4,16,31,0.6)', backdropFilter: 'blur(4px)' }}>
           <div className="w-[500px] h-full flex flex-col" style={{ background: 'var(--app-panel)', borderLeft: '1px solid rgba(255,255,255,0.1)', boxShadow: '-20px 0 60px rgba(0,0,0,0.6)' }}>
             <div className="px-6 py-4 flex justify-between items-center flex-shrink-0" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-              <h2 className="text-base font-bold text-sim-100">Create Alert</h2>
-              <button onClick={() => setShowCreateAlert(false)} className="text-sim-500 hover:text-sim-200"><X className="w-5 h-5" /></button>
+              <h2 className="text-base font-bold text-text-primary">Create Alert</h2>
+              <button onClick={() => setShowCreateAlert(false)} className="text-text-muted hover:text-text-primary"><X className="w-5 h-5" /></button>
             </div>
             <div className="p-6 flex-1 overflow-y-auto" style={{ scrollbarWidth: 'thin' }}>
-              <div className="rounded-md p-3 mb-6 flex gap-2 items-start text-sm" style={{ background: 'rgba(249,115,22,0.1)', border: '1px solid rgba(249,115,22,0.25)', color: '#fdba74' }}>
+              <div className="rounded-md p-3 mb-6 flex gap-2 items-start text-sm" style={{ background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.25)', color: '#93C5FD' }}>
                 <Info className="w-4 h-4 mt-0.5 flex-shrink-0" />
                 <p>Mark the location manually or search for it if Longitude and Latitude values are unavailable.</p>
               </div>
@@ -393,24 +392,24 @@ const AlertManagement: React.FC = () => {
                   { label: 'Longitude', required: true, type: 'input' },
                 ].map((f, i) => (
                   <div key={i}>
-                    <label className="block text-[length:calc(10px*var(--fs))] text-sim-500 mb-1 pb-1" style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
-                      {f.label} {f.required && <span className="text-red-400">*</span>}
+                    <label className="block text-[length:calc(10px*var(--fs))] text-text-muted mb-1 pb-1" style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+                      {f.label} {f.required && <span className="text-status-error">*</span>}
                     </label>
                     {f.type === 'select'
-                      ? <select className="w-full text-sm py-1 outline-none bg-transparent text-sim-300"><option></option></select>
-                      : <input type="text" className="w-full text-sm py-1 outline-none bg-transparent text-sim-300" />}
+                      ? <select className="w-full text-sm py-1 outline-none bg-transparent text-text-secondary"><option></option></select>
+                      : <input type="text" className="w-full text-sm py-1 outline-none bg-transparent text-text-secondary" />}
                   </div>
                 ))}
                 <div className="col-span-2">
-                  <label className="block text-[length:calc(10px*var(--fs))] text-sim-500 mb-1 pb-1" style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>Alert Description <span className="text-red-400">*</span></label>
-                  <input type="text" className="w-full text-sm py-1 outline-none bg-transparent text-sim-300" />
+                  <label className="block text-[length:calc(10px*var(--fs))] text-text-muted mb-1 pb-1" style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>Alert Description <span className="text-status-error">*</span></label>
+                  <input type="text" className="w-full text-sm py-1 outline-none bg-transparent text-text-secondary" />
                 </div>
                 <div className="col-span-2">
-                  <label className="block text-[length:calc(10px*var(--fs))] text-sim-500 mb-1 pb-1" style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>Additional Information <span className="text-sim-600">(optional)</span></label>
-                  <input type="text" className="w-full text-sm py-1 outline-none bg-transparent text-sim-300" />
+                  <label className="block text-[length:calc(10px*var(--fs))] text-text-muted mb-1 pb-1" style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>Additional Information <span className="text-text-muted">(optional)</span></label>
+                  <input type="text" className="w-full text-sm py-1 outline-none bg-transparent text-text-secondary" />
                 </div>
               </div>
-              <button className="flex items-center gap-2 px-3 py-1.5 rounded text-sm font-medium text-sim-300 mb-6 transition-colors hover:text-sim-100" style={{ border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.04)' }}>
+              <button className="chip mb-6">
                 <Plus className="w-4 h-4" />Add Element
               </button>
               <div className="h-48 rounded-md overflow-hidden relative" style={{ border: '1px solid rgba(255,255,255,0.1)' }}>
@@ -418,10 +417,10 @@ const AlertManagement: React.FC = () => {
               </div>
             </div>
             <div className="p-4 flex justify-between flex-shrink-0" style={{ borderTop: '1px solid rgba(255,255,255,0.08)', background: 'var(--app-bg)' }}>
-              <button className="px-4 py-2 rounded text-sm font-medium text-sim-300" style={{ border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.04)' }}>Reset</button>
+              <button className="chip">Reset</button>
               <div className="flex gap-2">
-                <button onClick={() => setShowCreateAlert(false)} className="px-4 py-2 text-sm font-medium text-sim-400 hover:text-sim-200">Cancel</button>
-                <button onClick={() => { setShowCreateAlert(false); showFeedback('Alert created successfully', '#34d399'); }} className="px-4 py-2 rounded text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 transition-colors">Create</button>
+                <button onClick={() => setShowCreateAlert(false)} className="px-4 py-2 text-sm font-medium text-text-secondary hover:text-text-primary">Cancel</button>
+                <button onClick={() => { setShowCreateAlert(false); showFeedback('Alert created successfully', '#34d399'); }} className="px-4 py-2 rounded text-sm font-medium text-white bg-accent-blue hover:bg-accent-blueHover transition-colors">Create</button>
               </div>
             </div>
           </div>
@@ -434,16 +433,16 @@ const AlertManagement: React.FC = () => {
           <div className="w-[600px] h-full flex flex-col" style={{ background: 'var(--app-panel)', borderLeft: '1px solid rgba(255,255,255,0.1)', boxShadow: '-20px 0 60px rgba(0,0,0,0.6)' }}>
             <div className="px-6 py-4 flex justify-between items-start flex-shrink-0" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)', background: 'var(--app-bg)' }}>
               <div>
-                <h2 className="text-base font-bold text-sim-100">Alert Details</h2>
-                <div className="text-[length:calc(10px*var(--fs))] text-sim-500 mt-1 font-mono">
+                <h2 className="text-base font-bold text-text-primary">Alert Details</h2>
+                <div className="text-[length:calc(10px*var(--fs))] text-text-muted mt-1 font-mono">
                   {selectedAlert?.id ?? '—'}
                 </div>
-                <div className="text-xs text-sim-500 mt-0.5 flex gap-4">
+                <div className="text-xs text-text-muted mt-0.5 flex gap-4">
                   <span>{selectedAlert ? `${selectedAlert.date}, ${selectedAlert.time}` : ''}</span>
                   <span>{selectedAlert?.subsystemLabel}</span>
                 </div>
               </div>
-              <button onClick={() => setShowAlertDetails(false)} className="text-sim-500 hover:text-sim-200 mt-1"><X className="w-5 h-5" /></button>
+              <button onClick={() => setShowAlertDetails(false)} className="text-text-muted hover:text-text-primary mt-1"><X className="w-5 h-5" /></button>
             </div>
             <div className="px-6 py-2 flex gap-3 items-center overflow-x-auto text-xs whitespace-nowrap flex-shrink-0" style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
               {actionFeedback && (
@@ -474,12 +473,12 @@ const AlertManagement: React.FC = () => {
                   { label: 'Subsystem', val: selectedAlert?.subsystemLabel ?? '—' },
                 ].map((item, i) => (
                   <div key={i}>
-                    <div className="text-[length:calc(10px*var(--fs))] font-semibold text-sim-500 mb-1">{item.label}</div>
+                    <div className="text-[length:calc(10px*var(--fs))] font-semibold text-text-muted mb-1">{item.label}</div>
                     {item.badge
-                      ? <span className="px-2 py-0.5 bg-red-500/20 text-red-400 font-bold text-[length:calc(10px*var(--fs))] rounded border border-red-500/30">{item.val}</span>
+                      ? <span className="px-2 py-0.5 bg-status-error/20 text-status-error font-bold text-[length:calc(10px*var(--fs))] rounded">{item.val}</span>
                       : item.dot
-                        ? <span className="text-xs font-medium text-sim-300 flex items-center gap-1"><span className="w-2 h-2 rounded-full" style={{ background: item.dot }} />{item.val}</span>
-                        : <div className="font-medium text-sim-200 text-xs">{item.val}</div>
+                        ? <span className="text-xs font-medium text-text-secondary flex items-center gap-1"><span className="w-2 h-2 rounded-full" style={{ background: item.dot }} />{item.val}</span>
+                        : <div className="font-medium text-text-primary text-xs">{item.val}</div>
                     }
                   </div>
                 ))}
@@ -487,7 +486,7 @@ const AlertManagement: React.FC = () => {
             </div>
             <div className="flex px-6 mt-2 flex-shrink-0" style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
               {['Location', 'Associated Alerts', 'Alert Facts'].map((t, i) => (
-                <button key={i} className={`px-4 py-2 text-sm font-medium ${i === 0 ? 'text-simteal-400 border-b-2 border-simteal-500' : 'text-sim-500 hover:text-sim-300'}`}>{t}</button>
+                <button key={i} className={`px-4 py-2 text-sm font-medium ${i === 0 ? 'text-accent-blue border-b-2 border-accent-blue' : 'text-text-muted hover:text-text-primary'}`}>{t}</button>
               ))}
             </div>
             <div className="p-6 flex-1 overflow-y-auto" style={{ scrollbarWidth: 'thin' }}>
@@ -505,28 +504,28 @@ const AlertManagement: React.FC = () => {
                 </div>
               )}
 
-              <h3 className="text-xs font-semibold text-sim-400 mb-2 px-3 py-1.5 rounded uppercase tracking-wider" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)' }}>
+              <h3 className="text-xs font-semibold text-text-secondary mb-2 px-3 py-1.5 rounded uppercase tracking-wider" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)' }}>
                 Where it is
               </h3>
               <div className="h-[240px] rounded-lg overflow-hidden relative mb-6" style={{ border: '1px solid rgba(255,255,255,0.1)' }}>
                 <TerminalMap subsystem={selectedAlert?.subsystem ?? 'LBMS'} compact />
               </div>
               <div>
-                <h3 className="text-xs font-semibold text-sim-400 mb-2 px-3 py-1.5 rounded uppercase tracking-wider" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)' }}>Linked Incident</h3>
+                <h3 className="text-xs font-semibold text-text-secondary mb-2 px-3 py-1.5 rounded uppercase tracking-wider" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)' }}>Linked Incident</h3>
                 <div className="rounded-lg overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.08)' }}>
                   <table className="w-full text-sm">
                     <thead className="text-xs text-left" style={{ background: 'rgba(1,163,164,0.08)', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
                       <tr>
-                        <th className="px-4 py-2 font-medium text-sim-400">Incident Name</th>
-                        <th className="px-4 py-2 font-medium text-sim-400">Created on</th>
-                        <th className="px-4 py-2 font-medium text-sim-400">Created by</th>
+                        <th className="px-4 py-2 font-medium text-text-secondary">Incident Name</th>
+                        <th className="px-4 py-2 font-medium text-text-secondary">Created on</th>
+                        <th className="px-4 py-2 font-medium text-text-secondary">Created by</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr style={{ background: 'rgba(255,255,255,0.02)' }}>
-                        <td className="px-4 py-3 text-simteal-400 font-mono text-xs">INC20260417-4759053998</td>
-                        <td className="px-4 py-3 text-sim-400 text-xs">Apr 17, 2026, 1:19:40 PM</td>
-                        <td className="px-4 py-3 text-sim-400 text-xs">anjali</td>
+                        <td className="px-4 py-3 text-accent-blue font-mono text-xs">INC20260417-4759053998</td>
+                        <td className="px-4 py-3 text-text-secondary text-xs">Apr 17, 2026, 1:19:40 PM</td>
+                        <td className="px-4 py-3 text-text-secondary text-xs">anjali</td>
                       </tr>
                     </tbody>
                   </table>
@@ -540,13 +539,13 @@ const AlertManagement: React.FC = () => {
       {/* Create Incident Panel */}
       {showCreateIncident && (
         <div className="fixed inset-0 z-[1100] flex justify-end" style={{ background: 'rgba(4,16,31,0.6)', backdropFilter: 'blur(4px)' }}>
-          <div className="w-[520px] h-full flex flex-col" style={{ background: 'linear-gradient(180deg,#071028,#08203A)', borderLeft: '1px solid rgba(255,255,255,0.1)', boxShadow: '-20px 0 60px rgba(0,0,0,0.6)' }}>
+          <div className="w-[520px] h-full flex flex-col" style={{ background: 'var(--app-panel)', borderLeft: '1px solid rgba(255,255,255,0.1)', boxShadow: '-20px 0 60px rgba(0,0,0,0.6)' }}>
             <div className="px-6 py-4 flex justify-between items-center flex-shrink-0" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)', background: 'var(--app-bg)' }}>
               <div>
-                <h2 className="text-base font-bold text-sim-100">Create Incident</h2>
-                <p className="text-xs text-sim-500 mt-0.5">Group related alerts into a coordinated response</p>
+                <h2 className="text-base font-bold text-text-primary">Create Incident</h2>
+                <p className="text-xs text-text-muted mt-0.5">Group related alerts into a coordinated response</p>
               </div>
-              <button onClick={() => setShowCreateIncident(false)} className="text-sim-500 hover:text-sim-200"><X className="w-5 h-5" /></button>
+              <button onClick={() => setShowCreateIncident(false)} className="text-text-muted hover:text-text-primary"><X className="w-5 h-5" /></button>
             </div>
             <div className="p-6 flex-1 overflow-y-auto" style={{ scrollbarWidth: 'thin' }}>
               <div className="rounded-md p-3 mb-6 flex gap-2 items-start text-sm" style={{ background: 'rgba(1,163,164,0.1)', border: '1px solid rgba(1,163,164,0.25)', color: '#9BEAE8' }}>
@@ -555,8 +554,8 @@ const AlertManagement: React.FC = () => {
               </div>
               <div className="grid grid-cols-2 gap-x-6 gap-y-5 mb-6">
                 <div className="col-span-2">
-                  <label className="block text-[length:calc(10px*var(--fs))] text-sim-500 mb-1 pb-1" style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>Incident Title <span className="text-red-400">*</span></label>
-                  <input type="text" placeholder="e.g. Perimeter Breach — Sector 4" className="w-full text-sm py-1 outline-none bg-transparent text-sim-200" />
+                  <label className="block text-[length:calc(10px*var(--fs))] text-text-muted mb-1 pb-1" style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>Incident Title <span className="text-status-error">*</span></label>
+                  <input type="text" placeholder="e.g. Perimeter Breach — Sector 4" className="w-full text-sm py-1 outline-none bg-transparent text-text-primary" />
                 </div>
                 {[
                   { label: 'Sub System', type: 'select', opts: [ 'LBMS', 'BHS', 'VDGS', 'CMS', 'SCADA', 'SACS', 'PAS', 'FAS', 'MCS', 'IASS', 'SSE', 'AGAC'] },
@@ -567,40 +566,40 @@ const AlertManagement: React.FC = () => {
                   { label: 'Expected Resolution', type: 'date', opts: [] },
                 ].map((f, i) => (
                   <div key={i}>
-                    <label className="block text-[length:calc(10px*var(--fs))] text-sim-500 mb-1 pb-1" style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>{f.label}</label>
+                    <label className="block text-[length:calc(10px*var(--fs))] text-text-muted mb-1 pb-1" style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>{f.label}</label>
                     {f.type === 'select'
-                      ? <select className="w-full text-sm py-1 outline-none bg-transparent text-sim-300"><option></option>{f.opts.map(o => <option key={o}>{o}</option>)}</select>
-                      : <input type={f.type} className="w-full text-sm py-1 outline-none bg-transparent text-sim-300" />}
+                      ? <select className="w-full text-sm py-1 outline-none bg-transparent text-text-secondary"><option></option>{f.opts.map(o => <option key={o}>{o}</option>)}</select>
+                      : <input type={f.type} className="w-full text-sm py-1 outline-none bg-transparent text-text-secondary" />}
                   </div>
                 ))}
                 <div className="col-span-2">
-                  <label className="block text-[length:calc(10px*var(--fs))] text-sim-500 mb-1 pb-1" style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>Description <span className="text-red-400">*</span></label>
-                  <textarea rows={3} className="w-full text-sm py-1 outline-none bg-transparent text-sim-300 resize-none" placeholder="Describe the incident..." />
+                  <label className="block text-[length:calc(10px*var(--fs))] text-text-muted mb-1 pb-1" style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>Description <span className="text-status-error">*</span></label>
+                  <textarea rows={3} className="w-full text-sm py-1 outline-none bg-transparent text-text-secondary resize-none" placeholder="Describe the incident..." />
                 </div>
               </div>
               <div className="mb-6">
                 <div className="flex items-center justify-between mb-2">
-                  <label className="text-[length:calc(10px*var(--fs))] font-semibold text-sim-400 uppercase tracking-wide">Link Alerts</label>
-                  <button className="text-xs text-simteal-400 hover:text-simteal-300">Browse Alerts</button>
+                  <label className="text-[length:calc(10px*var(--fs))] font-semibold text-text-secondary uppercase tracking-wide">Link Alerts</label>
+                  <button className="text-xs text-accent-blue hover:text-accent-blue">Browse Alerts</button>
                 </div>
-                <div className="rounded-md p-3 text-xs text-sim-600 text-center" style={{ border: '1px dashed rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.02)' }}>
+                <div className="rounded-md p-3 text-xs text-text-muted text-center" style={{ border: '1px dashed rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.02)' }}>
                   No alerts linked. Click "Browse Alerts" to attach related alerts.
                 </div>
               </div>
               <div>
-                <label className="text-[length:calc(10px*var(--fs))] font-semibold text-sim-400 uppercase tracking-wide mb-2 block">Attachments</label>
+                <label className="text-[length:calc(10px*var(--fs))] font-semibold text-text-secondary uppercase tracking-wide mb-2 block">Attachments</label>
                 <div className="rounded-md p-4 flex flex-col items-center gap-1 cursor-pointer transition-colors hover:bg-white/5" style={{ border: '1px dashed rgba(255,255,255,0.15)', background: 'rgba(255,255,255,0.02)' }}>
-                  <UploadCloud className="w-5 h-5 text-sim-500" />
-                  <span className="text-xs text-sim-500">Drop files here or click to upload</span>
-                  <span className="text-[length:calc(10px*var(--fs))] text-sim-600">PNG, JPG, PDF up to 10MB</span>
+                  <UploadCloud className="w-5 h-5 text-text-muted" />
+                  <span className="text-xs text-text-muted">Drop files here or click to upload</span>
+                  <span className="text-[length:calc(10px*var(--fs))] text-text-muted">PNG, JPG, PDF up to 10MB</span>
                 </div>
               </div>
             </div>
             <div className="p-4 flex justify-between flex-shrink-0" style={{ borderTop: '1px solid rgba(255,255,255,0.08)', background: 'var(--app-bg)' }}>
-              <button className="px-4 py-2 rounded text-sm font-medium text-sim-300" style={{ border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.04)' }}>Reset</button>
+              <button className="chip">Reset</button>
               <div className="flex gap-2">
-                <button onClick={() => setShowCreateIncident(false)} className="px-4 py-2 text-sm font-medium text-sim-400 hover:text-sim-200">Cancel</button>
-                <button className="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded text-sm font-medium transition-colors">Create Incident</button>
+                <button onClick={() => setShowCreateIncident(false)} className="px-4 py-2 text-sm font-medium text-text-secondary hover:text-text-primary">Cancel</button>
+                <button className="px-4 py-2 bg-accent-blue hover:bg-accent-blueHover text-white rounded text-sm font-medium transition-colors">Create Incident</button>
               </div>
             </div>
           </div>
@@ -610,18 +609,18 @@ const AlertManagement: React.FC = () => {
       {/* Linked Incident Panel */}
       {showLinkedIncident && (
         <div className="fixed inset-0 z-[1100] flex justify-end" style={{ background: 'rgba(4,16,31,0.6)', backdropFilter: 'blur(4px)' }}>
-          <div className="w-[640px] h-full flex flex-col" style={{ background: 'linear-gradient(180deg,#071028,#08203A)', borderLeft: '1px solid rgba(255,255,255,0.1)', boxShadow: '-20px 0 60px rgba(0,0,0,0.6)' }}>
+          <div className="w-[640px] h-full flex flex-col" style={{ background: 'var(--app-panel)', borderLeft: '1px solid rgba(255,255,255,0.1)', boxShadow: '-20px 0 60px rgba(0,0,0,0.6)' }}>
             <div className="px-6 py-4 flex justify-between items-start flex-shrink-0" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)', background: 'var(--app-bg)' }}>
               <div>
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-xs font-mono text-simteal-400 px-2 py-0.5 rounded" style={{ background: 'rgba(1,163,164,0.12)', border: '1px solid rgba(1,163,164,0.2)' }}>INC20260417-4759053998</span>
+                  <span className="text-xs font-mono text-accent-blue px-2 py-0.5 rounded" style={{ background: 'rgba(1,163,164,0.12)', border: '1px solid rgba(1,163,164,0.2)' }}>INC20260417-4759053998</span>
                   <span className="px-2 py-0.5 font-bold text-[length:calc(10px*var(--fs))] rounded" style={{ background: 'rgba(239,68,68,0.15)', color: '#fca5a5', border: '1px solid rgba(239,68,68,0.3)' }}>CRITICAL</span>
-                  <span className="text-xs flex items-center gap-1 text-sim-300"><span className="w-2 h-2 rounded-full bg-simteal-500" /> In Progress</span>
+                  <span className="text-xs flex items-center gap-1 text-text-secondary"><span className="w-2 h-2 rounded-full bg-accent-blue" /> In Progress</span>
                 </div>
-                <h2 className="text-base font-bold text-sim-100">Intrusion Detected — Perimeter Breach</h2>
-                <div className="text-xs text-sim-500 mt-1">Apr 17, 2026 · Siti Aminah · CCTV SERVICE</div>
+                <h2 className="text-base font-bold text-text-primary">Intrusion Detected — Perimeter Breach</h2>
+                <div className="text-xs text-text-muted mt-1">Apr 17, 2026 · Siti Aminah · CCTV SERVICE</div>
               </div>
-              <button onClick={() => setShowLinkedIncident(false)} className="text-sim-500 hover:text-sim-200 mt-1"><X className="w-5 h-5" /></button>
+              <button onClick={() => setShowLinkedIncident(false)} className="text-text-muted hover:text-text-primary mt-1"><X className="w-5 h-5" /></button>
             </div>
             <div className="px-6 py-2 flex gap-2 items-center overflow-x-auto text-xs whitespace-nowrap flex-shrink-0" style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
               {[
@@ -630,16 +629,16 @@ const AlertManagement: React.FC = () => {
                 { icon: <FileText className="w-3.5 h-3.5" />, label: 'Download Report' },
                 { icon: <ChevronLeft className="w-3.5 h-3.5" />, label: 'Reassign' },
               ].map((btn, i) => (
-                <button key={i} className="flex items-center gap-1.5 px-2.5 py-1.5 rounded text-sim-300 hover:text-sim-100 transition-colors" style={{ border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.03)' }}>
+                <button key={i} className="chip">
                   {btn.icon}{btn.label}
                 </button>
               ))}
             </div>
             <div className="flex-1 overflow-y-auto p-6 space-y-6" style={{ scrollbarWidth: 'thin' }}>
               <div>
-                <h3 className="text-[length:calc(10px*var(--fs))] font-semibold text-sim-400 uppercase tracking-wider mb-3 flex items-center gap-2">
+                <h3 className="text-[length:calc(10px*var(--fs))] font-semibold text-text-secondary uppercase tracking-wider mb-3 flex items-center gap-2">
                   Linked Alerts
-                  <span className="text-[length:calc(10px*var(--fs))] font-bold px-1.5 py-0.5 rounded-full" style={{ background: 'rgba(249,115,22,0.15)', color: '#fb923c', border: '1px solid rgba(249,115,22,0.3)' }}>3</span>
+                  <span className="text-[length:calc(10px*var(--fs))] font-bold px-1.5 py-0.5 rounded-full" style={{ background: 'rgba(59,130,246,0.15)', color: '#93C5FD', border: '1px solid rgba(59,130,246,0.3)' }}>3</span>
                 </h3>
                 <div className="space-y-2">
                   {[
@@ -651,12 +650,12 @@ const AlertManagement: React.FC = () => {
                     return (
                       <div key={i} className="flex items-center justify-between rounded-md px-4 py-2.5 text-sm" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
                         <div>
-                          <span className="text-simteal-400 font-mono text-xs">{a.id}</span>
-                          <div className="font-medium text-sim-200 mt-0.5 text-xs">{a.cat} — {a.dev}</div>
+                          <span className="text-accent-blue font-mono text-xs">{a.id}</span>
+                          <div className="font-medium text-text-primary mt-0.5 text-xs">{a.cat} — {a.dev}</div>
                         </div>
                         <div className="flex items-center gap-2">
                           <span className="px-2 py-0.5 font-bold text-[length:calc(10px*var(--fs))] rounded" style={{ background: ps.bg, color: ps.color, border: `1px solid ${ps.border}` }}>{a.p}</span>
-                          <span className="text-xs text-sim-500 flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-yellow-400" />In Progress</span>
+                          <span className="text-xs text-text-muted flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-status-warning" />In Progress</span>
                         </div>
                       </div>
                     );
@@ -664,21 +663,21 @@ const AlertManagement: React.FC = () => {
                 </div>
               </div>
               <div>
-                <h3 className="text-[length:calc(10px*var(--fs))] font-semibold text-sim-400 uppercase tracking-wider mb-3">Incident Location</h3>
+                <h3 className="text-[length:calc(10px*var(--fs))] font-semibold text-text-secondary uppercase tracking-wider mb-3">Incident Location</h3>
                 <div className="h-[180px] rounded-lg overflow-hidden relative" style={{ border: '1px solid rgba(255,255,255,0.1)' }}>
                   <TerminalMap subsystem={subsystemFilter === 'all' ? 'LBMS' : subsystemFilter} compact />
-                  <button className="absolute top-3 left-3 z-[1001] px-3 py-1 rounded shadow text-xs font-medium flex items-center gap-1 text-sim-200" style={{ background: 'rgba(7,16,40,0.9)', border: '1px solid rgba(255,255,255,0.12)' }}>
+                  <button className="absolute top-3 left-3 z-[1001] px-3 py-1 rounded shadow text-xs font-medium flex items-center gap-1 text-text-primary" style={{ background: 'rgba(7,16,40,0.9)', border: '1px solid rgba(255,255,255,0.12)' }}>
                     Plot Area <MapIcon className="w-3 h-3" />
                   </button>
                 </div>
               </div>
               <div>
-                <h3 className="text-[length:calc(10px*var(--fs))] font-semibold text-sim-400 uppercase tracking-wider mb-3">Activity Log</h3>
+                <h3 className="text-[length:calc(10px*var(--fs))] font-semibold text-text-secondary uppercase tracking-wider mb-3">Activity Log</h3>
                 <div className="space-y-3">
                   {[
                     { time: '1:19 PM', user: 'Siti Aminah', action: 'Created incident and linked 3 alerts', color: '#01A3A4' },
-                    { time: '1:24 PM', user: 'Rajesh Kumar', action: 'Assigned to response team Bravo-2', color: '#a855f7' },
-                    { time: '1:31 PM', user: 'Ahmad Fauzi', action: 'Dispatched security unit to Sector 4', color: '#f97316' },
+                    { time: '1:24 PM', user: 'Rajesh Kumar', action: 'Assigned to response team Bravo-2', color: '#3B82F6' },
+                    { time: '1:31 PM', user: 'Ahmad Fauzi', action: 'Dispatched security unit to Sector 4', color: '#3B82F6' },
                     { time: '1:45 PM', user: 'Siti Aminah', action: 'Awaiting on-site confirmation from field team', color: '#8A9BA8' },
                   ].map((log, i, arr) => (
                     <div key={i} className="flex gap-3 text-sm">
@@ -687,16 +686,16 @@ const AlertManagement: React.FC = () => {
                         {i < arr.length - 1 && <div className="w-px flex-1 mt-1" style={{ background: 'rgba(255,255,255,0.08)' }} />}
                       </div>
                       <div className="pb-3">
-                        <span className="font-semibold text-sim-300">{log.user}</span>
-                        <span className="text-sim-500"> — {log.action}</span>
-                        <div className="text-[length:calc(10px*var(--fs))] text-sim-600 mt-0.5">Apr 17, 2026, {log.time}</div>
+                        <span className="font-semibold text-text-secondary">{log.user}</span>
+                        <span className="text-text-muted"> — {log.action}</span>
+                        <div className="text-[length:calc(10px*var(--fs))] text-text-muted mt-0.5">Apr 17, 2026, {log.time}</div>
                       </div>
                     </div>
                   ))}
                 </div>
                 <div className="mt-4 flex gap-2">
-                  <input type="text" placeholder="Add a comment or update..." className="flex-1 px-3 py-2 text-sm rounded-md focus:outline-none focus:ring-1 focus:ring-simteal-500/50" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.12)', color: '#E6EEF6' }} />
-                  <button className="px-4 py-2 bg-simteal-600 hover:bg-simteal-700 text-white rounded-md text-sm font-medium transition-colors">Post</button>
+                  <input type="text" placeholder="Add a comment or update..." className="flex-1 px-3 py-2 text-sm rounded-md focus:outline-none focus:ring-1 focus:ring-accent-blue/50" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.12)', color: '#E6EEF6' }} />
+                  <button className="px-4 py-2 bg-accent-blue hover:bg-accent-blueHover text-white rounded-md text-sm font-medium transition-colors">Post</button>
                 </div>
               </div>
             </div>

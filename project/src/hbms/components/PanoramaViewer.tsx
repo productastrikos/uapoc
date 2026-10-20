@@ -22,7 +22,7 @@ import PanoStage from './PanoStage';
 const HOTSPOT_STYLE: Record<PanoHotspot['kind'], { color: string; ring: string; label: string }> = {
   alert: { color: '#f97316', ring: 'rgba(249,115,22,0.30)', label: 'Alert' },
   asset: { color: '#34d399', ring: 'rgba(52,211,153,0.26)', label: 'Asset' },
-  camera: { color: '#22C7C6', ring: 'rgba(34,199,198,0.26)', label: 'Camera' },
+  camera: { color: '#3B82F6', ring: 'rgba(59,130,246,0.26)', label: 'Camera' },
 };
 
 interface Props {
@@ -67,16 +67,16 @@ const PanoramaViewer: React.FC<Props> = ({ scene, onClose, onOpenAsset, onOpenCa
       className={`absolute ${sizeClass} z-[80] rounded-xl border overflow-hidden flex flex-col animate-fade-in`}
       style={{
         background: 'rgba(7,16,40,0.97)',
-        borderColor: alerts > 0 ? 'rgba(249,115,22,0.45)' : 'rgba(1,163,164,0.42)',
+        borderColor: alerts > 0 ? 'rgba(249,115,22,0.45)' : 'rgba(37,99,235,0.42)',
         boxShadow: '0 24px 60px rgba(0,0,0,0.6)',
       }}
     >
       {/* Header */}
       <div
         className="flex items-center gap-2 px-2.5 py-1.5 shrink-0"
-        style={{ borderBottom: '1px solid rgba(1,163,164,0.22)', background: 'rgba(8,32,58,0.9)' }}
+        style={{ borderBottom: '1px solid rgba(37,99,235,0.22)', background: 'rgba(8,32,58,0.9)' }}
       >
-        <Compass className="w-3.5 h-3.5 shrink-0" style={{ color: '#22C7C6' }} />
+        <Compass className="w-3.5 h-3.5 shrink-0" style={{ color: '#3B82F6' }} />
         <div className="min-w-0">
           <div className="text-[length:calc(11px*var(--fs))] font-bold text-text-primary leading-tight truncate">{scene.title}</div>
           {scene.vantage && (
@@ -85,7 +85,7 @@ const PanoramaViewer: React.FC<Props> = ({ scene, onClose, onOpenAsset, onOpenCa
         </div>
         <span
           className="text-[length:calc(9px*var(--fs))] px-1.5 py-0.5 rounded-full shrink-0"
-          style={{ background: 'rgba(1,163,164,0.18)', color: '#9BEAE8' }}
+          style={{ background: 'rgba(37,99,235,0.18)', color: '#93C5FD' }}
         >
           Street View
         </span>
@@ -138,7 +138,7 @@ const PanoramaViewer: React.FC<Props> = ({ scene, onClose, onOpenAsset, onOpenCa
 
           <div
             className="absolute bottom-2 left-2 flex items-center gap-2 px-2 py-1 rounded-lg pointer-events-none"
-            style={{ background: 'rgba(7,16,40,0.82)', border: '1px solid rgba(1,163,164,0.24)' }}
+            style={{ background: 'rgba(7,16,40,0.82)', border: '1px solid rgba(37,99,235,0.24)' }}
           >
             <Compass className="w-3 h-3" style={{ color: '#8A9BA8' }} />
             <span className="text-[length:calc(9px*var(--fs))] font-mono" style={{ color: '#B8C5D1' }}>
@@ -153,9 +153,9 @@ const PanoramaViewer: React.FC<Props> = ({ scene, onClose, onOpenAsset, onOpenCa
             rather than on the image, and selecting one turns the view. */}
         <div
           className="w-[192px] shrink-0 flex flex-col min-h-0"
-          style={{ borderLeft: '1px solid rgba(1,163,164,0.22)', background: 'rgba(5,12,28,0.85)' }}
+          style={{ borderLeft: '1px solid rgba(37,99,235,0.22)', background: 'rgba(5,12,28,0.85)' }}
         >
-          <div className="px-2 py-1.5 shrink-0" style={{ borderBottom: '1px solid rgba(1,163,164,0.16)' }}>
+          <div className="px-2 py-1.5 shrink-0" style={{ borderBottom: '1px solid rgba(37,99,235,0.16)' }}>
             <div className="text-[length:calc(9px*var(--fs))] font-bold uppercase tracking-wider" style={{ color: '#8A9BA8' }}>
               In this view
             </div>
@@ -221,7 +221,7 @@ const PanoramaViewer: React.FC<Props> = ({ scene, onClose, onOpenAsset, onOpenCa
                   <button
                     onClick={() => onOpenAsset(selected.assetId!)}
                     className="text-[length:calc(8px*var(--fs))] font-bold px-1.5 py-0.5 rounded border"
-                    style={{ background: 'rgba(1,163,164,0.16)', borderColor: 'rgba(1,163,164,0.45)', color: '#5FDCDA' }}
+                    style={{ background: 'rgba(37,99,235,0.16)', borderColor: 'rgba(37,99,235,0.45)', color: '#93C5FD' }}
                   >
                     Open asset
                   </button>
@@ -230,7 +230,7 @@ const PanoramaViewer: React.FC<Props> = ({ scene, onClose, onOpenAsset, onOpenCa
                   <button
                     onClick={() => onOpenCamera(selected.label)}
                     className="flex items-center gap-1 text-[length:calc(8px*var(--fs))] font-bold px-1.5 py-0.5 rounded border"
-                    style={{ background: 'rgba(34,199,198,0.16)', borderColor: 'rgba(34,199,198,0.45)', color: '#9BEAE8' }}
+                    style={{ background: 'rgba(59,130,246,0.16)', borderColor: 'rgba(59,130,246,0.45)', color: '#93C5FD' }}
                   >
                     <Camera className="w-2.5 h-2.5" /> View feed
                   </button>

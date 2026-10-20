@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DollarSign, TrendingUp, ShoppingBag, Users, Star, Target, CreditCard, BarChart3 } from 'lucide-react';
+import { DollarSign, TrendingUp, ShoppingBag, Star, Target, CreditCard, BarChart3 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
 import { RevenueStream } from '../../types';
@@ -88,54 +88,47 @@ const CommercialOperations: React.FC = () => {
     setShowModal(true);
   };
 
-  const handleOptimizationAction = (action: string, revenue: RevenueStream) => {
-    addToast({
-      type: 'success',
-      title: t('commercial.optimization_applied'),
-      message: `${action} implemented for ${revenue.name}`,
-      duration: 5000
-    });
-  };
-
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="space-y-8"
+      className="space-y-6"
     >
       {/* Header */}
       <div className="flex items-center space-x-4">
-        <DollarSign className="h-8 w-8 text-accent-teal" />
+        <div className="p-2 bg-accent-blue/15 rounded-lg">
+          <DollarSign className="w-5 h-5 text-accent-blue" />
+        </div>
         <div>
-          <h1 className="text-3xl font-bold text-text-primary">{t('nav.commercial')}</h1>
-          <p className="text-text-muted">{t('commercial.subtitle')}</p>
+          <h1 className="text-2xl font-bold text-white">{t('nav.commercial')}</h1>
+          <p className="text-sm text-text-muted">{t('commercial.subtitle')}</p>
         </div>
       </div>
 
       {/* Quick Stats */}
-      <div className="grid grid-cols-4 gap-6">
+      <div className="grid grid-cols-4 gap-3">
         {[
-          { label: t('commercial.total_revenue'), value: '$161.5K', icon: DollarSign, color: 'text-status-success', change: '+13.2%' },
-          { label: t('commercial.avg_transaction'), value: '$24.80', icon: CreditCard, color: 'text-accent-teal', change: '+8.5%' },
-          { label: t('commercial.conversion_rate'), value: '37.2%', icon: Target, color: 'text-accent-gold', change: '+2.1%' },
-          { label: t('commercial.satisfaction'), value: '4.3/5', icon: Star, color: 'text-status-info', change: '+0.2' },
+          { label: t('commercial.total_revenue'), value: '$161.5K', icon: DollarSign, change: '+13.2%' },
+          { label: t('commercial.avg_transaction'), value: '$24.80', icon: CreditCard, change: '+8.5%' },
+          { label: t('commercial.conversion_rate'), value: '37.2%', icon: Target, change: '+2.1%' },
+          { label: t('commercial.satisfaction'), value: '4.3/5', icon: Star, change: '+0.2' },
         ].map((stat, index) => (
           <motion.div
             key={stat.label}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
-            whileHover={{ scale: 1.02, y: -2 }}
-            className="commercial-gradient rounded-lg p-6 border border-primary-600 hover:border-accent-teal transition-all duration-300 cursor-pointer hover:shadow-2xl"
+            whileHover={{ y: -2 }}
+            className={`glass-pill ${['glass-pill-blue', 'glass-pill-teal', 'glass-pill-violet', 'glass-pill-neutral'][index % 4]} hover:border-accent-blue/40 transition-colors duration-200 cursor-pointer`}
             onClick={() => handleRevenueClick(revenueStreams[0])}
           >
             <div className="flex items-center justify-between mb-2">
-              <stat.icon className={`h-6 w-6 ${stat.color}`} />
+              <stat.icon className="h-5 w-5 text-text-muted" />
               <span className={`text-sm font-medium ${stat.change.startsWith('+') ? 'text-status-success' : 'text-status-warning'}`}>
                 {stat.change}
               </span>
             </div>
-            <div className="text-2xl font-bold text-text-primary">{stat.value}</div>
+            <div className="text-xl font-bold text-text-primary">{stat.value}</div>
             <div className="text-sm text-text-muted">{stat.label}</div>
           </motion.div>
         ))}
@@ -146,13 +139,13 @@ const CommercialOperations: React.FC = () => {
           second. */}
       <AiInsightPanel domain="commercial" />
 
-      <div className="grid grid-cols-12 gap-8">
+      <div className="grid grid-cols-12 gap-6">
         {/* Left Column - Revenue Streams */}
-        <div className="col-span-8 space-y-8">
+        <div className="col-span-8 space-y-6">
           {/* Revenue Stream Performance */}
-          <div className="commercial-gradient rounded-xl border border-primary-600 p-8 backdrop-blur-sm">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-text-primary">{t('commercial.revenue_optimization')}</h2>
+          <div className="glass-panel-strong rounded-xl p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-base font-semibold text-text-primary">{t('commercial.revenue_optimization')}</h2>
               <div className="flex items-center space-x-4 text-sm">
                 <div className="flex items-center space-x-2">
                   <div className="w-3 h-3 bg-status-success rounded-full"></div>
@@ -165,52 +158,52 @@ const CommercialOperations: React.FC = () => {
               </div>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-4">
               {revenueStreams.map((stream, index) => (
                 <motion.div
                   key={stream.id}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  whileHover={{ scale: 1.01, x: 8 }}
-                  className="p-6 bg-gradient-to-r from-primary-800 to-primary-700 rounded-xl border border-primary-600 hover:border-accent-teal transition-all duration-300 cursor-pointer group"
+                  whileHover={{ y: -2 }}
+                  className={`glass-pill ${['glass-pill-blue', 'glass-pill-teal', 'glass-pill-violet', 'glass-pill-neutral'][index % 4]} hover:border-accent-blue/40 transition-colors duration-200 cursor-pointer group`}
                   onClick={() => handleRevenueClick(stream)}
                 >
-                  <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-start justify-between">
                     <div className="flex items-start space-x-4">
-                      <div className="p-3 bg-accent-teal bg-opacity-20 rounded-lg">
-                        {stream.category === 'retail' ? <ShoppingBag className="h-6 w-6 text-accent-teal" /> :
-                         stream.category === 'food_beverage' ? <BarChart3 className="h-6 w-6 text-accent-gold" /> :
-                         stream.category === 'parking' ? <CreditCard className="h-6 w-6 text-status-success" /> :
-                         <Star className="h-6 w-6 text-status-info" />}
+                      <div className="p-2 bg-accent-blue/15 rounded-lg">
+                        {stream.category === 'retail' ? <ShoppingBag className="h-5 w-5 text-accent-blue" /> :
+                         stream.category === 'food_beverage' ? <BarChart3 className="h-5 w-5 text-accent-blue" /> :
+                         stream.category === 'parking' ? <CreditCard className="h-5 w-5 text-accent-blue" /> :
+                         <Star className="h-5 w-5 text-accent-blue" />}
                       </div>
-                      
+
                       <div className="flex-1">
-                        <h3 className="font-semibold text-text-primary group-hover:text-accent-teal transition-colors text-lg mb-2">
+                        <h3 className="font-semibold text-text-primary group-hover:text-accent-blue transition-colors text-base mb-2">
                           {stream.name}
                         </h3>
-                        
-                        <div className="grid grid-cols-4 gap-6 mb-4">
+
+                        <div className="grid grid-cols-4 gap-6 mb-3">
                           <div>
-                            <div className="text-2xl font-bold text-accent-teal">
+                            <div className="text-xl font-bold text-text-primary">
                               ${(stream.currentRevenue / 1000).toFixed(1)}K
                             </div>
                             <div className="text-sm text-text-muted">{t('commercial.current_revenue')}</div>
                           </div>
                           <div>
-                            <div className="text-xl font-semibold text-text-primary">
+                            <div className="text-lg font-semibold text-text-primary">
                               ${(stream.targetRevenue / 1000).toFixed(1)}K
                             </div>
                             <div className="text-sm text-text-muted">{t('commercial.target')}</div>
                           </div>
                           <div>
-                            <div className="text-xl font-semibold text-status-success">
+                            <div className="text-lg font-semibold text-status-success">
                               +{stream.growth}%
                             </div>
                             <div className="text-sm text-text-muted">{t('commercial.growth')}</div>
                           </div>
                           <div>
-                            <div className="text-xl font-semibold text-accent-gold">
+                            <div className="text-lg font-semibold text-text-primary">
                               {stream.margin}%
                             </div>
                             <div className="text-sm text-text-muted">{t('commercial.margin')}</div>
@@ -218,15 +211,15 @@ const CommercialOperations: React.FC = () => {
                         </div>
 
                         {/* Progress Bar */}
-                        <div className="w-full bg-primary-600 rounded-full h-3 mb-4">
+                        <div className="w-full bg-primary-600 rounded-full h-2 mb-3">
                           <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: `${(stream.currentRevenue / stream.targetRevenue) * 100}%` }}
                             transition={{ duration: 1, delay: index * 0.2 }}
-                            className={`h-3 rounded-full ${
-                              stream.currentRevenue >= stream.targetRevenue 
-                                ? 'bg-gradient-to-r from-status-success to-accent-teal' 
-                                : 'bg-gradient-to-r from-accent-gold to-status-warning'
+                            className={`h-2 rounded-full ${
+                              stream.currentRevenue >= stream.targetRevenue
+                                ? 'bg-status-success'
+                                : 'bg-status-warning'
                             }`}
                           />
                         </div>
@@ -236,21 +229,15 @@ const CommercialOperations: React.FC = () => {
                           <h4 className="text-sm font-medium text-text-secondary">{t('commercial.optimization_opportunities')}</h4>
                           <div className="flex flex-wrap gap-2">
                             {stream.optimization.slice(0, 2).map((suggestion, i) => (
-                              <motion.button
+                              <span
                                 key={i}
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleOptimizationAction(suggestion, stream);
-                                }}
-                                className="px-3 py-1 bg-accent-teal bg-opacity-20 text-accent-teal rounded-full text-xs hover:bg-opacity-30 transition-colors"
+                                className="px-2.5 py-0.5 bg-accent-blue/10 text-blue-200 border border-accent-blue/30 rounded-full text-xs"
                               >
                                 {suggestion}
-                              </motion.button>
+                              </span>
                             ))}
                             {stream.optimization.length > 2 && (
-                              <span className="px-3 py-1 bg-primary-600 text-text-muted rounded-full text-xs">
+                              <span className="px-2.5 py-0.5 bg-primary-600/40 text-text-muted rounded-full text-xs">
                                 +{stream.optimization.length - 2} more
                               </span>
                             )}
@@ -265,8 +252,8 @@ const CommercialOperations: React.FC = () => {
           </div>
 
           {/* Monthly Revenue Trends */}
-          <div className="commercial-gradient rounded-xl border border-primary-600 p-8">
-            <h2 className="text-2xl font-bold text-text-primary mb-6">{t('commercial.revenue_trends')}</h2>
+          <div className="glass-panel-strong rounded-xl p-6">
+            <h2 className="text-base font-semibold text-text-primary mb-4">{t('commercial.revenue_trends')}</h2>
             <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={monthlyRevenue}>
@@ -302,10 +289,10 @@ const CommercialOperations: React.FC = () => {
         </div>
 
         {/* Right Column - Analytics */}
-        <div className="col-span-4 space-y-8">
+        <div className="col-span-4 space-y-6">
           {/* Customer Satisfaction */}
-          <div className="commercial-gradient rounded-xl border border-primary-600 p-6">
-            <h3 className="text-lg font-semibold text-text-primary mb-4">{t('commercial.customer_satisfaction')}</h3>
+          <div className="glass-panel-strong rounded-xl p-6">
+            <h3 className="text-base font-semibold text-text-primary mb-4">{t('commercial.customer_satisfaction')}</h3>
             <div className="space-y-4">
               {customerSatisfaction.map((item, index) => (
                 <motion.div
@@ -313,8 +300,8 @@ const CommercialOperations: React.FC = () => {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: index * 0.1 }}
-                  whileHover={{ scale: 1.02 }}
-                  className="p-4 bg-primary-700 rounded-lg border border-primary-600 hover:border-accent-teal transition-all duration-300 cursor-pointer"
+                  whileHover={{ y: -2 }}
+                  className={`glass-pill ${['glass-pill-blue', 'glass-pill-teal', 'glass-pill-violet', 'glass-pill-neutral'][index % 4]} hover:border-accent-blue/40 transition-colors duration-200 cursor-pointer`}
                   onClick={() => addToast({
                     type: 'info',
                     title: t('commercial.feedback_details'),
@@ -324,8 +311,8 @@ const CommercialOperations: React.FC = () => {
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-text-primary font-medium">{item.service}</span>
                     <div className="flex items-center space-x-1">
-                      <Star className="h-4 w-4 text-accent-gold" />
-                      <span className="text-accent-gold font-semibold">{item.score}</span>
+                      <Star className="h-4 w-4 text-text-muted" />
+                      <span className="text-text-primary font-semibold">{item.score}</span>
                     </div>
                   </div>
                   <div className="w-full bg-primary-600 rounded-full h-2 mb-2">
@@ -333,7 +320,7 @@ const CommercialOperations: React.FC = () => {
                       initial={{ width: 0 }}
                       animate={{ width: `${(item.score / 5) * 100}%` }}
                       transition={{ duration: 1, delay: index * 0.2 }}
-                      className="h-2 bg-gradient-to-r from-accent-gold to-accent-teal rounded-full"
+                      className="h-2 bg-accent-blue rounded-full"
                     />
                   </div>
                   <div className="text-xs text-text-muted">{item.responses} responses</div>
@@ -343,8 +330,8 @@ const CommercialOperations: React.FC = () => {
           </div>
 
           {/* Conversion Rates */}
-          <div className="commercial-gradient rounded-xl border border-primary-600 p-6">
-            <h3 className="text-lg font-semibold text-text-primary mb-4">{t('commercial.conversion_rates')}</h3>
+          <div className="glass-panel-strong rounded-xl p-6">
+            <h3 className="text-base font-semibold text-text-primary mb-4">{t('commercial.conversion_rates')}</h3>
             <div className="h-48">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
@@ -379,10 +366,10 @@ const CommercialOperations: React.FC = () => {
           </div>
 
           {/* Revenue Opportunities */}
-          <div className="commercial-gradient rounded-xl border border-primary-600 p-6">
+          <div className="glass-panel-strong rounded-xl p-6">
             <div className="flex items-center space-x-2 mb-4">
-              <TrendingUp className="h-5 w-5 text-accent-teal animate-pulse" />
-              <h3 className="text-lg font-semibold text-text-primary">{t('commercial.revenue_opportunities')}</h3>
+              <TrendingUp className="h-5 w-5 text-accent-blue" />
+              <h3 className="text-base font-semibold text-text-primary">{t('commercial.revenue_opportunities')}</h3>
             </div>
             <div className="space-y-3">
               {[
@@ -396,8 +383,8 @@ const CommercialOperations: React.FC = () => {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: index * 0.1 }}
-                  whileHover={{ scale: 1.02 }}
-                  className="p-4 bg-primary-700 rounded-lg border border-primary-600 hover:border-accent-teal transition-all duration-300 cursor-pointer"
+                  whileHover={{ y: -2 }}
+                  className={`glass-pill ${['glass-pill-blue', 'glass-pill-teal', 'glass-pill-violet', 'glass-pill-neutral'][index % 4]} hover:border-accent-blue/40 transition-colors duration-200 cursor-pointer`}
                   onClick={() => addToast({
                     type: 'info',
                     title: t('commercial.opportunity_selected'),
@@ -406,7 +393,7 @@ const CommercialOperations: React.FC = () => {
                 >
                   <div className="flex items-center justify-between mb-2">
                     <span className="font-medium text-text-primary text-sm">{opp.opportunity}</span>
-                    <span className="text-accent-gold font-medium text-sm">{opp.confidence}%</span>
+                    <span className="text-text-muted font-medium text-sm">{opp.confidence}%</span>
                   </div>
                   <div className="text-status-success text-xs font-medium mb-2">{opp.impact}</div>
                   <div className="w-full bg-primary-600 rounded-full h-1">
@@ -414,38 +401,10 @@ const CommercialOperations: React.FC = () => {
                       initial={{ width: 0 }}
                       animate={{ width: `${opp.confidence}%` }}
                       transition={{ duration: 1, delay: index * 0.2 }}
-                      className="h-1 bg-gradient-to-r from-accent-teal to-accent-gold rounded-full"
+                      className="h-1 bg-accent-blue rounded-full"
                     />
                   </div>
                 </motion.div>
-              ))}
-            </div>
-          </div>
-
-          {/* Quick Actions */}
-          <div className="commercial-gradient rounded-xl border border-primary-600 p-6">
-            <h3 className="text-lg font-semibold text-text-primary mb-4">{t('commercial.quick_actions')}</h3>
-            <div className="space-y-3">
-              {[
-                { action: t('commercial.launch_promotion'), icon: Target },
-                { action: t('commercial.adjust_pricing'), icon: DollarSign },
-                { action: t('commercial.analyze_trends'), icon: BarChart3 },
-                { action: t('commercial.customer_survey'), icon: Users },
-              ].map((item, index) => (
-                <motion.button
-                  key={index}
-                  whileHover={{ scale: 1.02, x: 4 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => addToast({
-                    type: 'success',
-                    title: t('commercial.action_initiated'),
-                    message: `${item.action} process started`
-                  })}
-                  className="w-full flex items-center space-x-3 p-4 bg-primary-700 rounded-lg hover:bg-primary-600 transition-all duration-300 group"
-                >
-                  <item.icon className="h-5 w-5 text-accent-teal group-hover:scale-110 transition-transform" />
-                  <span className="text-text-primary text-sm font-medium">{item.action}</span>
-                </motion.button>
               ))}
             </div>
           </div>

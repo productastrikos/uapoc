@@ -48,7 +48,7 @@ const PITCH_STEP = 12;
 const KIND_STYLE: Record<PanoHotspot['kind'], { colour: string; Icon: React.ElementType }> = {
   alert: { colour: '#f97316', Icon: AlertTriangle },
   asset: { colour: '#34d399', Icon: Wind },
-  camera: { colour: '#22C7C6', Icon: Camera },
+  camera: { colour: '#3B82F6', Icon: Camera },
 };
 
 /** Signed difference from→to, wrapped to [-180, 180]. */
@@ -215,9 +215,9 @@ const PanoStage: React.FC<Props> = ({ scene, heading, pitch, onPov, selected, on
         title={showAssets ? 'Hide asset markers' : 'Show asset markers in this view'}
         className="absolute right-2 bottom-2 z-30 flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold hover:brightness-125"
         style={{
-          background: showAssets ? 'rgba(1,163,164,0.28)' : HUD_BG,
-          border: `1px solid ${showAssets ? 'rgba(34,199,198,0.7)' : 'rgba(255,255,255,0.16)'}`,
-          color: showAssets ? '#7FE3E3' : HUD_FG,
+          background: showAssets ? 'rgba(37,99,235,0.28)' : HUD_BG,
+          border: `1px solid ${showAssets ? 'rgba(59,130,246,0.7)' : 'rgba(255,255,255,0.16)'}`,
+          color: showAssets ? '#93C5FD' : HUD_FG,
         }}
       >
         {showAssets ? <Eye className="w-3.5 h-3.5" /> : <EyeOff className="w-3.5 h-3.5" />}

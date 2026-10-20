@@ -99,15 +99,15 @@ const AiInsightPanel: React.FC<Props> = ({
   // the taller blocks beneath it.
   if (variant === 'rail') {
     return (
-      <section className="fs-ai shrink-0 bg-primary-800/70 border border-ai-500/40 rounded-lg overflow-hidden">
-        <header className="flex items-center gap-2 px-3 py-2 border-b border-ai-500/30 bg-ai-500/10">
-          <Brain className="w-4 h-4 text-ai-300" />
-          <h3 className="text-xs font-semibold text-ai-200 uppercase tracking-wide">
+      <section className="fs-ai shrink-0 bg-primary-800/70 border border-accent-blue/30 rounded-lg overflow-hidden">
+        <header className="flex items-center gap-2 px-3 py-2 border-b border-accent-blue/20 bg-accent-blue/10">
+          <Brain className="w-4 h-4 text-accent-blue" />
+          <h3 className="text-xs font-semibold text-accent-blue uppercase tracking-wide">
             AI Advisory
           </h3>
           <div className="flex-1" />
           {pending > 0 && (
-            <span className="px-1.5 py-0.5 rounded bg-ai-500/20 border border-ai-500/50 text-[length:calc(10px*var(--fs))] font-mono text-ai-300">
+            <span className="px-1.5 py-0.5 rounded bg-accent-blue/20 border border-accent-blue/40 text-[length:calc(10px*var(--fs))] font-mono text-accent-blue">
               {pending}
             </span>
           )}
@@ -127,7 +127,7 @@ const AiInsightPanel: React.FC<Props> = ({
     <motion.section
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      className="fs-ai rounded-xl border border-ai-500/45 bg-gradient-to-r from-ai-900/40 via-primary-800 to-primary-800 overflow-hidden"
+      className="fs-ai glass-panel rounded-xl overflow-hidden"
     >
       {/* The one line. Everything needed to decide whether to open it: that the
           AI has something, how urgent, and what about. */}
@@ -136,15 +136,17 @@ const AiInsightPanel: React.FC<Props> = ({
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         title={open ? 'Collapse AI advisory' : 'Expand AI advisory'}
-        className="w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors hover:bg-ai-500/10"
+        className="w-full flex items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-accent-blue/10"
       >
-        <Brain className="w-5 h-5 shrink-0 text-ai-300" />
+        <div className="p-1.5 bg-accent-blue/15 rounded-lg shrink-0">
+          <Brain className="w-4 h-4 text-accent-blue" />
+        </div>
 
-        <span className="text-sm font-bold uppercase tracking-wide text-ai-200 shrink-0">
+        <span className="text-sm font-bold uppercase tracking-wide text-accent-blue shrink-0">
           AI Advisory
         </span>
 
-        <span className="hidden md:inline text-xs text-ai-400/70 shrink-0">
+        <span className="hidden md:inline text-xs text-text-muted shrink-0">
           · {DOMAIN_LABEL[domain]}
         </span>
 
@@ -159,13 +161,16 @@ const AiInsightPanel: React.FC<Props> = ({
         <span className="flex-1 lg:hidden" />
 
         {pending > 0 && (
-          <span className="shrink-0 px-2 py-0.5 rounded-full bg-ai-500/20 border border-ai-500/50 text-xs font-semibold text-ai-200">
-            {pending} pending
+          <span
+            title={`${pending} awaiting a decision`}
+            className="shrink-0 min-w-[1.375rem] h-[1.375rem] px-1 flex items-center justify-center rounded-full bg-accent-blue text-white text-[11px] font-bold"
+          >
+            {pending}
           </span>
         )}
 
         <motion.span animate={{ rotate: open ? 180 : 0 }} className="shrink-0">
-          <ChevronDown className="w-4 h-4 text-ai-300" />
+          <ChevronDown className="w-4 h-4 text-accent-blue" />
         </motion.span>
       </button>
 
@@ -177,7 +182,7 @@ const AiInsightPanel: React.FC<Props> = ({
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.22, ease: 'easeOut' }}
-            className="overflow-hidden border-t border-ai-500/25"
+            className="overflow-hidden border-t border-accent-blue/15"
           >
             <div className="p-4 space-y-3">
               <div className="flex items-center gap-3 flex-wrap">

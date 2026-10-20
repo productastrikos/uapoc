@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BarChart3, PieChart, TrendingUp, FileText, Calendar, Download, Filter, Eye } from 'lucide-react';
+import { BarChart3, PieChart, TrendingUp, FileText, Calendar, Eye } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, BarChart, Bar, AreaChart, Area, ComposedChart, PieChart as RechartsPieChart, Pie, Cell } from 'recharts';
 import DetailModal from '../UI/DetailModal';
@@ -106,63 +106,47 @@ const AnalyticsReporting: React.FC = () => {
     setShowModal(true);
   };
 
-  const handleGenerateReport = (report: OperationalReport) => {
-    addToast({
-      type: 'success',
-      title: 'Report Generation Started',
-      message: `${report.name} is being generated and will be ready shortly`,
-      duration: 5000
-    });
-  };
-
-  const handleExportData = (format: string) => {
-    addToast({
-      type: 'info',
-      title: 'Export Started',
-      message: `Data export in ${format} format initiated`,
-      duration: 3000
-    });
-  };
-
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="space-y-8"
+      className="space-y-6"
     >
       {/* Header */}
       <div className="flex items-center space-x-4">
-        <BarChart3 className="h-8 w-8 text-accent-teal" />
+        <div className="p-2 bg-accent-blue/15 rounded-lg">
+          <BarChart3 className="w-5 h-5 text-accent-blue" />
+        </div>
         <div>
-          <h1 className="text-3xl font-bold text-text-primary">{t('nav.reports')}</h1>
-          <p className="text-text-muted">Comprehensive analytics, reporting, and business intelligence</p>
+          <h1 className="text-2xl font-bold text-white">{t('nav.reports')}</h1>
+          <p className="text-sm text-text-muted">Comprehensive analytics, reporting, and business intelligence</p>
         </div>
       </div>
 
       {/* Quick Stats */}
-      <div className="grid grid-cols-4 gap-6">
+      <div className="grid grid-cols-4 gap-3">
         {[
-          { label: 'Active Reports', value: '47', icon: FileText, color: 'text-accent-teal', change: '+5' },
-          { label: 'Data Sources', value: '23', icon: Eye, color: 'text-status-success', change: '+2' },
-          { label: 'Automation Rate', value: '94.2%', icon: TrendingUp, color: 'text-accent-gold', change: '+3.1%' },
-          { label: 'Compliance Score', value: '98.7%', icon: Calendar, color: 'text-status-info', change: '+0.5%' },
+          { label: 'Active Reports', value: '47', icon: FileText, change: '+5', tint: 'glass-pill-blue' },
+          { label: 'Data Sources', value: '23', icon: Eye, change: '+2', tint: 'glass-pill-teal' },
+          { label: 'Automation Rate', value: '94.2%', icon: TrendingUp, change: '+3.1%', tint: 'glass-pill-violet' },
+          { label: 'Compliance Score', value: '98.7%', icon: Calendar, change: '+0.5%', tint: 'glass-pill-neutral' },
         ].map((stat, index) => (
           <motion.div
             key={stat.label}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
-            whileHover={{ scale: 1.02, y: -2 }}
-            className="bg-gradient-to-br from-primary-800 to-primary-700 rounded-lg p-6 border border-primary-600 hover:border-accent-teal transition-all duration-300 cursor-pointer hover:shadow-2xl"
+            whileHover={{ y: -2 }}
+            className={`glass-pill ${stat.tint} hover:border-accent-blue/40 transition-colors duration-200 cursor-pointer`}
             onClick={() => handleReportClick(reports[0])}
           >
             <div className="flex items-center justify-between mb-2">
-              <stat.icon className={`h-6 w-6 ${stat.color}`} />
+              <stat.icon className="h-5 w-5 text-text-muted" />
               <span className={`text-sm font-medium ${stat.change.startsWith('+') ? 'text-status-success' : 'text-status-warning'}`}>
                 {stat.change}
               </span>
             </div>
-            <div className="text-2xl font-bold text-text-primary">{stat.value}</div>
+            <div className="text-xl font-bold text-text-primary">{stat.value}</div>
             <div className="text-sm text-text-muted">{stat.label}</div>
           </motion.div>
         ))}
@@ -173,29 +157,13 @@ const AnalyticsReporting: React.FC = () => {
           second. */}
       <AiInsightPanel domain="analytics" />
 
-      <div className="grid grid-cols-12 gap-8">
+      <div className="grid grid-cols-12 gap-6">
         {/* Left Column - Reports & Analytics */}
-        <div className="col-span-8 space-y-8">
+        <div className="col-span-8 space-y-6">
           {/* Operational Dashboard */}
-          <div className="bg-gradient-to-br from-primary-800 to-primary-700 rounded-xl border border-primary-600 p-8 backdrop-blur-sm">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-text-primary">Executive Performance Dashboard</h2>
-              <div className="flex items-center space-x-2">
-                <button
-                  onClick={() => handleExportData('PDF')}
-                  className="px-4 py-2 bg-accent-teal bg-opacity-20 text-accent-teal rounded-lg hover:bg-opacity-30 transition-colors"
-                >
-                  <Download className="h-4 w-4 inline mr-2" />
-                  Export PDF
-                </button>
-                <button
-                  onClick={() => handleExportData('Excel')}
-                  className="px-4 py-2 bg-accent-gold bg-opacity-20 text-accent-gold rounded-lg hover:bg-opacity-30 transition-colors"
-                >
-                  <Download className="h-4 w-4 inline mr-2" />
-                  Excel
-                </button>
-              </div>
+          <div className="glass-panel-strong rounded-xl p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-base font-semibold text-text-primary">Executive Performance Dashboard</h2>
             </div>
 
             <div className="h-96">
@@ -232,9 +200,9 @@ const AnalyticsReporting: React.FC = () => {
           </div>
 
           {/* Report Management */}
-          <div className="bg-gradient-to-br from-primary-800 to-primary-700 rounded-xl border border-primary-600 p-8">
-            <h2 className="text-2xl font-bold text-text-primary mb-6">Automated Report Management</h2>
-            
+          <div className="glass-panel rounded-xl p-6">
+            <h2 className="text-base font-semibold text-text-primary mb-4">Automated Report Management</h2>
+
             <div className="space-y-4">
               {reports.map((report, index) => (
                 <motion.div
@@ -242,42 +210,32 @@ const AnalyticsReporting: React.FC = () => {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  whileHover={{ scale: 1.01, x: 8 }}
-                  className="p-6 bg-primary-700 rounded-xl border border-primary-600 hover:border-accent-teal transition-all duration-300 cursor-pointer group"
+                  whileHover={{ y: -2 }}
+                  className="p-4 glass-panel rounded-xl hover:border-accent-blue/40 transition-colors duration-200 cursor-pointer group"
                   onClick={() => handleReportClick(report)}
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex items-start space-x-4">
-                      <div className={`p-3 rounded-lg ${
-                        report.type === 'regulatory' ? 'bg-status-error bg-opacity-20' :
-                        report.type === 'executive' ? 'bg-accent-gold bg-opacity-20' :
-                        report.type === 'financial' ? 'bg-status-success bg-opacity-20' :
-                        'bg-accent-teal bg-opacity-20'
-                      }`}>
-                        {report.type === 'regulatory' ? <FileText className="h-5 w-5 text-status-error" /> :
-                         report.type === 'executive' ? <TrendingUp className="h-5 w-5 text-accent-gold" /> :
-                         report.type === 'financial' ? <BarChart3 className="h-5 w-5 text-status-success" /> :
-                         <PieChart className="h-5 w-5 text-accent-teal" />}
+                      <div className="p-2 rounded-lg bg-accent-blue/15">
+                        {report.type === 'regulatory' ? <FileText className="h-5 w-5 text-accent-blue" /> :
+                         report.type === 'executive' ? <TrendingUp className="h-5 w-5 text-accent-blue" /> :
+                         report.type === 'financial' ? <BarChart3 className="h-5 w-5 text-accent-blue" /> :
+                         <PieChart className="h-5 w-5 text-accent-blue" />}
                       </div>
-                      
+
                       <div className="flex-1">
-                        <div className="flex items-center space-x-3 mb-2">
-                          <h3 className="font-semibold text-text-primary group-hover:text-accent-teal transition-colors">
+                        <div className="flex items-center space-x-2 mb-2">
+                          <h3 className="font-semibold text-text-primary group-hover:text-accent-blue transition-colors">
                             {report.name}
                           </h3>
-                          <span className={`text-xs px-3 py-1 rounded-full font-medium ${
-                            report.type === 'regulatory' ? 'bg-status-error text-white' :
-                            report.type === 'executive' ? 'bg-accent-gold text-black' :
-                            report.type === 'financial' ? 'bg-status-success text-white' :
-                            'bg-accent-teal text-white'
-                          }`}>
+                          <span className="text-xs px-2 py-0.5 rounded-full font-medium bg-accent-blue/10 text-blue-200 border border-accent-blue/30">
                             {report.type.toUpperCase()}
                           </span>
-                          <span className="text-xs px-2 py-1 bg-primary-600 text-text-muted rounded-full">
+                          <span className="text-xs px-2 py-0.5 bg-primary-600/40 text-text-muted rounded-full">
                             {report.schedule}
                           </span>
                         </div>
-                        
+
                         <div className="grid grid-cols-4 gap-4 mb-3">
                           <div>
                             <div className="text-sm text-text-muted">Last Generated</div>
@@ -287,17 +245,17 @@ const AnalyticsReporting: React.FC = () => {
                           </div>
                           <div>
                             <div className="text-sm text-text-muted">Next Due</div>
-                            <div className="text-accent-teal font-medium">
+                            <div className="text-text-primary font-medium">
                               {new Date(report.nextDue).toLocaleDateString()}
                             </div>
                           </div>
                           <div>
                             <div className="text-sm text-text-muted">Compliance</div>
-                            <div className="text-status-success font-medium">{report.compliance}%</div>
+                            <div className="text-text-primary font-medium">{report.compliance}%</div>
                           </div>
                           <div>
                             <div className="text-sm text-text-muted">Automation</div>
-                            <div className="text-accent-gold font-medium">{report.automation}%</div>
+                            <div className="text-text-primary font-medium">{report.automation}%</div>
                           </div>
                         </div>
 
@@ -312,37 +270,11 @@ const AnalyticsReporting: React.FC = () => {
                               initial={{ width: 0 }}
                               animate={{ width: `${report.compliance}%` }}
                               transition={{ duration: 1, delay: index * 0.2 }}
-                              className="h-1 bg-gradient-to-r from-status-success to-accent-teal rounded-full"
+                              className="h-1 bg-accent-blue rounded-full"
                             />
                           </div>
                         </div>
                       </div>
-                    </div>
-
-                    <div className="flex items-center space-x-2">
-                      <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleReportClick(report);
-                        }}
-                        className="px-4 py-2 bg-accent-gold bg-opacity-20 text-accent-gold hover:bg-opacity-30 rounded-lg transition-colors"
-                      >
-                        View Details
-                      </motion.button>
-                      
-                      <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleGenerateReport(report);
-                        }}
-                        className="px-4 py-2 bg-accent-teal hover:bg-opacity-80 text-white rounded-lg font-medium transition-colors"
-                      >
-                        Generate Now
-                      </motion.button>
                     </div>
                   </div>
                 </motion.div>
@@ -351,8 +283,8 @@ const AnalyticsReporting: React.FC = () => {
           </div>
 
           {/* Benchmarking Analysis */}
-          <div className="bg-gradient-to-br from-primary-800 to-primary-700 rounded-xl border border-primary-600 p-8">
-            <h2 className="text-2xl font-bold text-text-primary mb-6">Industry Benchmarking</h2>
+          <div className="glass-panel rounded-xl p-6">
+            <h2 className="text-base font-semibold text-text-primary mb-4">Industry Benchmarking</h2>
             <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={benchmarkData} layout="horizontal">
@@ -382,10 +314,10 @@ const AnalyticsReporting: React.FC = () => {
         </div>
 
         {/* Right Column - Analytics */}
-        <div className="col-span-4 space-y-8">
+        <div className="col-span-4 space-y-6">
           {/* Data Source Health */}
-          <div className="bg-gradient-to-br from-primary-800 to-primary-700 rounded-xl border border-primary-600 p-6">
-            <h3 className="text-lg font-semibold text-text-primary mb-4">Data Source Health</h3>
+          <div className="glass-panel rounded-xl p-6">
+            <h3 className="text-base font-semibold text-text-primary mb-4">Data Source Health</h3>
             <div className="space-y-4">
               {dataSourceHealth.map((source, index) => (
                 <motion.div
@@ -393,8 +325,10 @@ const AnalyticsReporting: React.FC = () => {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: index * 0.1 }}
-                  whileHover={{ scale: 1.02 }}
-                  className="p-4 bg-primary-700 rounded-lg border border-primary-600 hover:border-accent-teal transition-all duration-300 cursor-pointer"
+                  whileHover={{ y: -2 }}
+                  className={`p-3 glass-pill ${
+                    index % 3 === 0 ? 'glass-pill-blue' : index % 3 === 1 ? 'glass-pill-teal' : 'glass-pill-violet'
+                  } hover:border-accent-blue/40 transition-colors duration-200 cursor-pointer`}
                   onClick={() => addToast({
                     type: 'info',
                     title: 'Data Source Details',
@@ -404,26 +338,26 @@ const AnalyticsReporting: React.FC = () => {
                   <div className="flex items-center justify-between mb-2">
                     <span className="font-medium text-text-primary">{source.name}</span>
                     <span className={`text-sm font-semibold ${
-                      source.status > 98 ? 'text-status-success' : 
+                      source.status > 98 ? 'text-status-success' :
                       source.status > 95 ? 'text-status-warning' : 'text-status-error'
                     }`}>
                       {source.status}%
                     </span>
                   </div>
-                  
+
                   <div className="w-full bg-primary-600 rounded-full h-2 mb-2">
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${source.status}%` }}
                       transition={{ duration: 1, delay: index * 0.2 }}
                       className={`h-2 rounded-full ${
-                        source.status > 98 ? 'bg-gradient-to-r from-status-success to-accent-teal' : 
-                        source.status > 95 ? 'bg-gradient-to-r from-accent-gold to-status-warning' :
-                        'bg-gradient-to-r from-status-error to-red-600'
+                        source.status > 98 ? 'bg-status-success' :
+                        source.status > 95 ? 'bg-status-warning' :
+                        'bg-status-error'
                       }`}
                     />
                   </div>
-                  
+
                   <div className="flex justify-between text-xs text-text-muted">
                     <span>{source.records.toLocaleString()} records</span>
                     <span>{source.quality}% quality</span>
@@ -434,8 +368,8 @@ const AnalyticsReporting: React.FC = () => {
           </div>
 
           {/* Predictive Analytics */}
-          <div className="bg-gradient-to-br from-primary-800 to-primary-700 rounded-xl border border-primary-600 p-6">
-            <h3 className="text-lg font-semibold text-text-primary mb-4">AI Predictive Insights</h3>
+          <div className="glass-panel rounded-xl p-6">
+            <h3 className="text-base font-semibold text-text-primary mb-4">AI Predictive Insights</h3>
             <div className="h-48">
               <ResponsiveContainer width="100%" height="100%">
                 <RechartsPieChart>
@@ -473,34 +407,6 @@ const AnalyticsReporting: React.FC = () => {
                     </span>
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Quick Actions */}
-          <div className="bg-gradient-to-br from-primary-800 to-primary-700 rounded-xl border border-primary-600 p-6">
-            <h3 className="text-lg font-semibold text-text-primary mb-4">Quick Actions</h3>
-            <div className="space-y-3">
-              {[
-                { action: 'Custom Dashboard', icon: BarChart3 },
-                { action: 'Schedule Report', icon: Calendar },
-                { action: 'Export Data', icon: Download },
-                { action: 'Filter Analytics', icon: Filter },
-              ].map((item, index) => (
-                <motion.button
-                  key={index}
-                  whileHover={{ scale: 1.02, x: 4 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => addToast({
-                    type: 'success',
-                    title: 'Action Initiated',
-                    message: `${item.action} process started`
-                  })}
-                  className="w-full flex items-center space-x-3 p-4 bg-primary-700 rounded-lg hover:bg-primary-600 transition-all duration-300 group"
-                >
-                  <item.icon className="h-5 w-5 text-accent-teal group-hover:scale-110 transition-transform" />
-                  <span className="text-text-primary text-sm font-medium">{item.action}</span>
-                </motion.button>
               ))}
             </div>
           </div>

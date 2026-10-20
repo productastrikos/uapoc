@@ -92,57 +92,50 @@ const SustainabilityOperations: React.FC = () => {
     setShowModal(true);
   };
 
-  const handleInitiativeAction = (initiative: string, metric: SustainabilityMetric) => {
-    addToast({
-      type: 'success',
-      title: t('sustainability.initiative_activated'),
-      message: `${initiative} project initiated for ${metric.name}`,
-      duration: 5000
-    });
-  };
-
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="space-y-8"
+      className="space-y-6"
     >
       {/* Header */}
       <div className="flex items-center space-x-4">
-        <Leaf className="h-8 w-8 text-accent-teal" />
+        <div className="p-2 bg-accent-blue/15 rounded-lg">
+          <Leaf className="w-5 h-5 text-accent-blue" />
+        </div>
         <div>
-          <h1 className="text-3xl font-bold text-text-primary">{t('nav.sustainability')}</h1>
-          <p className="text-text-muted">{t('sustainability.subtitle')}</p>
+          <h1 className="text-2xl font-bold text-white">{t('nav.sustainability')}</h1>
+          <p className="text-sm text-text-muted">{t('sustainability.subtitle')}</p>
         </div>
       </div>
 
       {/* Quick Stats */}
-      <div className="grid grid-cols-4 gap-6">
+      <div className="grid grid-cols-4 gap-3">
         {[
-          { label: t('sustainability.energy_savings'), value: '12.3%', icon: Zap, color: 'text-accent-teal', change: '+2.1%' },
-          { label: t('sustainability.carbon_reduction'), value: '18.7%', icon: Wind, color: 'text-status-success', change: '+4.3%' },
-          { label: t('sustainability.waste_diverted'), value: '67.5%', icon: Recycle, color: 'text-accent-gold', change: '+1.2%' },
-          { label: t('sustainability.water_saved'), value: '8.9%', icon: Droplets, color: 'text-status-info', change: '-2.1%' },
+          { label: t('sustainability.energy_savings'), value: '12.3%', icon: Zap, change: '+2.1%', tint: 'glass-pill-blue' },
+          { label: t('sustainability.carbon_reduction'), value: '18.7%', icon: Wind, change: '+4.3%', tint: 'glass-pill-teal' },
+          { label: t('sustainability.waste_diverted'), value: '67.5%', icon: Recycle, change: '+1.2%', tint: 'glass-pill-violet' },
+          { label: t('sustainability.water_saved'), value: '8.9%', icon: Droplets, change: '-2.1%', tint: 'glass-pill-neutral' },
         ].map((stat, index) => (
           <motion.div
             key={stat.label}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
-            whileHover={{ scale: 1.02, y: -2 }}
-            className="sustainability-gradient rounded-lg p-6 border border-primary-600 hover:border-accent-teal transition-all duration-300 cursor-pointer hover:shadow-2xl"
+            whileHover={{ y: -2 }}
+            className={`glass-pill ${stat.tint} rounded-lg p-4 cursor-pointer`}
             onClick={() => handleMetricClick(sustainabilityMetrics[index])}
           >
             <div className="flex items-center justify-between mb-2">
-              <stat.icon className={`h-6 w-6 ${stat.color}`} />
+              <stat.icon className="h-5 w-5 text-text-muted" />
               <span className={`text-sm font-medium ${
-                stat.change.startsWith('+') ? 'text-status-success' : 
+                stat.change.startsWith('+') ? 'text-status-success' :
                 stat.change.startsWith('-') && stat.label.includes('saved') ? 'text-status-error' : 'text-status-success'
               }`}>
                 {stat.change}
               </span>
             </div>
-            <div className="text-2xl font-bold text-text-primary">{stat.value}</div>
+            <div className="text-xl font-bold text-text-primary">{stat.value}</div>
             <div className="text-sm text-text-muted">{stat.label}</div>
           </motion.div>
         ))}
@@ -153,13 +146,13 @@ const SustainabilityOperations: React.FC = () => {
           second. */}
       <AiInsightPanel domain="sustainability" />
 
-      <div className="grid grid-cols-12 gap-8">
+      <div className="grid grid-cols-12 gap-6">
         {/* Left Column - Sustainability Metrics */}
-        <div className="col-span-8 space-y-8">
+        <div className="col-span-8 space-y-6">
           {/* Environmental KPIs */}
-          <div className="sustainability-gradient rounded-xl border border-primary-600 p-8 backdrop-blur-sm">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-text-primary">{t('sustainability.environmental_kpis')}</h2>
+          <div className="glass-panel-strong rounded-xl p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-base font-semibold text-text-primary">{t('sustainability.environmental_kpis')}</h2>
               <div className="flex items-center space-x-4 text-sm">
                 <div className="flex items-center space-x-2">
                   <div className="w-3 h-3 bg-status-success rounded-full"></div>
@@ -176,59 +169,55 @@ const SustainabilityOperations: React.FC = () => {
               </div>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-4">
               {sustainabilityMetrics.map((metric, index) => (
                 <motion.div
                   key={metric.id}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  whileHover={{ scale: 1.01, x: 8 }}
-                  className="p-6 bg-gradient-to-r from-primary-800 to-primary-700 rounded-xl border border-primary-600 hover:border-accent-teal transition-all duration-300 cursor-pointer group"
+                  whileHover={{ y: -2 }}
+                  className="p-4 glass-panel rounded-xl hover:border-accent-blue/40 transition-colors duration-200 cursor-pointer group"
                   onClick={() => handleMetricClick(metric)}
                 >
-                  <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-start justify-between">
                     <div className="flex items-start space-x-4">
-                      <div className={`p-3 rounded-lg ${
-                        metric.trend === 'improving' ? 'bg-status-success bg-opacity-20' :
-                        metric.trend === 'stable' ? 'bg-status-warning bg-opacity-20' :
-                        'bg-status-error bg-opacity-20'
-                      }`}>
-                        {metric.category === 'energy' ? <Zap className="h-6 w-6 text-accent-teal" /> :
-                         metric.category === 'emissions' ? <Wind className="h-6 w-6 text-status-info" /> :
-                         metric.category === 'waste' ? <Recycle className="h-6 w-6 text-accent-gold" /> :
-                         <Droplets className="h-6 w-6 text-status-success" />}
+                      <div className="p-2 rounded-lg bg-accent-blue/15">
+                        {metric.category === 'energy' ? <Zap className="h-5 w-5 text-accent-blue" /> :
+                         metric.category === 'emissions' ? <Wind className="h-5 w-5 text-accent-blue" /> :
+                         metric.category === 'waste' ? <Recycle className="h-5 w-5 text-accent-blue" /> :
+                         <Droplets className="h-5 w-5 text-accent-blue" />}
                       </div>
-                      
+
                       <div className="flex-1">
-                        <h3 className="font-semibold text-text-primary group-hover:text-accent-teal transition-colors text-lg mb-2">
+                        <h3 className="font-semibold text-text-primary group-hover:text-accent-blue transition-colors text-base mb-2">
                           {metric.name}
                         </h3>
-                        
-                        <div className="grid grid-cols-4 gap-6 mb-4">
+
+                        <div className="grid grid-cols-4 gap-6 mb-3">
                           <div>
-                            <div className="text-2xl font-bold text-accent-teal">
+                            <div className="text-xl font-bold text-text-primary">
                               {metric.currentValue.toLocaleString()}
                             </div>
                             <div className="text-sm text-text-muted">{metric.unit} current</div>
                           </div>
                           <div>
-                            <div className="text-xl font-semibold text-text-primary">
+                            <div className="text-lg font-semibold text-text-primary">
                               {metric.target.toLocaleString()}
                             </div>
                             <div className="text-sm text-text-muted">{metric.unit} target</div>
                           </div>
                           <div>
-                            <div className={`text-xl font-semibold ${
-                              metric.trend === 'improving' ? 'text-status-success' :
-                              metric.trend === 'stable' ? 'text-status-warning' : 'text-status-error'
+                            <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium border ${
+                              metric.trend === 'improving' ? 'bg-status-success/10 text-status-success border-status-success/30' :
+                              metric.trend === 'stable' ? 'bg-status-warning/10 text-status-warning border-status-warning/30' : 'bg-status-error/10 text-status-error border-status-error/30'
                             }`}>
                               {metric.trend === 'improving' ? '↗' : metric.trend === 'stable' ? '→' : '↘'} {metric.trend}
-                            </div>
+                            </span>
                             <div className="text-sm text-text-muted">{t('sustainability.trend')}</div>
                           </div>
                           <div>
-                            <div className="text-xl font-semibold text-accent-gold">
+                            <div className="text-lg font-semibold text-text-primary">
                               {new Date(metric.deadline).toLocaleDateString()}
                             </div>
                             <div className="text-sm text-text-muted">{t('sustainability.deadline')}</div>
@@ -236,17 +225,17 @@ const SustainabilityOperations: React.FC = () => {
                         </div>
 
                         {/* Progress Bar */}
-                        <div className="w-full bg-primary-600 rounded-full h-3 mb-4">
+                        <div className="w-full bg-primary-600 rounded-full h-2 mb-3">
                           <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: `${Math.min((metric.currentValue / metric.target) * 100, 100)}%` }}
                             transition={{ duration: 1, delay: index * 0.2 }}
-                            className={`h-3 rounded-full ${
-                              metric.currentValue >= metric.target 
-                                ? 'bg-gradient-to-r from-status-success to-accent-teal' 
+                            className={`h-2 rounded-full ${
+                              metric.currentValue >= metric.target
+                                ? 'bg-status-success'
                                 : metric.trend === 'improving'
-                                ? 'bg-gradient-to-r from-accent-teal to-status-success'
-                                : 'bg-gradient-to-r from-status-warning to-status-error'
+                                ? 'bg-accent-blue'
+                                : 'bg-status-error'
                             }`}
                           />
                         </div>
@@ -256,21 +245,15 @@ const SustainabilityOperations: React.FC = () => {
                           <h4 className="text-sm font-medium text-text-secondary">{t('sustainability.active_initiatives')}</h4>
                           <div className="flex flex-wrap gap-2">
                             {metric.initiatives.slice(0, 2).map((initiative, i) => (
-                              <motion.button
+                              <span
                                 key={i}
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleInitiativeAction(initiative, metric);
-                                }}
-                                className="px-3 py-1 bg-accent-teal bg-opacity-20 text-accent-teal rounded-full text-xs hover:bg-opacity-30 transition-colors"
+                                className="px-2.5 py-0.5 bg-accent-blue/10 text-blue-200 border border-accent-blue/30 rounded-full text-xs"
                               >
                                 {initiative}
-                              </motion.button>
+                              </span>
                             ))}
                             {metric.initiatives.length > 2 && (
-                              <span className="px-3 py-1 bg-primary-600 text-text-muted rounded-full text-xs">
+                              <span className="px-2.5 py-0.5 bg-primary-600/40 text-text-muted rounded-full text-xs">
                                 +{metric.initiatives.length - 2} more
                               </span>
                             )}
@@ -285,33 +268,33 @@ const SustainabilityOperations: React.FC = () => {
           </div>
 
           {/* Energy Consumption Trends */}
-          <div className="sustainability-gradient rounded-xl border border-primary-600 p-8">
-            <h2 className="text-2xl font-bold text-text-primary mb-6">{t('sustainability.energy_trends')}</h2>
+          <div className="glass-panel rounded-xl p-6">
+            <h2 className="text-base font-semibold text-text-primary mb-4">{t('sustainability.energy_trends')}</h2>
             <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={energyData}>
                   <XAxis dataKey="month" stroke="#8A9BA8" fontSize={12} />
                   <YAxis stroke="#8A9BA8" fontSize={12} />
-                  <Area 
-                    type="monotone" 
-                    dataKey="consumption" 
+                  <Area
+                    type="monotone"
+                    dataKey="consumption"
                     stackId="1"
-                    stroke="#3B82F6" 
-                    fill="#3B82F6" 
+                    stroke="#3B82F6"
+                    fill="#3B82F6"
                     fillOpacity={0.6}
                   />
-                  <Area 
-                    type="monotone" 
-                    dataKey="renewable" 
+                  <Area
+                    type="monotone"
+                    dataKey="renewable"
                     stackId="1"
-                    stroke="#10B981" 
+                    stroke="#10B981"
                     fill="#10B981"
                     fillOpacity={0.8}
                   />
-                  <Line 
-                    type="monotone" 
-                    dataKey="target" 
-                    stroke="#E6B85C" 
+                  <Line
+                    type="monotone"
+                    dataKey="target"
+                    stroke="#E6B85C"
                     strokeWidth={2}
                     strokeDasharray="5 5"
                   />
@@ -336,10 +319,10 @@ const SustainabilityOperations: React.FC = () => {
         </div>
 
         {/* Right Column - Analytics */}
-        <div className="col-span-4 space-y-8">
+        <div className="col-span-4 space-y-6">
           {/* Carbon Footprint Breakdown */}
-          <div className="sustainability-gradient rounded-xl border border-primary-600 p-6">
-            <h3 className="text-lg font-semibold text-text-primary mb-4">{t('sustainability.emissions_breakdown')}</h3>
+          <div className="glass-panel rounded-xl p-6">
+            <h3 className="text-base font-semibold text-text-primary mb-4">{t('sustainability.emissions_breakdown')}</h3>
             <div className="h-48">
               <ResponsiveContainer width="100%" height="100%">
                 <RadialBarChart cx="50%" cy="50%" innerRadius="30%" outerRadius="90%" data={emissionsBreakdown}>
@@ -365,8 +348,8 @@ const SustainabilityOperations: React.FC = () => {
           </div>
 
           {/* Waste Management */}
-          <div className="sustainability-gradient rounded-xl border border-primary-600 p-6">
-            <h3 className="text-lg font-semibold text-text-primary mb-4">{t('sustainability.waste_management')}</h3>
+          <div className="glass-panel rounded-xl p-6">
+            <h3 className="text-base font-semibold text-text-primary mb-4">{t('sustainability.waste_management')}</h3>
             <div className="space-y-4">
               {wasteData.map((waste, index) => (
                 <motion.div
@@ -374,8 +357,8 @@ const SustainabilityOperations: React.FC = () => {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: index * 0.1 }}
-                  whileHover={{ scale: 1.02 }}
-                  className="p-4 bg-primary-700 rounded-lg border border-primary-600 hover:border-accent-teal transition-all duration-300 cursor-pointer"
+                  whileHover={{ y: -2 }}
+                  className="p-3 glass-panel rounded-lg hover:border-accent-blue/40 transition-colors duration-200 cursor-pointer"
                   onClick={() => addToast({
                     type: 'info',
                     title: t('sustainability.waste_details'),
@@ -384,7 +367,7 @@ const SustainabilityOperations: React.FC = () => {
                 >
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-text-primary font-medium">{waste.category}</span>
-                    <span className="text-accent-teal font-semibold">{waste.current}%</span>
+                    <span className="text-text-primary font-semibold">{waste.current}%</span>
                   </div>
                   <div className="w-full bg-primary-600 rounded-full h-2 mb-2">
                     <motion.div
@@ -392,9 +375,9 @@ const SustainabilityOperations: React.FC = () => {
                       animate={{ width: `${Math.min((waste.current / waste.target) * 100, 100)}%` }}
                       transition={{ duration: 1, delay: index * 0.2 }}
                       className={`h-2 rounded-full ${
-                        waste.current >= waste.target 
-                          ? 'bg-gradient-to-r from-status-success to-accent-teal' 
-                          : 'bg-gradient-to-r from-accent-gold to-status-warning'
+                        waste.current >= waste.target
+                          ? 'bg-status-success'
+                          : 'bg-status-warning'
                       }`}
                     />
                   </div>
@@ -408,10 +391,10 @@ const SustainabilityOperations: React.FC = () => {
           </div>
 
           {/* Sustainability Goals */}
-          <div className="sustainability-gradient rounded-xl border border-primary-600 p-6">
+          <div className="glass-panel rounded-xl p-6">
             <div className="flex items-center space-x-2 mb-4">
-              <Target className="h-5 w-5 text-accent-teal animate-pulse" />
-              <h3 className="text-lg font-semibold text-text-primary">{t('sustainability.goals_2025')}</h3>
+              <Target className="h-5 w-5 text-accent-blue" />
+              <h3 className="text-base font-semibold text-text-primary">{t('sustainability.goals_2025')}</h3>
             </div>
             <div className="space-y-3">
               {[
@@ -425,8 +408,8 @@ const SustainabilityOperations: React.FC = () => {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: index * 0.1 }}
-                  whileHover={{ scale: 1.02 }}
-                  className="p-4 bg-primary-700 rounded-lg border border-primary-600 hover:border-accent-teal transition-all duration-300 cursor-pointer"
+                  whileHover={{ y: -2 }}
+                  className="p-3 glass-panel rounded-lg hover:border-accent-blue/40 transition-colors duration-200 cursor-pointer"
                   onClick={() => addToast({
                     type: 'info',
                     title: t('sustainability.goal_details'),
@@ -435,14 +418,14 @@ const SustainabilityOperations: React.FC = () => {
                 >
                   <div className="flex items-center justify-between mb-2">
                     <span className="font-medium text-text-primary text-sm">{goal.goal}</span>
-                    <span className="text-accent-teal font-semibold text-sm">{goal.progress}%</span>
+                    <span className="text-text-primary font-semibold text-sm">{goal.progress}%</span>
                   </div>
                   <div className="w-full bg-primary-600 rounded-full h-2 mb-2">
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${goal.progress}%` }}
                       transition={{ duration: 1, delay: index * 0.2 }}
-                      className="h-2 bg-gradient-to-r from-accent-teal to-status-success rounded-full"
+                      className="h-2 bg-accent-blue rounded-full"
                     />
                   </div>
                   <div className="flex justify-between text-xs text-text-muted">
@@ -450,34 +433,6 @@ const SustainabilityOperations: React.FC = () => {
                     <span>{100 - goal.progress}% remaining</span>
                   </div>
                 </motion.div>
-              ))}
-            </div>
-          </div>
-
-          {/* Quick Actions */}
-          <div className="sustainability-gradient rounded-xl border border-primary-600 p-6">
-            <h3 className="text-lg font-semibold text-text-primary mb-4">{t('sustainability.quick_actions')}</h3>
-            <div className="space-y-3">
-              {[
-                { action: t('sustainability.energy_audit'), icon: Zap },
-                { action: t('sustainability.waste_assessment'), icon: Recycle },
-                { action: t('sustainability.emissions_report'), icon: Wind },
-                { action: t('sustainability.water_monitoring'), icon: Droplets },
-              ].map((item, index) => (
-                <motion.button
-                  key={index}
-                  whileHover={{ scale: 1.02, x: 4 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => addToast({
-                    type: 'success',
-                    title: t('sustainability.action_initiated'),
-                    message: `${item.action} process started`
-                  })}
-                  className="w-full flex items-center space-x-3 p-4 bg-primary-700 rounded-lg hover:bg-primary-600 transition-all duration-300 group"
-                >
-                  <item.icon className="h-5 w-5 text-accent-teal group-hover:scale-110 transition-transform" />
-                  <span className="text-text-primary text-sm font-medium">{item.action}</span>
-                </motion.button>
               ))}
             </div>
           </div>

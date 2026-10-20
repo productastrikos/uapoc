@@ -49,7 +49,7 @@ export const SecurityOperations: React.FC<SecurityOperationsProps> = ({ onIncide
       aiConfidence: 94
     },
     {
-      id: '2', 
+      id: '2',
       type: 'Perimeter Breach',
       location: 'Restricted Zone Alpha',
       severity: 'High',
@@ -96,20 +96,20 @@ export const SecurityOperations: React.FC<SecurityOperationsProps> = ({ onIncide
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
-      case 'Critical': return 'text-red-400 bg-red-400/10 border-red-400/30';
-      case 'High': return 'text-simgold-400 bg-simgold-400/10 border-simgold-400/30';
-      case 'Medium': return 'text-simgold-400 bg-simgold-400/10 border-simgold-400/30';
-      case 'Low': return 'text-simteal-400 bg-simteal-400/10 border-simteal-400/30';
-      default: return 'text-sim-400 bg-sim-400/10 border-sim-400/30';
+      case 'Critical': return 'text-status-error bg-status-error/10 border-status-error/30';
+      case 'High': return 'text-status-warning bg-status-warning/10 border-status-warning/30';
+      case 'Medium': return 'text-status-warning bg-status-warning/10 border-status-warning/30';
+      case 'Low': return 'text-accent-blue bg-accent-blue/10 border-accent-blue/30';
+      default: return 'text-text-muted bg-primary-600/10 border-primary-600/30';
     }
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Active': return 'text-red-400 bg-red-400/10 border-red-400/30';
-      case 'Investigating': return 'text-simgold-400 bg-simgold-400/10 border-simgold-400/30';
-      case 'Resolved': return 'text-emerald-400 bg-emerald-400/10 border-emerald-400/30';
-      default: return 'text-sim-400 bg-sim-400/10 border-sim-400/30';
+      case 'Active': return 'text-status-error bg-status-error/10 border-status-error/30';
+      case 'Investigating': return 'text-status-warning bg-status-warning/10 border-status-warning/30';
+      case 'Resolved': return 'text-status-success bg-status-success/10 border-status-success/30';
+      default: return 'text-text-muted bg-primary-600/10 border-primary-600/30';
     }
   };
 
@@ -187,31 +187,31 @@ export const SecurityOperations: React.FC<SecurityOperationsProps> = ({ onIncide
   return (
     <div className="space-y-6">
       {/* ================= Unattended Bag Response - isometric scene ================= */}
-      <div className="hbms-control-panel p-4 md:p-6">
+      <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-4 md:p-6">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-4">
           <div className="flex items-center space-x-3">
-            <div className="p-2.5 rounded-lg bg-red-500/15 border border-red-500/35">
-              <Shield className="w-5 h-5 text-red-400" />
+            <div className="p-2.5 rounded-lg bg-status-error/10 border border-status-error/35">
+              <Shield className="w-5 h-5 text-status-error" />
             </div>
             <div>
-              <h3 className="text-lg md:text-xl font-bold text-sim-100">
+              <h3 className="text-lg md:text-xl font-bold text-text-primary">
                 Unattended Bag Response - Terminal Concourse
               </h3>
-              <p className="text-xs md:text-sm text-sim-400">
+              <p className="text-xs md:text-sm text-text-muted">
                 AI surveillance detection and automated SOP execution
               </p>
             </div>
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
-            <div className="flex items-center gap-2 bg-sim-800/40 border border-sim-700/40 rounded-lg px-3 py-2">
-              <Gauge className="w-4 h-4 text-simteal-400" />
-              <label className="text-xs text-sim-400">Speed</label>
+            <div className="flex items-center gap-2 bg-primary-900/40 border border-primary-600/40 rounded-lg px-3 py-2">
+              <Gauge className="w-4 h-4 text-accent-blue" />
+              <label className="text-xs text-text-muted">Speed</label>
               <select
                 value={simSpeed}
                 onChange={(e) => setSimSpeed(Number(e.target.value))}
                 disabled={!!activeSOP}
-                className="bg-sim-800 border border-sim-600 rounded px-2 py-1 text-sim-200 text-xs"
+                className="bg-primary-900 border border-primary-600 rounded px-2 py-1 text-text-primary text-xs"
               >
                 <option value={0.5}>0.5x — study</option>
                 <option value={1}>1x — normal</option>
@@ -222,10 +222,8 @@ export const SecurityOperations: React.FC<SecurityOperationsProps> = ({ onIncide
             <button
               onClick={() => executeSOP(unattendedBagIncident)}
               disabled={!!activeSOP}
-              className={`flex items-center justify-center space-x-2 px-6 py-3 rounded-lg font-medium transition-all duration-300 shadow-xl ${
-                activeSOP
-                  ? 'bg-sim-700/50 text-sim-400 cursor-not-allowed border border-sim-600/40'
-                  : 'bg-gradient-to-r from-red-600 via-red-500 to-simgold-600 hover:from-red-700 hover:via-red-600 hover:to-simgold-700 text-white'
+              className={`btn min-w-[20rem] py-3 ${
+                activeSOP ? 'btn-danger-active cursor-not-allowed' : 'btn-danger'
               }`}
             >
               {activeSOP ? <Activity className="w-5 h-5 animate-pulse" /> : <PlayCircle className="w-5 h-5" />}
@@ -235,18 +233,18 @@ export const SecurityOperations: React.FC<SecurityOperationsProps> = ({ onIncide
         </div>
 
         {/* live readout strip, mirroring the airside / baggage simulations */}
-        <div className="mb-4 bg-sim-800/30 rounded-lg p-3 border border-sim-700/30 overflow-x-auto">
+        <div className="mb-4 bg-primary-900/40 rounded-lg p-3 border border-primary-600/40 overflow-x-auto">
           <div className="flex flex-wrap items-center gap-2 md:gap-4 text-xs md:text-sm min-w-max">
-            <div className="text-sim-400">Incident:</div>
-            <div className="text-red-400 font-medium">{unattendedBagIncident.type}</div>
-            <div className="text-sim-400">|</div>
-            <div className="text-simteal-400">{unattendedBagIncident.location}</div>
-            <div className="text-sim-400">|</div>
-            <div className="text-sim-400">AI Confidence:</div>
-            <div className="text-emerald-400">{unattendedBagIncident.aiConfidence ?? 94}%</div>
-            <div className="text-sim-400">|</div>
-            <div className="text-sim-400">SOP Progress:</div>
-            <div className="text-simgold-400">
+            <div className="text-text-muted">Incident:</div>
+            <div className="text-status-error font-medium">{unattendedBagIncident.type}</div>
+            <div className="text-text-muted">|</div>
+            <div className="text-accent-blue">{unattendedBagIncident.location}</div>
+            <div className="text-text-muted">|</div>
+            <div className="text-text-muted">AI Confidence:</div>
+            <div className="text-status-success">{unattendedBagIncident.aiConfidence ?? 94}%</div>
+            <div className="text-text-muted">|</div>
+            <div className="text-text-muted">SOP Progress:</div>
+            <div className="text-accent-blue">
               {activeSOP ? `Step ${Math.min(sopStep + 1, mockSOP.steps.length)} of ${mockSOP.steps.length}` : 'Standby'}
             </div>
           </div>
@@ -273,7 +271,7 @@ export const SecurityOperations: React.FC<SecurityOperationsProps> = ({ onIncide
             subtitle="Detection is automatic; every step below drives a visible change in the concourse."
           />
 
-          <div className="flex rounded-xl border border-sim-700/50 bg-sim-900/70 overflow-hidden min-h-[320px]">
+          <div className="flex rounded-xl border border-primary-600/40 bg-primary-900/70 overflow-hidden min-h-[320px]">
             <IsoSecurityScene
               sopActive={!!activeSOP}
               currentStep={sopStep}
@@ -300,15 +298,15 @@ export const SecurityOperations: React.FC<SecurityOperationsProps> = ({ onIncide
               key={s.label}
               className={`rounded-lg border px-3 py-2 transition-all duration-500 ${
                 s.on && activeSOP
-                  ? 'border-red-500/50 bg-red-950/30'
-                  : 'border-sim-700/40 bg-sim-800/20'
+                  ? 'border-status-error/50 bg-status-error/10'
+                  : 'border-primary-600/40 bg-primary-800/20'
               }`}
             >
               <div className="flex items-center space-x-2">
                 <div
-                  className={`hbms-status-dot ${s.on ? 'critical' : 'offline'}`}
+                  className={`w-2 h-2 rounded-full ${s.on ? 'bg-status-error' : 'bg-text-muted'}`}
                 />
-                <span className={`text-xs font-medium ${s.on ? 'text-red-300' : 'text-sim-400'}`}>
+                <span className={`text-xs font-medium ${s.on ? 'text-status-error' : 'text-text-muted'}`}>
                   {s.label}
                 </span>
               </div>
@@ -321,43 +319,43 @@ export const SecurityOperations: React.FC<SecurityOperationsProps> = ({ onIncide
       <CCTVFeed />
 
       {/* Security Operations Header */}
-      <div className="bg-sim-800/60 backdrop-blur border border-sim-600/40 rounded-xl p-6">
+      <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-6">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <div className="p-3 bg-red-500/20 border border-red-500/30 rounded-lg">
-              <Shield className="w-6 h-6 text-red-400" />
+            <div className="p-3 bg-status-error/10 border border-status-error/30 rounded-lg">
+              <Shield className="w-6 h-6 text-status-error" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-sim-200">Security Operations Center</h2>
-              <p className="text-sim-400">Automated incident response and monitoring</p>
+              <h2 className="text-xl font-bold text-text-primary">Security Operations Center</h2>
+              <p className="text-text-muted">Automated incident response and monitoring</p>
             </div>
           </div>
           <div className="text-right">
-            <p className="text-3xl font-bold text-red-400">{incidents.filter(i => i.status === 'Active').length}</p>
-            <p className="text-sim-400">Active Incidents</p>
+            <p className="text-3xl font-bold text-status-error">{incidents.filter(i => i.status === 'Active').length}</p>
+            <p className="text-text-muted">Active Incidents</p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="flex items-center gap-3 p-3 bg-sim-900/40 rounded-lg border border-sim-600/30">
-            <Camera className="w-5 h-5 text-emerald-400" />
+          <div className="flex items-center gap-3 p-3 bg-primary-900/40 rounded-lg border border-primary-600/40">
+            <Camera className="w-5 h-5 text-status-success" />
             <div>
-              <span className="text-sim-200 font-medium">24/7 Monitoring</span>
-              <div className="text-sim-400 text-xs">AI Detection Active</div>
+              <span className="text-text-primary font-medium">24/7 Monitoring</span>
+              <div className="text-text-muted text-xs">AI Detection Active</div>
             </div>
           </div>
-          <div className="flex items-center gap-3 p-3 bg-sim-900/40 rounded-lg border border-sim-600/30">
-            <Lock className="w-5 h-5 text-simteal-400" />
+          <div className="flex items-center gap-3 p-3 bg-primary-900/40 rounded-lg border border-primary-600/40">
+            <Lock className="w-5 h-5 text-accent-blue" />
             <div>
-              <span className="text-sim-200 font-medium">Access Control</span>
-              <div className="text-sim-400 text-xs">45 Points Secured</div>
+              <span className="text-text-primary font-medium">Access Control</span>
+              <div className="text-text-muted text-xs">45 Points Secured</div>
             </div>
           </div>
-          <div className="flex items-center gap-3 p-3 bg-sim-900/40 rounded-lg border border-sim-600/30">
-            <Clock className="w-5 h-5 text-simgold-400" />
+          <div className="flex items-center gap-3 p-3 bg-primary-900/40 rounded-lg border border-primary-600/40">
+            <Clock className="w-5 h-5 text-accent-blue" />
             <div>
-              <span className="text-sim-200 font-medium">Response Time</span>
-              <div className="text-sim-400 text-xs">90s Average</div>
+              <span className="text-text-primary font-medium">Response Time</span>
+              <div className="text-text-muted text-xs">90s Average</div>
             </div>
           </div>
         </div>
@@ -370,7 +368,7 @@ export const SecurityOperations: React.FC<SecurityOperationsProps> = ({ onIncide
           {incidents.map((incident) => (
             <div
               key={incident.id}
-              className={`bg-sim-800/60 backdrop-blur border rounded-xl p-5 hover:bg-sim-700/40 transition-all duration-300 cursor-pointer ${getStatusColor(incident.status)} hover:border-simteal-400/40 shadow-lg`}
+              className={`bg-primary-800/60 border rounded-xl p-5 hover:bg-primary-700/40 transition-all duration-300 cursor-pointer ${getStatusColor(incident.status)} hover:border-accent-blue/40 shadow-lg`}
               onClick={() => setSelectedIncident(incident)}
             >
               <div className="flex items-start justify-between mb-4 gap-3">
@@ -379,10 +377,10 @@ export const SecurityOperations: React.FC<SecurityOperationsProps> = ({ onIncide
                     <AlertTriangle className="w-5 h-5" />
                   </div>
                   <div className="min-w-0">
-                    <h3 className="text-sim-200 font-semibold">{incident.type}</h3>
-                    <p className="text-sim-400 text-sm">{incident.location}</p>
+                    <h3 className="text-text-primary font-semibold">{incident.type}</h3>
+                    <p className="text-text-muted text-sm">{incident.location}</p>
                     {incident.description && (
-                      <p className="text-sim-500 text-xs mt-1">{incident.description}</p>
+                      <p className="text-text-muted text-xs mt-1">{incident.description}</p>
                     )}
                   </div>
                 </div>
@@ -390,9 +388,9 @@ export const SecurityOperations: React.FC<SecurityOperationsProps> = ({ onIncide
                   <div className={`px-2.5 py-1 rounded-full text-xs font-medium border ${getSeverityColor(incident.severity)}`}>
                     {incident.severity}
                   </div>
-                  <p className="text-sim-400 text-xs mt-2">{incident.timestamp.toLocaleTimeString()}</p>
+                  <p className="text-text-muted text-xs mt-2">{incident.timestamp.toLocaleTimeString()}</p>
                   {incident.aiConfidence && (
-                    <p className="text-simteal-400 text-xs">AI: {incident.aiConfidence}%</p>
+                    <p className="text-accent-blue text-xs">AI: {incident.aiConfidence}%</p>
                   )}
                 </div>
               </div>
@@ -403,7 +401,7 @@ export const SecurityOperations: React.FC<SecurityOperationsProps> = ({ onIncide
                 </div>
                 {incident.status === 'Active' && !activeSOP && (
                   <button
-                    className="flex items-center gap-2 bg-red-600/80 hover:bg-red-600 text-white px-3.5 py-2 rounded-lg transition-colors border border-red-500/40 text-sm"
+                    className="btn btn-danger min-w-[9rem]"
                     onClick={(e) => {
                       e.stopPropagation();
                       executeSOP(incident);
@@ -417,20 +415,20 @@ export const SecurityOperations: React.FC<SecurityOperationsProps> = ({ onIncide
             </div>
           ))}
 
-          <div className="bg-sim-800/60 backdrop-blur border border-sim-600/40 rounded-xl p-5">
-            <h3 className="text-sm font-bold text-sim-200 mb-3 flex items-center gap-2">
-              <Lock className="w-4 h-4 text-simteal-400" />
+          <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-5">
+            <h3 className="text-sm font-bold text-text-primary mb-3 flex items-center gap-2">
+              <Lock className="w-4 h-4 text-accent-blue" />
               Response Readiness
             </h3>
             <div className="grid grid-cols-2 gap-3 text-xs">
               {[
-                ['Cameras online', '46 / 48', 'text-emerald-400'],
-                ['Access points', lockdownActive ? 'LOCKED DOWN' : '45 secured', lockdownActive ? 'text-red-400' : 'text-emerald-400'],
-                ['Response teams', teamDispatched ? 'On scene' : '2 available', teamDispatched ? 'text-simgold-400' : 'text-simteal-400'],
-                ['Mean response', '90 s', 'text-simgold-400'],
+                ['Cameras online', '46 / 48', 'text-status-success'],
+                ['Access points', lockdownActive ? 'LOCKED DOWN' : '45 secured', lockdownActive ? 'text-status-error' : 'text-status-success'],
+                ['Response teams', teamDispatched ? 'On scene' : '2 available', teamDispatched ? 'text-status-success' : 'text-accent-blue'],
+                ['Mean response', '90 s', 'text-accent-blue'],
               ].map(([label, value, tone]) => (
-                <div key={label} className="flex justify-between bg-sim-900/40 rounded-lg border border-sim-700/40 px-3 py-2">
-                  <span className="text-sim-400">{label}</span>
+                <div key={label} className="flex justify-between bg-primary-900/40 rounded-lg border border-primary-600/40 px-3 py-2">
+                  <span className="text-text-muted">{label}</span>
                   <span className={tone}>{value}</span>
                 </div>
               ))}
@@ -440,18 +438,18 @@ export const SecurityOperations: React.FC<SecurityOperationsProps> = ({ onIncide
 
         {/* Live zone map - every element here is driven by the SOP step, so
             it is a second read-out of the same run, not decoration. */}
-        <div className="bg-sim-800/60 backdrop-blur border border-sim-600/40 rounded-xl p-5 shadow-lg">
-          <h3 className="text-sm font-bold text-sim-200 mb-3 flex items-center gap-2">
-            <Activity className="w-4 h-4 text-simteal-400" />
+        <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-5 shadow-lg">
+          <h3 className="text-sm font-bold text-text-primary mb-3 flex items-center gap-2">
+            <Activity className="w-4 h-4 text-accent-blue" />
             Security Zone Overview
             <span className={`ml-auto text-xs px-2 py-0.5 rounded-full border ${
-              alertActive ? 'border-red-500/50 text-red-300 bg-red-950/30' : 'border-emerald-500/40 text-emerald-300'
+              alertActive ? 'border-status-error/50 text-status-error bg-status-error/10' : 'border-status-success/40 text-status-success'
             }`}>
               {alertActive ? 'INCIDENT ACTIVE' : 'NORMAL'}
             </span>
           </h3>
 
-          <div className="relative bg-sim-900/70 rounded-lg overflow-hidden border border-sim-700/50">
+          <div className="relative bg-primary-900/70 rounded-lg overflow-hidden border border-primary-600/40">
             <svg viewBox="0 0 400 300" className="w-full h-auto block">
               <defs>
                 <pattern id="securityGrid" width="20" height="15" patternUnits="userSpaceOnUse">
@@ -474,14 +472,14 @@ export const SecurityOperations: React.FC<SecurityOperationsProps> = ({ onIncide
               <rect
                 x="160" y="90" width="60" height="40" rx="4"
                 fill={alertActive ? '#450a0a' : '#0A3A52'}
-                stroke={alertActive ? '#dc2626' : '#14708A'}
+                stroke={alertActive ? '#EF4444' : '#14708A'}
                 strokeWidth={alertActive ? 2 : 1}
               />
               <text x="190" y="110" textAnchor="middle" fill={alertActive ? '#fca5a5' : '#8A9BA8'} fontSize="8" fontWeight="bold">
                 Gate 13
               </text>
               {alertActive && (
-                <text x="190" y="124" textAnchor="middle" fill="#dc2626" fontSize="6">⚠ ALERT</text>
+                <text x="190" y="124" textAnchor="middle" fill="#EF4444" fontSize="6">⚠ ALERT</text>
               )}
 
               <rect x="240" y="90" width="60" height="40" fill="#0A3A52" stroke="#14708A" strokeWidth="1" rx="4" />
@@ -494,7 +492,7 @@ export const SecurityOperations: React.FC<SecurityOperationsProps> = ({ onIncide
                   cx={cx}
                   cy="76"
                   r="4"
-                  fill={camerasFocused && i === 1 ? '#dc2626' : '#01A3A4'}
+                  fill={camerasFocused && i === 1 ? '#EF4444' : '#3B82F6'}
                   opacity="0.85"
                   className={camerasFocused && i === 1 ? 'animate-pulse' : ''}
                 />
@@ -502,14 +500,14 @@ export const SecurityOperations: React.FC<SecurityOperationsProps> = ({ onIncide
 
               {/* Unattended bag */}
               <g>
-                <rect x="175" y="164" width="12" height="8" rx="1" fill={alertActive ? '#dc2626' : '#E6B85C'} />
+                <rect x="175" y="164" width="12" height="8" rx="1" fill={alertActive ? '#EF4444' : '#F59E0B'} />
                 {alertActive && (
-                  <circle cx="181" cy="168" r="15" fill="none" stroke="#dc2626" strokeWidth="1.5" strokeDasharray="3,3" opacity="0.7">
+                  <circle cx="181" cy="168" r="15" fill="none" stroke="#EF4444" strokeWidth="1.5" strokeDasharray="3,3" opacity="0.7">
                     <animate attributeName="r" values="15;26;15" dur="2s" repeatCount="indefinite" />
                     <animate attributeName="opacity" values="0.7;0.25;0.7" dur="2s" repeatCount="indefinite" />
                   </circle>
                 )}
-                <text x="200" y="172" fill={alertActive ? '#dc2626' : '#8A9BA8'} fontSize="6" fontWeight="bold">
+                <text x="200" y="172" fill={alertActive ? '#EF4444' : '#8A9BA8'} fontSize="6" fontWeight="bold">
                   UNATTENDED BAG
                 </text>
               </g>
@@ -521,12 +519,12 @@ export const SecurityOperations: React.FC<SecurityOperationsProps> = ({ onIncide
                   <g key={x}>
                     <rect
                       x={x} y="196" width="16" height="25"
-                      fill={locked ? '#dc2626' : '#059669'}
-                      stroke={locked ? '#dc2626' : '#10b981'}
+                      fill={locked ? '#EF4444' : '#10B981'}
+                      stroke={locked ? '#EF4444' : '#10b981'}
                       strokeWidth="1"
                       className={locked ? 'animate-pulse' : ''}
                     />
-                    <text x={x + 8} y="231" textAnchor="middle" fill={locked ? '#dc2626' : '#10b981'} fontSize="5">
+                    <text x={x + 8} y="231" textAnchor="middle" fill={locked ? '#EF4444' : '#10b981'} fontSize="5">
                       {locked ? 'LOCKED' : 'OPEN'}
                     </text>
                   </g>
@@ -535,7 +533,7 @@ export const SecurityOperations: React.FC<SecurityOperationsProps> = ({ onIncide
 
               {/* Emergency lighting */}
               {[160, 190, 220].map((cx) => (
-                <circle key={cx} cx={cx} cy="246" r="5" fill={emergencyLighting ? '#dc2626' : '#123246'} opacity={emergencyLighting ? 0.7 : 0.5}>
+                <circle key={cx} cx={cx} cy="246" r="5" fill={emergencyLighting ? '#EF4444' : '#123246'} opacity={emergencyLighting ? 0.7 : 0.5}>
                   {emergencyLighting && (
                     <animate attributeName="opacity" values="0.5;1;0.5" dur="0.6s" repeatCount="indefinite" />
                   )}
@@ -543,7 +541,7 @@ export const SecurityOperations: React.FC<SecurityOperationsProps> = ({ onIncide
               ))}
 
               {/* Security personnel */}
-              <circle cx={teamDispatched ? 210 : 320} cy={teamDispatched ? 186 : 180} r="6" fill="#01A3A4" stroke="#8A9BA8" strokeWidth="1"
+              <circle cx={teamDispatched ? 210 : 320} cy={teamDispatched ? 186 : 180} r="6" fill="#3B82F6" stroke="#8A9BA8" strokeWidth="1"
                       style={{ transition: 'all 1.2s ease' }} />
               <text x={teamDispatched ? 210 : 320} y={teamDispatched ? 201 : 195} textAnchor="middle" fill="#8A9BA8" fontSize="6"
                     style={{ transition: 'all 1.2s ease' }}>
@@ -552,8 +550,8 @@ export const SecurityOperations: React.FC<SecurityOperationsProps> = ({ onIncide
 
               {paActive && (
                 <g>
-                  <rect x="118" y="266" width="164" height="18" rx="9" fill="#04101F" stroke="#E6B85C" strokeOpacity="0.6" />
-                  <text x="200" y="278" textAnchor="middle" fill="#E6B85C" fontSize="8" fontWeight="bold">
+                  <rect x="118" y="266" width="164" height="18" rx="9" fill="#04101F" stroke="#3B82F6" strokeOpacity="0.6" />
+                  <text x="200" y="278" textAnchor="middle" fill="#3B82F6" fontSize="8" fontWeight="bold">
                     PA BROADCAST LIVE
                   </text>
                 </g>
@@ -566,19 +564,19 @@ export const SecurityOperations: React.FC<SecurityOperationsProps> = ({ onIncide
       {/* Incident Detail Modal */}
       {selectedIncident && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setSelectedIncident(null)}>
-          <div className="bg-sim-800/95 backdrop-blur border border-sim-600/50 rounded-xl p-6 max-w-2xl w-full shadow-2xl" onClick={e => e.stopPropagation()}>
+          <div className="bg-primary-800/95 backdrop-blur border border-primary-600/50 rounded-xl p-6 max-w-2xl w-full shadow-2xl" onClick={e => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-4">
                 <div className={`p-3 rounded-lg border ${getSeverityColor(selectedIncident.severity)}`}>
                   <AlertTriangle className="w-7 h-7" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-bold text-sim-200">{selectedIncident.type}</h2>
-                  <p className="text-sim-400">{selectedIncident.location}</p>
+                  <h2 className="text-2xl font-bold text-text-primary">{selectedIncident.type}</h2>
+                  <p className="text-text-muted">{selectedIncident.location}</p>
                 </div>
               </div>
-              <button 
-                className="text-sim-400 hover:text-white text-2xl p-2 hover:bg-sim-700/50 rounded-lg transition-colors"
+              <button
+                className="text-text-muted hover:text-text-primary text-2xl p-2 hover:bg-primary-700/50 rounded-lg transition-colors"
                 onClick={() => setSelectedIncident(null)}
               >
                 <X className="w-6 h-6" />
@@ -587,68 +585,68 @@ export const SecurityOperations: React.FC<SecurityOperationsProps> = ({ onIncide
 
             <div className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="bg-sim-900/60 backdrop-blur p-4 rounded-lg border border-sim-600/40">
-                  <h4 className="text-sim-400 text-sm mb-3">Threat Assessment</h4>
+                <div className="bg-primary-900/60 backdrop-blur p-4 rounded-lg border border-primary-600/40">
+                  <h4 className="text-text-muted text-sm mb-3">Threat Assessment</h4>
                   <div className={`px-4 py-3 rounded-lg text-center font-semibold border ${getSeverityColor(selectedIncident.severity)}`}>
                     {selectedIncident.severity} Risk Level
                   </div>
                   {selectedIncident.aiConfidence && (
                     <div className="mt-3 text-center">
-                      <div className="text-simteal-400 font-semibold">AI Confidence</div>
-                      <div className="text-2xl font-bold text-simteal-300">{selectedIncident.aiConfidence}%</div>
+                      <div className="text-accent-blue font-semibold">AI Confidence</div>
+                      <div className="text-2xl font-bold text-accent-blue">{selectedIncident.aiConfidence}%</div>
                     </div>
                   )}
                 </div>
-                <div className="bg-sim-900/60 backdrop-blur p-4 rounded-lg border border-sim-600/40">
-                  <h4 className="text-sim-400 text-sm mb-3">Incident Status</h4>
+                <div className="bg-primary-900/60 backdrop-blur p-4 rounded-lg border border-primary-600/40">
+                  <h4 className="text-text-muted text-sm mb-3">Incident Status</h4>
                   <div className={`px-4 py-3 rounded-lg text-center font-semibold border ${getStatusColor(selectedIncident.status)}`}>
                     {selectedIncident.status}
                   </div>
                   <div className="mt-3 text-center">
-                    <div className="text-sim-400">Detection Time</div>
-                    <div className="text-sim-200 font-mono">{selectedIncident.timestamp.toLocaleString()}</div>
+                    <div className="text-text-muted">Detection Time</div>
+                    <div className="text-text-primary font-mono">{selectedIncident.timestamp.toLocaleString()}</div>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-sim-900/60 backdrop-blur p-4 rounded-lg border border-sim-600/40">
-                <h4 className="text-sim-400 text-sm mb-3">Incident Details</h4>
+              <div className="bg-primary-900/60 backdrop-blur p-4 rounded-lg border border-primary-600/40">
+                <h4 className="text-text-muted text-sm mb-3">Incident Details</h4>
                 <div className="space-y-2 text-sm">
-                  <p className="text-sim-200"><span className="text-sim-400">Location:</span> {selectedIncident.location}</p>
-                  <p className="text-sim-200"><span className="text-sim-400">Type:</span> {selectedIncident.type}</p>
-                  <p className="text-sim-200"><span className="text-sim-400">Camera ID:</span> {selectedIncident.cameraId}</p>
+                  <p className="text-text-primary"><span className="text-text-muted">Location:</span> {selectedIncident.location}</p>
+                  <p className="text-text-primary"><span className="text-text-muted">Type:</span> {selectedIncident.type}</p>
+                  <p className="text-text-primary"><span className="text-text-muted">Camera ID:</span> {selectedIncident.cameraId}</p>
                   {selectedIncident.description && (
-                    <p className="text-sim-200"><span className="text-sim-400">Description:</span> {selectedIncident.description}</p>
+                    <p className="text-text-primary"><span className="text-text-muted">Description:</span> {selectedIncident.description}</p>
                   )}
                 </div>
               </div>
 
-              <div className="bg-sim-900/60 backdrop-blur p-4 rounded-lg border border-sim-600/40">
-                <h4 className="text-sim-400 text-sm mb-3">Automated Response Protocol</h4>
+              <div className="bg-primary-900/60 backdrop-blur p-4 rounded-lg border border-primary-600/40">
+                <h4 className="text-text-muted text-sm mb-3">Automated Response Protocol</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
                   <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-red-400 rounded-full"></div>
-                    <span className="text-sim-300">Security Department Alert</span>
+                    <div className="w-2 h-2 bg-status-error rounded-full"></div>
+                    <span className="text-text-secondary">Security Department Alert</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-simteal-400 rounded-full"></div>
-                    <span className="text-sim-300">Camera System Focus</span>
+                    <div className="w-2 h-2 bg-accent-blue rounded-full"></div>
+                    <span className="text-text-secondary">Camera System Focus</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-simgold-400 rounded-full"></div>
-                    <span className="text-sim-300">PA System Notification</span>
+                    <div className="w-2 h-2 bg-accent-blue rounded-full"></div>
+                    <span className="text-text-secondary">PA System Notification</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-simgold-400 rounded-full"></div>
-                    <span className="text-sim-300">Access Point Lockdown</span>
+                    <div className="w-2 h-2 bg-status-warning rounded-full"></div>
+                    <span className="text-text-secondary">Access Point Lockdown</span>
                   </div>
                 </div>
               </div>
 
               <div className="flex gap-3">
                 {selectedIncident.status === 'Active' && !activeSOP && (
-                  <button 
-                    className="flex-1 bg-red-600/80 hover:bg-red-600 text-white px-6 py-3 rounded-lg transition-colors border border-red-500/40 font-medium"
+                  <button
+                    className="btn btn-danger flex-1 py-3"
                     onClick={() => {
                       executeSOP(selectedIncident);
                       setSelectedIncident(null);
@@ -657,8 +655,8 @@ export const SecurityOperations: React.FC<SecurityOperationsProps> = ({ onIncide
                     Execute Automated SOP
                   </button>
                 )}
-                <button 
-                  className="flex-1 bg-sim-700/80 hover:bg-sim-600 text-white px-6 py-3 rounded-lg transition-colors border border-sim-600/40 font-medium"
+                <button
+                  className="btn btn-secondary flex-1 py-3"
                   onClick={() => {
                     onIncidentResolve?.(selectedIncident.id);
                     setSelectedIncident(null);

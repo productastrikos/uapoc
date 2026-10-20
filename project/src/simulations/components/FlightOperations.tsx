@@ -93,7 +93,7 @@ const describeSurface = (pos: { x: number; y: number }): string => {
 
 export const FlightOperations: React.FC<FlightOperationsProps> = ({
   onSimulationComplete,
-  onPhaseChange 
+  onPhaseChange
 }) => {
   const [currentPhase, setCurrentPhase] = useState<string>('standby');
   const [isLanding, setIsLanding] = useState(false);
@@ -380,69 +380,69 @@ export const FlightOperations: React.FC<FlightOperationsProps> = ({
     <div className="space-y-4 w-full overflow-hidden">
       {/* Flight Status Overview */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
-        <div className="hbms-control-panel p-3 md:p-4 cursor-pointer hover:bg-sim-800/40 transition-colors"
+        <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-3 md:p-4 cursor-pointer hover:bg-primary-700/40 transition-colors"
              onClick={(e) => handleElementClick('aircraft', { phase: currentPhase }, e)}>
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-sm md:text-lg font-semibold text-sim-100">{selectedAircraft}</h3>
-              <p className="text-xs md:text-sm text-sim-300">
+              <h3 className="text-sm md:text-lg font-semibold text-text-primary">{selectedAircraft}</h3>
+              <p className="text-xs md:text-sm text-text-secondary">
                 {flights.find(f => f.flightNumber === selectedAircraft)?.airline || 'Air India'}
               </p>
             </div>
-            <Plane className={`h-5 w-5 md:h-6 md:w-6 ${isLanding ? 'text-simteal-400 animate-bounce' : 'text-sim-400'}`} />
+            <Plane className={`h-5 w-5 md:h-6 md:w-6 ${isLanding ? 'text-accent-blue animate-bounce' : 'text-text-muted'}`} />
           </div>
           <div className="mt-2 md:mt-3">
-            <p className="text-xs text-sim-400">Flight Status</p>
-            <p className="text-xs md:text-sm font-medium text-sim-100 capitalize">{currentPhase.replace('-', ' ')}</p>
+            <p className="text-xs text-text-muted">Flight Status</p>
+            <p className="text-xs md:text-sm font-medium text-text-primary capitalize">{currentPhase.replace('-', ' ')}</p>
           </div>
         </div>
 
-        <div className="hbms-control-panel p-3 md:p-4 cursor-pointer hover:bg-sim-800/40 transition-colors"
+        <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-3 md:p-4 cursor-pointer hover:bg-primary-700/40 transition-colors"
              onClick={(e) => handleElementClick('AO-S Core', { active: systemsActive }, e)}>
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-sm md:text-lg font-semibold text-sim-100">AO-S Core</h3>
-              <p className="text-xs md:text-sm text-sim-300">System Integration</p>
+              <h3 className="text-sm md:text-lg font-semibold text-text-primary">AO-S Core</h3>
+              <p className="text-xs md:text-sm text-text-secondary">System Integration</p>
             </div>
-            <Activity className={`h-5 w-5 md:h-6 md:w-6 ${systemsActive ? 'text-emerald-400 animate-pulse' : 'text-sim-400'}`} />
+            <Activity className={`h-5 w-5 md:h-6 md:w-6 ${systemsActive ? 'text-status-success' : 'text-text-muted'}`} />
           </div>
           <div className="mt-2 md:mt-3">
-            <p className="text-xs text-sim-400">Integration Status</p>
-            <p className="text-xs md:text-sm font-medium text-sim-100">{systemsActive ? 'Active' : 'Standby'}</p>
+            <p className="text-xs text-text-muted">Integration Status</p>
+            <p className="text-xs md:text-sm font-medium text-text-primary">{systemsActive ? 'Active' : 'Standby'}</p>
           </div>
         </div>
 
-        <div className="hbms-control-panel p-3 md:p-4">
+        <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-3 md:p-4">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-sm md:text-lg font-semibold text-sim-100">Operation Timer</h3>
-              <p className="text-xs md:text-sm text-sim-300">Landing to Docking</p>
+              <h3 className="text-sm md:text-lg font-semibold text-text-primary">Operation Timer</h3>
+              <p className="text-xs md:text-sm text-text-secondary">Landing to Docking</p>
             </div>
-            <Clock className={`h-5 w-5 md:h-6 md:w-6 ${isTimerActive ? 'text-simgold-400 animate-pulse' : 'text-sim-400'}`} />
+            <Clock className={`h-5 w-5 md:h-6 md:w-6 ${isTimerActive ? 'text-accent-blue' : 'text-text-muted'}`} />
           </div>
           <div className="mt-2 md:mt-3">
-            <p className="text-xs text-sim-400">Time Remaining</p>
-            <p className={`text-sm md:text-lg font-bold ${timer < 60 ? 'text-simgold-400' : 'text-simteal-400'}`}>
+            <p className="text-xs text-text-muted">Time Remaining</p>
+            <p className={`text-sm md:text-lg font-bold tabular-nums ${timer < 60 ? 'text-status-warning' : 'text-accent-blue'}`}>
               {formatTime(timer)}
             </p>
           </div>
         </div>
 
-        <div className="hbms-control-panel p-3 md:p-4">
+        <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-3 md:p-4">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-sm md:text-lg font-semibold text-sim-100">Configuration</h3>
-              <p className="text-xs md:text-sm text-sim-300">Flight Settings</p>
+              <h3 className="text-sm md:text-lg font-semibold text-text-primary">Configuration</h3>
+              <p className="text-xs md:text-sm text-text-secondary">Flight Settings</p>
             </div>
-            <Target className="h-5 w-5 md:h-6 md:w-6 text-emerald-400" />
+            <Target className="h-5 w-5 md:h-6 md:w-6 text-accent-blue" />
           </div>
           <div className="mt-2 md:mt-3 space-y-2">
             <div>
-              <label className="text-xs text-sim-400">Aircraft:</label>
-              <select 
-                value={selectedAircraft} 
+              <label className="text-xs text-text-muted">Aircraft:</label>
+              <select
+                value={selectedAircraft}
                 onChange={(e) => setSelectedAircraft(e.target.value)}
-                className="w-full bg-sim-800 border border-sim-600 rounded px-2 py-1 text-sim-200 text-xs relative z-10"
+                className="w-full bg-primary-900 border border-primary-600 rounded px-2 py-1 text-text-primary text-xs relative z-10"
               >
                 {flights.map(flight => (
                   <option key={flight.id} value={flight.flightNumber}>
@@ -452,22 +452,22 @@ export const FlightOperations: React.FC<FlightOperationsProps> = ({
               </select>
             </div>
             <div>
-              <label className="text-xs text-sim-400">Runway:</label>
-              <select 
-                value={selectedRunway} 
+              <label className="text-xs text-text-muted">Runway:</label>
+              <select
+                value={selectedRunway}
                 onChange={(e) => setSelectedRunway(e.target.value)}
-                className="w-full bg-sim-800 border border-sim-600 rounded px-2 py-1 text-sim-200 text-xs relative z-10"
+                className="w-full bg-primary-900 border border-primary-600 rounded px-2 py-1 text-text-primary text-xs relative z-10"
               >
                 <option value="09/27">Runway 09/27 (Primary)</option>
                 <option value="14/32">Runway 14/32 (Secondary)</option>
               </select>
             </div>
             <div>
-              <label className="text-xs text-sim-400">Gate:</label>
-              <select 
-                value={selectedGate} 
+              <label className="text-xs text-text-muted">Gate:</label>
+              <select
+                value={selectedGate}
                 onChange={(e) => setSelectedGate(e.target.value)}
-                className="w-full bg-sim-800 border border-sim-600 rounded px-2 py-1 text-sim-200 text-xs relative z-10"
+                className="w-full bg-primary-900 border border-primary-600 rounded px-2 py-1 text-text-primary text-xs relative z-10"
               >
                 {getAllGates().map(gate => (
                   <option key={gate.id} value={gate.id}>Gate {gate.id}</option>
@@ -479,25 +479,25 @@ export const FlightOperations: React.FC<FlightOperationsProps> = ({
       </div>
 
       {/* Enhanced Digital Twin Airport Layout */}
-      <div className="digital-twin-container w-full">
-        <div className="relative z-10 p-4 md:p-5 space-y-4">
+      <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl w-full">
+        <div className="p-4 md:p-5 space-y-4">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
-            <h2 className="text-lg md:text-xl font-bold text-sim-100 flex items-center space-x-3">
-              <div className="p-2 bg-simteal-600/20 rounded-lg border border-simteal-500/30">
-                <Eye className="h-5 w-5 text-simteal-400" />
+            <h2 className="text-lg md:text-xl font-bold text-text-primary flex items-center space-x-3">
+              <div className="p-2 bg-accent-blue/10 rounded-lg border border-accent-blue/30">
+                <Eye className="h-5 w-5 text-accent-blue" />
               </div>
               <span>AO-S — Precision Airport Operations</span>
             </h2>
 
             <div className="flex flex-wrap items-center gap-3">
-              <div className="flex items-center gap-2 bg-sim-800/40 border border-sim-700/40 rounded-lg px-3 py-2">
-                <Gauge className="w-4 h-4 text-simteal-400" />
-                <label className="text-xs text-sim-400">Speed</label>
+              <div className="flex items-center gap-2 bg-primary-900/40 border border-primary-600/40 rounded-lg px-3 py-2">
+                <Gauge className="w-4 h-4 text-accent-blue" />
+                <label className="text-xs text-text-muted">Speed</label>
                 <select
                   value={simSpeed}
                   onChange={(e) => setSimSpeed(Number(e.target.value))}
                   disabled={isLanding}
-                  className="bg-sim-800 border border-sim-600 rounded px-2 py-1 text-sim-200 text-xs"
+                  className="bg-primary-900 border border-primary-600 rounded px-2 py-1 text-text-primary text-xs"
                 >
                   <option value={0.5}>0.5x — study</option>
                   <option value={1}>1x — normal</option>
@@ -508,10 +508,10 @@ export const FlightOperations: React.FC<FlightOperationsProps> = ({
               <button
                 onClick={simulateHBMSFlightOperation}
                 disabled={isLanding}
-                className={`px-5 py-2.5 rounded-lg font-medium transition-all duration-300 ${
+                className={`btn min-w-[17rem] ${
                   isLanding
-                    ? 'bg-sim-700/50 text-sim-400 cursor-not-allowed border border-sim-600/30'
-                    : 'bg-gradient-to-r from-simteal-600 to-simgold-600 hover:from-simteal-700 hover:to-simgold-700 text-white shadow-lg border border-simteal-500/30'
+                    ? 'bg-accent-blue/10 text-accent-blue border-accent-blue/30 cursor-not-allowed'
+                    : 'btn-primary'
                 }`}
               >
                 {isLanding ? 'AO-S operation in progress…' : 'Simulate AO-S flight operation'}
@@ -520,17 +520,17 @@ export const FlightOperations: React.FC<FlightOperationsProps> = ({
           </div>
 
           {/* Enhanced coordinate and surface validation */}
-          <div className="bg-sim-800/30 rounded-lg p-3 border border-sim-700/30 overflow-x-auto">
+          <div className="bg-primary-900/40 rounded-lg p-3 border border-primary-600/40 overflow-x-auto">
             <div className="flex flex-wrap items-center gap-2 md:gap-4 text-xs md:text-sm min-w-max">
-              <div className="text-sim-400">Aircraft position:</div>
-              <div className="text-emerald-400 tabular-nums">X {aircraftPosition.x.toFixed(1)}</div>
-              <div className="text-emerald-400 tabular-nums">Y {aircraftPosition.y.toFixed(1)}</div>
-              <div className="text-sim-600">|</div>
-              <div className="text-simteal-400">Surface: {describeSurface(aircraftPosition)}</div>
-              <div className="text-sim-600">|</div>
-              <div className="text-simgold-400">{selectedAircraft} → RW {selectedRunway} → Stand {selectedGate}</div>
-              <div className="text-sim-600">|</div>
-              <div className="text-sim-300">Phase: <span className="capitalize">{currentPhase.replace(/-/g, ' ')}</span></div>
+              <div className="text-text-muted">Aircraft position:</div>
+              <div className="text-text-primary tabular-nums">X {aircraftPosition.x.toFixed(1)}</div>
+              <div className="text-text-primary tabular-nums">Y {aircraftPosition.y.toFixed(1)}</div>
+              <div className="text-text-muted">|</div>
+              <div className="text-accent-blue">Surface: {describeSurface(aircraftPosition)}</div>
+              <div className="text-text-muted">|</div>
+              <div className="text-text-secondary">{selectedAircraft} → RW {selectedRunway} → Stand {selectedGate}</div>
+              <div className="text-text-muted">|</div>
+              <div className="text-text-secondary">Phase: <span className="capitalize">{currentPhase.replace(/-/g, ' ')}</span></div>
             </div>
           </div>
 
@@ -549,22 +549,22 @@ export const FlightOperations: React.FC<FlightOperationsProps> = ({
                 subtitle="Each step is triggered by where the aircraft is on the airfield, not by a timer."
               />
 
-              <div className="hbms-control-panel p-3">
-                <h4 className="text-xs font-semibold text-sim-100 mb-2 flex items-center gap-2 uppercase tracking-wide">
-                  <Settings className="w-3.5 h-3.5 text-simteal-400" />
+              <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-3">
+                <h4 className="text-xs font-semibold text-text-primary mb-2 flex items-center gap-2 uppercase tracking-wide">
+                  <Settings className="w-3.5 h-3.5 text-accent-blue" />
                   <span>AO-S System Status</span>
                 </h4>
                 <div className="space-y-1 text-xs">
                   {Object.entries(hbmsStatus).map(([key, value]) => (
                     <div
                       key={key}
-                      className="flex justify-between items-center cursor-pointer hover:bg-sim-800/40 px-1.5 py-1 rounded"
+                      className="flex justify-between items-center cursor-pointer hover:bg-primary-700/40 px-1.5 py-1 rounded"
                       onClick={(e) => handleElementClick(key, value, e)}
                     >
-                      <span className="text-sim-400 capitalize">{key}</span>
+                      <span className="text-text-muted capitalize">{key}</span>
                       <div className="flex items-center gap-2">
-                        <div className={`hbms-status-dot ${value.status === 'active' ? 'operational' : 'warning'}`} />
-                        <span className="text-sim-200 text-[length:calc(11px*var(--fs))]">{value.status}</span>
+                        <div className={`w-2 h-2 rounded-full ${value.status === 'active' ? 'bg-status-success' : 'bg-status-warning'}`} />
+                        <span className="text-text-primary text-[length:calc(11px*var(--fs))]">{value.status}</span>
                       </div>
                     </div>
                   ))}
@@ -573,7 +573,7 @@ export const FlightOperations: React.FC<FlightOperationsProps> = ({
             </div>
 
             {/* ---- the airfield ---- */}
-            <div className="relative flex bg-sim-900/90 rounded-xl overflow-hidden border border-sim-700/50 min-h-[320px]">
+            <div className="relative flex bg-primary-900/70 rounded-xl overflow-hidden border border-primary-600/40 min-h-[320px]">
               <IsoAirportScene
                 aircraftPosition={aircraftPosition}
                 aircraftTangent={aircraftTangent}
@@ -591,49 +591,49 @@ export const FlightOperations: React.FC<FlightOperationsProps> = ({
 
           {/* AO-S System Integration Panel */}
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-            <div className="hbms-control-panel p-4 cursor-pointer hover:bg-sim-800/40 transition-colors"
+            <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-4 cursor-pointer hover:bg-primary-700/40 transition-colors"
                  onClick={(e) => handleElementClick('FIDS Integration', { status: systemsActive ? 'active' : 'standby' }, e)}>
               <div className="flex items-center space-x-3 mb-2">
-                <Radio className="w-4 h-4 text-simteal-400" />
-                <h4 className="font-semibold text-sim-200 text-sm">FIDS ↔ AO-S</h4>
+                <Radio className="w-4 h-4 text-accent-blue" />
+                <h4 className="font-semibold text-text-secondary text-sm">FIDS ↔ AO-S</h4>
               </div>
-              <p className="text-xs text-sim-300 mb-2">Real-time flight data triggers building responses</p>
-              <div className={`flex items-center space-x-2 ${systemsActive ? 'text-emerald-400' : 'text-sim-500'}`}>
-                <div className={`hbms-status-dot ${systemsActive ? 'operational' : 'offline'}`} />
+              <p className="text-xs text-text-secondary mb-2">Real-time flight data triggers building responses</p>
+              <div className={`flex items-center space-x-2 ${systemsActive ? 'text-status-success' : 'text-text-muted'}`}>
+                <div className={`w-2 h-2 rounded-full ${systemsActive ? 'bg-status-success' : 'bg-text-muted'}`} />
                 <span className="text-xs">Data flow: {systemsActive ? 'Active' : 'Standby'}</span>
               </div>
             </div>
 
-            <div className="hbms-control-panel p-4 cursor-pointer hover:bg-sim-800/40 transition-colors"
+            <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-4 cursor-pointer hover:bg-primary-700/40 transition-colors"
                  onClick={(e) => handleElementClick('Airfield Lighting', { activeLights: activeLights.length }, e)}>
               <div className="flex items-center space-x-3 mb-2">
-                <Zap className="w-4 h-4 text-simteal-400" />
-                <h4 className="font-semibold text-sim-200 text-sm">Airfield Lighting</h4>
+                <Zap className="w-4 h-4 text-accent-blue" />
+                <h4 className="font-semibold text-text-secondary text-sm">Airfield Lighting</h4>
               </div>
-              <p className="text-xs text-sim-300 mb-2">Approach, runway and taxi guidance to the stand</p>
-              <div className={`flex items-center space-x-2 ${activeLights.length > 0 ? 'text-simgold-400' : 'text-sim-500'}`}>
-                <div className={`hbms-status-dot ${activeLights.length > 0 ? 'operational' : 'offline'}`} />
+              <p className="text-xs text-text-secondary mb-2">Approach, runway and taxi guidance to the stand</p>
+              <div className={`flex items-center space-x-2 ${activeLights.length > 0 ? 'text-status-success' : 'text-text-muted'}`}>
+                <div className={`w-2 h-2 rounded-full ${activeLights.length > 0 ? 'bg-status-success' : 'bg-text-muted'}`} />
                 <span className="text-xs">Lights active: {activeLights.length}</span>
               </div>
             </div>
 
-            <div className="hbms-control-panel p-4 cursor-pointer hover:bg-sim-800/40 transition-colors"
+            <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-4 cursor-pointer hover:bg-primary-700/40 transition-colors"
                  onClick={(e) => handleElementClick('Building Systems', { phase: currentPhase }, e)}>
               <div className="flex items-center space-x-3 mb-2">
-                <Activity className="w-4 h-4 text-emerald-400" />
-                <h4 className="font-semibold text-sim-200 text-sm">Building Systems</h4>
+                <Activity className="w-4 h-4 text-accent-blue" />
+                <h4 className="font-semibold text-text-secondary text-sm">Building Systems</h4>
               </div>
-              <p className="text-xs text-sim-300 mb-2">HVAC, access control and energy optimisation</p>
-              <div className={`flex items-center space-x-2 ${currentPhase === 'at-terminal' ? 'text-emerald-400' : 'text-sim-500'}`}>
-                <div className={`hbms-status-dot ${currentPhase === 'at-terminal' ? 'operational' : 'warning'}`} />
+              <p className="text-xs text-text-secondary mb-2">HVAC, access control and energy optimisation</p>
+              <div className={`flex items-center space-x-2 ${currentPhase === 'at-terminal' ? 'text-status-success' : 'text-text-muted'}`}>
+                <div className={`w-2 h-2 rounded-full ${currentPhase === 'at-terminal' ? 'bg-status-success' : 'bg-status-warning'}`} />
                 <span className="text-xs">Integration: {currentPhase === 'at-terminal' ? 'Complete' : 'Processing'}</span>
               </div>
             </div>
 
-            <div className="hbms-control-panel p-4">
+            <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-4">
               <div className="flex items-center space-x-3 mb-2">
-                <Target className="w-4 h-4 text-emerald-400" />
-                <h4 className="font-semibold text-sim-200 text-sm">Runway Operations</h4>
+                <Target className="w-4 h-4 text-accent-blue" />
+                <h4 className="font-semibold text-text-secondary text-sm">Runway Operations</h4>
               </div>
               <div className="space-y-2 text-xs">
                 {[
@@ -645,12 +645,12 @@ export const FlightOperations: React.FC<FlightOperationsProps> = ({
                     onClick={() => !isLanding && setSelectedRunway(rw.id)}
                     className={`w-full text-left p-2 rounded border transition-colors ${
                       selectedRunway === rw.id
-                        ? 'border-simteal-400 bg-simteal-950/30'
-                        : 'border-sim-600/60 bg-sim-800/30 hover:border-simteal-500/50'
+                        ? 'border-accent-blue bg-accent-blue/10'
+                        : 'border-primary-600/40 bg-primary-800/40 hover:border-accent-blue/50'
                     }`}
                   >
-                    <div className="font-medium text-sim-200">RW {rw.id} ({rw.label})</div>
-                    <div className="text-sim-400">{rw.len} · {selectedRunway === rw.id ? 'In use' : 'Available'}</div>
+                    <div className="font-medium text-text-secondary">RW {rw.id} ({rw.label})</div>
+                    <div className="text-text-muted">{rw.len} · {selectedRunway === rw.id ? 'In use' : 'Available'}</div>
                   </button>
                 ))}
               </div>

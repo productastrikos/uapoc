@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Alert, AISolution } from '../types';
-import { X, Bot, User, Clock, CheckCircle, AlertTriangle, Calendar, History } from 'lucide-react';
+import { X, Bot, User, CheckCircle, AlertTriangle, Calendar, History } from 'lucide-react';
 
 interface AlertCenterProps {
   isOpen: boolean;
@@ -27,23 +27,20 @@ const AlertCenter: React.FC<AlertCenterProps> = ({
 
   if (!isOpen) return null;
 
-  // Dark-theme severity tints. The original used light `bg-*-50` utilities,
-  // which the simulation stylesheet flattens to one card colour, so every
-  // alert looked identical regardless of how serious it was.
   const getSeverityColor = (severity: string) => {
     switch (severity) {
-      case 'critical': return 'border-red-500/50 bg-red-950/30';
-      case 'high': return 'border-simgold-500/50 bg-simgold-950/30';
-      case 'medium': return 'border-simteal-500/50 bg-simteal-950/30';
-      default: return 'border-sim-600/50 bg-sim-800/30';
+      case 'critical': return 'border-status-error/40 bg-primary-800/60';
+      case 'high': return 'border-status-warning/40 bg-primary-800/60';
+      case 'medium': return 'border-accent-blue/40 bg-primary-800/60';
+      default: return 'border-primary-600/40 bg-primary-800/60';
     }
   };
 
   const getSeverityBadge = (severity: string) => {
     switch (severity) {
-      case 'critical': return 'bg-red-500/20 text-red-300 border border-red-500/40';
-      case 'high': return 'bg-simgold-500/20 text-simgold-300 border border-simgold-500/40';
-      default: return 'bg-simteal-500/20 text-simteal-300 border border-simteal-500/40';
+      case 'critical': return 'bg-status-error/10 text-status-error border border-status-error/30';
+      case 'high': return 'bg-status-warning/10 text-status-warning border border-status-warning/30';
+      default: return 'bg-accent-blue/10 text-accent-blue border border-accent-blue/30';
     }
   };
 
@@ -60,7 +57,7 @@ const AlertCenter: React.FC<AlertCenterProps> = ({
             cy="18"
             r="16"
             fill="none"
-            stroke="#1E3A4A"
+            stroke="#0A3A52"
             strokeWidth="2"
           />
           <circle
@@ -68,7 +65,7 @@ const AlertCenter: React.FC<AlertCenterProps> = ({
             cy="18"
             r="16"
             fill="none"
-            stroke="#f59e0b"
+            stroke="#F59E0B"
             strokeWidth="2"
             strokeDasharray={strokeDasharray}
             strokeDashoffset={strokeDashoffset}
@@ -76,33 +73,33 @@ const AlertCenter: React.FC<AlertCenterProps> = ({
           />
         </svg>
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-sm font-bold text-simgold-400">{countdown}</span>
+          <span className="text-sm font-bold text-status-warning">{countdown}</span>
         </div>
       </div>
     );
   };
 
   return (
-    <div className="fixed inset-y-0 right-0 w-96 glass-morphism shadow-2xl border-l border-sim-600/50 z-50 flex flex-col">
+    <div className="fixed inset-y-0 right-0 w-96 modal-surface shadow-2xl border-l border-primary-600/40 z-50 flex flex-col">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-sim-600/50 bg-gradient-to-r from-simgold-600/20 to-red-600/20 backdrop-blur">
+      <div className="flex items-center justify-between p-4 border-b border-primary-600/40 bg-primary-800">
         <div className="flex items-center space-x-3">
-          <AlertTriangle className="w-6 h-6" />
+          <AlertTriangle className="w-6 h-6 text-status-warning" />
           <div>
-            <h2 className="text-lg font-bold text-sim-100">Alert Center</h2>
-            <p className="text-sm text-sim-300">Intelligent Incident Management</p>
+            <h2 className="text-lg font-bold text-text-primary">Alert Center</h2>
+            <p className="text-sm text-text-muted">Intelligent Incident Management</p>
           </div>
         </div>
         <button
           onClick={onClose}
-          className="p-2 hover:bg-sim-700/50 rounded-lg transition-colors text-sim-300 hover:text-white"
+          className="p-2 hover:bg-primary-700/50 rounded-lg transition-colors text-text-muted hover:text-text-primary"
         >
           <X className="w-5 h-5" />
         </button>
       </div>
 
       {/* Tabs */}
-      <div className="border-b border-sim-600/50 bg-sim-800/30">
+      <div className="border-b border-primary-600/40 bg-primary-800/30">
         <nav className="flex">
           {[
             { id: 'new', label: 'New', count: newAlerts.length },
@@ -115,13 +112,13 @@ const AlertCenter: React.FC<AlertCenterProps> = ({
               onClick={() => setActiveTab(tab.id as any)}
               className={`flex-1 py-3 px-2 text-sm font-medium border-b-2 transition-colors relative ${
                 activeTab === tab.id
-                  ? 'border-simteal-400 text-simteal-400 bg-simteal-500/10'
-                  : 'border-transparent text-sim-400 hover:text-sim-200 hover:border-sim-500'
+                  ? 'border-accent-blue text-accent-blue bg-accent-blue/10'
+                  : 'border-transparent text-text-muted hover:text-text-secondary hover:border-primary-600'
               }`}
             >
               {tab.label}
               {tab.count > 0 && (
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 bg-status-error text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                   {tab.count}
                 </span>
               )}
@@ -131,13 +128,13 @@ const AlertCenter: React.FC<AlertCenterProps> = ({
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-y-auto bg-sim-900/20">
+      <div className="flex-1 overflow-y-auto bg-primary-900/20">
         {activeTab === 'new' && (
           <div className="p-4 space-y-4">
             {newAlerts.length === 0 ? (
               <div className="text-center py-8">
-                <CheckCircle className="w-12 h-12 text-emerald-500 mx-auto mb-3" />
-                <p className="text-sim-400">No new alerts</p>
+                <CheckCircle className="w-12 h-12 text-status-success mx-auto mb-3" />
+                <p className="text-text-muted">No new alerts</p>
               </div>
             ) : (
               newAlerts.map(alert => (
@@ -148,14 +145,14 @@ const AlertCenter: React.FC<AlertCenterProps> = ({
                   <div className="flex items-start justify-between gap-3 mb-3">
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center flex-wrap gap-2 mb-1.5">
-                        <AlertTriangle className="w-4 h-4 text-simgold-400 flex-shrink-0" />
-                        <h4 className="font-semibold text-sim-100 text-sm">{alert.title}</h4>
+                        <AlertTriangle className="w-4 h-4 text-status-warning flex-shrink-0" />
+                        <h4 className="font-semibold text-text-primary text-sm">{alert.title}</h4>
                         <span className={`text-[length:calc(10px*var(--fs))] uppercase tracking-wide px-2 py-0.5 rounded-full ${getSeverityBadge(alert.severity)}`}>
                           {alert.severity}
                         </span>
                       </div>
-                      <p className="text-xs text-sim-300 leading-snug">{alert.description}</p>
-                      <p className="text-[length:calc(10px*var(--fs))] text-sim-500 mt-1">
+                      <p className="text-xs text-text-muted leading-snug">{alert.description}</p>
+                      <p className="text-[length:calc(10px*var(--fs))] text-text-muted/70 mt-1">
                         {new Date(alert.timestamp).toLocaleTimeString()}
                       </p>
                     </div>
@@ -165,16 +162,16 @@ const AlertCenter: React.FC<AlertCenterProps> = ({
                   </div>
 
                   {alert.aiRecommendation && (
-                    <div className="bg-simteal-500/10 border border-simteal-400/30 rounded-lg p-3 mb-3">
+                    <div className="bg-accent-blue/10 border border-accent-blue/30 rounded-lg p-3 mb-3">
                       <div className="flex items-center flex-wrap gap-2 mb-1.5">
-                        <Bot className="w-4 h-4 text-simteal-400" />
-                        <span className="text-xs font-medium text-simteal-300">Recommended action</span>
-                        <span className="text-[length:calc(10px*var(--fs))] bg-simteal-500/20 text-simteal-300 px-2 py-0.5 rounded border border-simteal-400/30">
+                        <Bot className="w-4 h-4 text-accent-blue" />
+                        <span className="text-xs font-medium text-accent-blue">Recommended action</span>
+                        <span className="text-[length:calc(10px*var(--fs))] bg-accent-blue/20 text-accent-blue px-2 py-0.5 rounded border border-accent-blue/30">
                           {alert.aiRecommendation.confidence}% confidence
                         </span>
                       </div>
-                      <p className="text-xs text-simteal-100">{alert.aiRecommendation.action}</p>
-                      <div className="text-[length:calc(10px*var(--fs))] text-simteal-300/80 mt-1">
+                      <p className="text-xs text-text-primary">{alert.aiRecommendation.action}</p>
+                      <div className="text-[length:calc(10px*var(--fs))] text-text-muted mt-1">
                         Impact: {alert.aiRecommendation.estimatedImpact}
                       </div>
                     </div>
@@ -183,21 +180,21 @@ const AlertCenter: React.FC<AlertCenterProps> = ({
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => onAlertAction(alert.id, 'ai')}
-                      className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-600/80 hover:bg-emerald-600 text-white rounded-lg transition-colors text-xs font-medium border border-emerald-500/40"
+                      className="btn btn-primary"
                     >
                       <CheckCircle className="w-3.5 h-3.5" />
                       <span>Execute plan</span>
                     </button>
                     <button
                       onClick={() => onAlertAction(alert.id, 'manual')}
-                      className="flex items-center gap-1.5 px-3 py-1.5 bg-sim-700/70 hover:bg-sim-600 text-sim-100 rounded-lg transition-colors text-xs font-medium border border-sim-600/50"
+                      className="btn btn-secondary"
                     >
                       <User className="w-3.5 h-3.5" />
                       <span>Manual</span>
                     </button>
                     <button
                       onClick={() => onAlertAction(alert.id, 'ignore')}
-                      className="px-3 py-1.5 text-sim-400 hover:text-sim-100 hover:bg-sim-700/50 rounded-lg transition-colors text-xs"
+                      className="px-3 py-1.5 text-text-muted hover:text-text-primary hover:bg-primary-700/50 rounded-lg transition-colors text-xs"
                     >
                       Dismiss
                     </button>
@@ -211,15 +208,15 @@ const AlertCenter: React.FC<AlertCenterProps> = ({
         {activeTab === 'resolved' && (
           <div className="p-4 space-y-3">
             {resolvedAlerts.length === 0 ? (
-              <p className="text-center text-sim-500 text-sm py-8">Nothing resolved yet</p>
+              <p className="text-center text-text-muted text-sm py-8">Nothing resolved yet</p>
             ) : resolvedAlerts.map(alert => (
-              <div key={alert.id} className="border border-emerald-500/40 bg-emerald-950/25 rounded-lg p-3.5">
+              <div key={alert.id} className="border border-status-success/40 bg-primary-800/60 rounded-lg p-3.5">
                 <div className="flex items-center gap-2 mb-1.5">
-                  <CheckCircle className="w-4 h-4 text-emerald-400" />
-                  <h4 className="font-semibold text-emerald-200 text-sm">{alert.title}</h4>
+                  <CheckCircle className="w-4 h-4 text-status-success" />
+                  <h4 className="font-semibold text-text-primary text-sm">{alert.title}</h4>
                 </div>
-                <p className="text-xs text-sim-300">{alert.description}</p>
-                <div className="text-[length:calc(10px*var(--fs))] text-sim-500 mt-1.5">
+                <p className="text-xs text-text-muted">{alert.description}</p>
+                <div className="text-[length:calc(10px*var(--fs))] text-text-muted mt-1.5">
                   Resolved {new Date(alert.timestamp).toLocaleString()}
                 </div>
               </div>
@@ -230,17 +227,17 @@ const AlertCenter: React.FC<AlertCenterProps> = ({
         {activeTab === 'needs-review' && (
           <div className="p-4 space-y-3">
             {needsReviewAlerts.length === 0 ? (
-              <p className="text-center text-sim-500 text-sm py-8">Nothing needs review</p>
+              <p className="text-center text-text-muted text-sm py-8">Nothing needs review</p>
             ) : needsReviewAlerts.map(alert => (
-              <div key={alert.id} className="border border-simgold-500/40 bg-simgold-950/25 rounded-lg p-3.5">
+              <div key={alert.id} className="border border-status-warning/40 bg-primary-800/60 rounded-lg p-3.5">
                 <div className="flex items-center gap-2 mb-1.5">
-                  <AlertTriangle className="w-4 h-4 text-simgold-400" />
-                  <h4 className="font-semibold text-simgold-200 text-sm">{alert.title}</h4>
+                  <AlertTriangle className="w-4 h-4 text-status-warning" />
+                  <h4 className="font-semibold text-text-primary text-sm">{alert.title}</h4>
                 </div>
-                <p className="text-xs text-sim-300 mb-2.5">{alert.description}</p>
+                <p className="text-xs text-text-muted mb-2.5">{alert.description}</p>
                 <button
                   onClick={() => onAlertAction(alert.id, 'manual')}
-                  className="flex items-center gap-1.5 px-3 py-1.5 bg-simgold-600/80 hover:bg-simgold-600 text-white rounded-lg transition-colors text-xs font-medium border border-simgold-500/40"
+                  className="btn btn-primary"
                 >
                   <Calendar className="w-3.5 h-3.5" />
                   <span>Schedule maintenance</span>
@@ -253,30 +250,30 @@ const AlertCenter: React.FC<AlertCenterProps> = ({
         {activeTab === 'ai-history' && (
           <div className="p-4 space-y-3">
             {aiSolutions.length === 0 ? (
-              <p className="text-center text-sim-500 text-sm py-8">No actions executed yet</p>
+              <p className="text-center text-text-muted text-sm py-8">No actions executed yet</p>
             ) : aiSolutions.map((solution, index) => (
-              <div key={index} className="border border-simteal-500/40 bg-simteal-950/25 rounded-lg p-3.5">
+              <div key={index} className="border border-accent-blue/40 bg-primary-800/60 rounded-lg p-3.5">
                 <div className="flex items-center flex-wrap gap-2 mb-1.5">
-                  <History className="w-4 h-4 text-simteal-400" />
-                  <h4 className="font-semibold text-simteal-200 text-sm">Plan executed</h4>
+                  <History className="w-4 h-4 text-accent-blue" />
+                  <h4 className="font-semibold text-text-primary text-sm">Plan executed</h4>
                   <span className={`text-[length:calc(10px*var(--fs))] px-2 py-0.5 rounded-full border ${
                     solution.success
-                      ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/40'
-                      : 'bg-red-500/15 text-red-300 border-red-500/40'
+                      ? 'bg-status-success/15 text-status-success border-status-success/40'
+                      : 'bg-status-error/15 text-status-error border-status-error/40'
                   }`}>
                     {solution.success ? 'Success' : 'Failed'}
                   </span>
                 </div>
-                <p className="text-xs text-sim-300 mb-2">{solution.action}</p>
+                <p className="text-xs text-text-muted mb-2">{solution.action}</p>
                 <div className="grid grid-cols-3 gap-2 text-xs">
                   {[
                     [`${solution.timeSaved} min`, 'Time saved'],
                     [`$${solution.costSaved}`, 'Cost saved'],
                     [`${solution.confidence}%`, 'Confidence'],
                   ].map(([v, l]) => (
-                    <div key={l} className="text-center bg-sim-900/40 rounded-lg py-1.5 border border-sim-700/40">
-                      <div className="font-semibold text-simteal-200 text-xs">{v}</div>
-                      <div className="text-[length:calc(10px*var(--fs))] text-sim-500">{l}</div>
+                    <div key={l} className="text-center bg-primary-900/40 rounded-lg py-1.5 border border-primary-700/40">
+                      <div className="font-semibold text-accent-blue text-xs">{v}</div>
+                      <div className="text-[length:calc(10px*var(--fs))] text-text-muted">{l}</div>
                     </div>
                   ))}
                 </div>

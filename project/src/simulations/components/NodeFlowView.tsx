@@ -18,7 +18,7 @@ const NodeFlowView: React.FC<NodeFlowViewProps> = ({ nodeFlow, subsystemName }) 
       if (randomEdge) {
         setAnimatedEdges(prev => new Set(prev).add(randomEdge.id));
         setPulseNodes(prev => new Set(prev).add(randomEdge.source).add(randomEdge.target));
-        
+
         setTimeout(() => {
           setAnimatedEdges(prev => {
             const newSet = new Set(prev);
@@ -40,36 +40,36 @@ const NodeFlowView: React.FC<NodeFlowViewProps> = ({ nodeFlow, subsystemName }) 
 
   const getNodeColor = (status: string) => {
     switch (status) {
-      case 'active': return 'bg-emerald-500 border-emerald-600';
-      case 'idle': return 'bg-sim-400 border-sim-500';
-      case 'error': return 'bg-red-500 border-red-600';
-      default: return 'bg-simteal-500 border-simteal-600';
+      case 'active': return 'bg-status-success border-status-success';
+      case 'idle': return 'bg-primary-600 border-primary-600';
+      case 'error': return 'bg-status-error border-status-error';
+      default: return 'bg-accent-blue border-accent-blueHover';
     }
   };
 
   const getSignalColor = (signal: string) => {
     switch (signal) {
-      case 'command': return 'text-simteal-500';
-      case 'ack': return 'text-simgold-500';
-      case 'data': return 'text-emerald-500';
-      default: return 'text-sim-500';
+      case 'command': return 'text-accent-blue';
+      case 'ack': return 'text-status-warning';
+      case 'data': return 'text-status-success';
+      default: return 'text-text-muted';
     }
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-sim-200">
-      <div className="p-6 border-b border-sim-200">
+    <div className="bg-primary-800/60 rounded-xl border border-primary-600/40">
+      <div className="p-6 border-b border-primary-600/40">
         <div className="flex items-center space-x-3">
-          <Activity className="w-6 h-6 text-simteal-600" />
+          <Activity className="w-6 h-6 text-accent-blue" />
           <div>
-            <h3 className="text-lg font-semibold text-sim-900">Node Flow Diagram</h3>
-            <p className="text-sim-600">{subsystemName} - Real-time signal flow</p>
+            <h3 className="text-lg font-semibold text-text-primary">Node Flow Diagram</h3>
+            <p className="text-text-secondary">{subsystemName} - Real-time signal flow</p>
           </div>
         </div>
       </div>
-      
+
       <div className="p-6">
-        <div className="relative bg-sim-50 rounded-lg p-8 min-h-96">
+        <div className="relative bg-primary-900/40 rounded-lg p-8 min-h-96">
           {/* Nodes */}
           {nodeFlow.nodes.map(node => (
             <div
@@ -95,11 +95,11 @@ const NodeFlowView: React.FC<NodeFlowViewProps> = ({ nodeFlow, subsystemName }) 
           {nodeFlow.edges.map(edge => {
             const sourceNode = nodeFlow.nodes.find(n => n.id === edge.source);
             const targetNode = nodeFlow.nodes.find(n => n.id === edge.target);
-            
+
             if (!sourceNode || !targetNode) return null;
 
             const isAnimated = animatedEdges.has(edge.id);
-            
+
             return (
               <div key={edge.id}>
                 {/* Connection Line */}
@@ -118,7 +118,7 @@ const NodeFlowView: React.FC<NodeFlowViewProps> = ({ nodeFlow, subsystemName }) 
                     >
                       <polygon
                         points="0 0, 10 3.5, 0 7"
-                        fill={isAnimated ? '#01A3A4' : '#8A9BA8'}
+                        fill={isAnimated ? '#3B82F6' : '#8A9BA8'}
                       />
                     </marker>
                   </defs>
@@ -127,7 +127,7 @@ const NodeFlowView: React.FC<NodeFlowViewProps> = ({ nodeFlow, subsystemName }) 
                     y1={sourceNode.position.y}
                     x2={targetNode.position.x}
                     y2={targetNode.position.y}
-                    stroke={isAnimated ? '#01A3A4' : '#8A9BA8'}
+                    stroke={isAnimated ? '#3B82F6' : '#8A9BA8'}
                     strokeWidth={isAnimated ? '3' : '2'}
                     markerEnd={`url(#arrowhead-${edge.id})`}
                     className={isAnimated ? 'animate-pulse' : ''}
@@ -143,7 +143,7 @@ const NodeFlowView: React.FC<NodeFlowViewProps> = ({ nodeFlow, subsystemName }) 
                       top: `${(sourceNode.position.y + targetNode.position.y) / 2}px`
                     }}
                   >
-                    <div className={`flex items-center space-x-1 px-2 py-1 bg-white rounded-full shadow-lg border ${getSignalColor(edge.data.signal)}`}>
+                    <div className={`flex items-center space-x-1 px-2 py-1 bg-primary-800 rounded-full shadow-lg border border-primary-600/40 ${getSignalColor(edge.data.signal)}`}>
                       {edge.data.signal === 'command' && <ArrowRight className="w-3 h-3" />}
                       {edge.data.signal === 'ack' && <Zap className="w-3 h-3" />}
                       {edge.data.signal === 'data' && <Activity className="w-3 h-3" />}
@@ -159,16 +159,16 @@ const NodeFlowView: React.FC<NodeFlowViewProps> = ({ nodeFlow, subsystemName }) 
         {/* Legend */}
         <div className="mt-6 flex items-center justify-center space-x-8">
           <div className="flex items-center space-x-2">
-            <div className="w-4 h-4 bg-simteal-500 rounded"></div>
-            <span className="text-sm text-sim-600">Command Signal</span>
+            <div className="w-4 h-4 bg-accent-blue rounded"></div>
+            <span className="text-sm text-text-secondary">Command Signal</span>
           </div>
           <div className="flex items-center space-x-2">
-            <div className="w-4 h-4 bg-simgold-500 rounded"></div>
-            <span className="text-sm text-sim-600">Acknowledgment</span>
+            <div className="w-4 h-4 bg-status-warning rounded"></div>
+            <span className="text-sm text-text-secondary">Acknowledgment</span>
           </div>
           <div className="flex items-center space-x-2">
-            <div className="w-4 h-4 bg-emerald-500 rounded"></div>
-            <span className="text-sm text-sim-600">Data Flow</span>
+            <div className="w-4 h-4 bg-status-success rounded"></div>
+            <span className="text-sm text-text-secondary">Data Flow</span>
           </div>
         </div>
       </div>
