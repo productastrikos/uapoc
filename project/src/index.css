@@ -73,10 +73,10 @@
     @apply bg-accent-blue border-accent-blue text-white hover:bg-accent-blueHover hover:border-accent-blueHover hover:shadow-[0_4px_24px_rgba(32,120,207,0.45)];
   }
   .btn-danger {
-    @apply bg-transparent border-status-error/30 text-red-300 hover:bg-status-error/10 hover:border-status-error/50;
+    @apply bg-transparent border-status-error/40 text-status-errorBright hover:bg-status-error/15 hover:border-status-error/60;
   }
   .btn-danger-active {
-    @apply bg-status-error border-status-error text-white;
+    @apply bg-status-errorBright border-status-errorBright text-white;
   }
 
   /* A selectable "chip" — for dock-style button rows (sequence pickers, speed

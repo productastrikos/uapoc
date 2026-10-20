@@ -74,9 +74,9 @@ const IncidentManagement: React.FC = () => {
                   <td className="px-4 py-3 font-medium text-text-primary">Intrusion</td>
                   <td className="px-4 py-3 text-text-secondary">SMART SECURITY</td>
                   <td className="px-4 py-3 text-text-secondary">Cam-Zone-A</td>
-                  <td className="px-4 py-3"><span className="px-2 py-0.5 bg-status-error/10 text-red-300 font-bold text-[length:calc(10px*var(--fs))] rounded border border-status-error/30">HIGH</span></td>
+                  <td className="px-4 py-3"><span className="px-2 py-0.5 bg-status-error/10 text-status-error font-bold text-[length:calc(10px*var(--fs))] rounded border border-status-error/30">HIGH</span></td>
                   <td className="px-4 py-3 text-text-secondary">Security Response Protocol</td>
-                  <td className="px-4 py-3"><span className="text-xs px-2 py-1 rounded bg-status-warning/10 text-amber-300 border border-status-warning/30">In Progress</span></td>
+                  <td className="px-4 py-3"><span className="text-xs px-2 py-1 rounded bg-status-warning/10 text-status-warning border border-status-warning/30">In Progress</span></td>
                   <td className="px-4 py-3 text-right">
                     <button onClick={() => setShowLinkedIncident(true)} className="text-accent-blue hover:underline text-xs font-medium">Update</button>
                   </td>
@@ -100,31 +100,31 @@ const IncidentManagement: React.FC = () => {
             <div className="p-6 flex-1 overflow-y-auto">
               <div className="grid grid-cols-2 gap-x-6 gap-y-5 mb-6">
                 <div>
-                  <label className="block text-xs text-text-muted mb-1 border-b border-primary-600 pb-1">Sub System Name <span className="text-red-500">*</span></label>
+                  <label className="block text-xs text-text-muted mb-1 border-b border-primary-600 pb-1">Sub System Name <span className="text-status-error">*</span></label>
                   <select className="w-full text-sm py-1 outline-none text-text-secondary bg-transparent [&>option]:bg-primary-800"><option></option></select>
                 </div>
                 <div>
-                  <label className="block text-xs text-text-muted mb-1 border-b border-primary-600 pb-1">Zone <span className="text-red-500">*</span></label>
+                  <label className="block text-xs text-text-muted mb-1 border-b border-primary-600 pb-1">Zone <span className="text-status-error">*</span></label>
                   <select className="w-full text-sm py-1 outline-none text-text-secondary bg-transparent [&>option]:bg-primary-800"><option></option></select>
                 </div>
                 <div>
-                  <label className="block text-xs text-text-muted mb-1 border-b border-primary-600 pb-1">Area <span className="text-red-500">*</span></label>
+                  <label className="block text-xs text-text-muted mb-1 border-b border-primary-600 pb-1">Area <span className="text-status-error">*</span></label>
                   <select className="w-full text-sm py-1 outline-none text-text-secondary bg-transparent [&>option]:bg-primary-800"><option></option></select>
                 </div>
                 <div>
-                  <label className="block text-xs text-text-muted mb-1 border-b border-primary-600 pb-1">Location <span className="text-red-500">*</span></label>
+                  <label className="block text-xs text-text-muted mb-1 border-b border-primary-600 pb-1">Location <span className="text-status-error">*</span></label>
                   <select className="w-full text-sm py-1 outline-none text-text-secondary bg-transparent [&>option]:bg-primary-800"><option></option></select>
                 </div>
                 <div>
-                  <label className="block text-xs text-text-muted mb-1 border-b border-primary-600 pb-1">Incident Category <span className="text-red-500">*</span></label>
+                  <label className="block text-xs text-text-muted mb-1 border-b border-primary-600 pb-1">Incident Category <span className="text-status-error">*</span></label>
                   <select className="w-full text-sm py-1 outline-none text-text-secondary bg-transparent [&>option]:bg-primary-800"><option></option></select>
                 </div>
                 <div>
-                  <label className="block text-xs text-text-muted mb-1 border-b border-primary-600 pb-1">Incident Priority <span className="text-red-500">*</span></label>
+                  <label className="block text-xs text-text-muted mb-1 border-b border-primary-600 pb-1">Incident Priority <span className="text-status-error">*</span></label>
                   <select className="w-full text-sm py-1 outline-none text-text-secondary bg-transparent [&>option]:bg-primary-800"><option></option></select>
                 </div>
                 <div className="col-span-2">
-                  <label className="block text-xs text-text-muted mb-1 border-b border-primary-600 pb-1">Incident Description <span className="text-red-500">*</span></label>
+                  <label className="block text-xs text-text-muted mb-1 border-b border-primary-600 pb-1">Incident Description <span className="text-status-error">*</span></label>
                   <input type="text" className="w-full text-sm py-1 outline-none text-text-secondary bg-transparent [&>option]:bg-primary-800" />
                 </div>
                 <div className="col-span-2">

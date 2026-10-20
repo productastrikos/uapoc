@@ -53,9 +53,9 @@ const TrendArrow: React.FC<{ trend: 'up' | 'down' | 'stable'; value?: number }> 
   // Scopes the AI Advisory drawer to this console.
   useAiDomain('passenger');
   if (trend === 'up') {
-    return <TrendingUp className="w-4 h-4 text-green-400 inline ml-1" />;
+    return <TrendingUp className="w-4 h-4 text-status-success inline ml-1" />;
   } else if (trend === 'down') {
-    return <TrendingDown className="w-4 h-4 text-red-400 inline ml-1" />;
+    return <TrendingDown className="w-4 h-4 text-status-error inline ml-1" />;
   }
   return <Minus className="w-4 h-4 text-text-muted inline ml-1" />;
 };
@@ -439,24 +439,24 @@ const PassengerJourney: React.FC = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'optimal': return 'bg-status-success/10 text-green-300 border-status-success/30';
-      case 'congested': return 'bg-status-warning/10 text-amber-300 border-status-warning/30';
-      case 'critical': return 'bg-status-error/10 text-red-300 border-status-error/30';
+      case 'optimal': return 'bg-status-success/10 text-status-success border-status-success/30';
+      case 'congested': return 'bg-status-warning/10 text-status-warning border-status-warning/30';
+      case 'critical': return 'bg-status-error/10 text-status-error border-status-error/30';
       default: return 'bg-primary-600/30 text-text-muted border-primary-600/50';
     }
   };
 
   const getSlaColor = (compliance: number) => {
-    if (compliance >= 95) return 'text-green-400';
-    if (compliance >= 80) return 'text-yellow-400'; 
-    return 'text-red-400';
+    if (compliance >= 95) return 'text-status-success';
+    if (compliance >= 80) return 'text-status-warning'; 
+    return 'text-status-error';
   };
 
   const getStatusTextColor = (status: string) => {
     switch (status) {
-      case 'optimal': return 'text-green-400';
-      case 'congested': return 'text-yellow-400';
-      case 'critical': return 'text-red-400';
+      case 'optimal': return 'text-status-success';
+      case 'congested': return 'text-status-warning';
+      case 'critical': return 'text-status-error';
       default: return 'text-text-muted';
     }
   };
@@ -568,7 +568,7 @@ const PassengerJourney: React.FC = () => {
                         </div>
                         <div className="flex justify-between items-center">
                           <span className="text-text-muted">Error Rate:</span>
-                          <span className={selectedCheckpoint.errorRate > 3 ? 'text-red-400' : 'text-green-400'}>
+                          <span className={selectedCheckpoint.errorRate > 3 ? 'text-status-error' : 'text-status-success'}>
                             {selectedCheckpoint.errorRate}%
                           </span>
                         </div>
@@ -583,7 +583,7 @@ const PassengerJourney: React.FC = () => {
                         </div>
                         <div className="flex justify-between items-center">
                           <span className="text-text-muted">Recommended:</span>
-                          <span className={selectedCheckpoint.recommendedStaffing > selectedCheckpoint.staffingLevel ? 'text-yellow-400' : 'text-green-400'}>
+                          <span className={selectedCheckpoint.recommendedStaffing > selectedCheckpoint.staffingLevel ? 'text-status-warning' : 'text-status-success'}>
                             {selectedCheckpoint.recommendedStaffing}
                           </span>
                         </div>
@@ -651,7 +651,7 @@ const PassengerJourney: React.FC = () => {
                         <div className="flex justify-between items-center p-3 bg-primary-600/30 rounded-lg">
                           <span className="text-text-secondary">Error Rate</span>
                           <div className="flex items-center">
-                            <span className={`font-medium mr-2 ${selectedCheckpoint.errorRate > 3 ? 'text-red-400' : 'text-green-400'}`}>
+                            <span className={`font-medium mr-2 ${selectedCheckpoint.errorRate > 3 ? 'text-status-error' : 'text-status-success'}`}>
                               {selectedCheckpoint.errorRate}%
                             </span>
                             <TrendArrow trend={selectedCheckpoint.errorRate > 3 ? 'up' : 'down'} />
@@ -719,15 +719,15 @@ const PassengerJourney: React.FC = () => {
                         </ul>
                       </div>
 
-                      <div className="bg-green-800/30 p-4 rounded-lg">
-                        <h5 className="text-green-300 font-medium mb-2">Performance Indicators</h5>
+                      <div className="bg-status-success/10 p-4 rounded-lg">
+                        <h5 className="text-status-success font-medium mb-2">Performance Indicators</h5>
                         <div className="grid grid-cols-2 gap-4 mt-3">
                           <div className="text-center">
-                            <div className="text-2xl font-bold text-green-400">{selectedCheckpoint.slaCompliance}%</div>
+                            <div className="text-2xl font-bold text-status-success">{selectedCheckpoint.slaCompliance}%</div>
                             <div className="text-xs text-text-muted">SLA Compliance</div>
                           </div>
                           <div className="text-center">
-                            <div className="text-2xl font-bold text-green-400">{selectedCheckpoint.throughputRate}</div>
+                            <div className="text-2xl font-bold text-status-success">{selectedCheckpoint.throughputRate}</div>
                             <div className="text-xs text-text-muted">Hourly Throughput</div>
                           </div>
                         </div>
@@ -741,7 +741,7 @@ const PassengerJourney: React.FC = () => {
                 <div className="space-y-6">
                   <div className="bg-primary-700/40 p-5 rounded-lg backdrop-blur-sm border border-primary-600/30">
                     <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
-                      <Zap className="w-5 h-5 mr-2 text-yellow-400" />
+                      <Zap className="w-5 h-5 mr-2 text-status-warning" />
                       Available Actions
                     </h4>
                     <div className="space-y-4">
@@ -752,7 +752,7 @@ const PassengerJourney: React.FC = () => {
                             <span className="text-xs text-accent-teal bg-accent-teal/20 px-2 py-1 rounded-full">
                               Confidence: {selectedCheckpoint.status === 'critical' ? '95%' : '92%'}
                             </span>
-                            <span className="text-xs text-green-400 bg-green-400/20 px-2 py-1 rounded-full">Safe</span>
+                            <span className="text-xs text-status-success bg-status-success/20 px-2 py-1 rounded-full">Safe</span>
                           </div>
                         </div>
                         <p className="text-sm text-text-muted mb-4">
@@ -769,7 +769,7 @@ const PassengerJourney: React.FC = () => {
                             disabled={executedSOPs[selectedCheckpoint.id]}
                             className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 flex items-center space-x-2 ${
                               executedSOPs[selectedCheckpoint.id]
-                                ? 'bg-green-600/30 text-green-300 cursor-not-allowed'
+                                ? 'bg-status-success/20 text-status-success cursor-not-allowed'
                                 : 'bg-accent-blue hover:bg-accent-blueHover text-white shadow-lg'
                             }`}
                             style={!executedSOPs[selectedCheckpoint.id] ? {
@@ -806,22 +806,22 @@ const PassengerJourney: React.FC = () => {
                         <div className="space-y-2 text-sm">
                           <div className="flex justify-between items-center p-2 bg-primary-600/30 rounded">
                             <span className="text-text-secondary">Queue Sensors</span>
-                            <span className="text-green-400 flex items-center">
-                              <div className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></div>
+                            <span className="text-status-success flex items-center">
+                              <div className="w-2 h-2 bg-status-success rounded-full mr-2 animate-pulse"></div>
                               Active
                             </span>
                           </div>
                           <div className="flex justify-between items-center p-2 bg-primary-600/30 rounded">
                             <span className="text-text-secondary">Processing Timers</span>
-                            <span className="text-green-400 flex items-center">
-                              <div className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></div>
+                            <span className="text-status-success flex items-center">
+                              <div className="w-2 h-2 bg-status-success rounded-full mr-2 animate-pulse"></div>
                               Active
                             </span>
                           </div>
                           <div className="flex justify-between items-center p-2 bg-primary-600/30 rounded">
                             <span className="text-text-secondary">Staff Terminals</span>
-                            <span className="text-green-400 flex items-center">
-                              <div className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></div>
+                            <span className="text-status-success flex items-center">
+                              <div className="w-2 h-2 bg-status-success rounded-full mr-2 animate-pulse"></div>
                               Connected
                             </span>
                           </div>
@@ -849,21 +849,21 @@ const PassengerJourney: React.FC = () => {
                         </div>
                       </div>
 
-                      <div className="bg-green-800/30 p-4 rounded-lg">
-                        <h5 className="text-green-300 font-medium mb-3 flex items-center">
+                      <div className="bg-status-success/10 p-4 rounded-lg">
+                        <h5 className="text-status-success font-medium mb-3 flex items-center">
                           <Camera className="w-4 h-4 mr-2" />
                           Monitoring Systems
                         </h5>
                         <div className="grid grid-cols-2 gap-3">
                           <div className="bg-primary-600/30 p-3 rounded text-center">
-                            <Monitor className="w-6 h-6 text-green-400 mx-auto mb-2" />
+                            <Monitor className="w-6 h-6 text-status-success mx-auto mb-2" />
                             <div className="text-sm text-white font-medium">Video Feed</div>
-                            <div className="text-xs text-green-400">Live</div>
+                            <div className="text-xs text-status-success">Live</div>
                           </div>
                           <div className="bg-primary-600/30 p-3 rounded text-center">
-                            <Wifi className="w-6 h-6 text-green-400 mx-auto mb-2" />
+                            <Wifi className="w-6 h-6 text-status-success mx-auto mb-2" />
                             <div className="text-sm text-white font-medium">Network</div>
-                            <div className="text-xs text-green-400">Connected</div>
+                            <div className="text-xs text-status-success">Connected</div>
                           </div>
                         </div>
                       </div>
@@ -941,8 +941,8 @@ const PassengerJourney: React.FC = () => {
               {activeTab === 'overview' && (
                 <div className="space-y-6">
                   <div className="grid grid-cols-5 gap-3">
-                    <div className="bg-green-500/10 p-4 rounded-lg border border-green-500/30 backdrop-blur-sm">
-                      <div className="text-xl font-bold text-green-400 flex items-center justify-center">
+                    <div className="bg-status-success/10 p-4 rounded-lg border border-status-success/30 backdrop-blur-sm">
+                      <div className="text-xl font-bold text-status-success flex items-center justify-center">
                         {aiAdvisoryData.flowEfficiency}%
                         <TrendArrow trend={aiAdvisoryData.flowEfficiencyTrend} />
                       </div>
@@ -969,8 +969,8 @@ const PassengerJourney: React.FC = () => {
                       </div>
                       <div className="text-xs text-text-muted text-center">Active Passengers</div>
                     </div>
-                    <div className="bg-yellow-500/10 p-4 rounded-lg border border-yellow-500/30 backdrop-blur-sm">
-                      <div className="text-xl font-bold text-yellow-400 flex items-center justify-center">
+                    <div className="bg-status-warning/10 p-4 rounded-lg border border-status-warning/30 backdrop-blur-sm">
+                      <div className="text-xl font-bold text-status-warning flex items-center justify-center">
                         {aiAdvisoryData.bottleneckAlerts}
                         <TrendArrow trend={aiAdvisoryData.bottleneckTrend} />
                       </div>
@@ -1004,15 +1004,15 @@ const PassengerJourney: React.FC = () => {
                         </div>
                         <div className="flex justify-between items-center p-3 bg-primary-600/30 rounded-lg">
                           <span className="text-text-secondary">Security Queue</span>
-                          <span className="text-red-400 font-medium">67 passengers</span>
+                          <span className="text-status-error font-medium">67 passengers</span>
                         </div>
                         <div className="flex justify-between items-center p-3 bg-primary-600/30 rounded-lg">
                           <span className="text-text-secondary">Boarding Gates</span>
-                          <span className="text-yellow-400 font-medium">89 passengers</span>
+                          <span className="text-status-warning font-medium">89 passengers</span>
                         </div>
                         <div className="flex justify-between items-center p-3 bg-primary-600/30 rounded-lg">
                           <span className="text-text-secondary">Airside Retail</span>
-                          <span className="text-green-400 font-medium">34 passengers</span>
+                          <span className="text-status-success font-medium">34 passengers</span>
                         </div>
                       </div>
                     </div>
@@ -1035,19 +1035,19 @@ const PassengerJourney: React.FC = () => {
                         <div className="p-3 bg-primary-600/30 rounded-lg">
                           <div className="flex justify-between items-center mb-2">
                             <span className="text-text-secondary">Evening Rush</span>
-                            <span className="text-yellow-400">5:00-8:00 PM</span>
+                            <span className="text-status-warning">5:00-8:00 PM</span>
                           </div>
                           <div className="w-full bg-primary-700 rounded-full h-2">
-                            <div className="bg-yellow-400 h-2 rounded-full" style={{ width: '72%' }}></div>
+                            <div className="bg-status-warning h-2 rounded-full" style={{ width: '72%' }}></div>
                           </div>
                         </div>
                         <div className="p-3 bg-primary-600/30 rounded-lg">
                           <div className="flex justify-between items-center mb-2">
                             <span className="text-text-secondary">Off-Peak</span>
-                            <span className="text-green-400">12:00-4:00 PM</span>
+                            <span className="text-status-success">12:00-4:00 PM</span>
                           </div>
                           <div className="w-full bg-primary-700 rounded-full h-2">
-                            <div className="bg-green-400 h-2 rounded-full" style={{ width: '45%' }}></div>
+                            <div className="bg-status-success h-2 rounded-full" style={{ width: '45%' }}></div>
                           </div>
                         </div>
                       </div>
@@ -1069,11 +1069,11 @@ const PassengerJourney: React.FC = () => {
                         <h5 className="text-accent-blue font-medium mb-2">Next Hour Forecast</h5>
                         <div className="grid grid-cols-2 gap-4">
                           <div className="text-center p-3 bg-primary-600/30 rounded-lg">
-                            <div className="text-2xl font-bold text-yellow-400">+32%</div>
+                            <div className="text-2xl font-bold text-status-warning">+32%</div>
                             <div className="text-xs text-text-muted">Queue Growth</div>
                           </div>
                           <div className="text-center p-3 bg-primary-600/30 rounded-lg">
-                            <div className="text-2xl font-bold text-red-400">-15%</div>
+                            <div className="text-2xl font-bold text-status-error">-15%</div>
                             <div className="text-xs text-text-muted">SLA Risk</div>
                           </div>
                         </div>
@@ -1091,20 +1091,20 @@ const PassengerJourney: React.FC = () => {
                         </div>
                       </div>
 
-                      <div className="bg-green-800/30 p-4 rounded-lg">
-                        <h5 className="text-green-300 font-medium mb-2">Optimization Potential</h5>
+                      <div className="bg-status-success/10 p-4 rounded-lg">
+                        <h5 className="text-status-success font-medium mb-2">Optimization Potential</h5>
                         <div className="space-y-2">
                           <div className="flex justify-between items-center">
                             <span className="text-text-secondary text-sm">Wait Time Reduction</span>
-                            <span className="text-green-400 font-medium">up to 35%</span>
+                            <span className="text-status-success font-medium">up to 35%</span>
                           </div>
                           <div className="flex justify-between items-center">
                             <span className="text-text-secondary text-sm">Throughput Increase</span>
-                            <span className="text-green-400 font-medium">up to 28%</span>
+                            <span className="text-status-success font-medium">up to 28%</span>
                           </div>
                           <div className="flex justify-between items-center">
                             <span className="text-text-secondary text-sm">SLA Improvement</span>
-                            <span className="text-green-400 font-medium">up to 12%</span>
+                            <span className="text-status-success font-medium">up to 12%</span>
                           </div>
                         </div>
                       </div>
@@ -1117,7 +1117,7 @@ const PassengerJourney: React.FC = () => {
                 <div className="space-y-6">
                   <div className="bg-primary-700/40 p-5 rounded-lg backdrop-blur-sm border border-primary-600/30">
                     <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
-                      <Target className="w-5 h-5 mr-2 text-yellow-400" />
+                      <Target className="w-5 h-5 mr-2 text-status-warning" />
                       AI Recommendations
                     </h4>
                     
@@ -1128,7 +1128,7 @@ const PassengerJourney: React.FC = () => {
                             <h5 className="text-white font-medium">Recommendation #{index + 1}</h5>
                             <div className="flex items-center space-x-2">
                               <span className="text-xs text-accent-teal bg-accent-teal/20 px-2 py-1 rounded-full">High Priority</span>
-                              <span className="text-xs text-green-400 bg-green-400/20 px-2 py-1 rounded-full">AI Generated</span>
+                              <span className="text-xs text-status-success bg-status-success/20 px-2 py-1 rounded-full">AI Generated</span>
                             </div>
                           </div>
                           <p className="text-sm text-text-muted mb-3">
@@ -1167,7 +1167,7 @@ const PassengerJourney: React.FC = () => {
                 <div className="space-y-6">
                   <div className="bg-primary-700/40 p-5 rounded-lg backdrop-blur-sm border border-primary-600/30">
                     <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
-                      <Zap className="w-5 h-5 mr-2 text-yellow-400" />
+                      <Zap className="w-5 h-5 mr-2 text-status-warning" />
                       Execute AI Optimization
                     </h4>
                     
@@ -1177,7 +1177,7 @@ const PassengerJourney: React.FC = () => {
                           <h5 className="text-white font-medium">Journey Flow AI Enhancement</h5>
                           <div className="flex items-center space-x-2">
                             <span className="text-xs text-accent-teal bg-accent-teal/20 px-2 py-1 rounded-full">Confidence: 96.7%</span>
-                            <span className="text-xs text-green-400 bg-green-400/20 px-2 py-1 rounded-full">Safe</span>
+                            <span className="text-xs text-status-success bg-status-success/20 px-2 py-1 rounded-full">Safe</span>
                           </div>
                         </div>
                         <p className="text-sm text-text-muted mb-4">
@@ -1193,7 +1193,7 @@ const PassengerJourney: React.FC = () => {
                             onClick={handleAIOptimizationExecute}
                             className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 flex items-center space-x-2 ${
                               aiOptimizationExecuted
-                                ? 'bg-green-600/30 text-green-300'
+                                ? 'bg-status-success/20 text-status-success'
                                 : 'bg-accent-teal hover:bg-teal-600 text-white shadow-lg'
                             }`}
                             style={!aiOptimizationExecuted ? {
@@ -1227,28 +1227,28 @@ const PassengerJourney: React.FC = () => {
                       </div>
 
                       {aiOptimizationExecuted && (
-                        <div className="bg-green-500/10 rounded-lg p-4 border border-green-500/30 backdrop-blur-sm">
+                        <div className="bg-status-success/10 rounded-lg p-4 border border-status-success/30 backdrop-blur-sm">
                           <div className="flex items-center space-x-3">
-                            <CheckCircle className="w-6 h-6 text-green-400" />
+                            <CheckCircle className="w-6 h-6 text-status-success" />
                             <div>
-                              <h6 className="text-green-300 font-medium">AI Optimization Successfully Applied</h6>
-                              <p className="text-green-400/80 text-sm">
+                              <h6 className="text-status-success font-medium">AI Optimization Successfully Applied</h6>
+                              <p className="text-status-success/80 text-sm">
                                 Passenger journey performance enhanced across all checkpoints. Real-time monitoring active.
                               </p>
                             </div>
                           </div>
                           
                           <div className="mt-4 grid grid-cols-3 gap-4">
-                            <div className="text-center p-3 bg-green-600/20 rounded-lg">
-                              <div className="text-lg font-bold text-green-400">-13%</div>
+                            <div className="text-center p-3 bg-status-success/15 rounded-lg">
+                              <div className="text-lg font-bold text-status-success">-13%</div>
                               <div className="text-xs text-text-muted">Journey Time</div>
                             </div>
-                            <div className="text-center p-3 bg-green-600/20 rounded-lg">
-                              <div className="text-lg font-bold text-green-400">+6%</div>
+                            <div className="text-center p-3 bg-status-success/15 rounded-lg">
+                              <div className="text-lg font-bold text-status-success">+6%</div>
                               <div className="text-xs text-text-muted">SLA Compliance</div>
                             </div>
-                            <div className="text-center p-3 bg-green-600/20 rounded-lg">
-                              <div className="text-lg font-bold text-green-400">-67%</div>
+                            <div className="text-center p-3 bg-status-success/15 rounded-lg">
+                              <div className="text-lg font-bold text-status-success">-67%</div>
                               <div className="text-xs text-text-muted">Bottlenecks</div>
                             </div>
                           </div>
@@ -1389,15 +1389,15 @@ const PassengerJourney: React.FC = () => {
             <div className="flex items-center justify-between mt-4 text-sm">
               <div className="flex space-x-4">
                 <span className="flex items-center space-x-1">
-                  <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                  <span className="w-2 h-2 bg-status-success rounded-full animate-pulse"></span>
                   <span className="text-text-secondary">Low Density</span>
                 </span>
                 <span className="flex items-center space-x-1">
-                  <span className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></span>
+                  <span className="w-2 h-2 bg-status-warning rounded-full animate-pulse"></span>
                   <span className="text-text-secondary">Medium Density</span>
                 </span>
                 <span className="flex items-center space-x-1">
-                  <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                  <span className="w-2 h-2 bg-status-error rounded-full animate-pulse"></span>
                   <span className="text-text-secondary">High Density</span>
                 </span>
               </div>

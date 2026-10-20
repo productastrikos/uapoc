@@ -93,13 +93,23 @@ export default {
           secondary: '#7DA0CA',
           muted: '#5483B3',
         },
-        /* Softer, less saturated than the stock Tailwind 500-weights, and
-         * picked to sit comfortably next to accent.blue instead of fighting
-         * it — the brief was "blueish, not neon traffic-light colours". */
+        /* A specific 5-color set the user chose, replacing the generic
+         * traffic-light red/green/yellow. Every status.* reference across
+         * the app routes through this one block, so this single edit
+         * recolors every severity badge/bar/dot in the product at once.
+         *   success      — general "good / operational" reading
+         *   successDark  — a deeper tone for a filled/active success state
+         *   warning      — unchanged role, just the given gold
+         *   error        — general "critical / fault" reading
+         *   errorBright  — an engaged/active danger state (e.g. an alarm
+         *                  that has actually fired), one step more urgent
+         *                  than the idle `error` tone */
         status: {
-          success: '#34D399',
-          warning: '#E6B85C',
-          error: '#F87171',
+          success: '#0C6B37', // Deep Green
+          successDark: '#094A25', // Dark Forest Green
+          warning: '#F8B324', // Golden Yellow
+          error: '#BC2023', // Dark Red
+          errorBright: '#EB442C', // Orange Red
           info: '#3B82F6',
         },
 

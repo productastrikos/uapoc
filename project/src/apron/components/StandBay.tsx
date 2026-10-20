@@ -36,9 +36,9 @@ const ICON: Record<EquipKind, React.ElementType> = {
 
 /** Equipment badge treatment. A fault glows and pulses rather than just changing colour. */
 const STATUS_TONE: Record<EquipStatus, { bg: string; ring: string; icon: string; glow?: string }> = {
-  active: { bg: 'rgba(16,185,129,0.16)', ring: 'rgba(52,211,153,0.6)', icon: '#6EE7B7' },
+  active: { bg: 'rgba(12,107,55,0.2)', ring: 'rgba(12,107,55,0.7)', icon: '#4ADE80' },
   standby: { bg: 'rgba(100,116,139,0.16)', ring: 'rgba(148,163,184,0.35)', icon: '#94A3B8' },
-  fault: { bg: 'rgba(239,68,68,0.22)', ring: 'rgba(248,113,113,0.85)', icon: '#FCA5A5', glow: 'rgba(248,113,113,0.85)' },
+  fault: { bg: 'rgba(188,32,35,0.25)', ring: 'rgba(235,68,44,0.85)', icon: '#EB442C', glow: 'rgba(235,68,44,0.85)' },
   offline: { bg: 'rgba(51,65,85,0.3)', ring: 'rgba(71,85,105,0.45)', icon: '#475569' },
 };
 
@@ -65,7 +65,7 @@ const StandBay: React.FC<Props> = ({ stand, selected, onSelect }) => {
         selected
           ? 'border-accent-teal/80 bg-primary-700/50 shadow-[0_0_0_1px_rgba(45,212,191,0.45),0_10px_24px_-10px_rgba(45,212,191,0.4)] -translate-y-0.5'
           : alarming
-          ? 'border-red-500/50 bg-primary-800/50 shadow-[0_0_0_1px_rgba(239,68,68,0.25),0_8px_18px_-10px_rgba(0,0,0,0.7)] hover:border-red-400'
+          ? 'border-status-error/50 bg-primary-800/50 shadow-[0_0_0_1px_rgba(188,32,35,0.3),0_8px_18px_-10px_rgba(0,0,0,0.7)] hover:border-status-errorBright'
           : 'border-primary-500/40 bg-primary-800/50 shadow-[0_6px_16px_-10px_rgba(0,0,0,0.7)] hover:border-primary-400 hover:-translate-y-0.5'
       }`}
     >
@@ -80,11 +80,11 @@ const StandBay: React.FC<Props> = ({ stand, selected, onSelect }) => {
           <span
             className={`w-2 h-2 rounded-full ${
               alarming
-                ? 'bg-red-500 shadow-[0_0_6px_2px_rgba(239,68,68,0.65)]'
+                ? 'bg-status-error shadow-[0_0_6px_2px_rgba(188,32,35,0.65)]'
                 : stand.maintenance
-                ? 'bg-purple-400 shadow-[0_0_6px_2px_rgba(192,132,252,0.5)]'
+                ? 'bg-accent-blue shadow-[0_0_6px_2px_rgba(32,120,207,0.5)]'
                 : stand.occupied
-                ? 'bg-emerald-400 shadow-[0_0_6px_2px_rgba(52,211,153,0.5)]'
+                ? 'bg-status-success shadow-[0_0_6px_2px_rgba(12,107,55,0.5)]'
                 : 'bg-slate-600'
             }`}
           />

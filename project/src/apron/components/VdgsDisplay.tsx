@@ -15,10 +15,10 @@ import React from 'react';
 import { Stand } from '../types';
 
 const MESSAGE_COLOUR: Record<string, string> = {
-  STOP: 'text-red-400',
-  SLOW: 'text-amber-300',
-  OK: 'text-emerald-400',
-  FAULT: 'text-red-500',
+  STOP: 'text-status-error',
+  SLOW: 'text-status-warning',
+  OK: 'text-status-success',
+  FAULT: 'text-status-error',
   '—': 'text-slate-600',
 };
 
@@ -87,7 +87,7 @@ const VdgsDisplay: React.FC<Props> = ({ stand }) => {
   return (
     <div
       className={`rounded border overflow-hidden ${
-        faulted ? 'border-red-500/60' : 'border-primary-500/50'
+        faulted ? 'border-status-error/60' : 'border-primary-500/50'
       }`}
     >
       {/* Chocks status — the operational record of the turnaround */}
@@ -114,9 +114,9 @@ const VdgsDisplay: React.FC<Props> = ({ stand }) => {
           <span
             className={`font-mono font-bold tabular-nums text-2xl ${
               faulted
-                ? 'text-red-500'
+                ? 'text-status-error'
                 : live
-                ? 'text-amber-300'
+                ? 'text-status-warning'
                 : 'text-slate-700'
             }`}
           >
@@ -127,7 +127,7 @@ const VdgsDisplay: React.FC<Props> = ({ stand }) => {
 
         <div
           className={`text-center font-mono font-bold text-sm tracking-wider ${
-            MESSAGE_COLOUR[vdgs.message] ?? 'text-amber-300'
+            MESSAGE_COLOUR[vdgs.message] ?? 'text-status-warning'
           }`}
         >
           {faulted ? 'FAULT' : vdgs.message}

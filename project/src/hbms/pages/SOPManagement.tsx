@@ -28,9 +28,9 @@ import { SOPS, sopDuration, type Sop } from '../sops';
 import { useHbmsStore } from '../store/useHbmsStore';
 
 const PRIORITY_STYLE: Record<Sop['priority'], { bg: string; color: string; border: string }> = {
-  CRITICAL: { bg: 'rgba(239,68,68,0.15)', color: '#fca5a5', border: 'rgba(239,68,68,0.35)' },
-  HIGH: { bg: 'rgba(239,68,68,0.1)', color: '#fca5a5', border: 'rgba(239,68,68,0.3)' },
-  MEDIUM: { bg: 'rgba(245,158,11,0.15)', color: '#fde68a', border: 'rgba(245,158,11,0.3)' },
+  CRITICAL: { bg: 'rgba(188,32,35,0.18)', color: '#EB442C', border: 'rgba(188,32,35,0.4)' },
+  HIGH: { bg: 'rgba(188,32,35,0.12)', color: '#EB442C', border: 'rgba(188,32,35,0.3)' },
+  MEDIUM: { bg: 'rgba(248,179,36,0.15)', color: '#F8B324', border: 'rgba(248,179,36,0.3)' },
   LOW: { bg: 'rgba(138,155,168,0.12)', color: '#B8C5D1', border: 'rgba(138,155,168,0.3)' },
 };
 
@@ -162,7 +162,7 @@ const SOPManagement: React.FC = () => {
               </div>
               <div>
                 <div className="text-[length:calc(10px*var(--fs))] uppercase tracking-wide text-text-muted">Closed first time</div>
-                <div className="text-base font-bold font-mono text-emerald-300">{sop.successRate}%</div>
+                <div className="text-base font-bold font-mono text-status-success">{sop.successRate}%</div>
               </div>
             </div>
           </div>
@@ -171,7 +171,7 @@ const SOPManagement: React.FC = () => {
           <div className="mt-3 grid gap-2 md:grid-cols-2">
             <div className="rounded-md border px-2 py-2" style={{ borderColor: 'rgba(32, 120, 207,0.1)', background: 'rgba(32, 120, 207,0.03)' }}>
               <div className="flex items-center gap-1.5 mb-1">
-                <Zap className="w-3.5 h-3.5 text-amber-300" />
+                <Zap className="w-3.5 h-3.5 text-status-warning" />
                 <span className="text-[length:calc(10px*var(--fs))] uppercase tracking-wide text-text-muted">Triggered when</span>
               </div>
               <p className="text-xs text-text-primary leading-snug">{sop.trigger}</p>
@@ -222,7 +222,7 @@ const SOPManagement: React.FC = () => {
                     className="mt-0.5 w-5 h-5 shrink-0 rounded-full flex items-center justify-center text-[length:calc(10px*var(--fs))] font-bold border"
                     style={
                       ok
-                        ? { background: 'rgba(16,185,129,0.25)', borderColor: 'rgba(52,211,153,0.7)', color: '#6EE7B7' }
+                        ? { background: 'rgba(12,107,55,0.3)', borderColor: 'rgba(12,107,55,0.8)', color: '#4ADE80' }
                         : { background: 'rgba(32, 120, 207,0.05)', borderColor: 'rgba(32, 120, 207,0.14)', color: '#8A9BA8' }
                     }
                   >
@@ -248,8 +248,8 @@ const SOPManagement: React.FC = () => {
               className="mt-3 rounded-md border px-2 py-2 flex items-center gap-2 flex-wrap"
               style={{ background: 'rgba(16,185,129,0.1)', borderColor: 'rgba(16,185,129,0.4)' }}
             >
-              <CheckCircle2 className="w-4 h-4 text-emerald-300" />
-              <span className="text-xs text-emerald-200">
+              <CheckCircle2 className="w-4 h-4 text-status-success" />
+              <span className="text-xs text-status-success">
                 Procedure complete — every step signed off with its evidence.
               </span>
               <div className="flex-1" />
