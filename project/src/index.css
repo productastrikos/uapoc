@@ -107,17 +107,22 @@
    * variety comes from where on that ramp each one sits, not from reaching
    * for a different hue family. This is what "blue throughout" means for a
    * row of tiles that still need to read as distinct from each other. */
+  /* A near-black base (#000521) under each tint, rather than the tint being
+   * the whole fill — same reasoning as .glass-panel: against a genuinely
+   * vivid blue background, a tile that's mostly blue itself disappears into
+   * it. This keeps the per-tile color as an accent/identifier, with the tile
+   * itself reading as a dark surface that stands apart from the glow. */
   .glass-pill-blue {
-    background: linear-gradient(135deg, rgba(32, 120, 207, 0.32), rgba(32, 120, 207, 0.06));
+    background: linear-gradient(135deg, rgba(32, 120, 207, 0.22), rgba(32, 120, 207, 0.03)), rgba(0, 5, 33, 0.55);
   }
   .glass-pill-teal {
-    background: linear-gradient(135deg, rgba(84, 131, 179, 0.3), rgba(84, 131, 179, 0.06));
+    background: linear-gradient(135deg, rgba(84, 131, 179, 0.2), rgba(84, 131, 179, 0.03)), rgba(0, 5, 33, 0.55);
   }
   .glass-pill-violet {
-    background: linear-gradient(135deg, rgba(14, 78, 178, 0.34), rgba(14, 78, 178, 0.06));
+    background: linear-gradient(135deg, rgba(14, 78, 178, 0.24), rgba(14, 78, 178, 0.03)), rgba(0, 5, 33, 0.55);
   }
   .glass-pill-neutral {
-    background: linear-gradient(135deg, rgba(125, 160, 202, 0.2), rgba(125, 160, 202, 0.05));
+    background: linear-gradient(135deg, rgba(125, 160, 202, 0.14), rgba(125, 160, 202, 0.02)), rgba(0, 5, 33, 0.55);
   }
 }
 
