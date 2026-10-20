@@ -69,7 +69,7 @@ export interface IntegrationEntry { id: string; ref: string; msg: string; ts: st
 
 const getStatusIcon = (status: string) => {
   switch (status) {
-    case 'green': case 'Operational': return <CheckCircle2 className="w-3 h-3 text-status-success" />;
+    case 'green': case 'Operational': return <CheckCircle2 className="w-3 h-3 text-status-neutral" />;
     case 'yellow': case 'Warning':    return <AlertTriangle className="w-3 h-3 text-status-warning" />;
     case 'red':   case 'Critical':    return <XCircle       className="w-3 h-3 text-status-error" />;
     default: return <Minus className="w-3 h-3 text-text-secondary" />;
@@ -79,13 +79,13 @@ const getStatusIcon = (status: string) => {
 const getRAGBg = (status: string) => {
   if (status === 'red'    || status === 'Critical') return { bg: 'var(--app-surface)', border: 'rgba(239,68,68,0.32)',   dot: 'var(--kpi-dot-red)' };
   if (status === 'yellow' || status === 'Warning')  return { bg: 'var(--app-surface)', border: 'rgba(245,158,11,0.22)',  dot: 'var(--kpi-dot-yellow)' };
-  return { bg: 'var(--app-surface)', border: 'rgba(52,211,153,0.38)', dot: 'var(--kpi-dot-green)' };
+  return { bg: 'var(--app-surface)', border: 'rgba(125,160,202,0.38)', dot: 'var(--kpi-dot-neutral)' };
 };
 
 // Concrete hex per RAG status — the trend modal needs a literal color (for
 // `${color}NN` opacity-suffix tricks), not the CSS var used for theming.
 const kpiStatusHex = (status: KPIData['status']) =>
-  status === 'red' ? '#ef4444' : status === 'yellow' ? '#f59e0b' : '#34d399';
+  status === 'red' ? '#ef4444' : status === 'yellow' ? '#f59e0b' : '#7DA0CA';
 
 const sevCfg = (sev: LiveAlert['severity']) => ({
   critical: { color: '#ef4444', bg: 'rgba(239,68,68,0.09)',   border: 'rgba(239,68,68,0.30)'   },
@@ -356,9 +356,9 @@ export const KPIStripCard: React.FC<{ kpi: KPIData; onClick?: () => void }> = ({
         {kpi.sla && (
           <span style={{
             fontSize: 7, fontWeight: 700, padding: '1px 5px', borderRadius: 4,
-            background: kpi.status === 'green' ? 'rgba(52,211,153,0.22)'  : kpi.status === 'yellow' ? 'rgba(245,158,11,0.10)' : 'rgba(239,68,68,0.15)',
-            color:      kpi.status === 'green' ? 'var(--kpi-dot-green)'   : kpi.status === 'yellow' ? 'var(--kpi-dot-yellow)' : 'var(--kpi-dot-red)',
-            border:     kpi.status === 'green' ? '1px solid rgba(52,211,153,0.40)' : kpi.status === 'yellow' ? '1px solid rgba(245,158,11,0.18)' : '1px solid rgba(239,68,68,0.25)',
+            background: kpi.status === 'green' ? 'rgba(125,160,202,0.22)' : kpi.status === 'yellow' ? 'rgba(245,158,11,0.10)' : 'rgba(239,68,68,0.15)',
+            color:      kpi.status === 'green' ? 'var(--kpi-dot-neutral)' : kpi.status === 'yellow' ? 'var(--kpi-dot-yellow)' : 'var(--kpi-dot-red)',
+            border:     kpi.status === 'green' ? '1px solid rgba(125,160,202,0.40)' : kpi.status === 'yellow' ? '1px solid rgba(245,158,11,0.18)' : '1px solid rgba(239,68,68,0.25)',
           }}>
             SLA {kpi.sla}
           </span>

@@ -142,7 +142,7 @@ const AnalyticsReporting: React.FC = () => {
           >
             <div className="flex items-center justify-between mb-2">
               <stat.icon className="h-5 w-5 text-text-muted" />
-              <span className={`text-sm font-medium ${stat.change.startsWith('+') ? 'text-status-success' : 'text-status-warning'}`}>
+              <span className={`text-sm font-medium ${stat.change.startsWith('+') ? 'text-status-neutral' : 'text-status-warning'}`}>
                 {stat.change}
               </span>
             </div>
@@ -189,11 +189,11 @@ const AnalyticsReporting: React.FC = () => {
                 <span className="text-text-muted">Satisfaction Score</span>
               </div>
               <div className="flex items-center space-x-1">
-                <div className="w-3 h-1 bg-status-success rounded-full"></div>
+                <div className="w-3 h-1 bg-status-neutral rounded-full"></div>
                 <span className="text-text-muted">Efficiency</span>
               </div>
               <div className="flex items-center space-x-1">
-                <div className="w-3 h-1 bg-status-error rounded-full" style={{borderStyle: 'dashed'}}></div>
+                <div className="w-3 h-1 bg-status-neutral rounded-full" style={{borderStyle: 'dashed'}}></div>
                 <span className="text-text-muted">Safety Rating</span>
               </div>
             </div>
@@ -338,7 +338,7 @@ const AnalyticsReporting: React.FC = () => {
                   <div className="flex items-center justify-between mb-2">
                     <span className="font-medium text-text-primary">{source.name}</span>
                     <span className={`text-sm font-semibold ${
-                      source.status > 98 ? 'text-status-success' :
+                      source.status > 98 ? 'text-status-neutral' :
                       source.status > 95 ? 'text-status-warning' : 'text-status-error'
                     }`}>
                       {source.status}%
@@ -351,7 +351,7 @@ const AnalyticsReporting: React.FC = () => {
                       animate={{ width: `${source.status}%` }}
                       transition={{ duration: 1, delay: index * 0.2 }}
                       className={`h-2 rounded-full ${
-                        source.status > 98 ? 'bg-status-success' :
+                        source.status > 98 ? 'bg-status-neutral' :
                         source.status > 95 ? 'bg-status-warning' :
                         'bg-status-error'
                       }`}
@@ -400,8 +400,8 @@ const AnalyticsReporting: React.FC = () => {
                   <div className="flex items-center space-x-2">
                     <span className="text-text-primary font-medium">{insight.value}%</span>
                     <span className={`text-xs ${
-                      insight.trend === 'increasing' ? 'text-status-success' :
-                      insight.trend === 'decreasing' ? 'text-status-error' : 'text-status-warning'
+                      insight.trend === 'increasing' ? 'text-status-neutral' :
+                      insight.trend === 'decreasing' ? 'text-status-error' : 'text-status-neutral'
                     }`}>
                       {insight.trend === 'increasing' ? '↗' : insight.trend === 'decreasing' ? '↘' : '→'}
                     </span>

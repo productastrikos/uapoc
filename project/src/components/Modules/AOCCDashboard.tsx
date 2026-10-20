@@ -182,7 +182,7 @@ const TrendArrow: React.FC<{ trend: 'up' | 'down' | 'stable' }> = ({ trend }) =>
   // Scopes the AI Advisory drawer to this console.
   useAiDomain('aocc');
   if (trend === 'up') {
-    return <TrendingUp className="w-4 h-4 text-status-success inline ml-1" />;
+    return <TrendingUp className="w-4 h-4 text-status-neutral inline ml-1" />;
   } else if (trend === 'down') {
     return <TrendingDown className="w-4 h-4 text-status-error inline ml-1" />;
   }
@@ -313,7 +313,7 @@ const KPIGrid: React.FC<{
             <stat.icon className="h-4 w-4 text-accent-blue" />
             {stat.change && (
               <span className={`text-xs font-medium ${
-                stat.change.startsWith('+') ? 'text-status-success' :
+                stat.change.startsWith('+') ? 'text-status-neutral' :
                 stat.change.startsWith('-') ? 'text-status-error' :
                 stat.change === 'Alert' ? 'text-status-warning' :
                 'text-text-muted'
@@ -333,7 +333,7 @@ const KPIGrid: React.FC<{
           </div>
 
           <div className={`absolute top-3 right-3 w-1.5 h-1.5 rounded-full ${
-            stat.status === 'good' ? 'bg-status-success' :
+            stat.status === 'good' ? 'bg-status-neutral' :
             stat.status === 'warning' ? 'bg-status-warning' :
             'bg-status-error'
           }`} style={{ display: stat.change ? 'none' : 'block' }}></div>
@@ -357,7 +357,7 @@ const SystemHealthPanel: React.FC<{
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'optimal': return 'bg-status-info/15 text-status-info border-status-info/40';
-      case 'operational': return 'bg-status-success/15 text-status-success border-status-success/40';
+      case 'operational': return 'bg-status-neutral/15 text-status-neutral border-status-neutral/40';
       case 'warning': return 'bg-status-warning/15 text-status-warning border-status-warning/40';
       case 'maintenance': return 'bg-accent-gold/15 text-accent-gold border-accent-gold/40';
       case 'critical': return 'bg-status-error/15 text-status-error border-status-error/40';
@@ -366,7 +366,7 @@ const SystemHealthPanel: React.FC<{
   };
 
   const getSlaColor = (compliance: number) => {
-    if (compliance >= 95) return 'text-status-success';
+    if (compliance >= 95) return 'text-status-neutral';
     if (compliance >= 80) return 'text-status-warning';
     return 'text-status-error';
   };
@@ -443,7 +443,7 @@ const SystemHealthPanel: React.FC<{
                   <div className="w-full bg-primary-800/60 rounded-full h-2.5 shadow-inner overflow-hidden border border-accent-blue/10">
                     <div 
                       className={`h-3 rounded-full transition-all duration-1000 ${
-                        system.uptime >= 95 ? 'bg-status-success' :
+                        system.uptime >= 95 ? 'bg-status-neutral' :
                         system.uptime >= 80 ? 'bg-status-warning' :
                         'bg-status-error'
                       }`}
@@ -455,12 +455,12 @@ const SystemHealthPanel: React.FC<{
                     <span className="text-gray-400">Performance</span>
                     <div className="flex items-center space-x-1">
                       <div className={`w-2 h-2 rounded-full shadow-sm ${
-                        system.uptime >= 95 ? 'bg-status-success shadow-status-success/60' :
+                        system.uptime >= 95 ? 'bg-status-neutral shadow-status-neutral/60' :
                         system.uptime >= 80 ? 'bg-status-warning shadow-status-warning/60' :
                         'bg-status-error shadow-status-error/60'
                       } animate-pulse`}></div>
                       <span className={`font-medium ${
-                        system.uptime >= 95 ? 'text-status-success' :
+                        system.uptime >= 95 ? 'text-status-neutral' :
                         system.uptime >= 80 ? 'text-status-warning' :
                         'text-status-error'
                       }`}>
@@ -488,7 +488,7 @@ const FlightOperationsSection: React.FC<{ onSelect: (item: any) => void }> = ({ 
     const getStatusColor = () => {
       switch (status.toLowerCase()) {
         case 'en route': return 'bg-accent-blue/20 text-accent-blue border-accent-blue/50';
-        case 'approaching': return 'bg-status-success/20 text-status-success border-status-success/50';
+        case 'approaching': return 'bg-status-neutral/20 text-status-neutral border-status-neutral/50';
         case 'boarding': return 'bg-accent-gold/20 text-accent-gold border-accent-gold/50';
         case 'pre-boarding': return 'bg-accent-purple/20 text-accent-purple border-accent-purple/50';
         case 'delayed': return 'bg-status-error/20 text-status-error border-status-error/50';
@@ -590,7 +590,7 @@ const FlightOperationsSection: React.FC<{ onSelect: (item: any) => void }> = ({ 
                         <div className="text-sm text-gray-400">Total Flights</div>
                       </div>
                       <div className="glass-pill glass-pill-blue text-center py-4 rounded-xl">
-                        <div className="text-2xl font-bold text-status-success">3</div>
+                        <div className="text-2xl font-bold text-status-neutral">3</div>
                         <div className="text-sm text-gray-400">On Time</div>
                       </div>
                       <div className="glass-pill glass-pill-violet text-center py-4 rounded-xl">

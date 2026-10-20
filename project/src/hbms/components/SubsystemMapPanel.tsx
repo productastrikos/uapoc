@@ -167,7 +167,7 @@ const SubsystemMapPanel: React.FC<Props> = ({ subsystem, compact = false }) => {
 
       {/* Health summary */}
       <div className="absolute top-1.5 right-2 flex items-center gap-1.5 text-[length:calc(9px*var(--fs))] font-bold">
-        <span className="text-status-success">{devices.length - warning - offline} OK</span>
+        <span className="text-status-neutral">{devices.length - warning - offline} OK</span>
         {warning > 0 && <span className="text-status-warning">{warning} WARN</span>}
         {offline > 0 && <span className="text-status-error">{offline} OFF</span>}
       </div>

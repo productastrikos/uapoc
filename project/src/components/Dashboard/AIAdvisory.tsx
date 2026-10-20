@@ -106,7 +106,7 @@ const AIAdvisory: React.FC<AIAdvisoryProps> = ({ recommendations }) => {
                   {rec.estimatedSavings && (
                     <div className="flex items-center space-x-2">
                       <span className="text-xs text-text-muted">Savings:</span>
-                      <span className="text-sm font-medium text-status-success">{rec.estimatedSavings}</span>
+                      <span className="text-sm font-medium text-status-neutral">{rec.estimatedSavings}</span>
                     </div>
                   )}
                 </div>

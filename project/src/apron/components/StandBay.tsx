@@ -36,7 +36,7 @@ const ICON: Record<EquipKind, React.ElementType> = {
 
 /** Equipment badge treatment. A fault glows and pulses rather than just changing colour. */
 const STATUS_TONE: Record<EquipStatus, { bg: string; ring: string; icon: string; glow?: string }> = {
-  active: { bg: 'rgba(12,107,55,0.2)', ring: 'rgba(12,107,55,0.7)', icon: '#4ADE80' },
+  active: { bg: 'rgba(125,160,202,0.2)', ring: 'rgba(125,160,202,0.7)', icon: '#7DA0CA' },
   standby: { bg: 'rgba(100,116,139,0.16)', ring: 'rgba(148,163,184,0.35)', icon: '#94A3B8' },
   fault: { bg: 'rgba(188,32,35,0.25)', ring: 'rgba(235,68,44,0.85)', icon: '#EB442C', glow: 'rgba(235,68,44,0.85)' },
   offline: { bg: 'rgba(51,65,85,0.3)', ring: 'rgba(71,85,105,0.45)', icon: '#475569' },
@@ -84,7 +84,7 @@ const StandBay: React.FC<Props> = ({ stand, selected, onSelect }) => {
                 : stand.maintenance
                 ? 'bg-accent-blue shadow-[0_0_6px_2px_rgba(32,120,207,0.5)]'
                 : stand.occupied
-                ? 'bg-status-success shadow-[0_0_6px_2px_rgba(12,107,55,0.5)]'
+                ? 'bg-status-neutral shadow-[0_0_6px_2px_rgba(125,160,202,0.5)]'
                 : 'bg-slate-600'
             }`}
           />

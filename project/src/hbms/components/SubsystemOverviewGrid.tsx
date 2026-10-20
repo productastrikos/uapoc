@@ -37,7 +37,7 @@ const SUBSYSTEM_KPI: Record<number, string> = {
 };
 
 const availabilityStyle = (avail: number) => {
-  if (avail >= 97) return { color: '#34d399', bar: '#10b981' };
+  if (avail >= 97) return { color: '#7DA0CA', bar: '#7DA0CA' };
   if (avail >= 93) return { color: '#fbbf24', bar: '#f59e0b' };
   return { color: '#f87171', bar: '#ef4444' };
 };

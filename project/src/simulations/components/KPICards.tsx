@@ -24,7 +24,7 @@ const KPICards: React.FC<KPICardsProps> = ({ kpis }) => {
 
   const getTrendIcon = (trend: string) => {
     switch (trend) {
-      case 'up': return <TrendingUp className="w-4 h-4 text-status-success" />;
+      case 'up': return <TrendingUp className="w-4 h-4 text-status-neutral" />;
       case 'down': return <TrendingDown className="w-4 h-4 text-status-error" />;
       default: return <Minus className="w-4 h-4 text-text-muted" />;
     }
@@ -41,7 +41,7 @@ const KPICards: React.FC<KPICardsProps> = ({ kpis }) => {
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'good': return <CheckCircle className="w-5 h-5 text-status-success" />;
+      case 'good': return <CheckCircle className="w-5 h-5 text-status-neutral" />;
       case 'warning': return <AlertTriangle className="w-5 h-5 text-status-warning" />;
       case 'critical': return <AlertTriangle className="w-5 h-5 text-status-error" />;
       default: return <Minus className="w-5 h-5 text-text-muted" />;
@@ -60,7 +60,7 @@ const KPICards: React.FC<KPICardsProps> = ({ kpis }) => {
             {/* status rail */}
             <div
               className={`absolute left-0 top-0 bottom-0 w-[3px] rounded-l-xl ${
-                kpi.status === 'good' ? 'bg-status-success' :
+                kpi.status === 'good' ? 'bg-status-neutral' :
                 kpi.status === 'warning' ? 'bg-status-warning' :
                 kpi.status === 'critical' ? 'bg-status-error' : 'bg-text-muted'
               }`}
@@ -74,7 +74,7 @@ const KPICards: React.FC<KPICardsProps> = ({ kpis }) => {
               <div className="flex items-center space-x-1 flex-shrink-0">
                 {getTrendIcon(kpi.trend)}
                 <span className={`text-[length:calc(11px*var(--fs))] font-medium uppercase tracking-wide ${
-                  kpi.trend === 'up' ? 'text-status-success' :
+                  kpi.trend === 'up' ? 'text-status-neutral' :
                   kpi.trend === 'down' ? 'text-status-error' : 'text-text-muted'
                 }`}>
                   {kpi.trend}
@@ -97,7 +97,7 @@ const KPICards: React.FC<KPICardsProps> = ({ kpis }) => {
                     <span className="text-text-muted">Target: {kpi.target}{kpi.unit}</span>
                   </div>
                   <span className={`font-medium ${
-                    kpi.value >= kpi.target ? 'text-status-success' : 'text-status-warning'
+                    kpi.value >= kpi.target ? 'text-status-neutral' : 'text-status-warning'
                   }`}>
                     {((kpi.value / kpi.target) * 100).toFixed(0)}%
                   </span>
@@ -107,7 +107,7 @@ const KPICards: React.FC<KPICardsProps> = ({ kpis }) => {
                 <div className="w-full bg-primary-900/60 rounded-full h-2.5 overflow-hidden">
                   <div
                     className={`h-2.5 rounded-full transition-all duration-1000 ${
-                      kpi.status === 'good' ? 'bg-status-success' :
+                      kpi.status === 'good' ? 'bg-status-neutral' :
                       kpi.status === 'warning' ? 'bg-status-warning' :
                       'bg-status-error'
                     }`}
@@ -124,7 +124,7 @@ const KPICards: React.FC<KPICardsProps> = ({ kpis }) => {
               <div className="flex items-center justify-between text-xs">
                 <span className="text-text-muted">Performance</span>
                 <span className={`px-2 py-1 rounded-full text-xs font-medium border ${
-                  kpi.status === 'good' ? 'bg-status-success/10 text-status-success border-status-success/30' :
+                  kpi.status === 'good' ? 'bg-status-neutral/10 text-status-neutral border-status-neutral/30' :
                   kpi.status === 'warning' ? 'bg-status-warning/10 text-status-warning border-status-warning/30' :
                   'bg-status-error/10 text-status-error border-status-error/30'
                 }`}>

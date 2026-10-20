@@ -19,7 +19,7 @@ import { AglAlarm } from '../types';
 const stateColour: Record<string, string> = {
   UNACK: 'text-status-error',
   UNACK_RTN: 'text-status-warning',
-  ACK: 'text-status-success',
+  ACK: 'text-status-neutral',
   SHELVED: 'text-text-muted',
 };
 
@@ -160,7 +160,13 @@ const AlarmStrip: React.FC<Props> = ({
                     <td className="px-2 py-1 font-mono text-text-primary whitespace-nowrap">
                       {a.tag}
                     </td>
-                    <td className="px-2 py-1 text-status-error whitespace-nowrap">{a.description}</td>
+                    <td
+                      className={`px-2 py-1 whitespace-nowrap ${
+                        a.state === 'UNACK' ? 'text-status-error' : 'text-status-neutral'
+                      }`}
+                    >
+                      {a.description}
+                    </td>
                     <td className="px-2 py-1 text-text-muted">DSC</td>
                     <td className="px-2 py-1 text-text-secondary whitespace-nowrap">
                       {new Date(a.raisedAt).toISOString().replace('T', ' ').slice(0, 19)}

@@ -382,7 +382,7 @@ const WorkOrderManager: React.FC = () => {
       case 'In Progress':
         return 'text-status-warning bg-status-warning/10 border-status-warning/30';
       case 'Completed':
-        return 'text-status-success bg-status-success/10 border-status-success/30';
+        return 'text-status-neutral bg-status-neutral/10 border-status-neutral/30';
       case 'Cancelled':
         return 'text-text-secondary bg-primary-600/30 border-primary-600/50';
       default:

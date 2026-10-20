@@ -12,7 +12,7 @@ const AirfieldMap: React.FC = () => {
           <div className="flex-1"></div>
           <div className="flex items-center space-x-4 text-sm">
             <div className="flex items-center space-x-2">
-              <div className="w-3 h-3 bg-status-success rounded-full"></div>
+              <div className="w-3 h-3 bg-status-neutral rounded-full"></div>
               <span className="text-text-muted">Operational</span>
             </div>
             <div className="flex items-center space-x-2">

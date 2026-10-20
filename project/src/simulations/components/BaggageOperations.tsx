@@ -996,8 +996,8 @@ export const BaggageOperations: React.FC<BaggageOperationsProps> = ({
       <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-3">
         <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 bg-status-error/10 rounded-lg border border-status-error/30">
-              <AlertOctagon className="w-5 h-5 text-status-error" />
+            <div className="p-2 bg-status-neutral/10 rounded-lg border border-status-neutral/30">
+              <AlertOctagon className="w-5 h-5 text-status-neutral" />
             </div>
             <div>
               <h3 className="text-base font-semibold text-text-primary">Anomaly Detection Simulation</h3>
@@ -1051,8 +1051,8 @@ export const BaggageOperations: React.FC<BaggageOperationsProps> = ({
           { label: 'Elapsed', value: formatTime(timer), tone: 'text-accent-blue' },
           { label: 'Bags Tracked', value: bags.length, tone: 'text-text-primary' },
           { label: 'In Transit', value: activeBagCount, tone: 'text-accent-blue' },
-          { label: 'Screened', value: systemStats.totalProcessed, tone: 'text-status-success' },
-          { label: 'Cleared', value: systemStats.clearedBags, tone: 'text-status-success' },
+          { label: 'Screened', value: systemStats.totalProcessed, tone: 'text-status-neutral' },
+          { label: 'Cleared', value: systemStats.clearedBags, tone: 'text-status-neutral' },
           { label: 'On Chute', value: onChute, tone: 'text-status-warning' },
           { label: 'SOPs Fired', value: systemStats.sopTriggered, tone: 'text-status-error' },
           {
@@ -1082,8 +1082,8 @@ export const BaggageOperations: React.FC<BaggageOperationsProps> = ({
             <div className="flex items-center gap-2.5">
               <div className="hidden md:flex flex-wrap items-center gap-x-3 gap-y-1 text-xs bg-primary-900/40 border border-primary-600/40 rounded-lg px-2.5 py-2">
                 <span className="flex items-center gap-1.5">
-                  <span className={`w-2 h-2 rounded-full ${isSimulating ? 'bg-status-success animate-pulse' : 'bg-text-muted'}`} />
-                  <span className={isSimulating ? 'text-status-success' : 'text-text-muted'}>
+                  <span className={`w-2 h-2 rounded-full ${isSimulating ? 'bg-status-neutral animate-pulse' : 'bg-text-muted'}`} />
+                  <span className={isSimulating ? 'text-status-neutral' : 'text-text-muted'}>
                     {isSimulating ? 'Sorting' : 'Standby'}
                   </span>
                 </span>
@@ -1156,7 +1156,7 @@ export const BaggageOperations: React.FC<BaggageOperationsProps> = ({
                       </div>
                       <div className="flex items-center gap-1.5 flex-shrink-0">
                         <div className={`w-2 h-2 rounded-full ${
-                          machine.status === 'operational' ? 'bg-status-success animate-pulse'
+                          machine.status === 'operational' ? 'bg-status-neutral animate-pulse'
                           : machine.status === 'failed' ? 'bg-status-error'
                           : 'bg-status-warning'
                         }`} />
@@ -1231,7 +1231,7 @@ export const BaggageOperations: React.FC<BaggageOperationsProps> = ({
               </h4>
               <div className="space-y-2 text-xs">
                 {[
-                  { label: 'Straight through (approved)', value: systemStats.clearedBags, color: 'text-status-success' },
+                  { label: 'Straight through (approved)', value: systemStats.clearedBags, color: 'text-status-neutral' },
                   { label: 'Pushed to inspection chute', value: systemStats.flaggedBags, color: 'text-status-warning' },
                   { label: 'Pushed to SOP chute', value: systemStats.sopTriggered, color: 'text-status-error' },
                   { label: 'Currently on a chute', value: onChute, color: 'text-accent-blue' },
@@ -1246,14 +1246,14 @@ export const BaggageOperations: React.FC<BaggageOperationsProps> = ({
 
             <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-3">
               <h4 className="text-sm font-semibold text-text-secondary mb-3 flex items-center gap-2">
-                <Shield className="w-4 h-4 text-status-success" />
+                <Shield className="w-4 h-4 text-status-neutral" />
                 <span>Detection Matrix</span>
               </h4>
               <div className="space-y-2 text-xs">
                 {[
-                  ['Explosive detection', '99.97%', 'text-status-success'],
-                  ['Weapon screening', '99.85%', 'text-status-success'],
-                  ['Liquid analysis', '98.92%', 'text-status-success'],
+                  ['Explosive detection', '99.97%', 'text-status-neutral'],
+                  ['Weapon screening', '99.85%', 'text-status-neutral'],
+                  ['Liquid analysis', '98.92%', 'text-status-neutral'],
                   ['Behavioural', '96.34%', 'text-accent-blue'],
                   ['False positive rate', '0.02%', 'text-status-warning'],
                 ].map(([label, value, tone]) => (
@@ -1279,7 +1279,7 @@ export const BaggageOperations: React.FC<BaggageOperationsProps> = ({
                 </div>
                 <div className="flex justify-between">
                   <span className="text-text-muted">System efficiency</span>
-                  <span className="text-status-success">{systemStats.systemEfficiency.toFixed(2)}%</span>
+                  <span className="text-status-neutral">{systemStats.systemEfficiency.toFixed(2)}%</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-text-muted">Bags in transit</span>

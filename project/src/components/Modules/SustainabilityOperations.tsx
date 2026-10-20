@@ -129,8 +129,8 @@ const SustainabilityOperations: React.FC = () => {
             <div className="flex items-center justify-between mb-2">
               <stat.icon className="h-5 w-5 text-text-muted" />
               <span className={`text-sm font-medium ${
-                stat.change.startsWith('+') ? 'text-status-success' :
-                stat.change.startsWith('-') && stat.label.includes('saved') ? 'text-status-error' : 'text-status-success'
+                stat.change.startsWith('+') ? 'text-status-neutral' :
+                stat.change.startsWith('-') && stat.label.includes('saved') ? 'text-status-error' : 'text-status-neutral'
               }`}>
                 {stat.change}
               </span>
@@ -157,7 +157,7 @@ const SustainabilityOperations: React.FC = () => {
               <h2 className="text-base font-semibold text-text-primary">{t('sustainability.environmental_kpis')}</h2>
               <div className="flex items-center space-x-4 text-sm">
                 <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-status-success rounded-full"></div>
+                  <div className="w-3 h-3 bg-status-neutral rounded-full"></div>
                   <span className="text-text-muted">{t('sustainability.on_track')}</span>
                 </div>
                 <div className="flex items-center space-x-2">
@@ -211,8 +211,8 @@ const SustainabilityOperations: React.FC = () => {
                           </div>
                           <div>
                             <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium border ${
-                              metric.trend === 'improving' ? 'bg-status-success/10 text-status-success border-status-success/30' :
-                              metric.trend === 'stable' ? 'bg-status-warning/10 text-status-warning border-status-warning/30' : 'bg-status-error/10 text-status-error border-status-error/30'
+                              metric.trend === 'improving' ? 'bg-status-neutral/10 text-status-neutral border-status-neutral/30' :
+                              metric.trend === 'stable' ? 'bg-status-neutral/10 text-status-neutral border-status-neutral/30' : 'bg-status-error/10 text-status-error border-status-error/30'
                             }`}>
                               {metric.trend === 'improving' ? '↗' : metric.trend === 'stable' ? '→' : '↘'} {metric.trend}
                             </span>
@@ -234,7 +234,7 @@ const SustainabilityOperations: React.FC = () => {
                             transition={{ duration: 1, delay: index * 0.2 }}
                             className={`h-2 rounded-full ${
                               metric.currentValue >= metric.target
-                                ? 'bg-status-success'
+                                ? 'bg-status-neutral'
                                 : metric.trend === 'improving'
                                 ? 'bg-accent-blue'
                                 : 'bg-status-error'
@@ -309,7 +309,7 @@ const SustainabilityOperations: React.FC = () => {
                 <span className="text-text-muted">{t('sustainability.total_consumption')}</span>
               </div>
               <div className="flex items-center space-x-1">
-                <div className="w-3 h-3 bg-status-success rounded-full"></div>
+                <div className="w-3 h-3 bg-status-neutral rounded-full"></div>
                 <span className="text-text-muted">{t('sustainability.renewable_energy')}</span>
               </div>
               <div className="flex items-center space-x-1">
@@ -378,7 +378,7 @@ const SustainabilityOperations: React.FC = () => {
                       transition={{ duration: 1, delay: index * 0.2 }}
                       className={`h-2 rounded-full ${
                         waste.current >= waste.target
-                          ? 'bg-status-success'
+                          ? 'bg-status-neutral'
                           : 'bg-status-warning'
                       }`}
                     />

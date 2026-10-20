@@ -111,6 +111,14 @@ export default {
           error: '#BC2023', // Dark Red
           errorBright: '#EB442C', // Orange Red
           info: '#3B82F6',
+          /* The default "nothing's wrong" reading — operational, normal,
+           * resolved-and-done, idle-good. Red/green/yellow are now reserved
+           * for a state that actually demands attention (a fired alarm, an
+           * active threshold breach, a live critical incident); everything
+           * that used to paint itself green just because it was fine uses
+           * this instead, so the traffic-light colors stay rare and meaningful
+           * and the rest of the UI reads as "calm blue platform." */
+          neutral: '#7DA0CA',
         },
 
         /* ------------------------------------------------------------------

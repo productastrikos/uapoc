@@ -17,7 +17,7 @@ import { Stand } from '../types';
 const MESSAGE_COLOUR: Record<string, string> = {
   STOP: 'text-status-error',
   SLOW: 'text-status-warning',
-  OK: 'text-status-success',
+  OK: 'text-status-neutral',
   FAULT: 'text-status-error',
   '—': 'text-slate-600',
 };
@@ -116,7 +116,7 @@ const VdgsDisplay: React.FC<Props> = ({ stand }) => {
               faulted
                 ? 'text-status-error'
                 : live
-                ? 'text-status-warning'
+                ? 'text-status-neutral'
                 : 'text-slate-700'
             }`}
           >
@@ -127,7 +127,7 @@ const VdgsDisplay: React.FC<Props> = ({ stand }) => {
 
         <div
           className={`text-center font-mono font-bold text-sm tracking-wider ${
-            MESSAGE_COLOUR[vdgs.message] ?? 'text-status-warning'
+            MESSAGE_COLOUR[vdgs.message] ?? 'text-status-neutral'
           }`}
         >
           {faulted ? 'FAULT' : vdgs.message}

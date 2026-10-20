@@ -29,7 +29,7 @@ const KPICard: React.FC<KPICardProps> = ({
 }) => {
   const getStatusColor = () => {
     switch (status) {
-      case "good": return "border-status-success/30";
+      case "good": return "border-status-neutral/30";
       case "warning": return "border-status-warning/30";
       case "critical": return "border-status-error/30";
       default: return "border-accent-blue/15";
@@ -39,8 +39,8 @@ const KPICard: React.FC<KPICardProps> = ({
   const getTrendColor = () => {
     if (!change) return "";
     switch (change.trend) {
-      case "up": return change.value > 0 ? "text-status-success" : "text-status-error";
-      case "down": return change.value > 0 ? "text-status-error" : "text-status-success";
+      case "up": return change.value > 0 ? "text-status-neutral" : "text-status-error";
+      case "down": return change.value > 0 ? "text-status-error" : "text-status-neutral";
       default: return "text-text-muted";
     }
   };
@@ -80,7 +80,7 @@ const KPICard: React.FC<KPICardProps> = ({
         {/* Status indicator */}
         <div className="mt-3 flex items-center space-x-2">
           <div className={`w-2 h-2 rounded-full ${
-            status === 'good' ? 'bg-status-success animate-pulse' :
+            status === 'good' ? 'bg-status-neutral animate-pulse' :
             status === 'warning' ? 'bg-status-warning animate-pulse' :
             status === 'critical' ? 'bg-status-error animate-pulse' :
             'bg-gray-500'

@@ -48,7 +48,7 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
             whileTap={{ scale: 0.95 }}
             onClick={handleLogout}
             title={`${currentUser.name} — ${currentUser.role}`}
-            className="p-1.5 bg-status-error/80 hover:bg-status-error rounded-lg transition-colors duration-200 border border-status-error/50"
+            className="p-1.5 bg-status-neutral/80 hover:bg-status-neutral rounded-lg transition-colors duration-200 border border-status-neutral/50"
           >
             <LogOut className="h-4 w-4 text-white" />
           </motion.button>

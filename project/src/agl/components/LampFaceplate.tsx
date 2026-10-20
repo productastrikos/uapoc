@@ -21,7 +21,7 @@ const StateChip: React.FC<{ label: string; tone: 'good' | 'warn' | 'bad' | 'idle
   tone,
 }) => {
   const tones = {
-    good: 'bg-status-success/15 text-status-success border-status-success/40',
+    good: 'bg-status-neutral/15 text-status-neutral border-status-neutral/40',
     warn: 'bg-status-warning/15 text-status-warning border-status-warning/40',
     bad: 'bg-status-error/15 text-status-error border-status-error/40',
     idle: 'bg-primary-600/30 text-text-muted border-primary-500/40',

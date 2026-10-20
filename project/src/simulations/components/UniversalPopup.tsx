@@ -126,7 +126,7 @@ const UniversalPopup: React.FC<UniversalPopupProps> = ({ isOpen, data, onClose, 
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'operational': return 'text-status-success bg-status-success/10 border-status-success/40';
+      case 'operational': return 'text-status-neutral bg-status-neutral/10 border-status-neutral/40';
       case 'warning': return 'text-status-warning bg-status-warning/10 border-status-warning/40';
       case 'critical': return 'text-status-error bg-status-error/10 border-status-error/40';
       case 'maintenance': return 'text-accent-blue bg-accent-blue/10 border-accent-blue/40';
@@ -239,12 +239,12 @@ const UniversalPopup: React.FC<UniversalPopupProps> = ({ isOpen, data, onClose, 
           {data.operationalParams &&
             section(
               'Operational Parameters',
-              <TrendingUp className="w-3.5 h-3.5 text-status-success" />,
+              <TrendingUp className="w-3.5 h-3.5 text-status-neutral" />,
               Object.entries(data.operationalParams)
             )}
 
           {data.maintenanceSchedule &&
-            section('Maintenance', <Clock className="w-3.5 h-3.5 text-status-warning" />, [
+            section('Maintenance', <Clock className="w-3.5 h-3.5 text-status-neutral" />, [
               ['lastMaintenance', data.maintenanceSchedule.lastMaintenance],
               ['nextMaintenance', data.maintenanceSchedule.nextMaintenance],
               ['maintenanceType', data.maintenanceSchedule.maintenanceType],

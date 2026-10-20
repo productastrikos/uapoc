@@ -139,7 +139,7 @@ const ApronRail: React.FC = () => {
               <tr key={r.kind} className="border-b border-primary-600/20">
                 <td className="px-2 py-1 text-text-secondary">{r.label}</td>
                 <td className="px-1 py-1 text-center font-mono text-text-primary">{r.total}</td>
-                <td className="px-1 py-1 text-center font-mono text-status-success">{r.active}</td>
+                <td className="px-1 py-1 text-center font-mono text-status-neutral">{r.active}</td>
                 <td className="px-1 py-1 text-center">
                   <span
                     className={`inline-block min-w-[1.6rem] rounded font-mono ${

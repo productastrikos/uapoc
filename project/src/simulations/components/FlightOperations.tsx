@@ -404,7 +404,7 @@ export const FlightOperations: React.FC<FlightOperationsProps> = ({
               <h3 className="text-sm md:text-lg font-semibold text-text-primary">AO-S Core</h3>
               <p className="text-xs md:text-sm text-text-secondary">System Integration</p>
             </div>
-            <Activity className={`h-5 w-5 md:h-6 md:w-6 ${systemsActive ? 'text-status-success' : 'text-text-muted'}`} />
+            <Activity className={`h-5 w-5 md:h-6 md:w-6 ${systemsActive ? 'text-status-neutral' : 'text-text-muted'}`} />
           </div>
           <div className="mt-2 md:mt-3">
             <p className="text-xs text-text-muted">Integration Status</p>
@@ -563,7 +563,7 @@ export const FlightOperations: React.FC<FlightOperationsProps> = ({
                     >
                       <span className="text-text-muted capitalize">{key}</span>
                       <div className="flex items-center gap-2">
-                        <div className={`w-2 h-2 rounded-full ${value.status === 'active' ? 'bg-status-success' : 'bg-status-warning'}`} />
+                        <div className={`w-2 h-2 rounded-full ${value.status === 'active' ? 'bg-status-neutral' : 'bg-status-warning'}`} />
                         <span className="text-text-primary text-[length:calc(11px*var(--fs))]">{value.status}</span>
                       </div>
                     </div>
@@ -598,8 +598,8 @@ export const FlightOperations: React.FC<FlightOperationsProps> = ({
                 <h4 className="font-semibold text-text-secondary text-sm">FIDS ↔ AO-S</h4>
               </div>
               <p className="text-xs text-text-secondary mb-2">Real-time flight data triggers building responses</p>
-              <div className={`flex items-center space-x-2 ${systemsActive ? 'text-status-success' : 'text-text-muted'}`}>
-                <div className={`w-2 h-2 rounded-full ${systemsActive ? 'bg-status-success' : 'bg-text-muted'}`} />
+              <div className={`flex items-center space-x-2 ${systemsActive ? 'text-status-neutral' : 'text-text-muted'}`}>
+                <div className={`w-2 h-2 rounded-full ${systemsActive ? 'bg-status-neutral' : 'bg-text-muted'}`} />
                 <span className="text-xs">Data flow: {systemsActive ? 'Active' : 'Standby'}</span>
               </div>
             </div>
@@ -611,8 +611,8 @@ export const FlightOperations: React.FC<FlightOperationsProps> = ({
                 <h4 className="font-semibold text-text-secondary text-sm">Airfield Lighting</h4>
               </div>
               <p className="text-xs text-text-secondary mb-2">Approach, runway and taxi guidance to the stand</p>
-              <div className={`flex items-center space-x-2 ${activeLights.length > 0 ? 'text-status-success' : 'text-text-muted'}`}>
-                <div className={`w-2 h-2 rounded-full ${activeLights.length > 0 ? 'bg-status-success' : 'bg-text-muted'}`} />
+              <div className={`flex items-center space-x-2 ${activeLights.length > 0 ? 'text-status-neutral' : 'text-text-muted'}`}>
+                <div className={`w-2 h-2 rounded-full ${activeLights.length > 0 ? 'bg-status-neutral' : 'bg-text-muted'}`} />
                 <span className="text-xs">Lights active: {activeLights.length}</span>
               </div>
             </div>
@@ -624,8 +624,8 @@ export const FlightOperations: React.FC<FlightOperationsProps> = ({
                 <h4 className="font-semibold text-text-secondary text-sm">Building Systems</h4>
               </div>
               <p className="text-xs text-text-secondary mb-2">HVAC, access control and energy optimisation</p>
-              <div className={`flex items-center space-x-2 ${currentPhase === 'at-terminal' ? 'text-status-success' : 'text-text-muted'}`}>
-                <div className={`w-2 h-2 rounded-full ${currentPhase === 'at-terminal' ? 'bg-status-success' : 'bg-status-warning'}`} />
+              <div className={`flex items-center space-x-2 ${currentPhase === 'at-terminal' ? 'text-status-neutral' : 'text-text-muted'}`}>
+                <div className="w-2 h-2 rounded-full bg-status-neutral" />
                 <span className="text-xs">Integration: {currentPhase === 'at-terminal' ? 'Complete' : 'Processing'}</span>
               </div>
             </div>

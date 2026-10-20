@@ -160,7 +160,7 @@ const ROIDashboard: React.FC<ROIDashboardProps> = ({ onClose, aiSolutions, alert
 
   const getZoneStatusColor = (status: string) => {
     switch (status) {
-      case 'operational': return 'bg-status-success/15 border-status-success/30';
+      case 'operational': return 'bg-status-neutral/15 border-status-neutral/30';
       case 'maintenance': return 'bg-status-warning/15 border-status-warning/30';
       case 'alert': return 'bg-status-error/15 border-status-error/30';
       case 'offline': return 'bg-primary-600/20 border-primary-600/40';
@@ -185,7 +185,7 @@ const ROIDashboard: React.FC<ROIDashboardProps> = ({ onClose, aiSolutions, alert
     const percentage = (currentLoad / capacity) * 100;
     if (percentage > 90) return 'text-status-error';
     if (percentage > 70) return 'text-status-warning';
-    return 'text-status-success';
+    return 'text-status-neutral';
   };
 
   const filteredZones = digitalTwinZones.filter(zone => {
@@ -203,8 +203,8 @@ const ROIDashboard: React.FC<ROIDashboardProps> = ({ onClose, aiSolutions, alert
         <div className="bg-primary-800/90 border-b border-primary-600/40 p-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="p-2.5 bg-status-success/15 border border-status-success/30 rounded-xl">
-                <TrendingUp className="w-8 h-8 text-status-success" />
+              <div className="p-2.5 bg-status-neutral/15 border border-status-neutral/30 rounded-xl">
+                <TrendingUp className="w-8 h-8 text-status-neutral" />
               </div>
               <div>
                 <h2 className="text-3xl font-bold text-text-primary">Digital Twin ROI Dashboard</h2>
@@ -213,7 +213,7 @@ const ROIDashboard: React.FC<ROIDashboardProps> = ({ onClose, aiSolutions, alert
             </div>
             <div className="flex items-center space-x-2">
               <div className="flex items-center space-x-2 bg-primary-800/60 rounded-lg p-2">
-                <div className="w-2 h-2 bg-status-success rounded-full animate-pulse"></div>
+                <div className="w-2 h-2 bg-status-neutral rounded-full animate-pulse"></div>
                 <span className="text-sm text-text-secondary">Live Data</span>
               </div>
               <button
@@ -289,7 +289,7 @@ const ROIDashboard: React.FC<ROIDashboardProps> = ({ onClose, aiSolutions, alert
                       <div className="p-2.5 rounded-lg bg-primary-700/50 text-accent-blue">
                         {metric.icon}
                       </div>
-                      <span className="text-sm font-medium text-status-success">
+                      <span className="text-sm font-medium text-status-neutral">
                         {metric.trend}
                       </span>
                     </div>
@@ -309,9 +309,9 @@ const ROIDashboard: React.FC<ROIDashboardProps> = ({ onClose, aiSolutions, alert
                   <div className="space-y-3">
                     {[
                       { label: 'Implementation Cost', value: `$${roiMetrics.implementationCost.toLocaleString()}`, color: 'text-text-secondary' },
-                      { label: 'Annual Savings', value: `$${roiMetrics.annualCostSavings.toLocaleString()}`, color: 'text-status-success' },
+                      { label: 'Annual Savings', value: `$${roiMetrics.annualCostSavings.toLocaleString()}`, color: 'text-status-neutral' },
                       { label: 'Payback Period', value: `${roiMetrics.paybackMonths.toFixed(1)} months`, color: 'text-accent-blue' },
-                      { label: 'ROI (5 years)', value: `${roiMetrics.roi.toFixed(0)}%`, color: 'text-status-success' }
+                      { label: 'ROI (5 years)', value: `${roiMetrics.roi.toFixed(0)}%`, color: 'text-status-neutral' }
                     ].map((item, index) => (
                       <div key={index} className="flex justify-between items-center p-3 bg-primary-800/40 rounded-lg border border-primary-600/30">
                         <span className="text-text-secondary">{item.label}</span>
@@ -326,7 +326,7 @@ const ROIDashboard: React.FC<ROIDashboardProps> = ({ onClose, aiSolutions, alert
                   <div className="space-y-3">
                     {[
                       { label: 'Passenger Satisfaction', value: `+${roiMetrics.passengerSatisfactionGain}%`, icon: <Users className="w-5 h-5 text-accent-blue" /> },
-                      { label: 'Energy Efficiency', value: '+32%', icon: <Zap className="w-5 h-5 text-status-success" /> },
+                      { label: 'Energy Efficiency', value: '+32%', icon: <Zap className="w-5 h-5 text-status-neutral" /> },
                       { label: 'Response Time', value: '-65%', icon: <Clock className="w-5 h-5 text-accent-blue" /> },
                       { label: 'System Uptime', value: '99.8%', icon: <Activity className="w-5 h-5 text-accent-blue" /> }
                     ].map((item, index) => (
@@ -556,7 +556,7 @@ const ROIDashboard: React.FC<ROIDashboardProps> = ({ onClose, aiSolutions, alert
                         <Target className="w-4 h-4 text-text-muted" />
                       </div>
                       <div className={`text-2xl font-bold ${
-                        selectedZone.efficiency > 90 ? 'text-status-success' :
+                        selectedZone.efficiency > 90 ? 'text-status-neutral' :
                         selectedZone.efficiency > 70 ? 'text-status-warning' : 'text-status-error'
                       }`}>
                         {selectedZone.efficiency}%
@@ -596,10 +596,10 @@ const ROIDashboard: React.FC<ROIDashboardProps> = ({ onClose, aiSolutions, alert
 
                   <div className="bg-primary-800/40 rounded-lg p-3 border border-primary-600/30">
                     <h4 className="text-text-secondary font-semibold mb-3">Passenger Flow Forecast</h4>
-                    <div className="text-3xl font-bold text-status-success mb-2">+15%</div>
+                    <div className="text-3xl font-bold text-status-neutral mb-2">+15%</div>
                     <p className="text-sm text-text-muted">Expected increase next hour</p>
                     <div className="mt-3 w-full bg-primary-700/50 rounded-full h-2">
-                      <div className="bg-status-success h-2 rounded-full" style={{ width: '75%' }}></div>
+                      <div className="bg-status-neutral h-2 rounded-full" style={{ width: '75%' }}></div>
                     </div>
                   </div>
 
@@ -624,36 +624,36 @@ const ROIDashboard: React.FC<ROIDashboardProps> = ({ onClose, aiSolutions, alert
                   <div className="bg-primary-800/40 rounded-lg p-3 border border-primary-600/30">
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-text-muted">Carbon Footprint</span>
-                      <Leaf className="w-4 h-4 text-status-success" />
+                      <Leaf className="w-4 h-4 text-status-neutral" />
                     </div>
-                    <div className="text-2xl font-bold text-status-success">-52%</div>
+                    <div className="text-2xl font-bold text-status-neutral">-52%</div>
                     <p className="text-sm text-text-muted">vs. last year</p>
                   </div>
 
                   <div className="bg-primary-800/40 rounded-lg p-3 border border-primary-600/30">
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-text-muted">Energy Efficiency</span>
-                      <Zap className="w-4 h-4 text-status-success" />
+                      <Zap className="w-4 h-4 text-status-neutral" />
                     </div>
-                    <div className="text-2xl font-bold text-status-success">94.2%</div>
+                    <div className="text-2xl font-bold text-status-neutral">94.2%</div>
                     <p className="text-sm text-text-muted">Overall efficiency</p>
                   </div>
 
                   <div className="bg-primary-800/40 rounded-lg p-3 border border-primary-600/30">
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-text-muted">Waste Reduction</span>
-                      <Activity className="w-4 h-4 text-status-success" />
+                      <Activity className="w-4 h-4 text-status-neutral" />
                     </div>
-                    <div className="text-2xl font-bold text-status-success">78%</div>
+                    <div className="text-2xl font-bold text-status-neutral">78%</div>
                     <p className="text-sm text-text-muted">Recycling rate</p>
                   </div>
 
                   <div className="bg-primary-800/40 rounded-lg p-3 border border-primary-600/30">
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-text-muted">Air Quality Index</span>
-                      <Shield className="w-4 h-4 text-status-success" />
+                      <Shield className="w-4 h-4 text-status-neutral" />
                     </div>
-                    <div className="text-2xl font-bold text-status-success">Good</div>
+                    <div className="text-2xl font-bold text-status-neutral">Good</div>
                     <p className="text-sm text-text-muted">AQI: 42</p>
                   </div>
                 </div>

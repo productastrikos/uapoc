@@ -59,7 +59,7 @@ const ScenarioGrid: React.FC<ScenarioGridProps> = ({ scenarios, category }) => {
   const getProbabilityColor = (probability: number) => {
     if (probability >= 0.8) return 'text-status-error';
     if (probability >= 0.4) return 'text-status-warning';
-    return 'text-status-success';
+    return 'text-status-neutral';
   };
 
   return (
@@ -87,7 +87,7 @@ const ScenarioGrid: React.FC<ScenarioGridProps> = ({ scenarios, category }) => {
               <div
                 key={scenario.id}
                 className={`border rounded-xl p-4 transition-colors duration-200 ${
-                  isCompleted ? 'border-status-success/50 bg-primary-800/60' :
+                  isCompleted ? 'border-status-neutral/50 bg-primary-800/60' :
                   isRunning ? 'border-accent-blue/50 bg-primary-800/60' :
                   getImpactColor(scenario.impact)
                 }`}
@@ -98,7 +98,7 @@ const ScenarioGrid: React.FC<ScenarioGridProps> = ({ scenarios, category }) => {
                     <div className="flex-1">
                       <div className="flex items-center space-x-2 mb-2">
                         <h4 className="font-semibold text-text-primary text-lg">{scenario.name}</h4>
-                        {isCompleted && <CheckCircle className="w-5 h-5 text-status-success" />}
+                        {isCompleted && <CheckCircle className="w-5 h-5 text-status-neutral" />}
                       </div>
                       <p className="text-text-muted mb-3 leading-relaxed">{scenario.description}</p>
 
@@ -112,7 +112,7 @@ const ScenarioGrid: React.FC<ScenarioGridProps> = ({ scenarios, category }) => {
                           <span className="text-text-secondary">{scenario.aiConfidence}% AI</span>
                         </div>
                         <div className="flex items-center space-x-1 px-2 py-1 bg-primary-900/50 rounded-full border border-primary-600/40">
-                          <AlertTriangle className="w-3 h-3 text-status-warning" />
+                          <AlertTriangle className="w-3 h-3 text-status-neutral" />
                           <span className="text-text-secondary capitalize">{scenario.impact}</span>
                         </div>
                         <div className={`flex items-center space-x-1 px-2 py-1 bg-primary-900/50 rounded-full border border-primary-600/40`}>
@@ -130,7 +130,7 @@ const ScenarioGrid: React.FC<ScenarioGridProps> = ({ scenarios, category }) => {
                     disabled={isRunning || isCompleted}
                     className={`btn min-w-[7.5rem] ${
                       isCompleted
-                        ? 'bg-status-success/10 text-status-success border-status-success/30 cursor-default'
+                        ? 'bg-status-neutral/10 text-status-neutral border-status-neutral/30 cursor-default'
                         : isRunning
                         ? 'bg-accent-blue/10 text-accent-blue border-accent-blue/30 cursor-not-allowed'
                         : 'btn-primary'
@@ -159,8 +159,8 @@ const ScenarioGrid: React.FC<ScenarioGridProps> = ({ scenarios, category }) => {
                 <div className="grid grid-cols-3 gap-3 mt-3">
                   <div className="bg-primary-900/50 border border-primary-600/40 rounded-lg p-2.5 text-center">
                     <div className="flex items-center justify-center space-x-1 mb-1">
-                      <DollarSign className="w-4 h-4 text-status-success" />
-                      <span className="text-lg font-bold text-status-success">
+                      <DollarSign className="w-4 h-4 text-status-neutral" />
+                      <span className="text-lg font-bold text-status-neutral">
                         ${Math.abs(scenario.costImpact).toLocaleString()}
                       </span>
                     </div>
@@ -177,8 +177,8 @@ const ScenarioGrid: React.FC<ScenarioGridProps> = ({ scenarios, category }) => {
                   </div>
                   <div className="bg-primary-900/50 border border-primary-600/40 rounded-lg p-2.5 text-center">
                     <div className="flex items-center justify-center space-x-1 mb-1">
-                      <TrendingUp className="w-4 h-4 text-status-warning" />
-                      <span className="text-lg font-bold text-status-warning">
+                      <TrendingUp className="w-4 h-4 text-status-neutral" />
+                      <span className="text-lg font-bold text-status-neutral">
                         {(scenario.probability * 100).toFixed(0)}%
                       </span>
                     </div>
@@ -210,8 +210,8 @@ const ScenarioGrid: React.FC<ScenarioGridProps> = ({ scenarios, category }) => {
 
                 {/* Completion status */}
                 {isCompleted && (
-                  <div className="mt-3 pt-3 border-t border-status-success/30">
-                    <div className="flex items-center space-x-2 text-status-success">
+                  <div className="mt-3 pt-3 border-t border-status-neutral/30">
+                    <div className="flex items-center space-x-2 text-status-neutral">
                       <CheckCircle className="w-4 h-4" />
                       <span className="text-sm font-medium">Scenario executed successfully</span>
                     </div>

@@ -118,7 +118,7 @@ const LiveCharts: React.FC<LiveChartsProps> = ({ subsystemId, alerts }) => {
                 className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-2.5 text-center cursor-pointer hover:bg-primary-700/40 transition-colors"
                 onClick={(e) => handleChartClick('Temperature Variance', { variance: '±0.5°C' }, e)}
               >
-                <div className="text-status-success font-bold text-lg">±0.5°C</div>
+                <div className="text-status-neutral font-bold text-lg">±0.5°C</div>
                 <div className="text-xs text-text-muted">Variance</div>
               </div>
               <div

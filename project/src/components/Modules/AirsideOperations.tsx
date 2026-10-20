@@ -40,7 +40,7 @@ const TrendArrow: React.FC<{ trend: 'up' | 'down' | 'stable'; value?: number }> 
   // Scopes the AI Advisory drawer to this console.
   useAiDomain('airside');
   if (trend === 'up') {
-    return <TrendingUp className="w-4 h-4 text-status-success inline ml-1" />;
+    return <TrendingUp className="w-4 h-4 text-status-neutral inline ml-1" />;
   } else if (trend === 'down') {
     return <TrendingDown className="w-4 h-4 text-status-error inline ml-1" />;
   }
@@ -353,7 +353,7 @@ useEffect(() => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'operational': return 'border-status-success/50 bg-status-success/10';
+      case 'operational': return 'border-status-neutral/50 bg-status-neutral/10';
       case 'warning': return 'border-status-warning/50 bg-status-warning/10';
       case 'critical': return 'border-status-error/50 bg-status-error/10';
       default: return 'border-accent-blue/20 bg-primary-600/20';
@@ -362,7 +362,7 @@ useEffect(() => {
 
   const getStatusTextColor = (status: string) => {
     switch (status) {
-      case 'operational': return 'text-status-success';
+      case 'operational': return 'text-status-neutral';
       case 'warning': return 'text-status-warning';
       case 'critical': return 'text-status-error';
       default: return 'text-gray-400';
@@ -474,7 +474,7 @@ useEffect(() => {
                         </div>
                         <div className="flex justify-between items-center">
                           <span className="text-gray-400">Performance:</span>
-                          <span className={`font-medium flex items-center ${selectedAircraft.performance.changePercent > 0 ? 'text-status-success' : 'text-status-error'}`}>
+                          <span className={`font-medium flex items-center ${selectedAircraft.performance.changePercent > 0 ? 'text-status-neutral' : 'text-status-error'}`}>
                             {selectedAircraft.performance.changePercent > 0 ? '+' : ''}{selectedAircraft.performance.changePercent}%
                             <TrendArrow trend={selectedAircraft.performance.trend} />
                           </span>
@@ -529,7 +529,7 @@ useEffect(() => {
                         <div className="flex justify-between items-center p-3 bg-primary-600/30 rounded-lg">
                           <span className="text-gray-300">On-Time Performance</span>
                           <div className="flex items-center">
-                            <span className="text-status-success font-medium mr-2">94.2%</span>
+                            <span className="text-status-neutral font-medium mr-2">94.2%</span>
                           </div>
                         </div>
                         <div className="flex justify-between items-center p-3 bg-primary-600/30 rounded-lg">
@@ -631,7 +631,7 @@ useEffect(() => {
                             <span className="text-xs text-blue-200 bg-accent-blue/10 border border-accent-blue/30 px-2 py-1 rounded-full">
                               Priority: {selectedAircraft.status === 'critical' ? 'Emergency' : 'High'}
                             </span>
-                            <span className="text-xs text-status-success bg-status-success/10 border border-status-success/30 px-2 py-1 rounded-full">ATC Approved</span>
+                            <span className="text-xs text-status-neutral bg-status-neutral/10 border border-status-neutral/30 px-2 py-1 rounded-full">ATC Approved</span>
                           </div>
                         </div>
                         <p className="text-sm text-gray-400 mb-4">
@@ -679,22 +679,22 @@ useEffect(() => {
                         <div className="space-y-2 text-sm">
                           <div className="flex justify-between items-center p-2 bg-primary-600/20 rounded">
                             <span className="text-gray-300">Transponder Signal</span>
-                            <span className="text-status-success flex items-center">
-                              <div className="w-2 h-2 bg-status-success rounded-full mr-2"></div>
+                            <span className="text-status-neutral flex items-center">
+                              <div className="w-2 h-2 bg-status-neutral rounded-full mr-2"></div>
                               Strong
                             </span>
                           </div>
                           <div className="flex justify-between items-center p-2 bg-primary-600/20 rounded">
                             <span className="text-gray-300">Radio Communication</span>
-                            <span className="text-status-success flex items-center">
-                              <div className="w-2 h-2 bg-status-success rounded-full mr-2"></div>
+                            <span className="text-status-neutral flex items-center">
+                              <div className="w-2 h-2 bg-status-neutral rounded-full mr-2"></div>
                               Clear
                             </span>
                           </div>
                           <div className="flex justify-between items-center p-2 bg-primary-600/20 rounded">
                             <span className="text-gray-300">Radar Contact</span>
-                            <span className="text-status-success flex items-center">
-                              <div className="w-2 h-2 bg-status-success rounded-full mr-2"></div>
+                            <span className="text-status-neutral flex items-center">
+                              <div className="w-2 h-2 bg-status-neutral rounded-full mr-2"></div>
                               Positive
                             </span>
                           </div>
@@ -729,12 +729,12 @@ useEffect(() => {
                         </h5>
                         <div className="grid grid-cols-2 gap-3">
                           <div className="bg-primary-600/30 p-3 rounded text-center">
-                            <Camera className="w-6 h-6 text-status-success mx-auto mb-2" />
+                            <Camera className="w-6 h-6 text-status-neutral mx-auto mb-2" />
                             <div className="text-sm text-white font-medium">Ground Radar</div>
                             <div className="text-xs text-gray-400">Tracking</div>
                           </div>
                           <div className="bg-primary-600/30 p-3 rounded text-center">
-                            <Wifi className="w-6 h-6 text-status-success mx-auto mb-2" />
+                            <Wifi className="w-6 h-6 text-status-neutral mx-auto mb-2" />
                             <div className="text-sm text-white font-medium">ADS-B Signal</div>
                             <div className="text-xs text-gray-400">Received</div>
                           </div>
@@ -937,15 +937,15 @@ useEffect(() => {
                         <div className="space-y-2">
                           <div className="flex justify-between items-center">
                             <span className="text-gray-300 text-sm">Taxi Time Reduction</span>
-                            <span className="text-status-success font-medium">up to 21%</span>
+                            <span className="text-status-neutral font-medium">up to 21%</span>
                           </div>
                           <div className="flex justify-between items-center">
                             <span className="text-gray-300 text-sm">Fuel Efficiency Gain</span>
-                            <span className="text-status-success font-medium">up to 15%</span>
+                            <span className="text-status-neutral font-medium">up to 15%</span>
                           </div>
                           <div className="flex justify-between items-center">
                             <span className="text-gray-300 text-sm">Runway Throughput</span>
-                            <span className="text-status-success font-medium">up to 12%</span>
+                            <span className="text-status-neutral font-medium">up to 12%</span>
                           </div>
                         </div>
                       </div>
@@ -969,7 +969,7 @@ useEffect(() => {
                             <h5 className="text-white font-medium">Recommendation #{index + 1}</h5>
                             <div className="flex items-center space-x-2">
                               <span className="text-xs text-blue-200 bg-accent-blue/10 border border-accent-blue/30 px-2 py-1 rounded-full">High Priority</span>
-                              <span className="text-xs text-status-success bg-status-success/10 border border-status-success/30 px-2 py-1 rounded-full">AI Generated</span>
+                              <span className="text-xs text-status-neutral bg-status-neutral/10 border border-status-neutral/30 px-2 py-1 rounded-full">AI Generated</span>
                             </div>
                           </div>
                           <p className="text-sm text-gray-400 mb-3">
@@ -1012,7 +1012,7 @@ useEffect(() => {
                           <h5 className="text-white font-medium">Airside AI Enhancement</h5>
                           <div className="flex items-center space-x-2">
                             <span className="text-xs text-blue-200 bg-accent-blue/10 border border-accent-blue/30 px-2 py-1 rounded-full">Confidence: 94.2%</span>
-                            <span className="text-xs text-status-success bg-status-success/10 border border-status-success/30 px-2 py-1 rounded-full">ATC Approved</span>
+                            <span className="text-xs text-status-neutral bg-status-neutral/10 border border-status-neutral/30 px-2 py-1 rounded-full">ATC Approved</span>
                           </div>
                         </div>
                         <p className="text-sm text-gray-400 mb-4">
@@ -1037,7 +1037,7 @@ useEffect(() => {
                       {aiOptimizationExecuted && (
                         <div className="bg-primary-800/60 rounded-lg p-4 border border-primary-600/40">
                           <div className="flex items-center space-x-3">
-                            <CheckCircle className="w-5 h-5 text-status-success" />
+                            <CheckCircle className="w-5 h-5 text-status-neutral" />
                             <div>
                               <h6 className="text-text-primary font-medium">AI Optimization Successfully Applied</h6>
                               <p className="text-text-muted text-sm">
@@ -1204,7 +1204,7 @@ useEffect(() => {
                       {stat.value}
                       <TrendArrow trend={stat.trend} />
                       {stat.change !== 0 && (
-                        <span className={`text-sm ml-2 ${stat.change > 0 ? 'text-status-success' : 'text-status-error'}`}>
+                        <span className={`text-sm ml-2 ${stat.change > 0 ? 'text-status-neutral' : 'text-status-error'}`}>
                           {stat.change > 0 ? '+' : ''}{stat.change.toFixed(1)}%
                         </span>
                       )}
@@ -1335,7 +1335,7 @@ useEffect(() => {
                           </div>
                           <div className="text-sm">
                             <span className="text-text-muted">Savings:</span>
-                            <span className="text-status-success ml-1 font-medium">{opt.savings}</span>
+                            <span className="text-status-neutral ml-1 font-medium">{opt.savings}</span>
                           </div>
                         </div>
                       </div>

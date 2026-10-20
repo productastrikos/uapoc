@@ -51,7 +51,7 @@ const KpiRail: React.FC = () => {
                   <div className="flex items-center justify-end gap-1.5">
                     <div className="w-10 h-2.5 bg-primary-900/80 rounded-sm overflow-hidden">
                       <div
-                        className={`h-full ${r.breached ? 'bg-status-error' : 'bg-status-success'}`}
+                        className={`h-full ${r.breached ? 'bg-status-error' : 'bg-status-neutral'}`}
                         style={{ width: `${Math.max(2, r.serviceability)}%` }}
                       />
                     </div>

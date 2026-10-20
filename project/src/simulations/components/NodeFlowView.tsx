@@ -40,7 +40,7 @@ const NodeFlowView: React.FC<NodeFlowViewProps> = ({ nodeFlow, subsystemName }) 
 
   const getNodeColor = (status: string) => {
     switch (status) {
-      case 'active': return 'bg-status-success border-status-success';
+      case 'active': return 'bg-status-neutral border-status-neutral';
       case 'idle': return 'bg-primary-600 border-primary-600';
       case 'error': return 'bg-status-error border-status-error';
       default: return 'bg-accent-blue border-accent-blueHover';
@@ -50,8 +50,8 @@ const NodeFlowView: React.FC<NodeFlowViewProps> = ({ nodeFlow, subsystemName }) 
   const getSignalColor = (signal: string) => {
     switch (signal) {
       case 'command': return 'text-accent-blue';
-      case 'ack': return 'text-status-warning';
-      case 'data': return 'text-status-success';
+      case 'ack': return 'text-status-neutral';
+      case 'data': return 'text-status-neutral';
       default: return 'text-text-muted';
     }
   };
@@ -163,11 +163,11 @@ const NodeFlowView: React.FC<NodeFlowViewProps> = ({ nodeFlow, subsystemName }) 
             <span className="text-sm text-text-secondary">Command Signal</span>
           </div>
           <div className="flex items-center space-x-2">
-            <div className="w-4 h-4 bg-status-warning rounded"></div>
+            <div className="w-4 h-4 bg-status-neutral rounded"></div>
             <span className="text-sm text-text-secondary">Acknowledgment</span>
           </div>
           <div className="flex items-center space-x-2">
-            <div className="w-4 h-4 bg-status-success rounded"></div>
+            <div className="w-4 h-4 bg-status-neutral rounded"></div>
             <span className="text-sm text-text-secondary">Data Flow</span>
           </div>
         </div>

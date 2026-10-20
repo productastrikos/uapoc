@@ -300,7 +300,7 @@ const SOPConsole: React.FC = () => {
           >
             <div className="flex items-center justify-between mb-2">
               <stat.icon className="h-5 w-5 text-text-muted" />
-              <span className={`text-sm font-medium ${stat.change.startsWith('+') ? 'text-status-success' : 'text-status-warning'}`}>
+              <span className={`text-sm font-medium ${stat.change.startsWith('+') ? 'text-status-neutral' : 'text-status-warning'}`}>
                 {stat.change}
               </span>
             </div>
@@ -327,7 +327,7 @@ const SOPConsole: React.FC = () => {
                   <span className="text-text-muted">Approval Required</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-status-success rounded-full"></div>
+                  <div className="w-2 h-2 bg-status-neutral rounded-full"></div>
                   <span className="text-text-muted">Ready to Execute</span>
                 </div>
               </div>
@@ -440,7 +440,7 @@ const SOPConsole: React.FC = () => {
             </div>
             <div className="flex items-center justify-center space-x-6 mt-4 text-sm">
               <div className="flex items-center space-x-1">
-                <div className="w-3 h-3 bg-status-success rounded-full"></div>
+                <div className="w-3 h-3 bg-status-neutral rounded-full"></div>
                 <span className="text-text-muted">Completed</span>
               </div>
               <div className="flex items-center space-x-1">
@@ -517,7 +517,7 @@ const SOPConsole: React.FC = () => {
                   </div>
                   <div className="flex justify-between text-xs text-text-muted">
                     <span>ETA: {execution.eta}</span>
-                    <span className={execution.status === 'running' ? 'text-status-success' : 'text-status-warning'}>
+                    <span className={execution.status === 'running' ? 'text-status-neutral' : 'text-status-warning'}>
                       {execution.status}
                     </span>
                   </div>

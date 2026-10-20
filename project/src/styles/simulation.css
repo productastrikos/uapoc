@@ -39,10 +39,12 @@
   --accent-red: #ef4444;
   --accent-red-dark: #dc2626;
 
-  /* Status - identical to the TAMS status tokens */
-  --status-success: #10b981;
-  --status-warning: #f59e0b;
-  --status-error: #ef4444;
+  /* Status - aligned to the TAMS status tokens. Default/operational is the
+   * neutral blue (reserved: red/yellow/green only for a state that actually
+   * needs attention), warning/error keep the real alert colors. */
+  --status-success: #7DA0CA;
+  --status-warning: #F8B324;
+  --status-error: #BC2023;
   --status-info: #01a3a4;
 
   /* Borders */

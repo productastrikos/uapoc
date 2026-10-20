@@ -115,7 +115,7 @@ const LandsideOperations: React.FC = () => {
           >
             <div className="flex items-center justify-between mb-1.5">
               <stat.icon className="h-5 w-5 text-text-muted" />
-              <span className={`text-sm font-medium ${stat.change.startsWith('+') ? 'text-status-success' : 'text-status-warning'}`}>
+              <span className={`text-sm font-medium ${stat.change.startsWith('+') ? 'text-status-neutral' : 'text-status-warning'}`}>
                 {stat.change}
               </span>
             </div>
@@ -139,7 +139,7 @@ const LandsideOperations: React.FC = () => {
               <h2 className="text-base font-semibold text-text-primary">Kerbside Operations & Dynamic Pricing</h2>
               <div className="flex items-center space-x-4 text-sm">
                 <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-status-success rounded-full"></div>
+                  <div className="w-3 h-3 bg-status-neutral rounded-full"></div>
                   <span className="text-text-muted">Normal Flow</span>
                 </div>
                 <div className="flex items-center space-x-2">
@@ -271,7 +271,7 @@ const LandsideOperations: React.FC = () => {
                     <span className="text-text-muted">Predicted demand: {zone.predictedDemand}%</span>
                     <span className={`${
                       zone.predictedDemand > 90 ? 'text-status-error' :
-                      zone.predictedDemand > 75 ? 'text-status-warning' : 'text-status-success'
+                      zone.predictedDemand > 75 ? 'text-status-warning' : 'text-status-neutral'
                     }`}>
                       {zone.predictedDemand > 90 ? 'High demand expected' :
                        zone.predictedDemand > 75 ? 'Moderate demand' : 'Normal demand'}
@@ -309,7 +309,7 @@ const LandsideOperations: React.FC = () => {
                 <span className="text-text-muted">Taxi</span>
               </div>
               <div className="flex items-center space-x-1">
-                <div className="w-3 h-3 bg-status-success rounded-full"></div>
+                <div className="w-3 h-3 bg-status-neutral rounded-full"></div>
                 <span className="text-text-muted">Ride-share</span>
               </div>
             </div>

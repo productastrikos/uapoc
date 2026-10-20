@@ -157,7 +157,7 @@ const MaintenanceOperations: React.FC = () => {
           >
             <div className="flex items-center justify-between mb-2">
               <stat.icon className="h-5 w-5 text-text-muted" />
-              <span className={`text-sm font-medium ${stat.change.startsWith('+') ? 'text-status-success' : 'text-status-warning'}`}>
+              <span className={`text-sm font-medium ${stat.change.startsWith('+') ? 'text-status-neutral' : 'text-status-warning'}`}>
                 {stat.change}
               </span>
             </div>
@@ -189,7 +189,7 @@ const MaintenanceOperations: React.FC = () => {
                   <span className="text-text-muted">{t('maintenance.high_priority')}</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-status-success rounded-full"></div>
+                  <div className="w-3 h-3 bg-status-neutral rounded-full"></div>
                   <span className="text-text-muted">{t('maintenance.in_progress')}</span>
                 </div>
               </div>
@@ -214,7 +214,7 @@ const MaintenanceOperations: React.FC = () => {
                       }`}>
                         {workOrder.workType === 'emergency' ? <AlertTriangle className="h-5 w-5 text-status-error" /> :
                          workOrder.workType === 'predictive' ? <TrendingUp className="h-5 w-5 text-accent-blue" /> :
-                         workOrder.workType === 'preventive' ? <Calendar className="h-5 w-5 text-status-success" /> :
+                         workOrder.workType === 'preventive' ? <Calendar className="h-5 w-5 text-status-neutral" /> :
                          <Wrench className="h-5 w-5 text-status-warning" />}
                       </div>
                       
@@ -251,7 +251,7 @@ const MaintenanceOperations: React.FC = () => {
 
                         <div className="flex items-center space-x-4">
                           <span className={`text-xs px-2 py-0.5 rounded-full border ${
-                            workOrder.status === 'completed' ? 'bg-status-success/10 text-status-success border-status-success/30' :
+                            workOrder.status === 'completed' ? 'bg-status-neutral/10 text-status-neutral border-status-neutral/30' :
                             workOrder.status === 'in_progress' ? 'bg-accent-blue/10 text-blue-200 border-accent-blue/30' :
                             workOrder.status === 'assigned' ? 'bg-status-warning/10 text-status-warning border-status-warning/30' :
                             'bg-primary-600/30 text-text-muted border-primary-600/50'
@@ -317,7 +317,7 @@ const MaintenanceOperations: React.FC = () => {
                   <div className="flex items-center justify-between mb-3">
                     <h3 className="font-semibold text-text-primary">{asset.name}</h3>
                     <div className="flex items-center space-x-2">
-                      {asset.trend === 'improving' ? <TrendingUp className="h-4 w-4 text-status-success" /> :
+                      {asset.trend === 'improving' ? <TrendingUp className="h-4 w-4 text-status-neutral" /> :
                        asset.trend === 'declining' ? <TrendingUp className="h-4 w-4 text-status-error rotate-180" /> :
                        <div className="w-2 h-2 rounded-full bg-text-muted"></div>}
                       <span className="text-lg font-bold text-text-primary">{asset.health}%</span>
@@ -330,7 +330,7 @@ const MaintenanceOperations: React.FC = () => {
                       animate={{ width: `${asset.health}%` }}
                       transition={{ duration: 1, delay: index * 0.2 }}
                       className={`h-3 rounded-full ${
-                        asset.health > 90 ? 'bg-status-success' :
+                        asset.health > 90 ? 'bg-status-neutral' :
                         asset.health > 75 ? 'bg-status-warning' :
                         'bg-status-error'
                       }`}
@@ -339,7 +339,7 @@ const MaintenanceOperations: React.FC = () => {
                   
                   <div className="flex justify-between text-sm">
                     <span className={`${
-                      asset.trend === 'improving' ? 'text-status-success' :
+                      asset.trend === 'improving' ? 'text-status-neutral' :
                       asset.trend === 'declining' ? 'text-status-error' : 'text-text-muted'
                     }`}>
                       {asset.trend}
@@ -374,7 +374,7 @@ const MaintenanceOperations: React.FC = () => {
             </div>
             <div className="flex items-center space-x-4 mt-3 text-sm">
               <div className="flex items-center space-x-1">
-                <div className="w-3 h-3 bg-status-success rounded-full"></div>
+                <div className="w-3 h-3 bg-status-neutral rounded-full"></div>
                 <span className="text-text-muted">{t('maintenance.preventive')}</span>
               </div>
               <div className="flex items-center space-x-1">

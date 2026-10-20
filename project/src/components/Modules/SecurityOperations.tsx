@@ -170,13 +170,13 @@ const SecurityOperations: React.FC = () => {
                 <p className="text-sm text-text-muted">{camera.location}</p>
               </div>
               <div className={`flex items-center space-x-2 px-3 py-1 rounded-full ${
-                camera.status === 'active' ? 'bg-status-success bg-opacity-20' : 'bg-status-error bg-opacity-20'
+                camera.status === 'active' ? 'bg-status-neutral bg-opacity-20' : 'bg-status-error bg-opacity-20'
               }`}>
                 <div className={`w-2 h-2 rounded-full ${
-                  camera.status === 'active' ? 'bg-status-success' : 'bg-status-error'
+                  camera.status === 'active' ? 'bg-status-neutral' : 'bg-status-error'
                 }`}></div>
                 <span className={`text-xs font-medium ${
-                  camera.status === 'active' ? 'text-status-success' : 'text-status-error'
+                  camera.status === 'active' ? 'text-status-neutral' : 'text-status-error'
                 }`}>
                   {camera.status.toUpperCase()}
                 </span>
@@ -212,8 +212,8 @@ const SecurityOperations: React.FC = () => {
 
             {/* Enhanced Recording Indicator */}
             {(recordingFeeds[camera.id] || camera.recording) && (
-              <div className="absolute top-4 left-4 flex items-center space-x-3 bg-status-error/90 px-4 py-2 rounded-lg border border-status-error">
-                <div className="w-4 h-4 bg-status-error rounded-full animate-pulse"></div>
+              <div className="absolute top-4 left-4 flex items-center space-x-3 bg-status-neutral/90 px-4 py-2 rounded-lg border border-status-neutral">
+                <div className="w-4 h-4 bg-status-neutral rounded-full animate-pulse"></div>
                 <span className="text-white font-bold text-lg tracking-wider">● REC</span>
               </div>
             )}
@@ -249,7 +249,7 @@ const SecurityOperations: React.FC = () => {
 
             <div className="flex items-center space-x-4 text-sm text-text-muted">
               <div className="flex items-center space-x-2">
-                <div className="w-2 h-2 bg-status-success rounded-full animate-pulse"></div>
+                <div className="w-2 h-2 bg-status-neutral rounded-full animate-pulse"></div>
                 <span>Live Feed</span>
               </div>
               <span>|</span>
@@ -288,7 +288,7 @@ const SecurityOperations: React.FC = () => {
       <div className="grid grid-cols-4 gap-4">
         {[
           { label: t('security.active_incidents'), value: '3', icon: AlertTriangle, color: 'text-status-error', change: '+1', tint: 'glass-pill-blue' },
-          { label: t('security.cameras_online'), value: '96/98', icon: Eye, color: 'text-status-success', change: '+2', tint: 'glass-pill-teal' },
+          { label: t('security.cameras_online'), value: '96/98', icon: Eye, color: 'text-status-neutral', change: '+2', tint: 'glass-pill-teal' },
           { label: t('security.response_time'), value: '2.3m', icon: Phone, color: 'text-accent-blue', change: '-0.5m', tint: 'glass-pill-violet' },
           { label: t('security.threat_level'), value: 'Medium', icon: Shield, color: 'text-status-warning', change: 'Stable', tint: 'glass-pill-neutral' },
         ].map((stat, index) => (
@@ -303,7 +303,7 @@ const SecurityOperations: React.FC = () => {
           >
             <div className="flex items-center justify-between mb-2">
               <stat.icon className="h-5 w-5 text-text-muted" />
-              <span className={`text-sm font-medium ${stat.change.startsWith('+') && stat.change !== '+2' ? 'text-status-error' : 'text-status-success'}`}>
+              <span className={`text-sm font-medium ${stat.change.startsWith('+') && stat.change !== '+2' ? 'text-status-error' : 'text-status-neutral'}`}>
                 {stat.change}
               </span>
             </div>
@@ -337,7 +337,7 @@ const SecurityOperations: React.FC = () => {
                   <span className="text-text-muted">{t('security.investigating')}</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-status-success rounded-full"></div>
+                  <div className="w-3 h-3 bg-status-neutral rounded-full"></div>
                   <span className="text-text-muted">{t('security.resolved')}</span>
                 </div>
               </div>
@@ -394,7 +394,7 @@ const SecurityOperations: React.FC = () => {
                         </div>
                         <div className="flex items-center space-x-4">
                           <span className={`text-xs px-2 py-0.5 rounded-full border ${
-                            incident.status === 'resolved' ? 'bg-status-success/10 text-status-success border-status-success/30' :
+                            incident.status === 'resolved' ? 'bg-status-neutral/10 text-status-neutral border-status-neutral/30' :
                             incident.status === 'investigating' ? 'bg-status-warning/10 text-status-warning border-status-warning/30' :
                             'bg-status-error/10 text-status-error border-status-error/30'
                           }`}>
@@ -472,7 +472,7 @@ const SecurityOperations: React.FC = () => {
 
                     {/* Recording Indicator */}
                     {(recordingFeeds[feed.id] || feed.recording) && (
-                      <div className="absolute top-2 right-2 w-2 h-2 bg-status-error rounded-full animate-pulse"></div>
+                      <div className="absolute top-2 right-2 w-2 h-2 bg-status-neutral rounded-full animate-pulse"></div>
                     )}
 
                     {/* Maintenance Overlay */}
@@ -499,13 +499,13 @@ const SecurityOperations: React.FC = () => {
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-medium text-text-primary">{feed.id}</span>
                       <div className={`w-2 h-2 rounded-full ${
-                        feed.status === 'active' ? 'bg-status-success' : 'bg-status-error'
+                        feed.status === 'active' ? 'bg-status-neutral' : 'bg-status-error'
                       }`}></div>
                     </div>
                     <p className="text-xs text-text-muted truncate">{feed.location}</p>
                     <div className="flex items-center justify-between">
                       <span className={`text-xs px-2 py-0.5 rounded-full font-medium border ${
-                        feed.status === 'active' ? 'bg-status-success/10 text-status-success border-status-success/30' :
+                        feed.status === 'active' ? 'bg-status-neutral/10 text-status-neutral border-status-neutral/30' :
                         'bg-status-error/10 text-status-error border-status-error/30'
                       }`}>
                         {feed.status}

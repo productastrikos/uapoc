@@ -33,7 +33,7 @@ import { useToast } from "../../hooks/useToast";
 // Trend Arrow Component for Data Visualization
 const TrendArrow: React.FC<{ trend: 'up' | 'down' | 'stable'; value?: number }> = ({ trend, value }) => {
   if (trend === 'up') {
-    return <TrendingUp className="w-4 h-4 text-status-success inline ml-1" />;
+    return <TrendingUp className="w-4 h-4 text-status-neutral inline ml-1" />;
   } else if (trend === 'down') {
     return <TrendingDown className="w-4 h-4 text-status-error inline ml-1" />;
   }
@@ -559,7 +559,7 @@ const PassengerSystems: React.FC = () => {
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'online':
-        return <CheckCircle className="w-4 h-4 text-status-success" />;
+        return <CheckCircle className="w-4 h-4 text-status-neutral" />;
       case 'warning':
         return <AlertTriangle className="w-4 h-4 text-status-warning" />;
       case 'offline':
@@ -572,7 +572,7 @@ const PassengerSystems: React.FC = () => {
   const getStatusTextColor = (status: string) => {
     switch (status) {
       case 'online':
-        return 'text-status-success';
+        return 'text-status-neutral';
       case 'warning':
         return 'text-status-warning';
       case 'offline':
@@ -585,7 +585,7 @@ const PassengerSystems: React.FC = () => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'online':
-        return 'bg-status-success/10 text-status-success border-status-success/30';
+        return 'bg-status-neutral/10 text-status-neutral border-status-neutral/30';
       case 'warning':
         return 'bg-status-warning/10 text-status-warning border-status-warning/30';
       case 'offline':
@@ -598,7 +598,7 @@ const PassengerSystems: React.FC = () => {
   const getComponentStatusColor = (status: string) => {
     switch (status) {
       case 'operational':
-        return 'bg-status-success';
+        return 'bg-status-neutral';
       case 'warning':
         return 'bg-status-warning';
       case 'critical':
@@ -691,7 +691,7 @@ const PassengerSystems: React.FC = () => {
                           <h5 className="text-text-primary font-medium">Execute Optimization SOP</h5>
                           <div className="flex items-center space-x-2">
                             <span className="text-xs text-accent-blue">Confidence: 99%</span>
-                            <span className="text-xs text-status-success">Routine</span>
+                            <span className="text-xs text-status-neutral">Routine</span>
                           </div>
                         </div>
                         <p className="text-sm text-text-muted mb-3">
@@ -783,8 +783,8 @@ const PassengerSystems: React.FC = () => {
                     <div className="glass-pill glass-pill-blue p-3">
                       <h4 className="text-sm font-semibold text-text-muted mb-2">AI Status</h4>
                       <div className="flex items-center space-x-2">
-                        <div className="w-3 h-3 rounded-full bg-status-success"></div>
-                        <span className="text-status-success font-medium">OPERATIONAL</span>
+                        <div className="w-3 h-3 rounded-full bg-status-neutral"></div>
+                        <span className="text-status-neutral font-medium">OPERATIONAL</span>
                       </div>
                     </div>
                     <div className="glass-pill glass-pill-teal p-3">
@@ -859,7 +859,7 @@ const PassengerSystems: React.FC = () => {
                           <h5 className="text-text-primary font-medium">System-wide AI Optimization</h5>
                           <div className="flex items-center space-x-2">
                             <span className="text-xs text-accent-blue">Confidence: 97.5%</span>
-                            <span className="text-xs text-status-success">Safe</span>
+                            <span className="text-xs text-status-neutral">Safe</span>
                           </div>
                         </div>
                         <p className="text-sm text-text-muted mb-3">
@@ -879,12 +879,12 @@ const PassengerSystems: React.FC = () => {
 
                       {/* Execution Status */}
                       {aiRecommendationExecuted && (
-                        <div className="glass-panel rounded-lg p-3 border border-status-success/30 bg-status-success/10">
+                        <div className="glass-panel rounded-lg p-3 border border-status-neutral/30 bg-status-neutral/10">
                           <div className="flex items-center space-x-3">
-                            <CheckCircle className="w-5 h-5 text-status-success" />
+                            <CheckCircle className="w-5 h-5 text-status-neutral" />
                             <div>
-                              <h6 className="text-status-success font-medium">AI Optimization Executed Successfully</h6>
-                              <p className="text-status-success/80 text-sm">System performance enhanced across all components</p>
+                              <h6 className="text-status-neutral font-medium">AI Optimization Executed Successfully</h6>
+                              <p className="text-status-neutral/80 text-sm">System performance enhanced across all components</p>
                             </div>
                           </div>
                         </div>
@@ -1060,7 +1060,7 @@ const PassengerSystems: React.FC = () => {
                     <div className="flex justify-between text-sm">
                       <span className="text-text-muted">Error Rate</span>
                       <span className={`font-medium ${
-                        system.errorRate < 2 ? 'text-status-success' :
+                        system.errorRate < 2 ? 'text-status-neutral' :
                         system.errorRate < 5 ? 'text-status-warning' : 'text-status-error'
                       }`}>{system.errorRate}%</span>
                     </div>
@@ -1070,7 +1070,7 @@ const PassengerSystems: React.FC = () => {
                     <div className="w-full bg-primary-700/50 rounded-full h-2 shadow-inner overflow-hidden">
                       <div 
                         className={`h-2 rounded-full transition-all duration-500 shadow-sm relative ${
-                          system.uptime >= 99 ? 'bg-status-success' :
+                          system.uptime >= 99 ? 'bg-status-neutral' :
                           system.uptime >= 95 ? 'bg-status-warning' :
                           'bg-status-error'
                         }`}
@@ -1111,7 +1111,7 @@ const PassengerSystems: React.FC = () => {
                       <span className="text-sm text-text-secondary font-medium group-hover:text-text-primary transition-colors">{component.name}</span>
                       <div className="flex items-center space-x-2">
                         {executedSOPs[component.id] && (
-                          <CheckCircle className="w-3 h-3 text-status-success" />
+                          <CheckCircle className="w-3 h-3 text-status-neutral" />
                         )}
                         <span className={`w-3 h-3 ${getComponentStatusColor(component.status)} rounded-full`}></span>
                       </div>
@@ -1133,7 +1133,7 @@ const PassengerSystems: React.FC = () => {
                       <span className="text-sm text-text-secondary font-medium group-hover:text-text-primary transition-colors">{component.name}</span>
                       <div className="flex items-center space-x-2">
                         {executedSOPs[component.id] && (
-                          <CheckCircle className="w-3 h-3 text-status-success" />
+                          <CheckCircle className="w-3 h-3 text-status-neutral" />
                         )}
                         <span className={`w-3 h-3 ${getComponentStatusColor(component.status)} rounded-full`}></span>
                       </div>
@@ -1157,7 +1157,7 @@ const PassengerSystems: React.FC = () => {
                         {component.metrics?.dataFlow || component.metrics?.apiCalls || 'N/A'}
                       </div>
                       {executedSOPs[component.id] && (
-                        <CheckCircle className="w-3 h-3 text-status-success mx-auto mt-1" />
+                        <CheckCircle className="w-3 h-3 text-status-neutral mx-auto mt-1" />
                       )}
                     </motion.div>
                   ))}

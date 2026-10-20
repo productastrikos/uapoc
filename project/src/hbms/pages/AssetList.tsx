@@ -14,7 +14,7 @@ type SortDir = 'asc' | 'desc';
 // ─── Constants ────────────────────────────────────────────────────────────────
 
 const STATUS_STYLES: Record<string, { bg: string; text: string; border: string; dot: string }> = {
-  Active:   { bg: 'rgba(16,185,129,0.12)',  text: '#34d399', border: 'rgba(16,185,129,0.3)',  dot: '#10b981' },
+  Active:   { bg: 'rgba(125,160,202,0.12)', text: '#7DA0CA', border: 'rgba(125,160,202,0.3)', dot: '#7DA0CA' },
   Warning:  { bg: 'rgba(245,158,11,0.12)',  text: '#fbbf24', border: 'rgba(245,158,11,0.3)',  dot: '#f59e0b' },
   Inactive: { bg: 'rgba(239,68,68,0.12)',   text: '#f87171', border: 'rgba(239,68,68,0.3)',   dot: '#ef4444' },
 };
@@ -22,8 +22,8 @@ const STATUS_STYLES: Record<string, { bg: string; text: string; border: string; 
 // Same Open/Closed colors as the Supervisor view's pie charts, so a breaker's state
 // reads consistently whether you're looking at the chart or the Asset Register row.
 const BREAKER_STYLES: Record<'Open' | 'Closed', { bg: string; text: string; border: string }> = {
-  Open:   { bg: 'rgba(245,158,11,0.12)', text: '#fbbf24', border: 'rgba(245,158,11,0.3)' },
-  Closed: { bg: 'rgba(16,185,129,0.12)', text: '#34d399', border: 'rgba(16,185,129,0.3)' },
+  Open:   { bg: 'rgba(245,158,11,0.12)',  text: '#fbbf24', border: 'rgba(245,158,11,0.3)' },
+  Closed: { bg: 'rgba(125,160,202,0.12)', text: '#7DA0CA', border: 'rgba(125,160,202,0.3)' },
 };
 
 // Flagged sub-parameter badge (e.g. "Conn", "PSU Alm") — a fault tone distinct from
@@ -147,7 +147,7 @@ const AssetList: React.FC = () => {
           {/* Summary tiles */}
           <div className="flex items-center gap-2 flex-wrap justify-end">
             <div className="flex items-center gap-1.5 px-2 py-1.5 rounded-lg border bg-primary-800/60 border-primary-600/40">
-              <div className="w-2 h-2 rounded-full bg-status-success" />
+              <div className="w-2 h-2 rounded-full bg-status-neutral" />
               <span className="text-sm font-bold text-text-primary">{totalActive}</span>
               <span className="text-xs text-text-muted">Active</span>
             </div>

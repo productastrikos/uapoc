@@ -25,7 +25,7 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onRemove }) => {
   const getIcon = () => {
     switch (toast.type) {
       case 'success':
-        return <CheckCircle className="h-5 w-5 text-status-success" />;
+        return <CheckCircle className="h-5 w-5 text-status-neutral" />;
       case 'error':
         return <XCircle className="h-5 w-5 text-status-error" />;
       case 'warning':
@@ -38,7 +38,7 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onRemove }) => {
   const getBackgroundColor = () => {
     switch (toast.type) {
       case 'success':
-        return 'border-status-success/40';
+        return 'border-status-neutral/40';
       case 'error':
         return 'border-status-error/40';
       case 'warning':

@@ -47,7 +47,7 @@ const DetailModal: React.FC<DetailModalProps> = ({ isOpen, onClose, title, data 
       <div className="space-y-6">
         <div className="flex items-center space-x-4">
           <div className={`w-4 h-4 rounded-full ${
-            overview.status === 'normal' ? 'bg-status-success' :
+            overview.status === 'normal' ? 'bg-status-neutral' :
             overview.status === 'warning' ? 'bg-status-warning' : 'bg-status-error'
           }`} />
           <div>
@@ -64,7 +64,7 @@ const DetailModal: React.FC<DetailModalProps> = ({ isOpen, onClose, title, data 
           <div className="glass-panel rounded-lg p-3">
             <div className="text-lg font-semibold text-text-primary">Status</div>
             <div className={`text-sm capitalize ${
-              overview.status === 'normal' ? 'text-status-success' :
+              overview.status === 'normal' ? 'text-status-neutral' :
               overview.status === 'warning' ? 'text-status-warning' : 'text-status-error'
             }`}>{overview.status}</div>
           </div>
@@ -84,7 +84,7 @@ const DetailModal: React.FC<DetailModalProps> = ({ isOpen, onClose, title, data 
                   <div className="flex items-center justify-between">
                     <span className="text-text-secondary text-sm">{metric.name}</span>
                     {metric.trend === 'up' ? (
-                      <TrendingUp className="h-4 w-4 text-status-success" />
+                      <TrendingUp className="h-4 w-4 text-status-neutral" />
                     ) : metric.trend === 'down' ? (
                       <TrendingDown className="h-4 w-4 text-status-error" />
                     ) : null}
@@ -124,8 +124,8 @@ const DetailModal: React.FC<DetailModalProps> = ({ isOpen, onClose, title, data 
         <div className="glass-panel rounded-lg p-3">
           <h4 className="text-lg font-semibold text-text-primary mb-2">Trend Direction</h4>
           <div className="flex items-center space-x-2">
-            <TrendingUp className="h-5 w-5 text-status-success" />
-            <span className="text-status-success">Improving</span>
+            <TrendingUp className="h-5 w-5 text-status-neutral" />
+            <span className="text-status-neutral">Improving</span>
           </div>
         </div>
         <div className="glass-panel rounded-lg p-3">
@@ -192,7 +192,7 @@ const DetailModal: React.FC<DetailModalProps> = ({ isOpen, onClose, title, data 
             <h5 className="font-semibold text-text-primary">Execute Optimization SOP</h5>
             <div className="flex items-center space-x-2">
               <span className="text-sm text-accent-teal">Confidence: 89%</span>
-              <span className="px-2 py-1 bg-status-success bg-opacity-20 text-status-success text-xs rounded-full">
+              <span className="px-2 py-1 bg-status-neutral bg-opacity-20 text-status-neutral text-xs rounded-full">
                 Routine
               </span>
             </div>
@@ -227,7 +227,7 @@ const DetailModal: React.FC<DetailModalProps> = ({ isOpen, onClose, title, data 
                 <div className="text-sm text-text-muted">by {item.user}</div>
               </div>
               <div className="text-right">
-                <div className="text-status-success text-sm">{item.result}</div>
+                <div className="text-status-neutral text-sm">{item.result}</div>
                 <div className="text-xs text-text-muted">{item.time}</div>
               </div>
             </div>
@@ -253,7 +253,7 @@ const DetailModal: React.FC<DetailModalProps> = ({ isOpen, onClose, title, data 
                 <div className="text-xs text-text-muted">{source.records} records</div>
               </div>
               <div className="text-right">
-                <div className="text-status-success text-sm">{source.quality}%</div>
+                <div className="text-status-neutral text-sm">{source.quality}%</div>
                 <div className="text-xs text-text-muted">{source.lastUpdate}</div>
               </div>
             </div>

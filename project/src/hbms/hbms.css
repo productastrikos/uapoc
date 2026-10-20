@@ -48,6 +48,7 @@
   --ds-text-muted:     #8A9BA8;
 
   /* RAG scale — TAMS status colours. */
+  --kpi-dot-neutral:   #7DA0CA;
   --kpi-dot-green:     #10B981;
   --kpi-dot-yellow:    #F59E0B;
   --kpi-dot-red:       #EF4444;

@@ -195,7 +195,7 @@ const AiInsightCard: React.FC<Props> = ({ insight, compact = false, showDomain =
                 exit={{ height: 0, opacity: 0 }}
                 className="overflow-hidden"
               >
-                <p className="mt-2 mb-2 px-2 py-1 rounded bg-status-success/10 border border-status-success/30 text-[length:calc(11px*var(--fs))] text-status-success">
+                <p className="mt-2 mb-2 px-2 py-1 rounded bg-status-neutral/10 border border-status-neutral/30 text-[length:calc(11px*var(--fs))] text-status-neutral">
                   {insight.impact}
                 </p>
 
@@ -242,7 +242,7 @@ const AiInsightCard: React.FC<Props> = ({ insight, compact = false, showDomain =
             <span
               className={`flex items-center gap-1.5 text-[length:calc(11px*var(--fs))] font-medium ${
                 disposition === 'accepted'
-                  ? 'text-status-success'
+                  ? 'text-status-neutral'
                   : disposition === 'shadow'
                   ? 'text-accent-blue'
                   : 'text-text-muted'

@@ -94,7 +94,7 @@ const DigitalTwin: React.FC = () => {
 
           {/* Native-looking overlay label in place of the embed's own title */}
           <div className="absolute top-4 left-4 z-20 flex items-center space-x-2 pointer-events-none">
-            <div className="w-2 h-2 rounded-full bg-status-success animate-pulse" />
+            <div className="w-2 h-2 rounded-full bg-status-neutral animate-pulse" />
             <span className="text-xs font-semibold uppercase tracking-widest text-text-secondary">
               Live 3D Model
             </span>
@@ -114,7 +114,7 @@ const DigitalTwin: React.FC = () => {
         <div className="mt-3 flex items-center justify-between text-xs shrink-0">
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
-              <div className="w-2 h-2 bg-status-success rounded-full animate-pulse"></div>
+              <div className="w-2 h-2 bg-status-neutral rounded-full animate-pulse"></div>
               <span className="text-text-muted">Real-time synchronization active</span>
             </div>
           </div>

@@ -270,7 +270,7 @@ const BaggageSystemOverview: React.FC = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'active': return 'text-status-success';
+      case 'active': return 'text-status-neutral';
       case 'loading': return 'text-accent-blue';
       case 'unloading': return 'text-accent-blue';
       case 'maintenance': return 'text-status-warning';
@@ -354,14 +354,14 @@ const BaggageSystemOverview: React.FC = () => {
           <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-3 md:p-4">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-lg font-semibold text-text-primary">Total Processed</h3>
-              <Package className="h-6 w-6 text-status-success" />
+              <Package className="h-6 w-6 text-status-neutral" />
             </div>
             <div className="space-y-2">
-              <p className="text-2xl md:text-3xl font-bold text-status-success">
+              <p className="text-2xl md:text-3xl font-bold text-status-neutral">
                 {systemMetrics.totalBagsProcessed.toLocaleString()}
               </p>
               <p className="text-sm text-text-muted">Bags handled today</p>
-              <div className="flex items-center text-xs text-status-success">
+              <div className="flex items-center text-xs text-status-neutral">
                 <ArrowRight className="w-3 h-3 mr-1" />
                 +{Math.floor(Math.random() * 50) + 20} in last hour
               </div>
@@ -409,7 +409,7 @@ const BaggageSystemOverview: React.FC = () => {
               <AlertTriangle className={`h-6 w-6 ${totalMaintenanceAlerts > 0 ? 'text-status-warning animate-pulse' : 'text-text-muted'}`} />
             </div>
             <div className="space-y-2">
-              <p className={`text-2xl md:text-3xl font-bold ${totalMaintenanceAlerts > 0 ? 'text-status-warning' : 'text-status-success'}`}>
+              <p className={`text-2xl md:text-3xl font-bold ${totalMaintenanceAlerts > 0 ? 'text-status-warning' : 'text-status-neutral'}`}>
                 {totalMaintenanceAlerts}
               </p>
               <p className="text-sm text-text-muted">Active alerts</p>
@@ -527,7 +527,7 @@ const BaggageSystemOverview: React.FC = () => {
                     </div>
                     <div className="text-center p-2.5 bg-primary-900/40 rounded-lg">
                       <p className="text-text-muted">Uptime</p>
-                      <p className="text-lg font-bold text-status-success">
+                      <p className="text-lg font-bold text-status-neutral">
                         {selectedCarousel.uptime.toFixed(1)}%
                       </p>
                     </div>
@@ -609,14 +609,14 @@ const BaggageSystemOverview: React.FC = () => {
                         </div>
                         <div>
                           <span className="text-text-muted">Baggage:</span>
-                          <span className="text-status-success ml-1">{flight.baggageCount}</span>
+                          <span className="text-status-neutral ml-1">{flight.baggageCount}</span>
                         </div>
                       </div>
 
                       <div className="mt-2 text-xs">
                         <span className={`px-2 py-1 rounded ${
                           flight.status === 'Boarding' || flight.status === 'Check-in' ? 'bg-accent-blue/10 text-accent-blue' :
-                          flight.status === 'Arrived' || flight.status === 'Baggage Claim' ? 'bg-status-success/10 text-status-success' :
+                          flight.status === 'Arrived' || flight.status === 'Baggage Claim' ? 'bg-status-neutral/10 text-status-neutral' :
                           'bg-primary-600/30 text-text-secondary'
                         }`}>
                           {flight.status}
@@ -758,11 +758,11 @@ const BaggageSystemOverview: React.FC = () => {
               </h3>
 
               <div className="space-y-2 max-h-80 overflow-y-auto">
-                <div className="p-2.5 bg-status-success/10 border border-status-success/30 rounded-lg">
+                <div className="p-2.5 bg-status-neutral/10 border border-status-neutral/30 rounded-lg">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-status-success rounded-full animate-pulse"></div>
-                      <span className="text-sm text-status-success">Carousel 1 - Bag unloaded</span>
+                      <div className="w-2 h-2 bg-status-neutral rounded-full animate-pulse"></div>
+                      <span className="text-sm text-status-neutral">Carousel 1 - Bag unloaded</span>
                     </div>
                     <span className="text-xs text-text-muted">{new Date().toLocaleTimeString()}</span>
                   </div>
@@ -780,22 +780,22 @@ const BaggageSystemOverview: React.FC = () => {
                   <p className="text-xs text-text-muted mt-1 ml-4">Departure processing active</p>
                 </div>
 
-                <div className="p-2.5 bg-status-warning/10 border border-status-warning/30 rounded-lg">
+                <div className="p-2.5 bg-status-neutral/10 border border-status-neutral/30 rounded-lg">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-status-warning rounded-full animate-pulse"></div>
-                      <span className="text-sm text-status-warning">Maintenance scheduled</span>
+                      <div className="w-2 h-2 bg-status-neutral rounded-full animate-pulse"></div>
+                      <span className="text-sm text-status-neutral">Maintenance scheduled</span>
                     </div>
                     <span className="text-xs text-text-muted">{new Date(Date.now() - 60000).toLocaleTimeString()}</span>
                   </div>
                   <p className="text-xs text-text-muted mt-1 ml-4">Carousel 4 - Motor bearing replacement</p>
                 </div>
 
-                <div className="p-2.5 bg-status-success/10 border border-status-success/30 rounded-lg">
+                <div className="p-2.5 bg-status-neutral/10 border border-status-neutral/30 rounded-lg">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-status-success rounded-full animate-pulse"></div>
-                      <span className="text-sm text-status-success">System optimization</span>
+                      <div className="w-2 h-2 bg-status-neutral rounded-full animate-pulse"></div>
+                      <span className="text-sm text-status-neutral">System optimization</span>
                     </div>
                     <span className="text-xs text-text-muted">{new Date(Date.now() - 120000).toLocaleTimeString()}</span>
                   </div>

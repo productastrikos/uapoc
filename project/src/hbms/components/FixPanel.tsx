@@ -134,7 +134,7 @@ const FixPanel: React.FC<Props> = ({
                     <span
                       className={`mt-0.5 w-4 h-4 shrink-0 rounded-full flex items-center justify-center text-[length:calc(9px*var(--fs))] font-bold border transition-colors ${
                         complete
-                          ? 'bg-status-success/25 border-status-success/70 text-status-success'
+                          ? 'bg-status-neutral/25 border-status-neutral/70 text-status-neutral'
                           : 'bg-primary-700/60 border-primary-500/60 text-text-muted'
                       }`}
                     >
@@ -193,7 +193,7 @@ const FixPanel: React.FC<Props> = ({
         </div>
 
         {running && done.length === sop.steps.length && (
-          <p className="text-[length:calc(10px*var(--fs))] text-status-success">
+          <p className="text-[length:calc(10px*var(--fs))] text-status-neutral">
             All {sop.steps.length} steps signed off. {sop.autoIncident ? 'An incident was raised automatically. ' : ''}
             {sop.autoClose ? 'The alarm will close once the tag clears.' : 'Close the alarm once the work order is complete.'}
           </p>

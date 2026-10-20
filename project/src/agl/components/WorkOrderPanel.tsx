@@ -15,7 +15,7 @@ const STATUS_STYLE: Record<WorkOrderStatus, string> = {
   open: 'bg-status-error/20 border-status-error/50 text-status-error',
   dispatched: 'bg-status-warning/20 border-status-warning/50 text-status-warning',
   in_progress: 'bg-accent-blue/20 border-accent-blue/50 text-blue-300',
-  closed: 'bg-status-success/20 border-status-success/50 text-status-success',
+  closed: 'bg-status-neutral/20 border-status-neutral/50 text-status-neutral',
 };
 
 const NEXT_LABEL: Record<WorkOrderStatus, string | null> = {

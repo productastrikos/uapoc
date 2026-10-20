@@ -104,8 +104,8 @@ const CCTVFeed: React.FC = () => {
           </div>
         </div>
         <div className="flex items-center space-x-2">
-          <div className={`w-3 h-3 rounded-full ${feeds[activeFeed]?.alert ? 'bg-status-error animate-pulse' : 'bg-status-success'}`}></div>
-          <span className={`text-xs ${feeds[activeFeed]?.alert ? 'text-status-error' : 'text-status-success'}`}>{feeds[activeFeed]?.alert ? 'ALERT' : 'NORMAL'}</span>
+          <div className={`w-3 h-3 rounded-full ${feeds[activeFeed]?.alert ? 'bg-status-error animate-pulse' : 'bg-status-neutral'}`}></div>
+          <span className={`text-xs ${feeds[activeFeed]?.alert ? 'text-status-error' : 'text-status-neutral'}`}>{feeds[activeFeed]?.alert ? 'ALERT' : 'NORMAL'}</span>
         </div>
       </div>
 
@@ -178,7 +178,7 @@ const CCTVFeed: React.FC = () => {
               <div className="absolute bottom-1 right-1 flex items-center space-x-1">
                 <Camera className="w-3 h-3 text-accent-blue" />
                 <div className={`w-1.5 h-1.5 rounded-full ${
-                  feed.status === 'active' ? (feed.alert ? 'bg-status-error animate-pulse' : 'bg-status-success') : 'bg-status-warning'
+                  feed.status === 'active' ? (feed.alert ? 'bg-status-error animate-pulse' : 'bg-status-neutral') : 'bg-status-warning'
                 }`}></div>
               </div>
 
@@ -203,7 +203,7 @@ const CCTVFeed: React.FC = () => {
       <div className="mt-3 bg-primary-900/50 rounded-lg p-2 border border-primary-600/40 flex-shrink-0">
         <div className="flex justify-between items-center mb-2">
           <span className="text-sm font-medium text-text-secondary">System Status</span>
-          <span className="text-xs text-status-success">OPERATIONAL</span>
+          <span className="text-xs text-status-neutral">OPERATIONAL</span>
         </div>
         <div className="grid grid-cols-3 gap-2 text-xs">
           <div className="text-center">
@@ -228,7 +228,7 @@ const CCTVFeed: React.FC = () => {
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center space-x-2">
                 <h3 className="text-xl font-bold text-text-primary">{feeds[activeFeed]?.location}</h3>
-                <div className={`w-3 h-3 rounded-full ${feeds[activeFeed]?.alert ? 'bg-status-error animate-pulse' : 'bg-status-success'}`}></div>
+                <div className={`w-3 h-3 rounded-full ${feeds[activeFeed]?.alert ? 'bg-status-error animate-pulse' : 'bg-status-neutral'}`}></div>
               </div>
               <button
                 onClick={() => setIsFullscreen(false)}

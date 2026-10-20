@@ -84,10 +84,10 @@ const EventLog: React.FC = () => {
       case 'manual':
         return <User className="w-4 h-4 text-accent-blue" />;
       case 'maintenance':
-        return <Settings className="w-4 h-4 text-status-warning" />;
+        return <Settings className="w-4 h-4 text-status-neutral" />;
       case 'system':
         return severity === 'success' ?
-          <CheckCircle className="w-4 h-4 text-status-success" /> :
+          <CheckCircle className="w-4 h-4 text-status-neutral" /> :
           <Package className="w-4 h-4 text-accent-blue" />;
       default:
         return <Clock className="w-4 h-4 text-text-muted" />;
@@ -101,7 +101,7 @@ const EventLog: React.FC = () => {
     switch (severity) {
       case 'error': return 'bg-status-error';
       case 'warning': return 'bg-status-warning';
-      case 'success': return 'bg-status-success';
+      case 'success': return 'bg-status-neutral';
       default: return 'bg-accent-blue';
     }
   };

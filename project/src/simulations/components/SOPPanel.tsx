@@ -165,14 +165,14 @@ const SOPPanel: React.FC<SOPPanelProps> = ({
                   isNow
                     ? `${tone.border} ${tone.bg}`
                     : isDone
-                    ? 'border-status-success/30 bg-status-success/10'
+                    ? 'border-status-neutral/30 bg-status-neutral/10'
                     : 'border-primary-700/40 bg-primary-800/20'
                 }`}
               >
                 <div className="flex items-start gap-2.5">
                   <div className="flex-shrink-0 mt-0.5">
                     {isDone ? (
-                      <CheckCircle className="w-4 h-4 text-status-success" />
+                      <CheckCircle className="w-4 h-4 text-status-neutral" />
                     ) : isNow ? (
                       <div className={`w-4 h-4 rounded-full border-2 border-t-transparent animate-spin ${tone.spin}`} />
                     ) : (

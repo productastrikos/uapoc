@@ -180,14 +180,14 @@ const FlightTimeline: React.FC<FlightTimelineProps> = ({ flights: propFlights })
                           key={phase}
                           className={`flex flex-col items-center space-y-2 relative z-10 ${
                             isActive ? 'text-accent-blue' :
-                            isCompleted ? 'text-status-success' :
+                            isCompleted ? 'text-status-neutral' :
                             isNext ? 'text-text-secondary' :
                             'text-text-muted'
                           } transition-all duration-500`}
                         >
                           <div className={`w-10 h-10 md:w-12 md:h-12 rounded-full border-2 flex items-center justify-center transition-all duration-500 ${
                             isActive ? 'bg-accent-blue/10 border-accent-blue' :
-                            isCompleted ? 'bg-status-success/10 border-status-success' :
+                            isCompleted ? 'bg-status-neutral/10 border-status-neutral' :
                             isNext ? 'bg-primary-700/40 border-primary-600' :
                             'bg-primary-800/50 border-primary-600/40'
                           }`}>
@@ -208,19 +208,19 @@ const FlightTimeline: React.FC<FlightTimelineProps> = ({ flights: propFlights })
                   </h5>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-2.5">
                     <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 rounded-full bg-status-success"></div>
+                      <div className="w-2 h-2 rounded-full bg-status-neutral"></div>
                       <span className="text-xs text-text-secondary">Lighting: Manual</span>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 rounded-full bg-status-success"></div>
+                      <div className="w-2 h-2 rounded-full bg-status-neutral"></div>
                       <span className="text-xs text-text-secondary">HVAC: Optimized</span>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 rounded-full bg-status-success"></div>
+                      <div className="w-2 h-2 rounded-full bg-status-neutral"></div>
                       <span className="text-xs text-text-secondary">Access: Manual</span>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 rounded-full bg-status-success"></div>
+                      <div className="w-2 h-2 rounded-full bg-status-neutral"></div>
                       <span className="text-xs text-text-secondary">Baggage: Ready</span>
                     </div>
                   </div>
@@ -237,7 +237,7 @@ const FlightTimeline: React.FC<FlightTimelineProps> = ({ flights: propFlights })
                   </div>
                   <div className="bg-primary-900/50 border border-primary-600/40 rounded-lg p-2.5 text-center">
                     <div className="flex items-center justify-center mb-2">
-                      <Zap className="w-4 h-4 md:w-5 md:h-5 text-status-success" />
+                      <Zap className="w-4 h-4 md:w-5 md:h-5 text-status-neutral" />
                     </div>
                     <div className="text-xs text-text-muted">Energy Use</div>
                     <div className="text-sm md:text-lg font-bold text-text-primary">156kW</div>

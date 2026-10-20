@@ -304,12 +304,12 @@ const HbmsDashboard: React.FC = () => {
             <p className="text-xs font-semibold text-text-muted uppercase tracking-widest mb-1">Sys Health</p>
             <p className={`text-2xl font-bold ${health >= 95 ? 'glow-text' : health >= 90 ? 'text-status-warning' : 'text-status-error'}`}>{health.toFixed(1)}%</p>
             <div className="mt-2 w-full h-2 rounded-full overflow-hidden flex" style={{ background: 'rgba(32, 120, 207,0.06)' }}>
-              <div style={{ width: `${(operational / total) * 100}%`, background: '#34D399' }} />
+              <div style={{ width: `${(operational / total) * 100}%`, background: '#7DA0CA' }} />
               <div style={{ width: `${(warning / total) * 100}%`, background: '#E6B85C' }} />
               <div style={{ width: `${(down / total) * 100}%`, background: '#F87171' }} />
             </div>
             <div className="flex justify-between mt-1.5">
-              <span className="text-xs text-status-success font-semibold">{operational} OK</span>
+              <span className="text-xs text-status-neutral font-semibold">{operational} OK</span>
               <span className="text-xs text-status-error font-semibold">{down} down</span>
             </div>
           </button>

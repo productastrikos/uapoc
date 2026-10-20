@@ -87,7 +87,7 @@ const InfoButtonWithPortal: React.FC<{ description: string }> = ({ description }
 // Trend Arrow Component
 const TrendArrow: React.FC<{ trend: 'up' | 'down' | 'stable'; value?: number }> = ({ trend, value }) => {
   if (trend === 'up') {
-    return <TrendingUp className="w-4 h-4 text-status-success inline ml-1" />;
+    return <TrendingUp className="w-4 h-4 text-status-neutral inline ml-1" />;
   } else if (trend === 'down') {
     return <TrendingDown className="w-4 h-4 text-status-error inline ml-1" />;
   }
@@ -463,7 +463,7 @@ const TerminalOperations: React.FC = () => {
     if (alertLevel === 'critical') return 'bg-status-error/30 border-status-error/50';
     if (alertLevel === 'warning') return 'bg-status-warning/30 border-status-warning/50';
     if (occupancyRate > 0.8) return 'bg-status-warning/30 border-status-warning/50';
-    return 'bg-status-success/30 border-status-success/50';
+    return 'bg-status-neutral/30 border-status-neutral/50';
   }, []);
 
   const getOccupancyRate = useCallback((zone: TerminalZone) => {
@@ -579,7 +579,7 @@ const TerminalOperations: React.FC = () => {
                                   <Timer className="w-3 h-3 mr-1" />
                                   {insight.timeframe}
                                 </span>
-                                <span className="text-xs text-status-success flex items-center">
+                                <span className="text-xs text-status-neutral flex items-center">
                                   <Target className="w-3 h-3 mr-1" />
                                   {insight.confidence}% confidence
                                 </span>
@@ -697,7 +697,7 @@ const TerminalOperations: React.FC = () => {
                         <div className="flex items-center justify-between">
                           <div className="text-sm">
                             <span className="text-text-muted">Expected Impact: </span>
-                            <span className="text-status-success">{protocol.estimatedImpact}</span>
+                            <span className="text-status-neutral">{protocol.estimatedImpact}</span>
                           </div>
                           <div className="text-sm">
                             <span className="text-text-muted">Cost: </span>
@@ -733,7 +733,7 @@ const TerminalOperations: React.FC = () => {
                                     zone.temperature === 'critical' ? 'bg-status-error' :
                                     zone.temperature === 'hot' ? 'bg-status-warning' :
                                     zone.temperature === 'warm' ? 'bg-status-warning/60' :
-                                    'bg-status-success'
+                                    'bg-status-neutral'
                                   }`}
                                 />
                               </div>
@@ -885,7 +885,7 @@ const TerminalOperations: React.FC = () => {
                                   <Timer className="w-4 h-4 mr-1" />
                                   {insight.timeframe}
                                 </span>
-                                <span className="text-sm text-status-success flex items-center">
+                                <span className="text-sm text-status-neutral flex items-center">
                                   <TrendingUp className="w-4 h-4 mr-1" />
                                   {insight.expectedROI}
                                 </span>
@@ -906,17 +906,17 @@ const TerminalOperations: React.FC = () => {
                               </div>
                               <div className="flex justify-between">
                                 <span className="text-xs text-text-muted">Expected ROI:</span>
-                                <span className="text-xs text-status-success font-semibold">{insight.expectedROI}</span>
+                                <span className="text-xs text-status-neutral font-semibold">{insight.expectedROI}</span>
                               </div>
                             </div>
                           </div>
 
                           <div className="bg-primary-600/20 p-4 rounded-lg border border-primary-500/30">
-                            <h6 className="text-sm font-medium text-status-success mb-3">KEY PERFORMANCE METRICS</h6>
+                            <h6 className="text-sm font-medium text-status-neutral mb-3">KEY PERFORMANCE METRICS</h6>
                             <div className="space-y-1">
                               {insight.keyMetrics.map((metric, idx) => (
                                 <div key={idx} className="text-xs text-text-secondary flex items-center">
-                                  <CheckCircle className="w-3 h-3 text-status-success mr-2 flex-shrink-0" />
+                                  <CheckCircle className="w-3 h-3 text-status-neutral mr-2 flex-shrink-0" />
                                   {metric}
                                 </div>
                               ))}
@@ -1048,7 +1048,7 @@ const TerminalOperations: React.FC = () => {
                     ))}
                     {selectedZone.realTimeAlerts.length === 0 && (
                       <div className="text-center py-8">
-                        <CheckCircle className="w-12 h-12 text-status-success mx-auto mb-3" />
+                        <CheckCircle className="w-12 h-12 text-status-neutral mx-auto mb-3" />
                         <p className="text-text-muted">No active alerts - optimal performance maintained</p>
                       </div>
                     )}
@@ -1095,7 +1095,7 @@ const TerminalOperations: React.FC = () => {
                 onClick={() => setLiveDataEnabled(!liveDataEnabled)}
                 className="btn btn-secondary"
               >
-                <span className={`w-1.5 h-1.5 rounded-full ${liveDataEnabled ? 'bg-status-success' : 'bg-text-muted'}`}></span>
+                <span className={`w-1.5 h-1.5 rounded-full ${liveDataEnabled ? 'bg-status-neutral' : 'bg-text-muted'}`}></span>
                 <span>{liveDataEnabled ? 'Live Data: ACTIVE' : 'Live Data: PAUSED'}</span>
               </button>
             </div>
@@ -1183,7 +1183,7 @@ const TerminalOperations: React.FC = () => {
                   </div>
                   <div className="flex space-x-2">
                     <span className="flex items-center space-x-1 text-sm text-text-muted">
-                      <div className="w-2 h-2 bg-status-success rounded-full"></div>
+                      <div className="w-2 h-2 bg-status-neutral rounded-full"></div>
                       <span>Optimal</span>
                     </span>
                     <span className="flex items-center space-x-1 text-sm text-text-muted">
@@ -1236,7 +1236,7 @@ const TerminalOperations: React.FC = () => {
                               className={`absolute inset-2 rounded-full transition-all duration-500 ${
                                 zone.alertLevel === 'critical' ? 'bg-status-error/60' :
                                 zone.alertLevel === 'warning' ? 'bg-status-warning/60' :
-                                'bg-status-success/60'
+                                'bg-status-neutral/60'
                               }`}
                               style={{ 
                                 transform: `scale(${Math.max(0.3, occupancyRate / 100)})`
@@ -1279,7 +1279,7 @@ const TerminalOperations: React.FC = () => {
                                 <span className={`font-medium ${
                                   zone.alertLevel === 'critical' ? 'text-status-error' :
                                   zone.alertLevel === 'warning' ? 'text-status-warning' :
-                                  'text-status-success'
+                                  'text-status-neutral'
                                 }`}>
                                   {zone.alertLevel.toUpperCase()}
                                 </span>
@@ -1313,7 +1313,7 @@ const TerminalOperations: React.FC = () => {
                       <div className={`text-xs ${
                         zone.alertLevel === 'critical' ? 'text-status-error' :
                         zone.alertLevel === 'warning' ? 'text-status-warning' :
-                        'text-status-success'
+                        'text-status-neutral'
                       }`}>
                         {getOccupancyRate(zone).toFixed(0)}% capacity
                       </div>
@@ -1329,7 +1329,7 @@ const TerminalOperations: React.FC = () => {
                 <h3 className="text-base font-semibold text-white mb-4 flex items-center">
                   <AlertTriangle className="w-5 h-5 mr-2 text-accent-blue" />
                   Critical Operational Alerts
-                  <span className="ml-auto flex items-center gap-1.5 text-xs text-text-muted"><span className="w-1.5 h-1.5 rounded-full bg-status-success"></span>LIVE</span>
+                  <span className="ml-auto flex items-center gap-1.5 text-xs text-text-muted"><span className="w-1.5 h-1.5 rounded-full bg-status-neutral"></span>LIVE</span>
                 </h3>
                 <div className="space-y-4  overflow-y-auto">
                   {terminalZones
@@ -1382,7 +1382,7 @@ const TerminalOperations: React.FC = () => {
                   ))}
                   {terminalZones.filter(zone => zone.realTimeAlerts.length > 0).length === 0 && (
                     <div className="text-center py-8">
-                      <CheckCircle className="w-12 h-12 text-status-success mx-auto mb-3" />
+                      <CheckCircle className="w-12 h-12 text-status-neutral mx-auto mb-3" />
                       <p className="text-text-muted text-sm">No critical alerts - operations optimal</p>
                       <div className="mt-4 grid grid-cols-2 gap-2">
                         <div className="p-3 bg-primary-800/60 rounded-lg border border-primary-600/40">
@@ -1464,7 +1464,7 @@ const TerminalOperations: React.FC = () => {
                             zone.temperature === 'critical' ? 'bg-status-error' :
                             zone.temperature === 'hot' ? 'bg-status-warning' :
                                                         zone.temperature === 'warm' ? 'bg-status-warning/60' :
-                            'bg-status-success'
+                            'bg-status-neutral'
                           }`}
                         />
                       </div>

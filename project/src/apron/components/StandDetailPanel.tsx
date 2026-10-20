@@ -22,7 +22,7 @@ import type { EquipStatus, Stand } from '../types';
 import FixPanel from '../../hbms/components/FixPanel';
 
 const STATUS_TONE: Record<EquipStatus, { dot: string; text: string }> = {
-  active: { dot: '#34d399', text: '#6EE7B7' },
+  active: { dot: '#7DA0CA', text: '#A8C4E0' },
   standby: { dot: '#64748B', text: '#94A3B8' },
   fault: { dot: '#ef4444', text: '#FCA5A5' },
   offline: { dot: '#475569', text: '#64748B' },
@@ -116,7 +116,7 @@ const StandDetailPanel: React.FC = () => {
           />
           <Row
             label="Chocks"
-            value={stand.chocksOn ? <span className="text-status-success">On</span> : <span className="text-text-muted">Off</span>}
+            value={stand.chocksOn ? <span className="text-status-neutral">On</span> : <span className="text-text-muted">Off</span>}
           />
         </section>
 

@@ -162,7 +162,7 @@ const SOPManagement: React.FC = () => {
               </div>
               <div>
                 <div className="text-[length:calc(10px*var(--fs))] uppercase tracking-wide text-text-muted">Closed first time</div>
-                <div className="text-base font-bold font-mono text-status-success">{sop.successRate}%</div>
+                <div className="text-base font-bold font-mono text-status-neutral">{sop.successRate}%</div>
               </div>
             </div>
           </div>
@@ -214,15 +214,15 @@ const SOPManagement: React.FC = () => {
                   key={st.order}
                   className="flex gap-2.5 rounded-md border px-2 py-2 transition-colors"
                   style={{
-                    background: ok ? 'rgba(16,185,129,0.08)' : 'rgba(32, 120, 207,0.02)',
-                    borderColor: ok ? 'rgba(16,185,129,0.35)' : 'rgba(32, 120, 207,0.07)',
+                    background: ok ? 'rgba(125,160,202,0.08)' : 'rgba(32, 120, 207,0.02)',
+                    borderColor: ok ? 'rgba(125,160,202,0.35)' : 'rgba(32, 120, 207,0.07)',
                   }}
                 >
                   <span
                     className="mt-0.5 w-5 h-5 shrink-0 rounded-full flex items-center justify-center text-[length:calc(10px*var(--fs))] font-bold border"
                     style={
                       ok
-                        ? { background: 'rgba(12,107,55,0.3)', borderColor: 'rgba(12,107,55,0.8)', color: '#4ADE80' }
+                        ? { background: 'rgba(125,160,202,0.3)', borderColor: 'rgba(125,160,202,0.8)', color: '#7DA0CA' }
                         : { background: 'rgba(32, 120, 207,0.05)', borderColor: 'rgba(32, 120, 207,0.14)', color: '#8A9BA8' }
                     }
                   >
@@ -246,10 +246,10 @@ const SOPManagement: React.FC = () => {
           {complete && (
             <div
               className="mt-3 rounded-md border px-2 py-2 flex items-center gap-2 flex-wrap"
-              style={{ background: 'rgba(16,185,129,0.1)', borderColor: 'rgba(16,185,129,0.4)' }}
+              style={{ background: 'rgba(125,160,202,0.1)', borderColor: 'rgba(125,160,202,0.4)' }}
             >
-              <CheckCircle2 className="w-4 h-4 text-status-success" />
-              <span className="text-xs text-status-success">
+              <CheckCircle2 className="w-4 h-4 text-status-neutral" />
+              <span className="text-xs text-status-neutral">
                 Procedure complete — every step signed off with its evidence.
               </span>
               <div className="flex-1" />

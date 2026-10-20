@@ -108,7 +108,7 @@ export const SecurityOperations: React.FC<SecurityOperationsProps> = ({ onIncide
     switch (status) {
       case 'Active': return 'text-status-error bg-status-error/10 border-status-error/30';
       case 'Investigating': return 'text-status-warning bg-status-warning/10 border-status-warning/30';
-      case 'Resolved': return 'text-status-success bg-status-success/10 border-status-success/30';
+      case 'Resolved': return 'text-status-neutral bg-status-neutral/10 border-status-neutral/30';
       default: return 'text-text-muted bg-primary-600/10 border-primary-600/30';
     }
   };
@@ -190,8 +190,8 @@ export const SecurityOperations: React.FC<SecurityOperationsProps> = ({ onIncide
       <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-3 md:p-4">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 mb-3">
           <div className="flex items-center space-x-2">
-            <div className="p-2.5 rounded-lg bg-status-error/10 border border-status-error/35">
-              <Shield className="w-5 h-5 text-status-error" />
+            <div className="p-2.5 rounded-lg bg-status-neutral/10 border border-status-neutral/35">
+              <Shield className="w-5 h-5 text-status-neutral" />
             </div>
             <div>
               <h3 className="text-lg md:text-xl font-bold text-text-primary">
@@ -241,7 +241,7 @@ export const SecurityOperations: React.FC<SecurityOperationsProps> = ({ onIncide
             <div className="text-accent-blue">{unattendedBagIncident.location}</div>
             <div className="text-text-muted">|</div>
             <div className="text-text-muted">AI Confidence:</div>
-            <div className="text-status-success">{unattendedBagIncident.aiConfidence ?? 94}%</div>
+            <div className="text-status-neutral">{unattendedBagIncident.aiConfidence ?? 94}%</div>
             <div className="text-text-muted">|</div>
             <div className="text-text-muted">SOP Progress:</div>
             <div className="text-accent-blue">
@@ -322,8 +322,8 @@ export const SecurityOperations: React.FC<SecurityOperationsProps> = ({ onIncide
       <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-4">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2.5">
-            <div className="p-2.5 bg-status-error/10 border border-status-error/30 rounded-lg">
-              <Shield className="w-6 h-6 text-status-error" />
+            <div className="p-2.5 bg-status-neutral/10 border border-status-neutral/30 rounded-lg">
+              <Shield className="w-6 h-6 text-status-neutral" />
             </div>
             <div>
               <h2 className="text-xl font-bold text-text-primary">Security Operations Center</h2>
@@ -338,7 +338,7 @@ export const SecurityOperations: React.FC<SecurityOperationsProps> = ({ onIncide
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           <div className="flex items-center gap-2.5 p-2.5 bg-primary-900/40 rounded-lg border border-primary-600/40">
-            <Camera className="w-5 h-5 text-status-success" />
+            <Camera className="w-5 h-5 text-status-neutral" />
             <div>
               <span className="text-text-primary font-medium">24/7 Monitoring</span>
               <div className="text-text-muted text-xs">AI Detection Active</div>
@@ -422,9 +422,9 @@ export const SecurityOperations: React.FC<SecurityOperationsProps> = ({ onIncide
             </h3>
             <div className="grid grid-cols-2 gap-2.5 text-xs">
               {[
-                ['Cameras online', '46 / 48', 'text-status-success'],
-                ['Access points', lockdownActive ? 'LOCKED DOWN' : '45 secured', lockdownActive ? 'text-status-error' : 'text-status-success'],
-                ['Response teams', teamDispatched ? 'On scene' : '2 available', teamDispatched ? 'text-status-success' : 'text-accent-blue'],
+                ['Cameras online', '46 / 48', 'text-status-neutral'],
+                ['Access points', lockdownActive ? 'LOCKED DOWN' : '45 secured', lockdownActive ? 'text-status-error' : 'text-status-neutral'],
+                ['Response teams', teamDispatched ? 'On scene' : '2 available', teamDispatched ? 'text-status-neutral' : 'text-accent-blue'],
                 ['Mean response', '90 s', 'text-accent-blue'],
               ].map(([label, value, tone]) => (
                 <div key={label} className="flex justify-between bg-primary-900/40 rounded-lg border border-primary-600/40 px-2.5 py-2">
@@ -443,7 +443,7 @@ export const SecurityOperations: React.FC<SecurityOperationsProps> = ({ onIncide
             <Activity className="w-4 h-4 text-accent-blue" />
             Security Zone Overview
             <span className={`ml-auto text-xs px-2 py-0.5 rounded-full border ${
-              alertActive ? 'border-status-error/50 text-status-error bg-status-error/10' : 'border-status-success/40 text-status-success'
+              alertActive ? 'border-status-error/50 text-status-error bg-status-error/10' : 'border-status-neutral/40 text-status-neutral'
             }`}>
               {alertActive ? 'INCIDENT ACTIVE' : 'NORMAL'}
             </span>
@@ -519,12 +519,12 @@ export const SecurityOperations: React.FC<SecurityOperationsProps> = ({ onIncide
                   <g key={x}>
                     <rect
                       x={x} y="196" width="16" height="25"
-                      fill={locked ? '#EF4444' : '#10B981'}
-                      stroke={locked ? '#EF4444' : '#10b981'}
+                      fill={locked ? '#EF4444' : '#7DA0CA'}
+                      stroke={locked ? '#EF4444' : '#7DA0CA'}
                       strokeWidth="1"
                       className={locked ? 'animate-pulse' : ''}
                     />
-                    <text x={x + 8} y="231" textAnchor="middle" fill={locked ? '#EF4444' : '#10b981'} fontSize="5">
+                    <text x={x + 8} y="231" textAnchor="middle" fill={locked ? '#EF4444' : '#7DA0CA'} fontSize="5">
                       {locked ? 'LOCKED' : 'OPEN'}
                     </text>
                   </g>

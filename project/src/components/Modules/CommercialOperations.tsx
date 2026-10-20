@@ -124,7 +124,7 @@ const CommercialOperations: React.FC = () => {
           >
             <div className="flex items-center justify-between mb-2">
               <stat.icon className="h-5 w-5 text-text-muted" />
-              <span className={`text-sm font-medium ${stat.change.startsWith('+') ? 'text-status-success' : 'text-status-warning'}`}>
+              <span className={`text-sm font-medium ${stat.change.startsWith('+') ? 'text-status-neutral' : 'text-status-warning'}`}>
                 {stat.change}
               </span>
             </div>
@@ -148,7 +148,7 @@ const CommercialOperations: React.FC = () => {
               <h2 className="text-base font-semibold text-text-primary">{t('commercial.revenue_optimization')}</h2>
               <div className="flex items-center space-x-4 text-sm">
                 <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-status-success rounded-full"></div>
+                  <div className="w-3 h-3 bg-status-neutral rounded-full"></div>
                   <span className="text-text-muted">{t('commercial.exceeding_target')}</span>
                 </div>
                 <div className="flex items-center space-x-2">
@@ -197,7 +197,7 @@ const CommercialOperations: React.FC = () => {
                             <div className="text-sm text-text-muted">{t('commercial.target')}</div>
                           </div>
                           <div>
-                            <div className="text-lg font-semibold text-status-success">
+                            <div className="text-lg font-semibold text-status-neutral">
                               +{stream.growth}%
                             </div>
                             <div className="text-sm text-text-muted">{t('commercial.growth')}</div>
@@ -218,7 +218,7 @@ const CommercialOperations: React.FC = () => {
                             transition={{ duration: 1, delay: index * 0.2 }}
                             className={`h-2 rounded-full ${
                               stream.currentRevenue >= stream.targetRevenue
-                                ? 'bg-status-success'
+                                ? 'bg-status-neutral'
                                 : 'bg-status-warning'
                             }`}
                           />
@@ -277,7 +277,7 @@ const CommercialOperations: React.FC = () => {
                 <span className="text-text-muted">{t('commercial.fnb')}</span>
               </div>
               <div className="flex items-center space-x-1">
-                <div className="w-3 h-3 bg-status-success rounded-full"></div>
+                <div className="w-3 h-3 bg-status-neutral rounded-full"></div>
                 <span className="text-text-muted">{t('commercial.parking')}</span>
               </div>
               <div className="flex items-center space-x-1">
@@ -395,7 +395,7 @@ const CommercialOperations: React.FC = () => {
                     <span className="font-medium text-text-primary text-sm">{opp.opportunity}</span>
                     <span className="text-text-muted font-medium text-sm">{opp.confidence}%</span>
                   </div>
-                  <div className="text-status-success text-xs font-medium mb-2">{opp.impact}</div>
+                  <div className="text-status-neutral text-xs font-medium mb-2">{opp.impact}</div>
                   <div className="w-full bg-primary-600 rounded-full h-1">
                     <motion.div
                       initial={{ width: 0 }}

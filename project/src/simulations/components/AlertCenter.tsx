@@ -84,7 +84,7 @@ const AlertCenter: React.FC<AlertCenterProps> = ({
       {/* Header */}
       <div className="flex items-center justify-between p-3 border-b border-primary-600/40 bg-primary-800">
         <div className="flex items-center space-x-2">
-          <AlertTriangle className="w-6 h-6 text-status-warning" />
+          <AlertTriangle className="w-6 h-6 text-status-neutral" />
           <div>
             <h2 className="text-lg font-bold text-text-primary">Alert Center</h2>
             <p className="text-sm text-text-muted">Intelligent Incident Management</p>
@@ -118,7 +118,7 @@ const AlertCenter: React.FC<AlertCenterProps> = ({
             >
               {tab.label}
               {tab.count > 0 && (
-                <span className="absolute -top-1 -right-1 bg-status-error text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 bg-status-neutral text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                   {tab.count}
                 </span>
               )}
@@ -133,7 +133,7 @@ const AlertCenter: React.FC<AlertCenterProps> = ({
           <div className="p-3 space-y-3">
             {newAlerts.length === 0 ? (
               <div className="text-center py-6">
-                <CheckCircle className="w-10 h-10 text-status-success mx-auto mb-3" />
+                <CheckCircle className="w-10 h-10 text-status-neutral mx-auto mb-3" />
                 <p className="text-text-muted">No new alerts</p>
               </div>
             ) : (
@@ -210,9 +210,9 @@ const AlertCenter: React.FC<AlertCenterProps> = ({
             {resolvedAlerts.length === 0 ? (
               <p className="text-center text-text-muted text-sm py-6">Nothing resolved yet</p>
             ) : resolvedAlerts.map(alert => (
-              <div key={alert.id} className="border border-status-success/40 bg-primary-800/60 rounded-lg p-3.5">
+              <div key={alert.id} className="border border-status-neutral/40 bg-primary-800/60 rounded-lg p-3.5">
                 <div className="flex items-center gap-2 mb-1.5">
-                  <CheckCircle className="w-4 h-4 text-status-success" />
+                  <CheckCircle className="w-4 h-4 text-status-neutral" />
                   <h4 className="font-semibold text-text-primary text-sm">{alert.title}</h4>
                 </div>
                 <p className="text-xs text-text-muted">{alert.description}</p>
@@ -258,7 +258,7 @@ const AlertCenter: React.FC<AlertCenterProps> = ({
                   <h4 className="font-semibold text-text-primary text-sm">Plan executed</h4>
                   <span className={`text-[length:calc(10px*var(--fs))] px-2 py-0.5 rounded-full border ${
                     solution.success
-                      ? 'bg-status-success/15 text-status-success border-status-success/40'
+                      ? 'bg-status-neutral/15 text-status-neutral border-status-neutral/40'
                       : 'bg-status-error/15 text-status-error border-status-error/40'
                   }`}>
                     {solution.success ? 'Success' : 'Failed'}

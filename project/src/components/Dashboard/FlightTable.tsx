@@ -12,7 +12,7 @@ const FlightTable: React.FC<FlightTableProps> = ({ flights }) => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'On Time':
-        return 'text-status-success bg-status-success bg-opacity-20';
+        return 'text-status-neutral bg-status-neutral bg-opacity-20';
       case 'Delayed':
         return 'text-status-warning bg-status-warning bg-opacity-20';
       case 'Boarding':

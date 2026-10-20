@@ -15,7 +15,7 @@ const SystemHealth: React.FC = () => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'operational':
-        return 'text-status-success';
+        return 'text-status-neutral';
       case 'maintenance':
         return 'text-status-warning';
       case 'fault':
@@ -28,7 +28,7 @@ const SystemHealth: React.FC = () => {
   const getStatusBg = (status: string) => {
     switch (status) {
       case 'operational':
-        return 'bg-status-success bg-opacity-20 border-status-success';
+        return 'bg-status-neutral bg-opacity-20 border-status-neutral';
       case 'maintenance':
         return 'bg-status-warning bg-opacity-20 border-status-warning';
       case 'fault':
@@ -98,14 +98,14 @@ const SystemHealth: React.FC = () => {
       <div className="mt-6 p-4 bg-primary-700 rounded-lg">
         <div className="flex items-center justify-between text-sm">
           <span className="text-text-muted">Overall System Health:</span>
-          <span className="text-status-success font-semibold">96.3% Operational</span>
+          <span className="text-status-neutral font-semibold">96.3% Operational</span>
         </div>
         <div className="w-full bg-primary-600 rounded-full h-2 mt-2">
           <motion.div
             initial={{ width: 0 }}
             animate={{ width: '96.3%' }}
             transition={{ duration: 1.5 }}
-            className="h-2 bg-status-success rounded-full"
+            className="h-2 bg-status-neutral rounded-full"
           />
         </div>
       </div>
