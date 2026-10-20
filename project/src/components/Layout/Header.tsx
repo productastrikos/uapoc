@@ -24,16 +24,7 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
       <div className="flex items-center justify-between">
         {/* Logo and Title */}
         <div className="flex items-center space-x-3">
-          <div className="relative p-1.5 rounded-xl overflow-hidden bg-primary-700/40 border border-accent-blue/15">
-            <img
-              src="/white_aveva_schinder_logo.png"
-              alt="Aveva X Schinder"
-              className="h-6 w-auto"
-              style={{
-                filter: 'brightness(1.3) contrast(1.2) saturate(1.1)'
-              }}
-            />
-          </div>
+          <img src="/astrikos-icon.png" alt="Astrikos" className="h-10 w-auto" />
 
           <div>
             <h1 className="font-bold text-lg leading-tight text-text-primary">U-APOC</h1>
@@ -42,7 +33,14 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
         </div>
 
         {/* Actions */}
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-4">
+          {/* Partner marks — Astrikos (wordmark), Intel, Dell, in that order */}
+          <div className="hidden sm:flex items-center gap-4 pr-3 border-r border-accent-blue/15">
+            <img src="/astrikos-wordmark.png" alt="Astrikos" className="h-4 w-auto opacity-90" />
+            <img src="/intel-logo.png" alt="Intel" className="h-5 w-auto opacity-90" />
+            <img src="/dell-logo.png" alt="Dell" className="h-6 w-auto opacity-90" />
+          </div>
+
           {/* Logout - FUNCTIONAL */}
           <motion.button
             whileTap={{ scale: 0.95 }}
