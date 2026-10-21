@@ -910,7 +910,7 @@ const SubsystemPage: React.FC<SubsystemPageProps> = ({
 
           {/* KPI grid. Zoomed rather than re-typed: the cards carry inline
               pixel sizes from the port, which no class can override. */}
-          <div className="kpi-zoom" style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column', gap: 4 }}>
+          <div className="kpi-zoom" style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column', gap: 7 }}>
             {kpiAreaOverride ? kpiAreaOverride : (
               <>
                 <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -924,12 +924,12 @@ const SubsystemPage: React.FC<SubsystemPageProps> = ({
                 </div>
 
                 {/* Row 1 — Operational */}
-                <div style={{ display: 'grid', gridTemplateColumns: `repeat(${kpiCols}, 1fr)`, gap: 5, flexShrink: 0 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: `repeat(${kpiCols}, 1fr)`, gap: 8, flexShrink: 0 }}>
                   {operationalKPIs.slice(0, kpiCols).map((kpi, i) => <KPIStripCard key={i} kpi={kpi} onClick={() => openKpiTrend(kpi, 'op')} />)}
                 </div>
 
                 {/* Row 2 — System */}
-                <div style={{ display: 'grid', gridTemplateColumns: `repeat(${kpiCols}, 1fr)`, gap: 5, flexShrink: 0 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: `repeat(${kpiCols}, 1fr)`, gap: 8, flexShrink: 0 }}>
                   {systemKPIs.slice(0, kpiCols).map((kpi, i) => <KPIStripCard key={i} kpi={kpi} onClick={() => openKpiTrend(kpi, 'sys')} />)}
                 </div>
               </>
@@ -992,7 +992,7 @@ const SubsystemPage: React.FC<SubsystemPageProps> = ({
           })()}
 
           {/* Sidebar content — NO scroll, flex column */}
-          <div style={{ flex: 1, overflow: 'hidden', padding: 6, display: 'flex', flexDirection: 'column', gap: 5 }}>
+          <div style={{ flex: 1, overflow: 'hidden', padding: 8, display: 'flex', flexDirection: 'column', gap: 8 }}>
 
             {/* FRS Alert Stack */}
             <div style={{

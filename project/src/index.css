@@ -237,15 +237,19 @@
  * numbers matter more here than fitting everything on one screen. Deliberately
  * not applied to any container holding a map — MapLibre reads element geometry
  * for pointer maths and does not need the surprise. */
-/* Raised twice on feedback — these panels are read across a room, and the
-   ported inline sizes start at 7.5-9px. Scrolling is the accepted trade. */
+/* Raised on feedback — these panels are read across a room, and the ported
+   inline sizes start at 6.5-9px, with gaps/padding ported at the same tiny
+   scale. A flat `zoom` lifts the whole panel's font, padding and gaps
+   together, so the ten-tile KPI grid and the sidebar stack read as
+   breathing room rather than a wall of tiny numbers. Scrolling is the
+   accepted trade. */
 .kpi-zoom {
-  zoom: 1;
+  zoom: 1.18;
   overflow: auto !important;
 }
 
 .kpi-zoom-sm {
-  zoom: 1;
+  zoom: 1.12;
   overflow: auto !important;
 }
 
