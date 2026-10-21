@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { createPortal } from "react-dom";
-import { 
-  ArrowRight, 
-  Clock, 
+import {
+  Clock,
   Users, 
   CheckCircle, 
   AlertTriangle, 
@@ -446,12 +445,6 @@ const PassengerJourney: React.FC = () => {
     }
   };
 
-  const getSlaColor = (compliance: number) => {
-    if (compliance >= 95) return 'text-status-neutral';
-    if (compliance >= 80) return 'text-status-warning'; 
-    return 'text-status-error';
-  };
-
   const getStatusTextColor = (status: string) => {
     switch (status) {
       case 'optimal': return 'text-status-neutral';
@@ -542,7 +535,7 @@ const PassengerJourney: React.FC = () => {
                     </div>
                     <div className="bg-primary-700/40 p-3 rounded-lg backdrop-blur-sm border border-primary-600/30">
                       <h4 className="text-sm font-semibold text-text-muted mb-2">SLA Compliance</h4>
-                      <span className={`font-medium flex items-center ${getSlaColor(selectedCheckpoint.slaCompliance)}`}>
+                      <span className={`font-medium flex items-center ${getStatusTextColor(selectedCheckpoint.status)}`}>
                         {selectedCheckpoint.slaCompliance}%
                         <TrendArrow trend={selectedCheckpoint.performance.trend} />
                       </span>
@@ -625,7 +618,7 @@ const PassengerJourney: React.FC = () => {
                         <div className="flex justify-between items-center p-3 bg-primary-600/30 rounded-lg">
                           <span className="text-text-secondary">SLA Compliance</span>
                           <div className="flex items-center">
-                            <span className={`font-medium mr-2 ${getSlaColor(selectedCheckpoint.slaCompliance)}`}>
+                            <span className={`font-medium mr-2 ${getStatusTextColor(selectedCheckpoint.status)}`}>
                               {selectedCheckpoint.slaCompliance}%
                             </span>
                             <TrendArrow trend={selectedCheckpoint.slaCompliance > 90 ? 'up' : selectedCheckpoint.slaCompliance < 80 ? 'down' : 'stable'} />
@@ -1463,29 +1456,23 @@ const PassengerJourney: React.FC = () => {
                       </div>
                       <div className="flex justify-between">
                         <span className="text-text-muted">SLA:</span>
-                        <span className={`font-semibold drop-shadow-sm flex items-center ${getSlaColor(checkpoint.slaCompliance)}`}>
+                        <span className={`font-semibold drop-shadow-sm flex items-center ${getStatusTextColor(checkpoint.status)}`}>
                           {checkpoint.slaCompliance}%
                           <TrendArrow trend={checkpoint.performance.trend} />
                         </span>
                       </div>
-                      
+
                       <div className="w-full bg-primary-700/50 rounded-full h-2 shadow-inner overflow-hidden">
-                        <div 
+                        <div
                           className={`h-2 rounded-full transition-all duration-500 shadow-sm relative ${
-                            checkpoint.slaCompliance >= 95 ? 'bg-status-neutral' :
-                            checkpoint.slaCompliance >= 80 ? 'bg-status-warning' :
+                            checkpoint.status === 'optimal' ? 'bg-status-neutral' :
+                            checkpoint.status === 'congested' ? 'bg-status-warning' :
                             'bg-status-error'
                           }`}
                           style={{ width: `${checkpoint.slaCompliance}%` }}
                         />
                       </div>
                     </div>
-
-                    {index < checkpoints.length - 1 && (
-                      <div className="hidden lg:block absolute -right-2 top-1/2 transform -translate-y-1/2">
-                        <ArrowRight className="w-4 h-4 text-teal-400 drop-shadow-lg" />
-                      </div>
-                    )}
                   </div>
                 </motion.div>
               );

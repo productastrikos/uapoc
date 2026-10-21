@@ -64,10 +64,10 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
   return (
     <div className="grain-overlay min-h-screen bg-primary-900 bg-gradient-mesh flex flex-col items-center justify-center relative overflow-hidden px-4 py-10">
       {/* Partner marks — Astrikos (wordmark), Intel, Dell, in that order */}
-      <div className="absolute top-6 right-6 z-10 flex items-center gap-5">
-        <img src="/astrikos-wordmark.png" alt="Astrikos" className="h-5 w-auto opacity-90" />
-        <img src="/intel-logo.png" alt="Intel" className="h-6 w-auto opacity-90" />
-        <img src="/dell-logo.png" alt="Dell" className="h-7 w-auto opacity-90" />
+      <div className="absolute top-6 right-6 z-10 flex items-center gap-6">
+        <img src="/astrikos-wordmark.png" alt="Astrikos" className="h-7 w-auto opacity-90" />
+        <img src="/intel-logo.png" alt="Intel" className="h-8 w-auto opacity-90" />
+        <img src="/dell-logo.png" alt="Dell" className="h-9 w-auto opacity-90" />
       </div>
 
       <div className="relative z-10 w-full max-w-md">

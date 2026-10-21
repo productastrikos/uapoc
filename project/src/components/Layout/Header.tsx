@@ -35,10 +35,10 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
         {/* Actions */}
         <div className="flex items-center space-x-4">
           {/* Partner marks — Astrikos (wordmark), Intel, Dell, in that order */}
-          <div className="hidden sm:flex items-center gap-4 pr-3 border-r border-accent-blue/15">
-            <img src="/astrikos-wordmark.png" alt="Astrikos" className="h-4 w-auto opacity-90" />
-            <img src="/intel-logo.png" alt="Intel" className="h-5 w-auto opacity-90" />
-            <img src="/dell-logo.png" alt="Dell" className="h-6 w-auto opacity-90" />
+          <div className="hidden sm:flex items-center gap-5 pr-4 border-r border-accent-blue/15">
+            <img src="/astrikos-wordmark.png" alt="Astrikos" className="h-6 w-auto opacity-90" />
+            <img src="/intel-logo.png" alt="Intel" className="h-7 w-auto opacity-90" />
+            <img src="/dell-logo.png" alt="Dell" className="h-8 w-auto opacity-90" />
           </div>
 
           {/* Logout - FUNCTIONAL */}

@@ -21,7 +21,12 @@
      app-wide 1.25 they were still the smallest text on any screen. The tab bar
      and subsystem strip inside this root carry `.fs-chrome` and stay small, so
      this lifts the data without inflating the navigation. */
-  --fs: 1.5;
+  /* Was tuned to 1.5 against the app's old 1.25 body base (a 1.2x lift). The
+   * app-wide base has since been rescaled down to 0.92 for normal desktop
+   * viewing, but this override was never re-tuned with it, so this whole
+   * console ended up rendering at ~1.6x the rest of the app instead of the
+   * intended 1.2x. Keeping the same 1.2x ratio off the new base. */
+  --fs: 1.1;
 
   /* Surfaces — translucent so the app's mesh gradient reads through, the
      same way the native TAMS consoles are built. */
