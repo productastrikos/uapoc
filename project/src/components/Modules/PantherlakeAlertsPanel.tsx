@@ -40,20 +40,26 @@ const UnattendedBaggageResponse: React.FC<{ alertId: string; onClose: () => void
   const alert = usePantherlakeStore((s) => s.baggageAlerts.find((a) => a.id === alertId));
   const setAlertStatus = usePantherlakeStore((s) => s.setAlertStatus);
   const resolvedRef = useRef(false);
-  const sop = useUnattendedBagSop(() => {
-    resolvedRef.current = true;
-    setAlertStatus(alertId, 'resolved');
-  });
+  // Whole run ≈ 10s at 1x: six 1.5s steps plus a 1s hold before resolving.
+  const sop = useUnattendedBagSop(
+    () => {
+      resolvedRef.current = true;
+      setAlertStatus(alertId, 'resolved');
+    },
+    { stepMs: 1500, resolveHoldMs: 1000 }
+  );
 
-  const started = useRef(false);
+  // Auto-run once per open. Deliberately no "already started" ref guard: in
+  // dev, React mounts → unmounts → remounts, and the unmount clears the SOP's
+  // timers — a guard would then stop the remount from restarting it, leaving
+  // the run stuck on step 1. Re-running on the remount is what recovers it.
   useEffect(() => {
-    if (started.current || !alert) return;
-    started.current = true;
+    const current = usePantherlakeStore.getState().baggageAlerts.find((a) => a.id === alertId);
+    if (!current) return;
     setAlertStatus(alertId, 'executing');
-    sop.executeSOP(toIncident(alert));
-    // Only ever auto-run once per open.
+    sop.executeSOP(toIncident(current));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [alert]);
+  }, []);
 
   const close = () => {
     // Closed mid-run: the procedure didn't finish, so the alert goes back to

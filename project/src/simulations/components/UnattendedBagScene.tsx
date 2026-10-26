@@ -9,7 +9,7 @@
  */
 
 import React, { useState } from 'react';
-import { Shield, PlayCircle, Gauge, Activity } from 'lucide-react';
+import { Shield, PlayCircle, Activity } from 'lucide-react';
 import { SecurityIncident, SecuritySOP } from '../types';
 import SOPPanel from './SOPPanel';
 import IsoSecurityScene from '../scenes/IsoSecurityScene';
@@ -42,13 +42,25 @@ const BASE_SOP: SecuritySOP = {
   currentStep: 0,
 };
 
-export function useUnattendedBagSop(onResolve?: (incidentId: string) => void) {
+interface SopTiming {
+  /** Fixed time per step (ms) instead of the default per-step pacing. */
+  stepMs?: number;
+  /** How long the finished run holds before resolving (ms). */
+  resolveHoldMs?: number;
+}
+
+export function useUnattendedBagSop(onResolve?: (incidentId: string) => void, timing: SopTiming = {}) {
   const [activeSOP, setActiveSOP] = useState<SecuritySOP | null>(null);
   /** Step index driving the isometric scene; -1 when no SOP is running. */
   const [sopStep, setSopStep] = useState(-1);
-  /** Playback rate for the walk-through; 1x is deliberately unhurried. */
-  const [speed, setSpeed] = useState(1);
   const { schedule, clearAll } = useManagedTimers();
+
+  // Default pacing is long enough that each step's scene change — cameras
+  // slewing, doors locking, the team walking in — can be watched; a host can
+  // override it with a fixed per-step time.
+  const gapMs = timing.stepMs ? timing.stepMs * 0.2 : 1400;
+  const activeMs = (stepIndex: number) =>
+    timing.stepMs ? timing.stepMs * 0.8 : Math.max(3800, BASE_SOP.steps[stepIndex].duration * 320);
 
   const executeSOP = (incident: SecurityIncident) => {
     if (activeSOP) return;
@@ -69,7 +81,7 @@ export function useUnattendedBagSop(onResolve?: (incidentId: string) => void) {
           onResolve?.(incident.id);
           setActiveSOP(null);
           setSopStep(-1);
-        }, 5000);
+        }, timing.resolveHoldMs ?? 5000);
         return;
       }
 
@@ -93,10 +105,8 @@ export function useUnattendedBagSop(onResolve?: (incidentId: string) => void) {
             index === stepIndex ? { ...step, status: 'completed' as const, completedAt: new Date() } : step
           ),
         } : null);
-        schedule(() => executeStep(stepIndex + 1), 1400 / speed);
-        // Long enough that each step's scene change — cameras slewing, doors
-        // locking, the team walking in — can actually be watched.
-      }, Math.max(3800, BASE_SOP.steps[stepIndex].duration * 320) / speed);
+        schedule(() => executeStep(stepIndex + 1), gapMs);
+      }, activeMs(stepIndex));
     };
 
     executeStep(0);
@@ -106,8 +116,6 @@ export function useUnattendedBagSop(onResolve?: (incidentId: string) => void) {
   return {
     activeSOP,
     sopStep,
-    speed,
-    setSpeed,
     executeSOP,
     totalSteps: BASE_SOP.steps.length,
     alertActive: running,
@@ -133,7 +141,7 @@ interface SceneProps {
 }
 
 export const UnattendedBagScene: React.FC<SceneProps> = ({ sop, incident, title, subtitle, actionLabel, readout }) => {
-  const { activeSOP, sopStep, speed, setSpeed, executeSOP, totalSteps } = sop;
+  const { activeSOP, sopStep, executeSOP, totalSteps } = sop;
   const stat = readout ?? { label: 'AI Confidence:', value: `${incident.aiConfidence ?? 94}%` };
 
   return (
@@ -150,21 +158,6 @@ export const UnattendedBagScene: React.FC<SceneProps> = ({ sop, incident, title,
         </div>
 
         <div className="flex flex-wrap items-center gap-2.5">
-          <div className="flex items-center gap-2 bg-primary-900/40 border border-primary-600/40 rounded-lg px-2.5 py-2">
-            <Gauge className="w-4 h-4 text-accent-blue" />
-            <label className="text-xs text-text-muted">Speed</label>
-            <select
-              value={speed}
-              onChange={(e) => setSpeed(Number(e.target.value))}
-              disabled={!!activeSOP}
-              className="bg-primary-900 border border-primary-600 rounded px-2 py-1 text-text-primary text-xs"
-            >
-              <option value={0.5}>0.5x — study</option>
-              <option value={1}>1x — normal</option>
-              <option value={2}>2x — fast</option>
-            </select>
-          </div>
-
           <button
             onClick={() => executeSOP(incident)}
             disabled={!!activeSOP}
