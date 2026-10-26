@@ -50,6 +50,17 @@ import { ensurePantherlakeConnected, usePantherlakeStore, PANTHERLAKE_ZONES } fr
 
 const PANTHERLAKE_ZONE_BY_CHECKPOINT = new Map(PANTHERLAKE_ZONES.map((z) => [z.checkpointId, z]));
 
+/** Where each zone's pin sits on the digital twin panel — purely a 2D overlay
+ *  position (the embed is a cross-origin 3rd-party iframe, so there's no way
+ *  to hook a pin to an actual point in the 3D scene or its camera). Spread
+ *  across the four corners of the viewport so they don't crowd the model. */
+const ZONE_PIN_POSITION: Record<string, { top: string; left: string; vAnchor: 'top' | 'bottom'; hAnchor: 'left' | 'right' }> = {
+  'terminal-entry': { top: '22%', left: '12%', vAnchor: 'top', hAnchor: 'left' },
+  'check-in': { top: '22%', left: '85%', vAnchor: 'top', hAnchor: 'right' },
+  'customs': { top: '78%', left: '12%', vAnchor: 'bottom', hAnchor: 'left' },
+  'airside': { top: '78%', left: '85%', vAnchor: 'bottom', hAnchor: 'right' },
+};
+
 // Trend Arrow Component
 const TrendArrow: React.FC<{ trend: 'up' | 'down' | 'stable'; value?: number }> = ({ trend, value }) => {
   // Scopes the AI Advisory drawer to this console.
@@ -314,6 +325,8 @@ const PassengerJourney: React.FC = () => {
     const live = zone ? pantherlakeQueues[zone.cameraId] : undefined;
     return live ? { ...cp, currentQueue: live.queueLength } : cp;
   }), [pantherlakeQueues]);
+
+  const [activeZonePin, setActiveZonePin] = useState<string | null>(null);
 
   const [selectedCheckpoint, setSelectedCheckpoint] = useState<CheckpointData | null>(null);
   const [showModal, setShowModal] = useState(false);
@@ -1395,17 +1408,77 @@ const PassengerJourney: React.FC = () => {
               </div>
             </div>
 
-            <div className="sketchfab-embed-wrapper rounded-lg overflow-hidden border border-teal-500/20">
-              <iframe 
-                title="Airport Check-in Building 01" 
-                frameBorder="0" 
-                allowFullScreen 
+            <div className="sketchfab-embed-wrapper relative rounded-lg overflow-hidden border border-teal-500/20">
+              <iframe
+                title="Airport Check-in Building 01"
+                frameBorder="0"
+                allowFullScreen
                 mozAllowFullScreen={true}
                 webkitAllowFullScreen={true}
-                allow="autoplay; fullscreen; xr-spatial-tracking" 
+                allow="autoplay; fullscreen; xr-spatial-tracking"
                 src="https://sketchfab.com/models/82ae6c35eec446b49100da2039f3af57/embed?autostart=1&camera=0&preload=1&transparent=1&ui_infos=0"
                 className="w-full h-96"
               />
+
+              {/* Pantherlake zone pins — click one to see its live queue
+                  reading. The embed is a cross-origin third-party iframe, so
+                  these are an overlay positioned over the viewport rather
+                  than hooked to any point inside the actual 3D scene. */}
+              {PANTHERLAKE_ZONES.map((zone) => {
+                const pos = ZONE_PIN_POSITION[zone.checkpointId];
+                if (!pos) return null;
+                const checkpoint = checkpoints.find((cp) => cp.id === zone.checkpointId);
+                const live = pantherlakeQueues[zone.cameraId];
+                const isOpen = activeZonePin === zone.checkpointId;
+                return (
+                  <div key={zone.cameraId} className="absolute z-20" style={{ top: pos.top, left: pos.left, transform: 'translate(-50%, -50%)' }}>
+                    <button
+                      onClick={() => setActiveZonePin(isOpen ? null : zone.checkpointId)}
+                      title={`${zone.zoneLabel} — ${checkpoint?.name ?? ''}`}
+                      className={`relative flex items-center justify-center w-8 h-8 rounded-full border-2 shadow-lg transition-colors ${
+                        isOpen ? 'bg-accent-blue border-white text-white' : live ? 'bg-accent-teal/90 border-white/80 text-primary-900' : 'bg-primary-700/90 border-white/40 text-text-secondary'
+                      }`}
+                    >
+                      {live && !isOpen && (
+                        <span className="absolute inset-0 rounded-full bg-accent-teal animate-ping opacity-60" />
+                      )}
+                      <MapPin className="w-4 h-4 relative z-10" />
+                    </button>
+
+                    <AnimatePresence>
+                      {isOpen && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -6, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: -6, scale: 0.95 }}
+                          transition={{ duration: 0.15 }}
+                          className="glass-panel-strong absolute z-30 w-48 rounded-xl p-3 text-left"
+                          style={{
+                            top: pos.vAnchor === 'bottom' ? 'auto' : 'calc(100% + 10px)',
+                            bottom: pos.vAnchor === 'bottom' ? 'calc(100% + 10px)' : 'auto',
+                            left: pos.hAnchor === 'right' ? 'auto' : '50%',
+                            right: pos.hAnchor === 'right' ? '0' : 'auto',
+                            transform: pos.hAnchor === 'right' ? 'none' : 'translateX(-50%)',
+                          }}
+                        >
+                          <div className="flex items-center gap-1.5 mb-1.5">
+                            <span className={`w-1.5 h-1.5 rounded-full ${live ? 'bg-accent-teal animate-pulse' : 'bg-text-muted'}`} />
+                            <span className="text-[10px] font-semibold uppercase tracking-wide text-accent-teal">{zone.zoneLabel} · Pantherlake</span>
+                          </div>
+                          <p className="text-sm font-semibold text-white mb-1">{checkpoint?.name}</p>
+                          <div className="flex items-baseline gap-1">
+                            <span className="text-2xl font-bold text-white">{checkpoint?.currentQueue ?? '—'}</span>
+                            <span className="text-xs text-text-muted">in queue</span>
+                          </div>
+                          <p className="text-[10px] text-text-muted mt-1">
+                            {live ? `Live · ${zone.cameraId}` : 'Waiting for data…'}
+                          </p>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                );
+              })}
             </div>
 
             <div className="flex items-center justify-between mt-4 text-sm">
