@@ -360,12 +360,20 @@ const PassengerJourney: React.FC = () => {
           sketchfabApiRef.current = api;
           api.start();
           api.addEventListener('viewerready', () => {
-            if (!cancelled) setTwinReady(true);
+            if (cancelled) return;
+            // Diagnostic — open devtools and look for this to see exactly
+            // how many annotations this model has and what's in them, since
+            // ZONE_ANNOTATION_INDEX is a guess at which four to use.
+            api.getAnnotationList((err, annotations) => {
+              // eslint-disable-next-line no-console
+              console.log('[Pantherlake] model annotations:', err ?? annotations);
+            });
+            setTwinReady(true);
           });
         },
         error: () => {
-          // The embed's own "Something went wrong" cover already communicates
-          // this; the annotations just never get rewritten.
+          // eslint-disable-next-line no-console
+          console.error('[Pantherlake] Sketchfab viewer failed to initialize');
         },
       });
     });
@@ -384,12 +392,21 @@ const PassengerJourney: React.FC = () => {
       if (index === undefined) return;
       const checkpoint = checkpoints.find((cp) => cp.id === zone.checkpointId);
       const live = pantherlakeQueues[zone.cameraId];
-      api.updateAnnotation(index, {
-        title: `${zone.zoneLabel} · ${checkpoint?.name ?? ''}`,
-        content: live
-          ? `**${live.queueLength}** passengers in queue — live from Pantherlake (${zone.cameraId})`
-          : `Waiting for live Pantherlake data (${zone.cameraId})…`,
-      });
+      api.updateAnnotation(
+        index,
+        {
+          title: `${zone.zoneLabel} · ${checkpoint?.name ?? ''}`,
+          content: live
+            ? `**${live.queueLength}** passengers in queue — live from Pantherlake (${zone.cameraId})`
+            : `Waiting for live Pantherlake data (${zone.cameraId})…`,
+        },
+        (err) => {
+          if (err) {
+            // eslint-disable-next-line no-console
+            console.error(`[Pantherlake] updateAnnotation(${index}) for ${zone.zoneLabel} failed:`, err);
+          }
+        }
+      );
     });
   }, [twinReady, checkpoints, pantherlakeQueues]);
 
@@ -1460,10 +1477,10 @@ const PassengerJourney: React.FC = () => {
         <AiInsightPanel domain="passenger" />
 
         {/* Digital Twin Visualization */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="relative overflow-hidden bg-primary-800/50 rounded-xl p-5 border border-teal-500/30 backdrop-blur-sm shadow-2xl"
+          className="glass-panel relative overflow-hidden rounded-xl p-5"
         >
           <div className="relative z-10">
             <div className="flex items-center justify-between mb-4">
@@ -1471,9 +1488,20 @@ const PassengerJourney: React.FC = () => {
                 <h3 className="text-xl font-bold text-white drop-shadow-md">Passenger Journey Digital Twin</h3>
                 <InfoButtonWithPortal description="Interactive 3D visualization of terminal passenger flow with real-time occupancy data, journey tracking, emergency routing, and predictive analytics." />
               </div>
+              <span
+                title="Live queue-length feed from the Pantherlake edge node (Zones A-D)"
+                className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${
+                  pantherlakeConnected
+                    ? 'bg-accent-teal/10 border-accent-teal/30 text-accent-teal'
+                    : 'bg-primary-600/30 border-primary-500/40 text-text-muted'
+                }`}
+              >
+                <span className={`w-1.5 h-1.5 rounded-full ${pantherlakeConnected ? 'bg-accent-teal animate-pulse' : 'bg-text-muted'}`} />
+                Pantherlake {pantherlakeConnected ? 'Live' : 'Connecting…'}
+              </span>
             </div>
 
-            <div className="sketchfab-embed-wrapper relative rounded-lg overflow-hidden border border-teal-500/20">
+            <div className="sketchfab-embed-wrapper relative rounded-lg overflow-hidden border border-primary-500/30">
               <iframe
                 ref={twinIframeRef}
                 title="Airport Check-in Building 01"
@@ -1486,30 +1514,42 @@ const PassengerJourney: React.FC = () => {
                 className="w-full h-96"
               />
 
-              {/* No custom overlay here — four of the model's own 13 native
-                  annotations now carry the live Pantherlake queue data (see
-                  the effect above), so they render, fade behind walls and
-                  open on click exactly like the rest of the model's
-                  annotations, natively. */}
+              {/* No custom overlay drawn here — four of the model's own 13
+                  native annotations carry the live Pantherlake queue data
+                  (see the effect above), so in-model they render, fade
+                  behind walls and open on click exactly like the rest of
+                  the model's own annotations. The strip below is the
+                  guaranteed-visible readout of the same four numbers, in
+                  case an annotation is slow to pick up a relabel. */}
             </div>
 
-            <div className="flex items-center justify-between mt-4 text-sm">
-              <div className="flex space-x-4">
-                <span className="flex items-center space-x-1">
-                  <span className="w-2 h-2 bg-status-neutral rounded-full animate-pulse"></span>
-                  <span className="text-text-secondary">Low Density</span>
-                </span>
-                <span className="flex items-center space-x-1">
-                  <span className="w-2 h-2 bg-status-warning rounded-full animate-pulse"></span>
-                  <span className="text-text-secondary">Medium Density</span>
-                </span>
-                <span className="flex items-center space-x-1">
-                  <span className="w-2 h-2 bg-status-error rounded-full animate-pulse"></span>
-                  <span className="text-text-secondary">High Density</span>
-                </span>
-              </div>
-              <div className="text-text-muted">Last Updated: {new Date().toLocaleTimeString()}</div>
+            {/* Zone readout — same four numbers the relabeled annotations
+                carry, always visible regardless of where the camera is
+                pointed or whether a given annotation has refreshed yet. */}
+            <div className="grid grid-cols-4 gap-2 mt-3">
+              {PANTHERLAKE_ZONES.map((zone) => {
+                const checkpoint = checkpoints.find((cp) => cp.id === zone.checkpointId);
+                const live = pantherlakeQueues[zone.cameraId];
+                return (
+                  <div
+                    key={zone.cameraId}
+                    className={`rounded-lg px-3 py-2 border ${live ? 'bg-accent-teal/10 border-accent-teal/30' : 'bg-primary-700/40 border-primary-600/40'}`}
+                  >
+                    <div className="flex items-center gap-1.5">
+                      <span className={`w-1.5 h-1.5 rounded-full ${live ? 'bg-accent-teal animate-pulse' : 'bg-text-muted'}`} />
+                      <span className="text-[10px] font-semibold uppercase tracking-wide text-text-muted">{zone.zoneLabel}</span>
+                    </div>
+                    <p className="text-xs text-text-secondary truncate mt-0.5">{checkpoint?.name}</p>
+                    <div className="flex items-baseline gap-1 mt-0.5">
+                      <span className="text-lg font-bold text-white">{checkpoint?.currentQueue ?? '—'}</span>
+                      <span className="text-[10px] text-text-muted">in queue</span>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
+
+            <div className="text-right text-xs text-text-muted mt-2">Last Updated: {new Date().toLocaleTimeString()}</div>
           </div>
         </motion.div>
 
