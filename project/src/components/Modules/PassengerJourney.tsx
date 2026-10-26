@@ -1514,39 +1514,12 @@ const PassengerJourney: React.FC = () => {
                 className="w-full h-96"
               />
 
-              {/* No custom overlay drawn here — four of the model's own 13
-                  native annotations carry the live Pantherlake queue data
-                  (see the effect above), so in-model they render, fade
-                  behind walls and open on click exactly like the rest of
-                  the model's own annotations. The strip below is the
-                  guaranteed-visible readout of the same four numbers, in
-                  case an annotation is slow to pick up a relabel. */}
-            </div>
-
-            {/* Zone readout — same four numbers the relabeled annotations
-                carry, always visible regardless of where the camera is
-                pointed or whether a given annotation has refreshed yet. */}
-            <div className="grid grid-cols-4 gap-2 mt-3">
-              {PANTHERLAKE_ZONES.map((zone) => {
-                const checkpoint = checkpoints.find((cp) => cp.id === zone.checkpointId);
-                const live = pantherlakeQueues[zone.cameraId];
-                return (
-                  <div
-                    key={zone.cameraId}
-                    className={`rounded-lg px-3 py-2 border ${live ? 'bg-accent-teal/10 border-accent-teal/30' : 'bg-primary-700/40 border-primary-600/40'}`}
-                  >
-                    <div className="flex items-center gap-1.5">
-                      <span className={`w-1.5 h-1.5 rounded-full ${live ? 'bg-accent-teal animate-pulse' : 'bg-text-muted'}`} />
-                      <span className="text-[10px] font-semibold uppercase tracking-wide text-text-muted">{zone.zoneLabel}</span>
-                    </div>
-                    <p className="text-xs text-text-secondary truncate mt-0.5">{checkpoint?.name}</p>
-                    <div className="flex items-baseline gap-1 mt-0.5">
-                      <span className="text-lg font-bold text-white">{checkpoint?.currentQueue ?? '—'}</span>
-                      <span className="text-[10px] text-text-muted">in queue</span>
-                    </div>
-                  </div>
-                );
-              })}
+              {/* No custom overlay drawn here, and no readout elsewhere on
+                  the page either — four of the model's own 13 native
+                  annotations carry the live Pantherlake queue data (see the
+                  effect above), so clicking one of those zones inside the
+                  3D model itself is the only place this data shows, exactly
+                  like the rest of the model's own annotations. */}
             </div>
 
             <div className="text-right text-xs text-text-muted mt-2">Last Updated: {new Date().toLocaleTimeString()}</div>
