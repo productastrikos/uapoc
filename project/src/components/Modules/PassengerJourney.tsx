@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { createPortal } from "react-dom";
 import {
@@ -46,6 +46,9 @@ import DetailModal from '../UI/DetailModal';
 import { useToast } from "../../hooks/useToast";
 import AiInsightPanel from '../../ai/components/AiInsightPanel';
 import { useAiDomain } from '../../ai/store';
+import { ensurePantherlakeConnected, usePantherlakeStore, PANTHERLAKE_ZONES } from '../../services/pantherlakeMqtt';
+
+const PANTHERLAKE_ZONE_BY_CHECKPOINT = new Map(PANTHERLAKE_ZONES.map((z) => [z.checkpointId, z]));
 
 // Trend Arrow Component
 const TrendArrow: React.FC<{ trend: 'up' | 'down' | 'stable'; value?: number }> = ({ trend, value }) => {
@@ -121,8 +124,11 @@ interface CheckpointData {
   };
 }
 
-// Enhanced checkpoint data
-const checkpoints: CheckpointData[] = [
+// Enhanced checkpoint data — the baseline/demo values. currentQueue on the
+// four Pantherlake-mapped checkpoints (see PANTHERLAKE_ZONES) is overlaid
+// with live MQTT data once it starts arriving; everything else here stays
+// the existing synthetic data, unaffected.
+const BASE_CHECKPOINTS: CheckpointData[] = [
   {
     id: 'terminal-entry',
     name: 'Terminal Entry',
@@ -297,6 +303,18 @@ const checkpoints: CheckpointData[] = [
 
 const PassengerJourney: React.FC = () => {
   const { addToast } = useToast();
+
+  // Live queue lengths from the Pantherlake edge node (Zones A-D), overlaid
+  // onto the four checkpoints they correspond to — see pantherlakeMqtt.ts.
+  useEffect(() => { ensurePantherlakeConnected(); }, []);
+  const pantherlakeQueues = usePantherlakeStore((s) => s.queues);
+  const pantherlakeConnected = usePantherlakeStore((s) => s.connected);
+  const checkpoints = useMemo<CheckpointData[]>(() => BASE_CHECKPOINTS.map((cp) => {
+    const zone = PANTHERLAKE_ZONE_BY_CHECKPOINT.get(cp.id);
+    const live = zone ? pantherlakeQueues[zone.cameraId] : undefined;
+    return live ? { ...cp, currentQueue: live.queueLength } : cp;
+  }), [pantherlakeQueues]);
+
   const [selectedCheckpoint, setSelectedCheckpoint] = useState<CheckpointData | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [showAIAdvisoryModal, setShowAIAdvisoryModal] = useState(false);
@@ -1324,6 +1342,17 @@ const PassengerJourney: React.FC = () => {
               <p className="text-text-muted text-sm">End-to-end passenger experience tracking & flow optimization</p>
             </div>
             <InfoButtonWithPortal description="Comprehensive passenger journey monitoring with 10-step checkpoint analysis, real-time bottleneck prediction, SLA compliance tracking, and AI-powered flow optimization." />
+            <span
+              title="Live queue-length feed from the Pantherlake edge node (Zones A-D)"
+              className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${
+                pantherlakeConnected
+                  ? 'bg-accent-teal/10 border-accent-teal/30 text-accent-teal'
+                  : 'bg-primary-600/30 border-primary-500/40 text-text-muted'
+              }`}
+            >
+              <span className={`w-1.5 h-1.5 rounded-full ${pantherlakeConnected ? 'bg-accent-teal animate-pulse' : 'bg-text-muted'}`} />
+              Pantherlake {pantherlakeConnected ? 'Live' : 'Connecting…'}
+            </span>
           </div>
 
           <div className="flex space-x-2">
@@ -1409,7 +1438,9 @@ const PassengerJourney: React.FC = () => {
             {checkpoints.map((checkpoint, index) => {
               const Icon = checkpoint.icon;
               const isActive = selectedCheckpoint?.id === checkpoint.id;
-              
+              const zone = PANTHERLAKE_ZONE_BY_CHECKPOINT.get(checkpoint.id);
+              const isLive = !!zone && !!pantherlakeQueues[zone.cameraId];
+
               return (
                 <motion.div
                   key={checkpoint.id}
@@ -1439,10 +1470,25 @@ const PassengerJourney: React.FC = () => {
                       </span>
                     </div>
                     
-                    <h4 className="text-white font-semibold text-sm mb-3 drop-shadow-md group-hover:text-teal-100 transition-colors duration-300">
-                      {checkpoint.name}
-                    </h4>
-                    
+                    <div className="flex items-center gap-1.5 mb-3">
+                      <h4 className="text-white font-semibold text-sm drop-shadow-md group-hover:text-teal-100 transition-colors duration-300">
+                        {checkpoint.name}
+                      </h4>
+                      {zone && (
+                        <span
+                          title={isLive ? `Live from Pantherlake ${zone.cameraId}` : `Pantherlake ${zone.zoneLabel} — waiting for data`}
+                          className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[9px] font-semibold uppercase tracking-wide border ${
+                            isLive
+                              ? 'bg-accent-teal/15 border-accent-teal/40 text-accent-teal'
+                              : 'bg-primary-600/30 border-primary-500/40 text-text-muted'
+                          }`}
+                        >
+                          <span className={`w-1.5 h-1.5 rounded-full ${isLive ? 'bg-accent-teal animate-pulse' : 'bg-text-muted'}`} />
+                          {zone.zoneLabel}
+                        </span>
+                      )}
+                    </div>
+
                     <div className="space-y-2 text-xs">
                       <div className="flex justify-between">
                         <span className="text-text-muted">Queue:</span>
