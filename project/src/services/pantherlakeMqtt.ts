@@ -39,14 +39,14 @@ export const usePantherlakeStore = create<PantherlakeState>(() => ({
 }));
 
 /** Which of Passenger Journey's existing checkpoints each Pantherlake camera
- *  feeds — the four checkpoints with the most real-world queue buildup, so
- *  "Zone A/B/C/D" (Pantherlake's own naming) land on seats that already
- *  exist on the platform rather than new UI being invented for them. */
+ *  feeds — "Zone A/B/C/D" (Pantherlake's own naming) land on seats that
+ *  already exist on the platform rather than new UI being invented for
+ *  them. */
 export const PANTHERLAKE_ZONES: Array<{ cameraId: string; checkpointId: string; zoneLabel: string }> = [
   { cameraId: 'camera_01', checkpointId: 'terminal-entry', zoneLabel: 'Zone A' },
   { cameraId: 'camera_02', checkpointId: 'check-in', zoneLabel: 'Zone B' },
-  { cameraId: 'camera_03', checkpointId: 'security', zoneLabel: 'Zone C' },
-  { cameraId: 'camera_04', checkpointId: 'immigration', zoneLabel: 'Zone D' },
+  { cameraId: 'camera_03', checkpointId: 'customs', zoneLabel: 'Zone C' },
+  { cameraId: 'camera_04', checkpointId: 'airside', zoneLabel: 'Zone D' },
 ];
 
 let client: MqttClient | null = null;
