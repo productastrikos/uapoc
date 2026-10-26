@@ -52,25 +52,23 @@ import { loadSketchfabScript, type SketchfabApi } from '../../services/sketchfab
 const PANTHERLAKE_ZONE_BY_CHECKPOINT = new Map(PANTHERLAKE_ZONES.map((z) => [z.checkpointId, z]));
 
 /**
- * A 3D point inside the digital-twin model for each zone, in the model's own
- * world coordinates — not a 2D screen position, so the pin tracks the actual
- * spot in the scene as the camera orbits/pans/zooms (via the Sketchfab Viewer
- * API's getWorldToScreenCoordinates, polled on an interval below).
+ * The digital twin model already ships with 13 of its own numbered
+ * annotations (Sketchfab's native waypoint/pose markers) — the ones that
+ * fade out behind walls and look native, because they are native. Rather
+ * than drawing our own markers on top (which can't depth-test against the
+ * model and so stayed visible through geometry), four of the model's own
+ * annotations are repurposed to show live Pantherlake data: their title and
+ * body text are rewritten via the Viewer API's updateAnnotation, so they
+ * inherit the model's own rendering, occlusion and click behavior exactly.
  *
- * These four are starting placeholders, not calibrated against the real
- * model geometry — there's no way to read a 3D model's coordinate space
- * without seeing it rendered. To calibrate: open this console in a real
- * browser (not needed in Chromium headless, which can't render this model
- * at all), orbit to the real Zone 1/2/3/4 markers visible in the model, and
- * click each one — a 'click' listener below logs the exact 3D point clicked
- * to the browser console as "[Pantherlake calibration]". Paste those four
- * [x, y, z] arrays in here in place of the placeholders.
+ * Picked the first four (indices 0-3) by default — if a different four of
+ * the thirteen should carry the live data instead, swap the indices here.
  */
-const ZONE_WORLD_POS: Record<string, [number, number, number]> = {
-  'terminal-entry': [-4, 0, 6],
-  'check-in': [4, 0, 6],
-  'customs': [-4, 0, -6],
-  'airside': [4, 0, -6],
+const ZONE_ANNOTATION_INDEX: Record<string, number> = {
+  'terminal-entry': 0,
+  'check-in': 1,
+  'customs': 2,
+  'airside': 3,
 };
 
 // Trend Arrow Component
@@ -338,18 +336,15 @@ const PassengerJourney: React.FC = () => {
     return live ? { ...cp, currentQueue: live.queueLength } : cp;
   }), [pantherlakeQueues]);
 
-  const [activeZonePin, setActiveZonePin] = useState<string | null>(null);
-
-  // 3D-anchored zone pins — tracks each zone's world position onto the
-  // viewer's screen space every tick, so the pin follows the model as the
-  // camera moves instead of sitting fixed over the iframe.
+  // Digital twin — boots the Sketchfab Viewer API against the embed (rather
+  // than a static src URL) so the model's own 13 built-in annotations can be
+  // read and rewritten once it's ready.
   const twinIframeRef = React.useRef<HTMLIFrameElement>(null);
   const sketchfabApiRef = React.useRef<SketchfabApi | null>(null);
-  const [pinScreenPos, setPinScreenPos] = useState<Record<string, { x: number; y: number }>>({});
+  const [twinReady, setTwinReady] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
-    let pollId: ReturnType<typeof setInterval> | undefined;
 
     loadSketchfabScript().then(() => {
       if (cancelled || !twinIframeRef.current || !window.Sketchfab) return;
@@ -365,37 +360,38 @@ const PassengerJourney: React.FC = () => {
           sketchfabApiRef.current = api;
           api.start();
           api.addEventListener('viewerready', () => {
-            // Lets a person calibrating zone positions click a spot in the
-            // model and read its exact 3D coordinates straight off the
-            // console, instead of guessing — see ZONE_WORLD_POS above.
-            api.addEventListener('click', (info) => {
-              // eslint-disable-next-line no-console
-              console.log('[Pantherlake calibration] clicked 3D point:', info);
-            });
-
-            pollId = setInterval(() => {
-              Object.entries(ZONE_WORLD_POS).forEach(([checkpointId, world]) => {
-                api.getWorldToScreenCoordinates(world, (coord) => {
-                  if (cancelled) return;
-                  const [x, y] = coord.canvasCoord;
-                  setPinScreenPos((prev) => ({ ...prev, [checkpointId]: { x, y } }));
-                });
-              });
-            }, 150);
+            if (!cancelled) setTwinReady(true);
           });
         },
         error: () => {
           // The embed's own "Something went wrong" cover already communicates
-          // this; the pins just never appear rather than sitting on a guess.
+          // this; the annotations just never get rewritten.
         },
       });
     });
 
-    return () => {
-      cancelled = true;
-      if (pollId) clearInterval(pollId);
-    };
+    return () => { cancelled = true; };
   }, []);
+
+  // Re-labels four of the model's own 13 native annotations to show live
+  // Pantherlake data — inherits the model's own rendering (fades behind
+  // walls, native tooltip styling) instead of a custom overlay drawn on top.
+  useEffect(() => {
+    const api = sketchfabApiRef.current;
+    if (!twinReady || !api) return;
+    PANTHERLAKE_ZONES.forEach((zone) => {
+      const index = ZONE_ANNOTATION_INDEX[zone.checkpointId];
+      if (index === undefined) return;
+      const checkpoint = checkpoints.find((cp) => cp.id === zone.checkpointId);
+      const live = pantherlakeQueues[zone.cameraId];
+      api.updateAnnotation(index, {
+        title: `${zone.zoneLabel} · ${checkpoint?.name ?? ''}`,
+        content: live
+          ? `**${live.queueLength}** passengers in queue — live from Pantherlake (${zone.cameraId})`
+          : `Waiting for live Pantherlake data (${zone.cameraId})…`,
+      });
+    });
+  }, [twinReady, checkpoints, pantherlakeQueues]);
 
   const [selectedCheckpoint, setSelectedCheckpoint] = useState<CheckpointData | null>(null);
   const [showModal, setShowModal] = useState(false);
@@ -1490,67 +1486,11 @@ const PassengerJourney: React.FC = () => {
                 className="w-full h-96"
               />
 
-              {/* Pantherlake zone pins — anchored to a 3D point in the model
-                  (see ZONE_WORLD_POS), so they track the real scene as the
-                  camera orbits/pans/zooms, rather than sitting fixed over
-                  the viewport. Click one to see its live queue reading. */}
-              {PANTHERLAKE_ZONES.map((zone) => {
-                const screen = pinScreenPos[zone.checkpointId];
-                if (!screen) return null;
-                const checkpoint = checkpoints.find((cp) => cp.id === zone.checkpointId);
-                const live = pantherlakeQueues[zone.cameraId];
-                const isOpen = activeZonePin === zone.checkpointId;
-                const onRight = screen.x > 192; // half the w-96 wrapper's typical rendered width
-                const onBottom = screen.y > 192;
-                return (
-                  <div key={zone.cameraId} className="absolute z-20" style={{ top: screen.y, left: screen.x, transform: 'translate(-50%, -50%)' }}>
-                    <button
-                      onClick={() => setActiveZonePin(isOpen ? null : zone.checkpointId)}
-                      title={`${zone.zoneLabel} — ${checkpoint?.name ?? ''}`}
-                      className={`relative flex items-center justify-center w-8 h-8 rounded-full border-2 shadow-lg transition-colors ${
-                        isOpen ? 'bg-accent-blue border-white text-white' : live ? 'bg-accent-teal/90 border-white/80 text-primary-900' : 'bg-primary-700/90 border-white/40 text-text-secondary'
-                      }`}
-                    >
-                      {live && !isOpen && (
-                        <span className="absolute inset-0 rounded-full bg-accent-teal animate-ping opacity-60" />
-                      )}
-                      <MapPin className="w-4 h-4 relative z-10" />
-                    </button>
-
-                    <AnimatePresence>
-                      {isOpen && (
-                        <motion.div
-                          initial={{ opacity: 0, y: -6, scale: 0.95 }}
-                          animate={{ opacity: 1, y: 0, scale: 1 }}
-                          exit={{ opacity: 0, y: -6, scale: 0.95 }}
-                          transition={{ duration: 0.15 }}
-                          className="glass-panel-strong absolute z-30 w-48 rounded-xl p-3 text-left"
-                          style={{
-                            top: onBottom ? 'auto' : 'calc(100% + 10px)',
-                            bottom: onBottom ? 'calc(100% + 10px)' : 'auto',
-                            left: onRight ? 'auto' : '50%',
-                            right: onRight ? '0' : 'auto',
-                            transform: onRight ? 'none' : 'translateX(-50%)',
-                          }}
-                        >
-                          <div className="flex items-center gap-1.5 mb-1.5">
-                            <span className={`w-1.5 h-1.5 rounded-full ${live ? 'bg-accent-teal animate-pulse' : 'bg-text-muted'}`} />
-                            <span className="text-[10px] font-semibold uppercase tracking-wide text-accent-teal">{zone.zoneLabel} · Pantherlake</span>
-                          </div>
-                          <p className="text-sm font-semibold text-white mb-1">{checkpoint?.name}</p>
-                          <div className="flex items-baseline gap-1">
-                            <span className="text-2xl font-bold text-white">{checkpoint?.currentQueue ?? '—'}</span>
-                            <span className="text-xs text-text-muted">in queue</span>
-                          </div>
-                          <p className="text-[10px] text-text-muted mt-1">
-                            {live ? `Live · ${zone.cameraId}` : 'Waiting for data…'}
-                          </p>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                );
-              })}
+              {/* No custom overlay here — four of the model's own 13 native
+                  annotations now carry the live Pantherlake queue data (see
+                  the effect above), so they render, fade behind walls and
+                  open on click exactly like the rest of the model's
+                  annotations, natively. */}
             </div>
 
             <div className="flex items-center justify-between mt-4 text-sm">

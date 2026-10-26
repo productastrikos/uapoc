@@ -26,12 +26,25 @@ export interface SketchfabCanvasCoord {
   glCoord: [number, number];
 }
 
+export interface SketchfabAnnotationOptions {
+  title?: string;
+  content?: string;
+  eye?: [number, number, number];
+  target?: [number, number, number];
+}
+
 export interface SketchfabApi {
   start: () => void;
   addEventListener: (event: string, handler: (...args: unknown[]) => void) => void;
   getWorldToScreenCoordinates: (
     worldCoord: [number, number, number],
     callback: (coord: SketchfabCanvasCoord) => void
+  ) => void;
+  getAnnotationList: (callback: (err: unknown, annotations: unknown[]) => void) => void;
+  updateAnnotation: (
+    index: number,
+    options: SketchfabAnnotationOptions,
+    callback?: (err: unknown, annotation: unknown) => void
   ) => void;
 }
 
