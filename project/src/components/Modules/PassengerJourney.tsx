@@ -572,7 +572,19 @@ const PassengerJourney: React.FC = () => {
   };
 
   // Enhanced Component Modal with ALL TABS FUNCTIONAL
-  const CheckpointModal = () => (
+  //
+  // A plain JSX value, not a `const CheckpointModal = () => (...)` component
+  // function — defining a component inside another component's render body
+  // gives it a brand-new identity every render, so React treated every
+  // re-render (any state change anywhere in this ~1600-line component) as a
+  // totally different component type and remounted the whole modal tree.
+  // That's what the "card isn't opening itself" glitch was: AnimatePresence
+  // lost track of its own mount state mid-animation on every remount, so the
+  // open sometimes needed a second click, and the close/entry animation
+  // could get stuck or flash. A plain JSX expression has no such identity to
+  // lose — React reconciles the actual elements (AnimatePresence, motion.div)
+  // by their own stable types instead.
+  const checkpointModal = (
     <AnimatePresence>
       {showModal && selectedCheckpoint && (
         <motion.div
@@ -988,8 +1000,9 @@ const PassengerJourney: React.FC = () => {
     </AnimatePresence>
   );
 
-  // AI Advisory Modal with ALL TABS FUNCTIONAL
-  const AIAdvisoryModal = () => (
+  // AI Advisory Modal with ALL TABS FUNCTIONAL — same fix as checkpointModal
+  // above: a plain JSX value, not an inline component function.
+  const aiAdvisoryModal = (
     <AnimatePresence>
       {showAIAdvisoryModal && (
         <motion.div
@@ -1629,8 +1642,8 @@ const PassengerJourney: React.FC = () => {
         </motion.div>
 
         {/* Enhanced Modals */}
-        <CheckpointModal />
-        <AIAdvisoryModal />
+        {checkpointModal}
+        {aiAdvisoryModal}
       </div>
     </motion.div>
   );
