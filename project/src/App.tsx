@@ -23,6 +23,8 @@ import { ToastProvider, useToast } from "./hooks/useToast";
 import { ToastContainer } from "./components/UI/Toast";
 import AiCopilotDrawer from "./ai/components/AiCopilotDrawer";
 import { useNavStore } from "./store/useNavStore";
+import PantherlakeAlertPopup from "./components/UI/PantherlakeAlertPopup";
+import { ensurePantherlakeConnected } from "./services/pantherlakeMqtt";
 
 const AppContent: React.FC = () => {
   const { t } = useLanguage();
@@ -34,6 +36,12 @@ const AppContent: React.FC = () => {
   const go = useNavStore((s) => s.go);
   const setActiveModule = (module: string) => go(module);
   const { isAuthenticated } = useAuthStore();
+
+  // Pantherlake alerts have to reach the operator on whatever console they're
+  // on, so the feed is opened at the shell rather than by any one module.
+  React.useEffect(() => {
+    if (isAuthenticated) ensurePantherlakeConnected();
+  }, [isAuthenticated]);
 
   const currentUser: User = {
     id: "1",
@@ -191,6 +199,9 @@ const AppContent: React.FC = () => {
 
       {/* Toast Notifications */}
       <ToastContainer toasts={toasts} onRemove={removeToast} />
+
+      {/* Live Pantherlake unattended-baggage alert → SOP Console */}
+      <PantherlakeAlertPopup />
     </div>
   );
 };

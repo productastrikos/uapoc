@@ -5,6 +5,7 @@ import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, BarChart, Bar, Radi
 import DetailModal from '../UI/DetailModal';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useToast } from '../../hooks/useToast';
+import PantherlakeAlertsPanel from './PantherlakeAlertsPanel';
 
 interface SOPStep {
   id: string;
@@ -258,6 +259,10 @@ const SOPConsole: React.FC = () => {
           </button>
         </div>
       </div>
+
+      {/* Live alerts from the Pantherlake edge node — the corner popup lands
+          the operator here, and Execute SOP opens the full response. */}
+      <PantherlakeAlertsPanel />
 
       {/* AI Advisory Panel */}
       <div className="glass-panel-strong rounded-xl p-4">

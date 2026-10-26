@@ -1,40 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { SecurityIncident, SecuritySOP } from '../types';
-import { Shield, AlertTriangle, Camera, Lock, Clock, PlayCircle, X, Gauge, Activity } from 'lucide-react';
+import { SecurityIncident } from '../types';
+import { Shield, AlertTriangle, Camera, Lock, Clock, PlayCircle, X, Activity } from 'lucide-react';
 import CCTVFeed from './CCTVFeed';
-import SOPPanel from './SOPPanel';
-import IsoSecurityScene from '../scenes/IsoSecurityScene';
-import { useManagedTimers } from '../scenes/motion';
+import { UnattendedBagScene, useUnattendedBagSop } from './UnattendedBagScene';
 
 interface SecurityOperationsProps {
   onIncidentResolve?: (incidentId: string) => void;
 }
 
-/**
- * Who owns each step of the unattended-baggage SOP. Kept beside the step list
- * so the panel next to the scene reads as a real procedure rather than a
- * progress bar.
- */
-const STEP_OWNERS = [
-  'Security Control',
-  'CCTV Operator',
-  'PA System',
-  'Access Control',
-  'Facilities',
-  'Response Team',
-];
-
 export const SecurityOperations: React.FC<SecurityOperationsProps> = ({ onIncidentResolve }) => {
   const [selectedIncident, setSelectedIncident] = useState<SecurityIncident | null>(null);
-  const [activeSOP, setActiveSOP] = useState<SecuritySOP | null>(null);
-  const [sopProgress, setSOPProgress] = useState(0);
   const [activeFeed, setActiveFeed] = useState(0);
   const [alertMode, setAlertMode] = useState(false);
-  /** Step index driving the isometric scene; -1 when no SOP is running. */
-  const [sopStep, setSopStep] = useState(-1);
-  /** Playback rate for the SOP walk-through; 1x is deliberately unhurried. */
-  const [simSpeed, setSimSpeed] = useState(1);
-  const { schedule, clearAll } = useManagedTimers();
+  const sop = useUnattendedBagSop(onIncidentResolve);
+  const { activeSOP, executeSOP, alertActive, camerasFocused, paActive, lockdownActive, emergencyLighting, teamDispatched } = sop;
 
   const [incidents] = useState<SecurityIncident[]>([
     {
@@ -58,23 +37,6 @@ export const SecurityOperations: React.FC<SecurityOperationsProps> = ({ onIncide
       cameraId: 'CAM-P-01'
     }
   ]);
-
-  const mockSOP: SecuritySOP = {
-    id: "SOP-001",
-    trigger: "Unattended baggage detection",
-    steps: [
-      { id: 1, action: "Issue red alert to security department", duration: 5, status: 'pending' },
-      { id: 2, action: "Activate all cameras to focus on incident area", duration: 8, status: 'pending' },
-      { id: 3, action: "Broadcast PA system notification to personnel", duration: 12, status: 'pending' },
-      { id: 4, action: "Lock down access points in affected zones", duration: 15, status: 'pending' },
-      { id: 5, action: "Activate emergency lighting protocols", duration: 18, status: 'pending' },
-      { id: 6, action: "Dispatch security team to investigate location", duration: 25, status: 'pending' }
-    ],
-    autoExecute: true,
-    manualOverride: false,
-    estimatedDuration: 90,
-    currentStep: 0,
-  };
 
   const feeds = [
     { id: 1, location: 'Gate 13 - Entrance', status: 'active', alert: true },
@@ -113,207 +75,18 @@ export const SecurityOperations: React.FC<SecurityOperationsProps> = ({ onIncide
     }
   };
 
-  const executeSOP = (incident: SecurityIncident) => {
-    if (activeSOP) return; // already running
-
-    clearAll();
-    setSopStep(0);
-    setActiveSOP({
-      ...mockSOP,
-      trigger: `${incident.type} at ${incident.location}`,
-      steps: mockSOP.steps.map(step => ({ ...step, status: 'pending' }))
-    });
-    setSOPProgress(0);
-
-    // Execute SOP steps sequentially. Every timer is registered so closing the
-    // simulation overlay mid-run tears the whole chain down instead of leaving
-    // it firing setState against an unmounted component.
-    const executeStep = (stepIndex: number) => {
-      if (stepIndex >= mockSOP.steps.length) {
-        schedule(() => {
-          onIncidentResolve?.(incident.id);
-          setActiveSOP(null);
-          setSopStep(-1);
-          setSOPProgress(100);
-        }, 5000);
-        return;
-      }
-
-      setSopStep(stepIndex);
-      setSOPProgress(Math.round((stepIndex / mockSOP.steps.length) * 100));
-
-      setActiveSOP(prev => prev ? {
-        ...prev,
-        currentStep: stepIndex,
-        steps: prev.steps.map((step, index) =>
-          index === stepIndex
-            ? { ...step, status: 'in-progress' as const }
-            : index < stepIndex
-            ? { ...step, status: 'completed' as const }
-            : step
-        )
-      } : null);
-
-      schedule(() => {
-        setActiveSOP(prev => prev ? {
-          ...prev,
-          steps: prev.steps.map((step, index) =>
-            index === stepIndex
-              ? { ...step, status: 'completed' as const, completedAt: new Date() }
-              : step
-          )
-        } : null);
-
-        schedule(() => executeStep(stepIndex + 1), 1400 / simSpeed);
-        // Long enough that the scene change for each step - cameras slewing,
-        // doors locking, the team walking in - can actually be watched.
-      }, Math.max(3800, mockSOP.steps[stepIndex].duration * 320) / simSpeed);
-    };
-
-    executeStep(0);
-  };
-
   const unattendedBagIncident = incidents[0];
-
-  // Which subsystems the SOP has switched on so far. Both the isometric scene
-  // and the flat zone map read these, so the two views can never disagree.
-  const alertActive = !!activeSOP && sopStep >= 0;
-  const camerasFocused = !!activeSOP && sopStep >= 1;
-  const paActive = !!activeSOP && sopStep >= 2;
-  const lockdownActive = !!activeSOP && sopStep >= 3;
-  const emergencyLighting = !!activeSOP && sopStep >= 4;
-  const teamDispatched = !!activeSOP && sopStep >= 5;
 
   return (
     <div className="space-y-4">
       {/* ================= Unattended Bag Response - isometric scene ================= */}
-      <div className="bg-primary-800/60 border border-primary-600/40 rounded-xl p-3 md:p-4">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 mb-3">
-          <div className="flex items-center space-x-2">
-            <div className="p-2.5 rounded-lg bg-status-neutral/10 border border-status-neutral/35">
-              <Shield className="w-5 h-5 text-status-neutral" />
-            </div>
-            <div>
-              <h3 className="text-lg md:text-xl font-bold text-text-primary">
-                Unattended Bag Response - Terminal Concourse
-              </h3>
-              <p className="text-xs md:text-sm text-text-muted">
-                AI surveillance detection and automated SOP execution
-              </p>
-            </div>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-2.5">
-            <div className="flex items-center gap-2 bg-primary-900/40 border border-primary-600/40 rounded-lg px-2.5 py-2">
-              <Gauge className="w-4 h-4 text-accent-blue" />
-              <label className="text-xs text-text-muted">Speed</label>
-              <select
-                value={simSpeed}
-                onChange={(e) => setSimSpeed(Number(e.target.value))}
-                disabled={!!activeSOP}
-                className="bg-primary-900 border border-primary-600 rounded px-2 py-1 text-text-primary text-xs"
-              >
-                <option value={0.5}>0.5x — study</option>
-                <option value={1}>1x — normal</option>
-                <option value={2}>2x — fast</option>
-              </select>
-            </div>
-
-            <button
-              onClick={() => executeSOP(unattendedBagIncident)}
-              disabled={!!activeSOP}
-              className={`btn min-w-[20rem] py-2.5 ${
-                activeSOP ? 'btn-danger-active cursor-not-allowed' : 'btn-danger'
-              }`}
-            >
-              {activeSOP ? <Activity className="w-5 h-5 animate-pulse" /> : <PlayCircle className="w-5 h-5" />}
-              <span>{activeSOP ? 'SOP executing…' : 'Simulate unattended bag incident'}</span>
-            </button>
-          </div>
-        </div>
-
-        {/* live readout strip, mirroring the airside / baggage simulations */}
-        <div className="mb-3 bg-primary-900/40 rounded-lg p-2.5 border border-primary-600/40 overflow-x-auto">
-          <div className="flex flex-wrap items-center gap-2 md:gap-3 text-xs md:text-sm min-w-max">
-            <div className="text-text-muted">Incident:</div>
-            <div className="text-status-error font-medium">{unattendedBagIncident.type}</div>
-            <div className="text-text-muted">|</div>
-            <div className="text-accent-blue">{unattendedBagIncident.location}</div>
-            <div className="text-text-muted">|</div>
-            <div className="text-text-muted">AI Confidence:</div>
-            <div className="text-status-neutral">{unattendedBagIncident.aiConfidence ?? 94}%</div>
-            <div className="text-text-muted">|</div>
-            <div className="text-text-muted">SOP Progress:</div>
-            <div className="text-accent-blue">
-              {activeSOP ? `Step ${Math.min(sopStep + 1, mockSOP.steps.length)} of ${mockSOP.steps.length}` : 'Standby'}
-            </div>
-          </div>
-        </div>
-
-        {/* The procedure and the concourse it is being executed in, side by
-            side: whichever step is highlighted on the left is the change you
-            are watching on the right. */}
-        <div className="grid grid-cols-1 xl:grid-cols-[310px_minmax(0,1fr)] gap-3 items-stretch">
-          <SOPPanel
-            className="min-h-[340px]"
-            accent="red"
-            title="SOP-001 · Unattended Baggage"
-            trigger={activeSOP?.trigger ?? `${unattendedBagIncident.type} at ${unattendedBagIncident.location}`}
-            priority={unattendedBagIncident.severity}
-            steps={mockSOP.steps.map((s, i) => ({
-              action: s.action,
-              duration: s.duration,
-              responsible: STEP_OWNERS[i],
-              critical: i === 0 || i === 3 || i === 5,
-            }))}
-            currentStep={sopStep}
-            active={!!activeSOP}
-            subtitle="Detection is automatic; every step below drives a visible change in the concourse."
-          />
-
-          <div className="flex rounded-xl border border-primary-600/40 bg-primary-900/70 overflow-hidden min-h-[320px]">
-            <IsoSecurityScene
-              sopActive={!!activeSOP}
-              currentStep={sopStep}
-              totalSteps={mockSOP.steps.length}
-              incidentLocation={unattendedBagIncident.location}
-              onElementClick={(type) => {
-                if (type === 'unattended-bag' && !activeSOP) executeSOP(unattendedBagIncident);
-              }}
-            />
-          </div>
-        </div>
-
-        {/* subsystem state, driven by the SOP step */}
-        <div className="mt-3 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2.5">
-          {[
-            { label: 'Red Alert', on: alertActive },
-            { label: 'Camera Focus', on: camerasFocused },
-            { label: 'PA Broadcast', on: paActive },
-            { label: 'Access Lockdown', on: lockdownActive },
-            { label: 'Emergency Lighting', on: emergencyLighting },
-            { label: 'Team Dispatched', on: teamDispatched },
-          ].map(s => (
-            <div
-              key={s.label}
-              className={`rounded-lg border px-2.5 py-2 transition-all duration-500 ${
-                s.on && activeSOP
-                  ? 'border-status-error/50 bg-status-error/10'
-                  : 'border-primary-600/40 bg-primary-800/20'
-              }`}
-            >
-              <div className="flex items-center space-x-2">
-                <div
-                  className={`w-2 h-2 rounded-full ${s.on ? 'bg-status-error' : 'bg-text-muted'}`}
-                />
-                <span className={`text-xs font-medium ${s.on ? 'text-status-error' : 'text-text-muted'}`}>
-                  {s.label}
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+      <UnattendedBagScene
+        sop={sop}
+        incident={unattendedBagIncident}
+        title="Unattended Bag Response - Terminal Concourse"
+        subtitle="AI surveillance detection and automated SOP execution"
+        actionLabel="Simulate unattended bag incident"
+      />
 
       {/* CCTV Surveillance System */}
       <CCTVFeed />
