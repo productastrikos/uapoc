@@ -47,18 +47,30 @@ import { useToast } from "../../hooks/useToast";
 import AiInsightPanel from '../../ai/components/AiInsightPanel';
 import { useAiDomain } from '../../ai/store';
 import { ensurePantherlakeConnected, usePantherlakeStore, PANTHERLAKE_ZONES } from '../../services/pantherlakeMqtt';
+import { loadSketchfabScript, type SketchfabApi } from '../../services/sketchfabViewer';
 
 const PANTHERLAKE_ZONE_BY_CHECKPOINT = new Map(PANTHERLAKE_ZONES.map((z) => [z.checkpointId, z]));
 
-/** Where each zone's pin sits on the digital twin panel — purely a 2D overlay
- *  position (the embed is a cross-origin 3rd-party iframe, so there's no way
- *  to hook a pin to an actual point in the 3D scene or its camera). Spread
- *  across the four corners of the viewport so they don't crowd the model. */
-const ZONE_PIN_POSITION: Record<string, { top: string; left: string; vAnchor: 'top' | 'bottom'; hAnchor: 'left' | 'right' }> = {
-  'terminal-entry': { top: '22%', left: '12%', vAnchor: 'top', hAnchor: 'left' },
-  'check-in': { top: '22%', left: '85%', vAnchor: 'top', hAnchor: 'right' },
-  'customs': { top: '78%', left: '12%', vAnchor: 'bottom', hAnchor: 'left' },
-  'airside': { top: '78%', left: '85%', vAnchor: 'bottom', hAnchor: 'right' },
+/**
+ * A 3D point inside the digital-twin model for each zone, in the model's own
+ * world coordinates — not a 2D screen position, so the pin tracks the actual
+ * spot in the scene as the camera orbits/pans/zooms (via the Sketchfab Viewer
+ * API's getWorldToScreenCoordinates, polled on an interval below).
+ *
+ * These four are starting placeholders, not calibrated against the real
+ * model geometry — there's no way to read a 3D model's coordinate space
+ * without seeing it rendered. To calibrate: open this console in a real
+ * browser (not needed in Chromium headless, which can't render this model
+ * at all), orbit to the real Zone 1/2/3/4 markers visible in the model, and
+ * click each one — a 'click' listener below logs the exact 3D point clicked
+ * to the browser console as "[Pantherlake calibration]". Paste those four
+ * [x, y, z] arrays in here in place of the placeholders.
+ */
+const ZONE_WORLD_POS: Record<string, [number, number, number]> = {
+  'terminal-entry': [-4, 0, 6],
+  'check-in': [4, 0, 6],
+  'customs': [-4, 0, -6],
+  'airside': [4, 0, -6],
 };
 
 // Trend Arrow Component
@@ -327,6 +339,63 @@ const PassengerJourney: React.FC = () => {
   }), [pantherlakeQueues]);
 
   const [activeZonePin, setActiveZonePin] = useState<string | null>(null);
+
+  // 3D-anchored zone pins — tracks each zone's world position onto the
+  // viewer's screen space every tick, so the pin follows the model as the
+  // camera moves instead of sitting fixed over the iframe.
+  const twinIframeRef = React.useRef<HTMLIFrameElement>(null);
+  const sketchfabApiRef = React.useRef<SketchfabApi | null>(null);
+  const [pinScreenPos, setPinScreenPos] = useState<Record<string, { x: number; y: number }>>({});
+
+  useEffect(() => {
+    let cancelled = false;
+    let pollId: ReturnType<typeof setInterval> | undefined;
+
+    loadSketchfabScript().then(() => {
+      if (cancelled || !twinIframeRef.current || !window.Sketchfab) return;
+      const client = new window.Sketchfab(twinIframeRef.current);
+      client.init('82ae6c35eec446b49100da2039f3af57', {
+        autostart: 1,
+        camera: 0,
+        preload: 1,
+        transparent: 1,
+        ui_infos: 0,
+        success: (api) => {
+          if (cancelled) return;
+          sketchfabApiRef.current = api;
+          api.start();
+          api.addEventListener('viewerready', () => {
+            // Lets a person calibrating zone positions click a spot in the
+            // model and read its exact 3D coordinates straight off the
+            // console, instead of guessing — see ZONE_WORLD_POS above.
+            api.addEventListener('click', (info) => {
+              // eslint-disable-next-line no-console
+              console.log('[Pantherlake calibration] clicked 3D point:', info);
+            });
+
+            pollId = setInterval(() => {
+              Object.entries(ZONE_WORLD_POS).forEach(([checkpointId, world]) => {
+                api.getWorldToScreenCoordinates(world, (coord) => {
+                  if (cancelled) return;
+                  const [x, y] = coord.canvasCoord;
+                  setPinScreenPos((prev) => ({ ...prev, [checkpointId]: { x, y } }));
+                });
+              });
+            }, 150);
+          });
+        },
+        error: () => {
+          // The embed's own "Something went wrong" cover already communicates
+          // this; the pins just never appear rather than sitting on a guess.
+        },
+      });
+    });
+
+    return () => {
+      cancelled = true;
+      if (pollId) clearInterval(pollId);
+    };
+  }, []);
 
   const [selectedCheckpoint, setSelectedCheckpoint] = useState<CheckpointData | null>(null);
   const [showModal, setShowModal] = useState(false);
@@ -1410,28 +1479,31 @@ const PassengerJourney: React.FC = () => {
 
             <div className="sketchfab-embed-wrapper relative rounded-lg overflow-hidden border border-teal-500/20">
               <iframe
+                ref={twinIframeRef}
                 title="Airport Check-in Building 01"
                 frameBorder="0"
                 allowFullScreen
                 mozAllowFullScreen={true}
                 webkitAllowFullScreen={true}
                 allow="autoplay; fullscreen; xr-spatial-tracking"
-                src="https://sketchfab.com/models/82ae6c35eec446b49100da2039f3af57/embed?autostart=1&camera=0&preload=1&transparent=1&ui_infos=0"
+                src=""
                 className="w-full h-96"
               />
 
-              {/* Pantherlake zone pins — click one to see its live queue
-                  reading. The embed is a cross-origin third-party iframe, so
-                  these are an overlay positioned over the viewport rather
-                  than hooked to any point inside the actual 3D scene. */}
+              {/* Pantherlake zone pins — anchored to a 3D point in the model
+                  (see ZONE_WORLD_POS), so they track the real scene as the
+                  camera orbits/pans/zooms, rather than sitting fixed over
+                  the viewport. Click one to see its live queue reading. */}
               {PANTHERLAKE_ZONES.map((zone) => {
-                const pos = ZONE_PIN_POSITION[zone.checkpointId];
-                if (!pos) return null;
+                const screen = pinScreenPos[zone.checkpointId];
+                if (!screen) return null;
                 const checkpoint = checkpoints.find((cp) => cp.id === zone.checkpointId);
                 const live = pantherlakeQueues[zone.cameraId];
                 const isOpen = activeZonePin === zone.checkpointId;
+                const onRight = screen.x > 192; // half the w-96 wrapper's typical rendered width
+                const onBottom = screen.y > 192;
                 return (
-                  <div key={zone.cameraId} className="absolute z-20" style={{ top: pos.top, left: pos.left, transform: 'translate(-50%, -50%)' }}>
+                  <div key={zone.cameraId} className="absolute z-20" style={{ top: screen.y, left: screen.x, transform: 'translate(-50%, -50%)' }}>
                     <button
                       onClick={() => setActiveZonePin(isOpen ? null : zone.checkpointId)}
                       title={`${zone.zoneLabel} — ${checkpoint?.name ?? ''}`}
@@ -1454,11 +1526,11 @@ const PassengerJourney: React.FC = () => {
                           transition={{ duration: 0.15 }}
                           className="glass-panel-strong absolute z-30 w-48 rounded-xl p-3 text-left"
                           style={{
-                            top: pos.vAnchor === 'bottom' ? 'auto' : 'calc(100% + 10px)',
-                            bottom: pos.vAnchor === 'bottom' ? 'calc(100% + 10px)' : 'auto',
-                            left: pos.hAnchor === 'right' ? 'auto' : '50%',
-                            right: pos.hAnchor === 'right' ? '0' : 'auto',
-                            transform: pos.hAnchor === 'right' ? 'none' : 'translateX(-50%)',
+                            top: onBottom ? 'auto' : 'calc(100% + 10px)',
+                            bottom: onBottom ? 'calc(100% + 10px)' : 'auto',
+                            left: onRight ? 'auto' : '50%',
+                            right: onRight ? '0' : 'auto',
+                            transform: onRight ? 'none' : 'translateX(-50%)',
                           }}
                         >
                           <div className="flex items-center gap-1.5 mb-1.5">
