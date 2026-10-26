@@ -392,10 +392,14 @@ const PassengerJourney: React.FC = () => {
       if (index === undefined) return;
       const checkpoint = checkpoints.find((cp) => cp.id === zone.checkpointId);
       const live = pantherlakeQueues[zone.cameraId];
+      // The title bubble is confirmed to render reliably on hover; the
+      // separate `content` field may only surface in a click-to-expand
+      // panel we can't guarantee is open, so the queue count itself is
+      // folded directly into the title rather than relying on content alone.
       api.updateAnnotation(
         index,
         {
-          title: `${zone.zoneLabel} · ${checkpoint?.name ?? ''}`,
+          title: `${zone.zoneLabel} · ${checkpoint?.name ?? ''} — ${live ? `${live.queueLength} in queue` : 'waiting for data'}`,
           content: live
             ? `**${live.queueLength}** passengers in queue — live from Pantherlake (${zone.cameraId})`
             : `Waiting for live Pantherlake data (${zone.cameraId})…`,
