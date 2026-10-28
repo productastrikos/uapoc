@@ -13,16 +13,23 @@
  * topic, never by payload shape alone.
  *
  * Connects once (the first caller wins; later calls are no-ops) and keeps the
- * latest state in a small zustand store. Swap BROKER_URL for a private,
- * authenticated broker before this goes anywhere near a real deployment.
+ * latest state in a small zustand store. The broker address, topic prefix, node
+ * id and credentials are set in `.env` (see `.env.example`) — point it at a
+ * private, authenticated broker before this goes anywhere near a real deployment.
  */
 
 import mqtt, { type MqttClient } from 'mqtt';
 import { create } from 'zustand';
 
-const BROKER_URL = 'wss://broker.hivemq.com:8884/mqtt';
-const NODE_ID = 'pantherlake01';
-const TOPIC_PREFIX = 'astrikedge';
+// Broker settings come from `.env` (see `.env.example`), and fall back to the
+// public test broker so a missing file doesn't break the feed. `||` rather than
+// `??` on purpose: an empty `VITE_MQTT_URL=` should also mean "use the default".
+const env = import.meta.env;
+const BROKER_URL = env.VITE_MQTT_URL || 'wss://broker.hivemq.com:8884/mqtt';
+const NODE_ID = env.VITE_MQTT_NODE_ID || 'pantherlake01';
+const TOPIC_PREFIX = env.VITE_MQTT_TOPIC_PREFIX || 'astrikedge';
+const MQTT_USERNAME = env.VITE_MQTT_USERNAME || undefined;
+const MQTT_PASSWORD = env.VITE_MQTT_PASSWORD || undefined;
 const QUEUE_TOPIC = `${TOPIC_PREFIX}/${NODE_ID}/queue/cameras/+/analytics`;
 const BAGGAGE_TOPIC = `${TOPIC_PREFIX}/${NODE_ID}/baggage/cameras/+/analytics`;
 
@@ -171,6 +178,8 @@ export function ensurePantherlakeConnected(): void {
   client = mqtt.connect(BROKER_URL, {
     clientId: `uapoc-${Math.random().toString(16).slice(2)}`,
     reconnectPeriod: 3000,
+    username: MQTT_USERNAME,
+    password: MQTT_PASSWORD,
   });
 
   client.on('connect', () => {
