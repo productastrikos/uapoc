@@ -54,6 +54,7 @@ import {
   recommendedSopFor,
   recommendationReason,
   sopPreview,
+  FILL_CONGESTED,
   type CardSurge,
   type SopId,
   type SopRecord,
@@ -394,7 +395,14 @@ const PassengerJourney: React.FC = () => {
       status: s.status,
       performance: {
         ...cp.performance,
-        trend: s.phase === 'rising' || s.phase === 'critical' ? 'down' : s.phase === 'relieved' ? 'up' : 'stable',
+        // A queue that has only just started moving isn't flagged yet — the
+        // "worsening" arrow waits for the same threshold as the rising strip.
+        trend:
+          s.phase === 'critical' || (s.phase === 'rising' && s.fill >= FILL_CONGESTED)
+            ? 'down'
+            : s.phase === 'relieved'
+            ? 'up'
+            : 'stable',
       },
       surge: s,
     };
@@ -746,7 +754,9 @@ const PassengerJourney: React.FC = () => {
       tone = 'border-status-error/50 bg-status-error/10 text-status-errorBright';
       line1 = 'Action needed — queue at its limit';
       line2 = `${s.queue} / ${s.capacity} (${Math.round(s.fill * 100)}%) · open to choose an SOP`;
-    } else if (s?.phase === 'rising') {
+    } else if (s?.phase === 'rising' && s.fill >= FILL_CONGESTED) {
+      // Only flagged once it's past the threshold; a queue that has just
+      // started to move reads as the calm "Within capacity" line below.
       tone = 'border-status-warning/40 bg-status-warning/10 text-status-warning';
       line1 = 'Queue rising';
       line2 = `${s.baseline} → ${s.queue} · ${Math.round(s.fill * 100)}% of ${s.capacity} capacity`;
