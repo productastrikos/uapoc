@@ -2,16 +2,17 @@
  * Queue-surge simulation for the Passenger Journey checkpoint cards.
  *
  * Six of the ten checkpoints (the ones NOT fed by Pantherlake) are given a
- * capacity and each run their own repeating cycle, all at the same time:
+ * capacity and each run a repeating cycle:
  *
- *   idle → rising (queue climbs by 1 every `stepMs` to the critical line) →
+ *   idle → rising (queue climbs by 1 at a time to the critical line) →
  *   critical (waits for the operator) → SOP executed (queue relieved, change
  *   shown on the card) → after a hold the card returns to its fresh baseline
  *   and starts over.
  *
- * Each card has its own start delay and its own step interval, so the six
- * never move in lockstep and a red card turns up now and then rather than
- * all at once.
+ * Only one card — the "lead" — climbs at a decent pace (`leadStepMs` per +1).
+ * Every other card crawls (`slowStepMs`, ~20s per +1), so something is always
+ * moving without the whole board racing to red. When the lead card is relieved
+ * and resets, the next card in order becomes the lead.
  *
  * Status is derived from queue ÷ capacity, so "full" finally means something.
  * Wait time and SLA are derived from the same fill, so the whole card degrades
@@ -85,39 +86,40 @@ interface SurgeCardConfig {
   capacity: number;
   /** Wait time (min) when the queue is exactly at capacity. */
   maxWaitMin: number;
-  /** The queue gains 1 every this many ms while the card is rising. */
-  stepMs: number;
-  /** How long after the page opens before this card starts rising. */
-  startDelayMs: number;
+  /** ms per +1 while this card is the lead (the one climbing at a decent pace). */
+  leadStepMs: number;
+  /** ms per +1 while it is not the lead — a slow crawl. Differs per card so
+   *  the crawling cards never tick together. */
+  slowStepMs: number;
   recommended: SopId;
   reason: string;
 }
 
-// Each card has its own pace, so they never move in step. Time to reach the
-// limit is (steps to the critical line) × stepMs — roughly 65–120s here.
+// Lead pace is tuned per card so each takes roughly 2–3 minutes to reach its
+// limit (steps to the critical line × leadStepMs); the crawl is ~20s per +1.
 export const SURGE_CARDS: Record<string, SurgeCardConfig> = {
   'baggage-drop': {
-    baseline: 14, capacity: 50, maxWaitMin: 24, stepMs: 2_200, startDelayMs: 2_000, recommended: 'offload',
+    baseline: 14, capacity: 50, maxWaitMin: 24, leadStepMs: 4_500, slowStepMs: 22_000, recommended: 'offload',
     reason: 'A volume problem — moving drop-off to kiosks and curbside takes people out of the queue.',
   },
   security: {
-    baseline: 18, capacity: 70, maxWaitMin: 25, stepMs: 2_600, startDelayMs: 8_000, recommended: 'fast-track',
+    baseline: 18, capacity: 70, maxWaitMin: 25, leadStepMs: 3_500, slowStepMs: 26_000, recommended: 'fast-track',
     reason: 'Time-critical — pulling out passengers whose flights board soon protects departures.',
   },
   immigration: {
-    baseline: 10, capacity: 45, maxWaitMin: 20, stepMs: 2_800, startDelayMs: 14_000, recommended: 'snake',
+    baseline: 10, capacity: 45, maxWaitMin: 20, leadStepMs: 4_500, slowStepMs: 20_000, recommended: 'snake',
     reason: 'A hall with open floor space — a serpentine layout adds capacity with no extra staff.',
   },
   'boarding-gate': {
-    baseline: 22, capacity: 90, maxWaitMin: 18, stepMs: 2_200, startDelayMs: 5_000, recommended: 'fast-track',
+    baseline: 22, capacity: 90, maxWaitMin: 18, leadStepMs: 3_000, slowStepMs: 18_000, recommended: 'fast-track',
     reason: 'Flights are about to close — fast-tracking the nearest departures comes first.',
   },
   'aircraft-entry': {
-    baseline: 6, capacity: 30, maxWaitMin: 15, stepMs: 3_500, startDelayMs: 11_000, recommended: 'inflow-metering',
+    baseline: 6, capacity: 30, maxWaitMin: 15, leadStepMs: 6_000, slowStepMs: 28_000, recommended: 'inflow-metering',
     reason: 'Crowding at the jet bridge — holding passengers back keeps the approach clear.',
   },
   'cabin-process': {
-    baseline: 4, capacity: 40, maxWaitMin: 12, stepMs: 3_200, startDelayMs: 17_000, recommended: 'inflow-metering',
+    baseline: 4, capacity: 40, maxWaitMin: 12, leadStepMs: 4_500, slowStepMs: 24_000, recommended: 'inflow-metering',
     reason: 'Boarding density — metering the inflow stops the aisle backing up.',
   },
 };
@@ -137,6 +139,8 @@ const ANIM_MS = 4_000;
 const HOLD_MS = 35_000;
 /** Pause between a card resetting and it starting to rise again. */
 const RESTART_GAP_MS = 6_000;
+/** How long after the page opens before the cards start moving. */
+const INITIAL_DELAY_MS = 2_000;
 const TICK_MS = 1_000;
 
 const statusForFill = (fill: number): CheckpointStatus =>
@@ -191,6 +195,9 @@ interface CardSim {
   stage: Stage;
   /** When the current stage began. */
   since: number;
+  /** Progress towards the next +1, accumulated tick by tick so the pace can
+   *  change mid-climb when the lead passes to another card. */
+  steps: number;
   /** When the queue last crept up while sitting at critical. */
   lastCreep: number;
 }
@@ -208,7 +215,7 @@ export function useQueueSurge({ liveCardIds, onCritical, onReset }: Options) {
   const callbacks = useRef({ onCritical, onReset });
   callbacks.current = { onCritical, onReset };
 
-  const simRef = useRef<{ cards: Record<string, CardSim> } | null>(null);
+  const simRef = useRef<{ cards: Record<string, CardSim>; leadIdx: number; lastTickAt: number } | null>(null);
   if (!simRef.current) {
     const now = Date.now();
     const cards: Record<string, CardSim> = {};
@@ -216,14 +223,14 @@ export function useQueueSurge({ liveCardIds, onCritical, onReset }: Options) {
       const cfg = SURGE_CARDS[id];
       cards[id] = {
         queue: cfg.baseline, capacity: cfg.capacity, sop: null,
-        // Backdated so the first gap lasts exactly this card's start delay.
-        stage: 'gap', since: now - RESTART_GAP_MS + cfg.startDelayMs, lastCreep: 0,
+        // Backdated so the first gap lasts exactly INITIAL_DELAY_MS.
+        stage: 'gap', since: now - RESTART_GAP_MS + INITIAL_DELAY_MS, steps: 0, lastCreep: 0,
       };
     });
     liveCardIds.forEach((id) => {
-      cards[id] = { queue: 0, capacity: 0, sop: null, stage: 'gap', since: now, lastCreep: 0 };
+      cards[id] = { queue: 0, capacity: 0, sop: null, stage: 'gap', since: now, steps: 0, lastCreep: 0 };
     });
-    simRef.current = { cards };
+    simRef.current = { cards, leadIdx: 0, lastTickAt: now };
   }
 
   const buildSnapshot = useCallback(() => {
@@ -264,6 +271,9 @@ export function useQueueSurge({ liveCardIds, onCritical, onReset }: Options) {
     const tick = () => {
       const now = Date.now();
       const sim = simRef.current!;
+      // Capped, so a throttled background tab doesn't jump the queues on return.
+      const dt = Math.min(now - sim.lastTickAt, TICK_MS * 2);
+      sim.lastTickAt = now;
 
       // SOP animation and expiry, for every card.
       [...ALL_IDS, ...liveCardIds].forEach((id) => {
@@ -280,6 +290,9 @@ export function useQueueSurge({ liveCardIds, onCritical, onReset }: Options) {
           // Fresh again: a short pause, then it starts rising once more.
           c.stage = 'gap';
           c.since = now;
+          c.steps = 0;
+          // A relieved lead hands the lead to the next card in order.
+          if (ALL_IDS[sim.leadIdx] === id) sim.leadIdx = (sim.leadIdx + 1) % ALL_IDS.length;
         } else if (!s.live) {
           const t = Math.min(1, Math.max(0, (now - s.startedAt) / ANIM_MS));
           c.queue = Math.round(s.queueFrom + (s.queueTo - s.queueFrom) * t);
@@ -287,19 +300,21 @@ export function useQueueSurge({ liveCardIds, onCritical, onReset }: Options) {
         }
       });
 
-      // Every surge card runs its own cycle, all at once.
+      // Every surge card runs its own cycle: the lead at a decent pace, the
+      // rest crawling.
       ALL_IDS.forEach((id) => {
         const cfg = SURGE_CARDS[id];
         const card = sim.cards[id];
         if (card.sop) return; // relieved: the SOP branch above owns the numbers
+        const stepMs = ALL_IDS[sim.leadIdx] === id ? cfg.leadStepMs : cfg.slowStepMs;
 
         if (card.stage === 'gap') {
-          if (now - card.since >= RESTART_GAP_MS) { card.stage = 'rising'; card.since = now; }
+          if (now - card.since >= RESTART_GAP_MS) { card.stage = 'rising'; card.since = now; card.steps = 0; }
         } else if (card.stage === 'rising') {
-          // One person at a time: +1 every stepMs, not a smooth slide.
+          // One person at a time: +1 per stepMs, not a smooth slide.
           const target = Math.ceil(cfg.capacity * FILL_CRITICAL);
-          const steps = Math.floor((now - card.since) / cfg.stepMs);
-          card.queue = Math.min(target, cfg.baseline + steps);
+          card.steps += dt / stepMs;
+          card.queue = Math.min(target, cfg.baseline + Math.floor(card.steps));
           if (card.queue >= target) {
             card.stage = 'critical';
             card.since = now;
@@ -309,7 +324,7 @@ export function useQueueSurge({ liveCardIds, onCritical, onReset }: Options) {
         } else if (card.stage === 'critical') {
           // Keeps creeping while it waits, at half the rising pace, so a card
           // left alone keeps getting worse.
-          if (now - card.lastCreep >= cfg.stepMs * 2 && card.queue < card.capacity) {
+          if (now - card.lastCreep >= stepMs * 2 && card.queue < card.capacity) {
             card.queue += 1;
             card.lastCreep = now;
           }

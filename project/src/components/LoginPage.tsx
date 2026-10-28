@@ -74,7 +74,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
         {/* The Astrikos mark, centered and large — the one visual anchor of the page. */}
         <div className="flex flex-col items-center mb-8">
           <img src="/astrikos-icon.png" alt="Astrikos" className="h-24 w-auto mb-4" />
-          <h1 className="text-lg font-semibold text-text-primary tracking-wide">U-APOC</h1>
+          <h1 className="text-lg font-semibold text-text-primary tracking-wide">U-APOC v1</h1>
           <p className="text-xs uppercase tracking-widest text-text-muted mt-1">Unified-AirPort Operations Center</p>
         </div>
 

@@ -27,7 +27,7 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
           <img src="/astrikos-icon.png" alt="Astrikos" className="h-10 w-auto" />
 
           <div>
-            <h1 className="font-bold text-lg leading-tight text-text-primary">U-APOC</h1>
+            <h1 className="font-bold text-lg leading-tight text-text-primary">U-APOC v1</h1>
             <h2 className="text-xs leading-tight text-text-muted">Unified-AirPort Operations Center</h2>
           </div>
         </div>
