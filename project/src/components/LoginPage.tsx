@@ -11,8 +11,6 @@ const roleConfigs = {
   admin: {
     title: 'Administrator',
     icon: Shield,
-    username: 'admin',
-    password: 'Astrikos2026',
     description: 'Full system access with control center overview',
   }
 };
