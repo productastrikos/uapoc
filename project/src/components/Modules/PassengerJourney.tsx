@@ -48,6 +48,19 @@ import AiInsightPanel from '../../ai/components/AiInsightPanel';
 import { useAiDomain } from '../../ai/store';
 import { ensurePantherlakeConnected, usePantherlakeStore, PANTHERLAKE_ZONES } from '../../services/pantherlakeMqtt';
 import { loadSketchfabScript, type SketchfabApi } from '../../services/sketchfabViewer';
+import {
+  useQueueSurge,
+  SOP_OPTIONS,
+  recommendedSopFor,
+  recommendationReason,
+  sopPreview,
+  type CardSurge,
+  type SopId,
+  type SopRecord,
+} from './useQueueSurge';
+
+/** Pantherlake-owned checkpoints: their queue is a live camera reading. */
+const LIVE_CHECKPOINT_IDS = PANTHERLAKE_ZONES.map((z) => z.checkpointId);
 
 const PANTHERLAKE_ZONE_BY_CHECKPOINT = new Map(PANTHERLAKE_ZONES.map((z) => [z.checkpointId, z]));
 
@@ -143,12 +156,17 @@ interface CheckpointData {
     trend: 'up' | 'down' | 'stable';
     changePercent: number;
   };
+  /** Present on the six simulated checkpoints: the surge engine's live view. */
+  surge?: CardSurge;
+  /** An SOP running on a Pantherlake-owned checkpoint (numbers stay live). */
+  liveSop?: SopRecord | null;
 }
 
 // Enhanced checkpoint data — the baseline/demo values. currentQueue on the
 // four Pantherlake-mapped checkpoints (see PANTHERLAKE_ZONES) is overlaid
-// with live MQTT data once it starts arriving; everything else here stays
-// the existing synthetic data, unaffected.
+// with live MQTT data once it starts arriving; the other six have their
+// queue, wait, SLA and status driven by the surge engine (useQueueSurge).
+// Everything else here stays the existing synthetic data.
 const BASE_CHECKPOINTS: CheckpointData[] = [
   {
     id: 'terminal-entry',
@@ -330,11 +348,57 @@ const PassengerJourney: React.FC = () => {
   useEffect(() => { ensurePantherlakeConnected(); }, []);
   const pantherlakeQueues = usePantherlakeStore((s) => s.queues);
   const pantherlakeConnected = usePantherlakeStore((s) => s.connected);
+
+  // The six other checkpoints surge on their own, one at a time, until they
+  // hit their limit and wait for an operator to pick an SOP.
+  const surge = useQueueSurge({
+    liveCardIds: LIVE_CHECKPOINT_IDS,
+    onCritical: (cardId, recommended) => {
+      const name = BASE_CHECKPOINTS.find((c) => c.id === cardId)?.name ?? cardId;
+      const sop = SOP_OPTIONS.find((s) => s.id === recommended);
+      addToast({
+        type: 'warning',
+        title: `Queue limit reached — ${name}`,
+        message: `Open the card to choose an SOP. Recommended: ${sop?.name}.`,
+        duration: 8000,
+      });
+    },
+    onReset: (cardId, sopName) => {
+      const name = BASE_CHECKPOINTS.find((c) => c.id === cardId)?.name ?? cardId;
+      addToast({
+        type: 'info',
+        title: 'SOP Execution Complete',
+        message: `${sopName} finished at ${name}. Monitoring resumed.`,
+        duration: 3500,
+      });
+    },
+  });
+
   const checkpoints = useMemo<CheckpointData[]>(() => BASE_CHECKPOINTS.map((cp) => {
     const zone = PANTHERLAKE_ZONE_BY_CHECKPOINT.get(cp.id);
-    const live = zone ? pantherlakeQueues[zone.cameraId] : undefined;
-    return live ? { ...cp, currentQueue: live.queueLength } : cp;
-  }), [pantherlakeQueues]);
+    if (zone) {
+      const live = pantherlakeQueues[zone.cameraId];
+      return {
+        ...cp,
+        currentQueue: live ? live.queueLength : cp.currentQueue,
+        liveSop: surge.liveSops[cp.id] ?? null,
+      };
+    }
+    const s = surge.cards[cp.id];
+    if (!s) return cp;
+    return {
+      ...cp,
+      currentQueue: s.queue,
+      avgWaitTime: `${s.waitMin} min`,
+      slaCompliance: s.slaCompliance,
+      status: s.status,
+      performance: {
+        ...cp.performance,
+        trend: s.phase === 'rising' || s.phase === 'critical' ? 'down' : s.phase === 'relieved' ? 'up' : 'stable',
+      },
+      surge: s,
+    };
+  }), [pantherlakeQueues, surge.cards, surge.liveSops]);
 
   // Digital twin — boots the Sketchfab Viewer API against the embed (rather
   // than a static src URL) so the model's own 13 built-in annotations can be
@@ -390,7 +454,7 @@ const PassengerJourney: React.FC = () => {
     PANTHERLAKE_ZONES.forEach((zone) => {
       const index = ZONE_ANNOTATION_INDEX[zone.checkpointId];
       if (index === undefined) return;
-      const checkpoint = checkpoints.find((cp) => cp.id === zone.checkpointId);
+      const checkpoint = BASE_CHECKPOINTS.find((cp) => cp.id === zone.checkpointId);
       const live = pantherlakeQueues[zone.cameraId];
       // The title bubble is confirmed to render reliably on hover; the
       // separate `content` field may only surface in a click-to-expand
@@ -412,9 +476,15 @@ const PassengerJourney: React.FC = () => {
         }
       );
     });
-  }, [twinReady, checkpoints, pantherlakeQueues]);
+  }, [twinReady, pantherlakeQueues]);
 
-  const [selectedCheckpoint, setSelectedCheckpoint] = useState<CheckpointData | null>(null);
+  // Held by id and resolved against the live list, so an open card keeps
+  // updating as its queue moves instead of freezing at the click.
+  const [selectedCheckpointId, setSelectedCheckpointId] = useState<string | null>(null);
+  const selectedCheckpoint = useMemo(
+    () => checkpoints.find((c) => c.id === selectedCheckpointId) ?? null,
+    [checkpoints, selectedCheckpointId]
+  );
   const [showModal, setShowModal] = useState(false);
   const [showAIAdvisoryModal, setShowAIAdvisoryModal] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
@@ -424,7 +494,6 @@ const PassengerJourney: React.FC = () => {
   const [surgeResponseActive, setSurgeResponseActive] = useState(false);
   const [optimizationActive, setOptimizationActive] = useState(false);
   const [aiOptimizationExecuted, setAiOptimizationExecuted] = useState(false);
-  const [executedSOPs, setExecutedSOPs] = useState<{[key: string]: boolean}>({});
 
   // AI Advisory Data. Trends always point somewhere — before AI optimization
   // is executed they show the baseline drifting the wrong way (the reason to
@@ -512,7 +581,7 @@ const PassengerJourney: React.FC = () => {
   };
 
   const handleCheckpointClick = (checkpoint: CheckpointData) => {
-    setSelectedCheckpoint(checkpoint);
+    setSelectedCheckpointId(checkpoint.id);
     setActiveTab('overview');
     setShowModal(true);
   };
@@ -522,35 +591,25 @@ const PassengerJourney: React.FC = () => {
     setActiveTab('overview');
   };
 
-  const handleExecuteSOP = (checkpointId: string, checkpointName: string) => {
-    setExecutedSOPs(prev => ({
-      ...prev,
-      [checkpointId]: true
-    }));
+  // Runs an SOP on a checkpoint through the surge engine. The modal closes so
+  // the card itself is what you watch change; the card's strip then explains
+  // what was done and the engine resets it to fresh after a hold.
+  const handleExecuteSop = (checkpointId: string, sopId: SopId) => {
+    const record = surge.executeSop(checkpointId, sopId);
+    if (!record) return;
+    const name = BASE_CHECKPOINTS.find((c) => c.id === checkpointId)?.name ?? checkpointId;
 
     setShowModal(false);
-    setSelectedCheckpoint(null);
+    setSelectedCheckpointId(null);
 
     addToast({
       type: 'success',
-      title: 'SOP Executed Successfully',
-      message: `Optimization SOP executed for ${checkpointName}. Performance improvements in progress.`,
-      duration: 5000
+      title: `${record.name} executed`,
+      message: record.live
+        ? `Measures in place at ${name}. Its queue is a live Pantherlake reading, so the number itself is unchanged.`
+        : `${name}: queue ${record.queueFrom} → ${record.queueTo}, wait ${record.waitFrom} → ${record.waitTo} min.`,
+      duration: 5000,
     });
-
-    setTimeout(() => {
-      setExecutedSOPs(prev => ({
-        ...prev,
-        [checkpointId]: false
-      }));
-      
-      addToast({
-        type: 'info',
-        title: 'SOP Execution Complete',
-        message: `${checkpointName} optimization completed. Monitoring resumed.`,
-        duration: 3000
-      });
-    }, 25000);
   };
 
   const getStatusColor = (status: string) => {
@@ -569,6 +628,148 @@ const PassengerJourney: React.FC = () => {
       case 'critical': return 'text-status-error';
       default: return 'text-text-muted';
     }
+  };
+
+  // The SOPs available on a checkpoint. Every card lists all four; the one
+  // marked Recommended (with the reason) only appears once the card has
+  // actually hit its limit.
+  const renderSopList = (cp: CheckpointData) => {
+    const isCritical = cp.surge?.phase === 'critical' && !cp.surge.sop;
+    const recommended = recommendedSopFor(cp.id);
+    const active = cp.surge?.sop ?? cp.liveSop ?? null;
+    const isLiveCard = !cp.surge;
+    const options = [...SOP_OPTIONS].sort((a, b) =>
+      isCritical ? Number(b.id === recommended) - Number(a.id === recommended) : 0
+    );
+
+    return (
+      <div className="space-y-4">
+        <div
+          className={`rounded-lg border p-4 ${
+            isCritical ? 'border-status-error/50 bg-status-error/10' : 'border-primary-600/30 bg-primary-700/40'
+          }`}
+        >
+          <h4 className="text-lg font-semibold text-white flex items-center">
+            <Zap className="w-5 h-5 mr-2 text-status-warning" />
+            {isCritical ? 'Queue at its limit — choose a response' : 'Available SOPs'}
+          </h4>
+          <p className="text-sm text-text-muted mt-1">
+            {active
+              ? `${active.name} is running on this checkpoint and will clear shortly.`
+              : isCritical
+              ? `${cp.currentQueue} of ${cp.surge!.capacity} places in use. Pick one — the recommended response is highlighted.`
+              : isLiveCard
+              ? 'Responses you can run here. This checkpoint’s queue is a live Pantherlake reading.'
+              : 'Responses you can run here. A recommendation appears when the queue reaches its limit.'}
+          </p>
+        </div>
+
+        {options.map((opt) => {
+          const isRec = isCritical && opt.id === recommended;
+          const isThis = active?.sopId === opt.id;
+          const preview = isLiveCard ? null : sopPreview(cp.id, opt.id);
+          const effect = preview
+            ? [
+                preview.queueCutPct > 0 ? `queue −${preview.queueCutPct}%` : null,
+                preview.capGainPct > 0 ? `capacity +${preview.capGainPct}%` : null,
+              ].filter(Boolean).join(' · ')
+            : null;
+          return (
+            <div
+              key={opt.id}
+              className={`rounded-lg border p-4 ${
+                isRec ? 'border-accent-blue/60 bg-accent-blue/10' : 'border-primary-600/30 bg-primary-700/40'
+              }`}
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <h5 className="text-white font-medium">{opt.name}</h5>
+                    {isRec && (
+                      <span className="text-[10px] font-semibold uppercase tracking-wide px-2 py-0.5 rounded-full bg-accent-blue text-white">
+                        Recommended
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-sm text-text-muted mt-1">{opt.description}</p>
+                  {isRec && (
+                    <p className="text-xs text-accent-blue mt-2">Why: {recommendationReason(cp.id)}</p>
+                  )}
+                  <p className="text-xs text-text-secondary mt-2">
+                    {effect
+                      ? `Expected: ${effect}${isRec ? '' : ' (less suited here than the recommended one)'}`
+                      : 'The measure is recorded here; the queue number stays a live Pantherlake reading.'}
+                  </p>
+                </div>
+                <button
+                  onClick={() => handleExecuteSop(cp.id, opt.id)}
+                  disabled={!!active}
+                  className={`btn shrink-0 min-w-[8.5rem] ${
+                    isThis ? 'btn-primary' : isRec ? 'btn-primary' : 'btn-secondary'
+                  } ${active ? 'opacity-60 cursor-not-allowed' : ''}`}
+                >
+                  <Zap className="w-4 h-4" />
+                  {isThis ? 'Running' : 'Execute'}
+                </button>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
+
+  // The strip at the bottom of each card: what the queue is doing right now,
+  // or what an SOP just changed. A fixed height on every card, so a strip
+  // appearing never makes the grid jump.
+  const renderCardStrip = (cp: CheckpointData, isLive: boolean, cameraId?: string) => {
+    const s = cp.surge;
+    const sop = s?.sop ?? cp.liveSop ?? null;
+    let tone = 'border-primary-600/30 bg-primary-700/20 text-text-muted';
+    let line1: string;
+    let line2: string;
+    let progress: number | null = null;
+
+    if (sop) {
+      tone = 'border-accent-blue/40 bg-accent-blue/10 text-accent-blue';
+      if (sop.live) {
+        line1 = `${sop.short} active`;
+        line2 = 'Live queue unchanged · measures in place';
+      } else {
+        line1 = sop.capTo !== sop.capFrom
+          ? `${sop.short} · capacity ${sop.capFrom} → ${sop.capTo}`
+          : `${sop.short} active`;
+        line2 = `Queue ${sop.queueFrom} → ${sop.queueTo} · Wait ${sop.waitFrom} → ${sop.waitTo} min`;
+      }
+      progress = Math.min(1, Math.max(0, (sop.resetAt - Date.now()) / (sop.resetAt - sop.startedAt)));
+    } else if (s?.phase === 'critical') {
+      tone = 'border-status-error/50 bg-status-error/10 text-status-errorBright';
+      line1 = 'Action needed — queue at its limit';
+      line2 = `${s.queue} / ${s.capacity} (${Math.round(s.fill * 100)}%) · open to choose an SOP`;
+    } else if (s?.phase === 'rising') {
+      tone = 'border-status-warning/40 bg-status-warning/10 text-status-warning';
+      line1 = 'Queue rising';
+      line2 = `${s.baseline} → ${s.queue} · ${Math.round(s.fill * 100)}% of ${s.capacity} capacity`;
+    } else if (s) {
+      line1 = 'Within capacity';
+      line2 = `${s.queue} / ${s.capacity} · ${Math.round(s.fill * 100)}% full`;
+    } else {
+      line1 = isLive ? 'Live feed' : 'Waiting for feed';
+      line2 = isLive ? `Pantherlake · ${cameraId}` : 'Showing last known value';
+    }
+
+    return (
+      <div className={`relative h-[3rem] rounded-lg border px-2 py-1 overflow-hidden ${tone}`}>
+        <p className="text-[10px] font-semibold leading-tight truncate">{line1}</p>
+        <p className="text-[10px] leading-tight opacity-80 truncate mt-0.5">{line2}</p>
+        {progress !== null && (
+          <div
+            className="absolute left-0 bottom-0 h-0.5 bg-accent-blue/70"
+            style={{ width: `${progress * 100}%`, transition: 'width 1s linear' }}
+          />
+        )}
+      </div>
+    );
   };
 
   // Enhanced Component Modal with ALL TABS FUNCTIONAL
@@ -859,57 +1060,7 @@ const PassengerJourney: React.FC = () => {
                 </div>
               )}
 
-              {activeTab === 'actions' && (
-                <div className="space-y-6">
-                  <div className="bg-primary-700/40 p-5 rounded-lg backdrop-blur-sm border border-primary-600/30">
-                    <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
-                      <Zap className="w-5 h-5 mr-2 text-status-warning" />
-                      Available Actions
-                    </h4>
-                    <div className="space-y-4">
-                      <div className="border-b border-primary-600/50 pb-4">
-                        <div className="flex items-center justify-between mb-3">
-                          <h5 className="text-white font-medium">Execute Optimization SOP</h5>
-                          <div className="flex items-center space-x-2">
-                            <span className="text-xs text-accent-teal bg-accent-teal/20 px-2 py-1 rounded-full">
-                              Confidence: {selectedCheckpoint.status === 'critical' ? '95%' : '92%'}
-                            </span>
-                            <span className="text-xs text-status-neutral bg-status-neutral/20 px-2 py-1 rounded-full">Safe</span>
-                          </div>
-                        </div>
-                        <p className="text-sm text-text-muted mb-4">
-                          {selectedCheckpoint.status === 'critical' 
-                            ? `Deploy emergency staffing and activate backup processing lanes. Expected 40% improvement in queue processing.`
-                            : `Apply AI-recommended optimization for ${selectedCheckpoint.name}. Expected ${selectedCheckpoint.status === 'congested' ? '25%' : '8%'} performance improvement.`
-                          }
-                        </p>
-                        <div className="flex space-x-3">
-                          <motion.button
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                            onClick={() => handleExecuteSOP(selectedCheckpoint.id, selectedCheckpoint.name)}
-                            disabled={executedSOPs[selectedCheckpoint.id]}
-                            className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 flex items-center space-x-2 ${
-                              executedSOPs[selectedCheckpoint.id]
-                                ? 'bg-status-neutral/20 text-status-neutral cursor-not-allowed'
-                                : 'bg-accent-blue hover:bg-accent-blueHover text-white shadow-lg'
-                            }`}
-                            style={!executedSOPs[selectedCheckpoint.id] ? {
-                              boxShadow: `
-                                0 4px 20px rgba(59, 130, 246, 0.3),
-                                inset 0 1px 0 rgba(191, 219, 254, 0.22)
-                              `
-                            } : {}}
-                          >
-                            <Zap className="w-4 h-4" />
-                            <span>{executedSOPs[selectedCheckpoint.id] ? '✓ SOP Executed' : 'Execute SOP'}</span>
-                          </motion.button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
+              {activeTab === 'actions' && renderSopList(selectedCheckpoint)}
 
               {activeTab === 'evidence' && (
                 <div className="space-y-6">
@@ -1555,6 +1706,8 @@ const PassengerJourney: React.FC = () => {
               const isActive = selectedCheckpoint?.id === checkpoint.id;
               const zone = PANTHERLAKE_ZONE_BY_CHECKPOINT.get(checkpoint.id);
               const isLive = !!zone && !!pantherlakeQueues[zone.cameraId];
+              // A card that has hit its limit and is waiting for an operator.
+              const needsAction = checkpoint.surge?.phase === 'critical';
 
               return (
                 <motion.div
@@ -1564,11 +1717,20 @@ const PassengerJourney: React.FC = () => {
                   transition={{ delay: index * 0.1 }}
                   whileHover={{ y: -2 }}
                   className={`relative overflow-hidden bg-primary-800/60 rounded-xl p-4 border cursor-pointer transition-colors duration-200 group ${
-                    isActive ? 'border-accent-blue/60 ring-1 ring-accent-blue/30' : 'border-primary-600/40 hover:border-accent-blue/40'
+                    needsAction
+                      ? 'border-status-error/70'
+                      : isActive
+                      ? 'border-accent-blue/60 ring-1 ring-accent-blue/30'
+                      : 'border-primary-600/40 hover:border-accent-blue/40'
                   }`}
                   onClick={() => handleCheckpointClick(checkpoint)}
                   style={{
-                    boxShadow: `
+                    boxShadow: needsAction
+                      ? `
+                      0 0 28px rgba(188, 32, 35, 0.35),
+                      inset 0 1px 0 rgba(235, 68, 44, 0.2)
+                    `
+                      : `
                       0 8px 32px rgba(0, 0, 0, 0.3),
                       inset 0 1px 0 rgba(147, 197, 253, 0.15)
                     `
@@ -1633,6 +1795,8 @@ const PassengerJourney: React.FC = () => {
                           style={{ width: `${checkpoint.slaCompliance}%` }}
                         />
                       </div>
+
+                      {renderCardStrip(checkpoint, isLive, zone?.cameraId)}
                     </div>
                   </div>
                 </motion.div>
