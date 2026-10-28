@@ -2,11 +2,16 @@
  * Queue-surge simulation for the Passenger Journey checkpoint cards.
  *
  * Six of the ten checkpoints (the ones NOT fed by Pantherlake) are given a
- * capacity and driven through a repeating cycle, one card at a time:
+ * capacity and each run their own repeating cycle, all at the same time:
  *
- *   idle → rising (queue climbs to the critical line) → critical (waits for the
- *   operator) → SOP executed (queue relieved, change shown on the card) →
- *   after a hold the card returns to its fresh baseline → next card.
+ *   idle → rising (queue climbs by 1 every `stepMs` to the critical line) →
+ *   critical (waits for the operator) → SOP executed (queue relieved, change
+ *   shown on the card) → after a hold the card returns to its fresh baseline
+ *   and starts over.
+ *
+ * Each card has its own start delay and its own step interval, so the six
+ * never move in lockstep and a red card turns up now and then rather than
+ * all at once.
  *
  * Status is derived from queue ÷ capacity, so "full" finally means something.
  * Wait time and SLA are derived from the same fill, so the whole card degrades
@@ -80,43 +85,39 @@ interface SurgeCardConfig {
   capacity: number;
   /** Wait time (min) when the queue is exactly at capacity. */
   maxWaitMin: number;
+  /** The queue gains 1 every this many ms while the card is rising. */
+  stepMs: number;
+  /** How long after the page opens before this card starts rising. */
+  startDelayMs: number;
   recommended: SopId;
   reason: string;
 }
 
-/** Order the cards surge in. */
-export const SURGE_ORDER = [
-  'baggage-drop',
-  'security',
-  'immigration',
-  'boarding-gate',
-  'aircraft-entry',
-  'cabin-process',
-] as const;
-
+// Each card has its own pace, so they never move in step. Time to reach the
+// limit is (steps to the critical line) × stepMs — roughly 65–120s here.
 export const SURGE_CARDS: Record<string, SurgeCardConfig> = {
   'baggage-drop': {
-    baseline: 14, capacity: 50, maxWaitMin: 24, recommended: 'offload',
+    baseline: 14, capacity: 50, maxWaitMin: 24, stepMs: 2_200, startDelayMs: 2_000, recommended: 'offload',
     reason: 'A volume problem — moving drop-off to kiosks and curbside takes people out of the queue.',
   },
   security: {
-    baseline: 18, capacity: 70, maxWaitMin: 25, recommended: 'fast-track',
+    baseline: 18, capacity: 70, maxWaitMin: 25, stepMs: 2_600, startDelayMs: 8_000, recommended: 'fast-track',
     reason: 'Time-critical — pulling out passengers whose flights board soon protects departures.',
   },
   immigration: {
-    baseline: 10, capacity: 45, maxWaitMin: 20, recommended: 'snake',
+    baseline: 10, capacity: 45, maxWaitMin: 20, stepMs: 2_800, startDelayMs: 14_000, recommended: 'snake',
     reason: 'A hall with open floor space — a serpentine layout adds capacity with no extra staff.',
   },
   'boarding-gate': {
-    baseline: 22, capacity: 90, maxWaitMin: 18, recommended: 'fast-track',
+    baseline: 22, capacity: 90, maxWaitMin: 18, stepMs: 2_200, startDelayMs: 5_000, recommended: 'fast-track',
     reason: 'Flights are about to close — fast-tracking the nearest departures comes first.',
   },
   'aircraft-entry': {
-    baseline: 6, capacity: 30, maxWaitMin: 15, recommended: 'inflow-metering',
+    baseline: 6, capacity: 30, maxWaitMin: 15, stepMs: 3_500, startDelayMs: 11_000, recommended: 'inflow-metering',
     reason: 'Crowding at the jet bridge — holding passengers back keeps the approach clear.',
   },
   'cabin-process': {
-    baseline: 4, capacity: 40, maxWaitMin: 12, recommended: 'inflow-metering',
+    baseline: 4, capacity: 40, maxWaitMin: 12, stepMs: 3_200, startDelayMs: 17_000, recommended: 'inflow-metering',
     reason: 'Boarding density — metering the inflow stops the aisle backing up.',
   },
 };
@@ -132,12 +133,10 @@ export const FILL_CRITICAL = 0.85;
 const OFF_FIT = 0.6;
 const fitFor = (cardId: string, sopId: SopId) => (SURGE_CARDS[cardId]?.recommended === sopId ? 1 : OFF_FIT);
 
-const RISE_MS = 45_000;
 const ANIM_MS = 4_000;
 const HOLD_MS = 35_000;
-const GAP_MS = 4_000;
-const INITIAL_DELAY_MS = 3_000;
-const CREEP_MS = 3_000;
+/** Pause between a card resetting and it starting to rise again. */
+const RESTART_GAP_MS = 6_000;
 const TICK_MS = 1_000;
 
 const statusForFill = (fill: number): CheckpointStatus =>
@@ -183,11 +182,20 @@ export interface CardSurge {
   sop: SopRecord | null;
 }
 
-interface CardSim { queue: number; capacity: number; sop: SopRecord | null }
-type StageKind = 'gap' | 'rising' | 'critical' | 'relieved';
-interface Stage { kind: StageKind; idx: number; since: number }
+/** Where a card is in its own cycle. 'relieved' lasts while an SOP is active. */
+type Stage = 'gap' | 'rising' | 'critical' | 'relieved';
+interface CardSim {
+  queue: number;
+  capacity: number;
+  sop: SopRecord | null;
+  stage: Stage;
+  /** When the current stage began. */
+  since: number;
+  /** When the queue last crept up while sitting at critical. */
+  lastCreep: number;
+}
 
-const ALL_IDS = [...SURGE_ORDER];
+const ALL_IDS = Object.keys(SURGE_CARDS);
 
 interface Options {
   /** Pantherlake-owned checkpoints, which can take an SOP but not a queue change. */
@@ -200,31 +208,35 @@ export function useQueueSurge({ liveCardIds, onCritical, onReset }: Options) {
   const callbacks = useRef({ onCritical, onReset });
   callbacks.current = { onCritical, onReset };
 
-  const simRef = useRef<{ cards: Record<string, CardSim>; stage: Stage; lastCreep: number } | null>(null);
+  const simRef = useRef<{ cards: Record<string, CardSim> } | null>(null);
   if (!simRef.current) {
+    const now = Date.now();
     const cards: Record<string, CardSim> = {};
-    ALL_IDS.forEach((id) => { cards[id] = { queue: SURGE_CARDS[id].baseline, capacity: SURGE_CARDS[id].capacity, sop: null }; });
-    liveCardIds.forEach((id) => { cards[id] = { queue: 0, capacity: 0, sop: null }; });
-    simRef.current = {
-      cards,
-      stage: { kind: 'gap', idx: 0, since: Date.now() - GAP_MS + INITIAL_DELAY_MS },
-      lastCreep: 0,
-    };
+    ALL_IDS.forEach((id) => {
+      const cfg = SURGE_CARDS[id];
+      cards[id] = {
+        queue: cfg.baseline, capacity: cfg.capacity, sop: null,
+        // Backdated so the first gap lasts exactly this card's start delay.
+        stage: 'gap', since: now - RESTART_GAP_MS + cfg.startDelayMs, lastCreep: 0,
+      };
+    });
+    liveCardIds.forEach((id) => {
+      cards[id] = { queue: 0, capacity: 0, sop: null, stage: 'gap', since: now, lastCreep: 0 };
+    });
+    simRef.current = { cards };
   }
 
   const buildSnapshot = useCallback(() => {
     const sim = simRef.current!;
-    const stageId = ALL_IDS[sim.stage.idx];
     const cards: Record<string, CardSurge> = {};
     ALL_IDS.forEach((id) => {
       const c = sim.cards[id];
       const fill = c.queue / c.capacity;
-      const isStage = id === stageId;
       const phase: SurgePhase = c.sop
         ? 'relieved'
-        : isStage && sim.stage.kind === 'rising'
+        : c.stage === 'rising'
         ? 'rising'
-        : isStage && sim.stage.kind === 'critical'
+        : c.stage === 'critical'
         ? 'critical'
         : 'idle';
       cards[id] = {
@@ -265,9 +277,9 @@ export function useQueueSurge({ liveCardIds, onCritical, onReset }: Options) {
             c.capacity = SURGE_CARDS[id].capacity;
           }
           callbacks.current.onReset?.(id, s.name);
-          if (sim.stage.kind === 'relieved' && ALL_IDS[sim.stage.idx] === id) {
-            sim.stage = { kind: 'gap', idx: (sim.stage.idx + 1) % ALL_IDS.length, since: now };
-          }
+          // Fresh again: a short pause, then it starts rising once more.
+          c.stage = 'gap';
+          c.since = now;
         } else if (!s.live) {
           const t = Math.min(1, Math.max(0, (now - s.startedAt) / ANIM_MS));
           c.queue = Math.round(s.queueFrom + (s.queueTo - s.queueFrom) * t);
@@ -275,30 +287,34 @@ export function useQueueSurge({ liveCardIds, onCritical, onReset }: Options) {
         }
       });
 
-      // The one card currently on its way to critical.
-      const stage = sim.stage;
-      const id = ALL_IDS[stage.idx];
-      const cfg = SURGE_CARDS[id];
-      const card = sim.cards[id];
+      // Every surge card runs its own cycle, all at once.
+      ALL_IDS.forEach((id) => {
+        const cfg = SURGE_CARDS[id];
+        const card = sim.cards[id];
+        if (card.sop) return; // relieved: the SOP branch above owns the numbers
 
-      if (stage.kind === 'gap') {
-        if (now - stage.since >= GAP_MS && !card.sop) sim.stage = { kind: 'rising', idx: stage.idx, since: now };
-      } else if (stage.kind === 'rising') {
-        const p = Math.min(1, (now - stage.since) / RISE_MS);
-        const target = Math.ceil(cfg.capacity * FILL_CRITICAL);
-        card.queue = Math.round(cfg.baseline + (target - cfg.baseline) * p);
-        if (p >= 1) {
-          sim.stage = { kind: 'critical', idx: stage.idx, since: now };
-          sim.lastCreep = now;
-          callbacks.current.onCritical?.(id, cfg.recommended);
+        if (card.stage === 'gap') {
+          if (now - card.since >= RESTART_GAP_MS) { card.stage = 'rising'; card.since = now; }
+        } else if (card.stage === 'rising') {
+          // One person at a time: +1 every stepMs, not a smooth slide.
+          const target = Math.ceil(cfg.capacity * FILL_CRITICAL);
+          const steps = Math.floor((now - card.since) / cfg.stepMs);
+          card.queue = Math.min(target, cfg.baseline + steps);
+          if (card.queue >= target) {
+            card.stage = 'critical';
+            card.since = now;
+            card.lastCreep = now;
+            callbacks.current.onCritical?.(id, cfg.recommended);
+          }
+        } else if (card.stage === 'critical') {
+          // Keeps creeping while it waits, at half the rising pace, so a card
+          // left alone keeps getting worse.
+          if (now - card.lastCreep >= cfg.stepMs * 2 && card.queue < card.capacity) {
+            card.queue += 1;
+            card.lastCreep = now;
+          }
         }
-      } else if (stage.kind === 'critical') {
-        // Keeps creeping while it waits, so a card left alone keeps worsening.
-        if (now - sim.lastCreep >= CREEP_MS && card.queue < card.capacity) {
-          card.queue += 1;
-          sim.lastCreep = now;
-        }
-      }
+      });
 
       setSnapshot(buildSnapshot());
     };
@@ -339,10 +355,11 @@ export function useQueueSurge({ liveCardIds, onCritical, onReset }: Options) {
     }
 
     c.sop = record;
-    // Relieving the card that is mid-surge ends its surge; the next card
-    // starts once this one has reset.
-    if (ALL_IDS[sim.stage.idx] === cardId && (sim.stage.kind === 'rising' || sim.stage.kind === 'critical')) {
-      sim.stage = { kind: 'relieved', idx: sim.stage.idx, since: now };
+    // Relieving a card that is mid-surge ends that surge; it starts over
+    // once the SOP has run its course and the card has reset.
+    if (c.stage === 'rising' || c.stage === 'critical') {
+      c.stage = 'relieved';
+      c.since = now;
     }
     setSnapshot(buildSnapshot());
     return record;
