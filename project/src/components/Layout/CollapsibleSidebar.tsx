@@ -11,7 +11,8 @@ import {
   FileText,
   BarChart3,
   Monitor,
-  MapPin
+  MapPin,
+  Settings
 } from "lucide-react";
 
 interface CollapsibleSidebarProps {
@@ -47,7 +48,8 @@ const CollapsibleSidebar: React.FC<CollapsibleSidebarProps> = ({
     { id: "commercial", label: "Commercial & Revenue", icon: DollarSign, shortcut: "Ctrl+9" },
     { id: "sustainability", label: "Sustainability & Environment", icon: Leaf, shortcut: "Ctrl+Shift+1" },
     { id: "sops", label: "SOP Console", icon: FileText, shortcut: "Ctrl+Shift+2" },
-    { id: "reports", label: "Analytics & Reporting", icon: BarChart3, shortcut: "Ctrl+0" }
+    { id: "reports", label: "Analytics & Reporting", icon: BarChart3, shortcut: "Ctrl+0" },
+    { id: "settings", label: "Settings", icon: Settings, shortcut: "" }
   ];
 
   const showTooltip = (e: React.MouseEvent<HTMLElement>, label: string) => {

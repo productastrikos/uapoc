@@ -36,6 +36,7 @@ import DetailModal from '../UI/DetailModal';
 import { useLanguage } from "../../hooks/useLanguage";
 import { useToast } from "../../hooks/useToast";
 import AiInsightPanel from '../../ai/components/AiInsightPanel';
+import LiveZonesCard from './PantherlakeFeedCards';
 import { useAiDomain } from '../../ai/store';
 
 // Enhanced Mock Flight Data with realistic details
@@ -988,6 +989,9 @@ const AOCCDashboard: React.FC = () => {
 
         {/* Enhanced Flight Operations Table with Full Screen */}
         <FlightOperationsSection onSelect={handleKPIClick} />
+
+        {/* Pantherlake live feeds — one zone per use case. */}
+        <LiveZonesCard />
 
         {/* Enhanced Detail Modal */}
         <DetailModal

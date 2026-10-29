@@ -1,0 +1,196 @@
+/* ---------------------------------------------------------------------------
+ * Simulations, per theme.
+ *
+ * Everything inside a `.sim-root` (the Unattended Baggage response, the
+ * security / baggage / flight simulations, their popups) is themed with the
+ * rest of the platform. The isometric scenes are drawn with fixed colours, so
+ * they are remapped here onto each theme's --sc-* palette (defined in
+ * v2/v3/v4.css) and, in the light themes, sit inside a dark "monitor" panel so
+ * they keep their contrast. Version 1 loads none of this.
+ * ------------------------------------------------------------------------- */
+
+/* ---- Light themes (v2, v4): the sim UI follows the light glass ------------- */
+:is([data-theme="v2"], [data-theme="v4"]) .sim-root {
+  --bg-primary: rgb(var(--c-primary-900));
+  --bg-secondary: rgb(var(--c-primary-800));
+  --bg-tertiary: rgb(var(--c-primary-700));
+  --bg-card: rgb(var(--c-primary-800));
+  --bg-surface: rgb(var(--c-primary-600));
+  --text-primary: rgb(var(--c-text-primary));
+  --text-secondary: rgb(var(--c-text-secondary));
+  --text-tertiary: rgb(var(--c-text-secondary));
+  --text-muted: rgb(var(--c-text-muted));
+  --accent-blue: rgb(var(--c-accent-blue));
+  --accent-blue-dark: rgb(var(--c-accent-blueHover));
+  --border-primary: rgb(var(--c-primary-600));
+  --border-secondary: rgb(var(--c-primary-500));
+  --border-accent: rgb(var(--c-accent-blue));
+  color: rgb(var(--c-text-primary));
+  color-scheme: light;
+}
+:is([data-theme="v2"], [data-theme="v4"]) .sim-root *,
+:is([data-theme="v2"], [data-theme="v4"]) .sim-root { color-scheme: light; }
+:is([data-theme="v2"], [data-theme="v4"]) .sim-root *::-webkit-scrollbar-track { background: transparent; }
+
+/* the scene sits in a dark monitor, framed by the glass around it */
+:is([data-theme="v2"], [data-theme="v4"]) .sim-root :is(div):has(> svg.w-full.h-full) {
+  background: radial-gradient(ellipse at 50% 30%, var(--sc-1), var(--sc-0));
+  border-radius: 1rem;
+  box-shadow: inset 0 0 0 1px rgba(var(--ac-c), 0.25), 0 10px 30px rgba(var(--shadow-c), 0.18);
+}
+:is([data-theme="v2"], [data-theme="v4"]) .sim-root .bg-primary-900\/70:has(svg.w-full.h-full) {
+  background: var(--sc-0);
+}
+
+/* ---- Dusk (v3): the sim keeps its dark surfaces, in plum and amber --------- */
+[data-theme="v3"] .sim-root {
+  --bg-primary: #16132c;
+  --bg-secondary: #1d1a39;
+  --bg-tertiary: #2a1840;
+  --bg-card: #1d1a39;
+  --bg-surface: #451952;
+  --text-primary: #f7e8e5;
+  --text-secondary: #e8bcb9;
+  --text-tertiary: #e8bcb9;
+  --text-muted: #b28696;
+  --accent-blue: #f39f5a;
+  --accent-blue-dark: #d9823c;
+  --accent-purple: #f39f5a;
+  --accent-purple-dark: #d9823c;
+  --border-primary: #451952;
+  --border-secondary: #6c2c6e;
+  --border-accent: #f39f5a;
+  --shadow-accent: rgba(243, 159, 90, 0.3);
+}
+[data-theme="v3"] .sim-root.sim-surface {
+  background:
+    radial-gradient(ellipse at top left, rgba(243, 159, 90, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom right, rgba(108, 44, 110, 0.4) 0%, transparent 55%),
+    var(--bg-primary);
+}
+[data-theme="v3"] .sim-root .glass-morphism,
+[data-theme="v3"] .sim-root .glass-card {
+  background: linear-gradient(158deg, rgba(69, 25, 82, 0.5) 0%, rgba(29, 26, 57, 0.92) 100%);
+  border-color: rgba(243, 159, 90, 0.2);
+}
+[data-theme="v3"] .sim-root .sim-row:hover {
+  background: rgba(243, 159, 90, 0.08);
+  border-color: rgba(243, 159, 90, 0.4);
+}
+[data-theme="v3"] .sim-root .bg-primary-900\/70:has(svg.w-full.h-full) { background: var(--sc-0); }
+
+
+/* panels the ported screens style with fixed teal-navy gradients */
+:is([data-theme="v2"], [data-theme="v4"]) .sim-root .hbms-control-panel,
+:is([data-theme="v2"], [data-theme="v4"]) .sim-root .glass-card,
+:is([data-theme="v2"], [data-theme="v4"]) .sim-root .glass-morphism {
+  background: var(--v2-glass-strong);
+  border: 1px solid var(--v2-edge);
+  box-shadow: var(--v2-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+:is([data-theme="v2"], [data-theme="v4"]) .sim-root .hbms-control-panel::before {
+  background: linear-gradient(90deg, transparent, rgba(var(--ac-c), 0.5) 20%, rgba(var(--ac-c), 0.2) 80%, transparent);
+}
+:is([data-theme="v2"], [data-theme="v4"]) .sim-root .hbms-metric-card {
+  background: linear-gradient(155deg, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.55));
+  border: 1px solid var(--v2-edge);
+  box-shadow: var(--v2-shadow);
+}
+:is([data-theme="v2"], [data-theme="v4"]) .sim-root .hbms-metric-card::after { display: none; }
+:is([data-theme="v2"], [data-theme="v4"]) .sim-root .hbms-metric-card:hover {
+  box-shadow: var(--v2-shadow-lift);
+  border-color: rgba(var(--ac-c), 0.4);
+}
+:is([data-theme="v2"], [data-theme="v4"]) .sim-root .digital-twin-container,
+:is([data-theme="v2"], [data-theme="v4"]) .sim-root .bg-gradient-digital-twin {
+  background: radial-gradient(ellipse at 50% 30%, var(--sc-1), var(--sc-0));
+  border: 1px solid rgba(var(--ac-c), 0.25);
+}
+:is([data-theme="v2"], [data-theme="v4"]) .sim-root .sim-row:hover {
+  background: rgba(var(--ac-c), 0.08);
+  border-color: rgba(var(--ac-c), 0.4);
+}
+:is([data-theme="v2"], [data-theme="v4"]) .sim-root.sim-surface {
+  background: radial-gradient(ellipse at top left, rgba(var(--ac-c), 0.1), transparent 55%), var(--bg-primary);
+}
+
+[data-theme="v3"] .sim-root .hbms-control-panel {
+  background: linear-gradient(160deg, rgba(69, 25, 82, 0.6) 0%, rgba(22, 19, 44, 0.9) 100%);
+  border-color: rgba(243, 159, 90, 0.22);
+  box-shadow: 0 10px 34px rgba(8, 6, 20, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+[data-theme="v3"] .sim-root .hbms-control-panel::before {
+  background: linear-gradient(90deg, transparent, rgba(243, 159, 90, 0.55) 20%, rgba(232, 188, 185, 0.35) 80%, transparent);
+}
+[data-theme="v3"] .sim-root .hbms-metric-card {
+  background: linear-gradient(155deg, rgba(108, 44, 110, 0.35) 0%, rgba(29, 26, 57, 0.92) 100%);
+  border-color: rgba(243, 159, 90, 0.18);
+}
+[data-theme="v3"] .sim-root .hbms-metric-card::after {
+  background: radial-gradient(120% 90% at 0% 0%, rgba(243, 159, 90, 0.1), transparent 60%);
+}
+[data-theme="v3"] .sim-root .digital-twin-container,
+[data-theme="v3"] .sim-root .bg-gradient-digital-twin {
+  background: radial-gradient(ellipse at 50% 30%, var(--sc-1), var(--sc-0));
+  border-color: rgba(243, 159, 90, 0.25);
+}
+
+/* ---- Scene palette remap (all three) --------------------------------------- */
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg :is([fill="#01A3A4" i]) { fill: var(--sc-ac); }
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg :is([stroke="#01A3A4" i]) { stroke: var(--sc-ac); }
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg :is([stop-color="#01A3A4" i]) { stop-color: var(--sc-ac); }
+/* generated: scene palette remap (teal/navy -> per-theme --sc-* variables) */
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [fill="#04101F" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [fill="#04141D" i] { fill: var(--sc-0); }
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [stroke="#04101F" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [stroke="#04141D" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [stroke="#04161F" i] { stroke: var(--sc-0); }
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [stop-color="#04101F" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [stop-color="#04141D" i] { stop-color: var(--sc-0); }
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [fill="#061520" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [fill="#06202C" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [fill="#062231" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [fill="#0A2130" i] { fill: var(--sc-1); }
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [stroke="#081F2B" i] { stroke: var(--sc-1); }
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [stop-color="#051724" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [stop-color="#061A2C" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [stop-color="#061B28" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [stop-color="#061C28" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [stop-color="#071028" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [stop-color="#082434" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [stop-color="#082735" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [stop-color="#0B2331" i] { stop-color: var(--sc-1); }
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [fill="#08203A" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [fill="#0A2E3E" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [fill="#0A3346" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [fill="#0A3A52" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [fill="#0B3D52" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [fill="#0C3546" i] { fill: var(--sc-2); }
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [stroke="#0A3346" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [stroke="#0A3A52" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [stroke="#0B2836" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [stroke="#0B3D52" i] { stroke: var(--sc-2); }
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [stop-color="#0A2C3E" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [stop-color="#0B2F42" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [stop-color="#0B3D52" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [stop-color="#0C3546" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [stop-color="#0E2B3A" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [stop-color="#102532" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [stop-color="#12333F" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [stop-color="#14384A" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [stop-color="#16303F" i] { stop-color: var(--sc-2); }
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [fill="#0B6567" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [fill="#0E556A" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [fill="#0E7C7E" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [fill="#0F4A61" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [fill="#12495E" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [fill="#12607A" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [fill="#12979A" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [fill="#15505F" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [fill="#1D6A80" i] { fill: var(--sc-3); }
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [stroke="#0E556A" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [stroke="#14708A" i] { stroke: var(--sc-3); }
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [stop-color="#14607A" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [stop-color="#15637D" i],
+:is([data-theme="v2"],[data-theme="v3"],[data-theme="v4"]) .sim-root svg [stop-color="#1B3B4C" i] { stop-color: var(--sc-3); }
+/* buckets: {0: 7, 1: 13, 2: 19, 3: 14, 'ac': 0} */

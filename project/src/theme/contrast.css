@@ -1,0 +1,31 @@
+/* ---------------------------------------------------------------------------
+ * Text on filled controls: a dark fill always carries light lettering (and the
+ * light amber fill in Dusk carries dark lettering). Colours only — no layout.
+ * ------------------------------------------------------------------------- */
+
+/* the small red count badges (notification dots) — all themes */
+.bg-status-error.rounded-full,
+.bg-status-errorBright.rounded-full { color: #fff; }
+
+/* light themes: the navy / brown primary buttons and solid accent fills */
+:is([data-theme="v2"], [data-theme="v4"]) .btn-primary,
+:is([data-theme="v2"], [data-theme="v4"]) .btn-primary *,
+:is([data-theme="v2"], [data-theme="v4"]) .btn-danger-active,
+:is([data-theme="v2"], [data-theme="v4"]) .btn-danger-active * { color: #fff !important; }
+:is([data-theme="v2"], [data-theme="v4"]) .bg-accent-blue,
+:is([data-theme="v2"], [data-theme="v4"]) .bg-accent-blueHover,
+:is([data-theme="v2"], [data-theme="v4"]) .bg-accent-blue .text-white,
+:is([data-theme="v2"], [data-theme="v4"]) .bg-status-neutral.text-white,
+:is([data-theme="v2"], [data-theme="v4"]) .bg-status-error.rounded-full { color: #fff; }
+
+/* Dusk: amber fills take the deep indigo as ink */
+[data-theme="v3"] .bg-accent-blue,
+[data-theme="v3"] .bg-accent-blueHover,
+[data-theme="v3"] .bg-accent-blue *,
+[data-theme="v3"] .hover\:bg-accent-blueHover:hover { color: #1d1a39; }
+
+/* Dusk: the solid slate-blue control fill reads better with indigo ink */
+[data-theme="v3"] .bg-status-neutral\/80,
+[data-theme="v3"] .bg-status-neutral\/80 *,
+[data-theme="v3"] .bg-status-neutral:not([class*="bg-status-neutral/"]),
+[data-theme="v3"] .bg-status-neutral:not([class*="bg-status-neutral/"]) * { color: #1d1a39; }

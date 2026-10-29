@@ -1,5 +1,5 @@
 import React from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, MotionConfig, motion } from "framer-motion";
 import Header from "./components/Layout/Header";
 import CollapsibleSidebar from "./components/Layout/CollapsibleSidebar";
 import AOCCDashboard from "./components/Modules/AOCCDashboard";
@@ -24,6 +24,8 @@ import { ToastContainer } from "./components/UI/Toast";
 import AiCopilotDrawer from "./ai/components/AiCopilotDrawer";
 import { useNavStore } from "./store/useNavStore";
 import PantherlakeAlertPopup from "./components/UI/PantherlakeAlertPopup";
+import SettingsPage from "./components/Modules/SettingsPage";
+import { useSettingsStore, applySettingsToDocument } from "./store/useSettingsStore";
 import { ensurePantherlakeConnected } from "./services/pantherlakeMqtt";
 
 const AppContent: React.FC = () => {
@@ -36,6 +38,16 @@ const AppContent: React.FC = () => {
   const go = useNavStore((s) => s.go);
   const setActiveModule = (module: string) => go(module);
   const { isAuthenticated } = useAuthStore();
+
+  // Settings (theme, text size, reduced motion) are written onto <html> so
+  // they apply everywhere — including the login page, which is why this sits
+  // above the logged-out early return.
+  const theme = useSettingsStore((s) => s.theme);
+  const textSize = useSettingsStore((s) => s.textSize);
+  const reduceMotion = useSettingsStore((s) => s.reduceMotion);
+  React.useLayoutEffect(() => {
+    applySettingsToDocument({ theme, textSize, reduceMotion });
+  }, [theme, textSize, reduceMotion]);
 
   // Pantherlake alerts have to reach the operator on whatever console they're
   // on, so the feed is opened at the shell rather than by any one module.
@@ -152,6 +164,8 @@ const AppContent: React.FC = () => {
         return <SOPConsole />;
       case "reports":
         return <AnalyticsReporting />;
+      case "settings":
+        return <SettingsPage />;
       default:
         return <AOCCDashboard />;
     }
@@ -207,14 +221,19 @@ const AppContent: React.FC = () => {
 };
 
 const App: React.FC = () => {
+  // "Reduce animations" must also stop Framer Motion, which CSS can't reach.
+  // Off = 'never', which is what the app has always done.
+  const reduceMotion = useSettingsStore((s) => s.reduceMotion);
   return (
-    <LanguageProvider>
-      <ToastProvider>
-        <ErrorBoundary>
-          <AppContent />
-        </ErrorBoundary>
-      </ToastProvider>
-    </LanguageProvider>
+    <MotionConfig reducedMotion={reduceMotion ? "always" : "never"}>
+      <LanguageProvider>
+        <ToastProvider>
+          <ErrorBoundary>
+            <AppContent />
+          </ErrorBoundary>
+        </ToastProvider>
+      </LanguageProvider>
+    </MotionConfig>
   );
 };
 

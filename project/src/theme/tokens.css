@@ -1,0 +1,38 @@
+/* Version 1 colour tokens (the platform's original palette), as r g b channels
+ * so Tailwind can still apply opacity (see tailwind.config.js). Other themes
+ * redefine these under [data-theme="<id>"]; v1 is this block, unchanged. */
+:root {
+  --c-primary-900: 0 5 33;
+  --c-primary-800: 2 16 36;
+  --c-primary-700: 5 38 89;
+  --c-primary-600: 14 78 178;
+  --c-primary-500: 27 99 196;
+  --c-primary: 32 120 207;
+  --c-accent-gold: 230 184 92;
+  --c-accent-teal: 1 163 164;
+  --c-accent-purple: 168 85 247;
+  --c-accent-blue: 32 120 207;
+  --c-accent-blueHover: 14 78 178;
+  --c-accent-glow: 193 232 255;
+  --c-ai-200: 233 213 255;
+  --c-ai-300: 216 180 254;
+  --c-ai-400: 192 132 252;
+  --c-ai-500: 168 85 247;
+  --c-ai-600: 147 51 234;
+  --c-ai-700: 126 34 206;
+  --c-ai-900: 59 7 100;
+  --c-text-primary: 193 232 255;
+  --c-text-secondary: 125 160 202;
+  --c-text-muted: 84 131 179;
+  --c-sim-50: 242 247 251;
+  --c-sim-100: 193 232 255;
+  --c-sim-200: 125 160 202;
+  --c-sim-300: 125 160 202;
+  --c-sim-400: 84 131 179;
+  --c-sim-500: 14 78 178;
+  --c-sim-600: 14 78 178;
+  --c-sim-700: 5 38 89;
+  --c-sim-800: 2 16 36;
+  --c-sim-900: 0 5 33;
+  --c-sim-950: 0 3 22;
+}

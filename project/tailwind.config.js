@@ -42,10 +42,10 @@ export default {
          * reads `primary-800`, `accent-blue`, `text-primary` etc. picks up
          * the new look with no call-site changes. */
         primary: {
-          900: '#000521', // Page background — near-black navy
-          800: '#021024', // Panel background
-          700: '#052659', // Panel mid / hover
-          600: '#0E4EB2', // Panel light / active border
+          900: 'rgb(var(--c-primary-900) / <alpha-value>)', // Page background — near-black navy
+          800: 'rgb(var(--c-primary-800) / <alpha-value>)', // Panel background
+          700: 'rgb(var(--c-primary-700) / <alpha-value>)', // Panel mid / hover
+          600: 'rgb(var(--c-primary-600) / <alpha-value>)', // Panel light / active border
           /* `primary-500` is referenced by 28 components (mostly as a border
            * tint) but was never defined in this ramp — every one of those
            * classes was silently failing to generate and falling back to the
@@ -54,22 +54,22 @@ export default {
            * white/grey-literal grep ever caught. One step lighter than 600,
            * one step darker than the accent, so it reads as "a brighter
            * panel edge" rather than a second accent color. */
-          500: '#1B63C4',
-          DEFAULT: '#2078CF', // Accent blue
+          500: 'rgb(var(--c-primary-500) / <alpha-value>)',
+          DEFAULT: 'rgb(var(--c-primary) / <alpha-value>)', // Accent blue
         },
         accent: {
-          gold: '#E6B85C',
-          teal: '#01A3A4',
-          purple: '#A855F7',
+          gold: 'rgb(var(--c-accent-gold) / <alpha-value>)',
+          teal: 'rgb(var(--c-accent-teal) / <alpha-value>)',
+          purple: 'rgb(var(--c-accent-purple) / <alpha-value>)',
           /* The one accent color for every button/active-state/highlight in
            * the app. Hover is the next step down the palette (deeper, not
            * lighter) so a press reads as "pushed in". */
-          blue: '#2078CF',
-          blueHover: '#0E4EB2',
+          blue: 'rgb(var(--c-accent-blue) / <alpha-value>)',
+          blueHover: 'rgb(var(--c-accent-blueHover) / <alpha-value>)',
           /* The palette's lightest step — glow text, standout numbers, a
            * bright edge on a glass card. Used sparingly; it is a highlight,
            * not a body-text color. */
-          glow: '#C1E8FF',
+          glow: 'rgb(var(--c-accent-glow) / <alpha-value>)',
         },
 
         /* Everything the *model* says wears this ramp, and nothing else does.
@@ -77,21 +77,21 @@ export default {
          * inference is none of those, and an operator should be able to tell
          * at a glance which colour is a measurement and which is an opinion. */
         ai: {
-          200: '#E9D5FF',
-          300: '#D8B4FE',
-          400: '#C084FC',
-          500: '#A855F7',
-          600: '#9333EA',
-          700: '#7E22CE',
-          900: '#3B0764',
+          200: 'rgb(var(--c-ai-200) / <alpha-value>)',
+          300: 'rgb(var(--c-ai-300) / <alpha-value>)',
+          400: 'rgb(var(--c-ai-400) / <alpha-value>)',
+          500: 'rgb(var(--c-ai-500) / <alpha-value>)',
+          600: 'rgb(var(--c-ai-600) / <alpha-value>)',
+          700: 'rgb(var(--c-ai-700) / <alpha-value>)',
+          900: 'rgb(var(--c-ai-900) / <alpha-value>)',
         },
         /* Blue-tinted instead of neutral grey-white — small, but it's the
          * difference between "dark theme" and "blue platform throughout",
          * which was the explicit ask. */
         text: {
-          primary: '#C1E8FF',
-          secondary: '#7DA0CA',
-          muted: '#5483B3',
+          primary: 'rgb(var(--c-text-primary) / <alpha-value>)',
+          secondary: 'rgb(var(--c-text-secondary) / <alpha-value>)',
+          muted: 'rgb(var(--c-text-muted) / <alpha-value>)',
         },
         /* A specific 5-color set the user chose, replacing the generic
          * traffic-light red/green/yellow. Every status.* reference across
@@ -131,17 +131,17 @@ export default {
          *   simgold  -> secondary accent      (replaces `orange`/`amber`/`purple`)
          * ------------------------------------------------------------------ */
         sim: {
-          50: '#F2F7FB',
-          100: '#C1E8FF', // = text.primary
-          200: '#7DA0CA',
-          300: '#7DA0CA', // = text.secondary
-          400: '#5483B3', // = text.muted
-          500: '#0E4EB2',
-          600: '#0E4EB2', // = primary.600
-          700: '#052659', // = primary.700
-          800: '#021024', // = primary.800
-          900: '#000521', // = primary.900
-          950: '#000316',
+          50: 'rgb(var(--c-sim-50) / <alpha-value>)',
+          100: 'rgb(var(--c-sim-100) / <alpha-value>)', // = text.primary
+          200: 'rgb(var(--c-sim-200) / <alpha-value>)',
+          300: 'rgb(var(--c-sim-300) / <alpha-value>)', // = text.secondary
+          400: 'rgb(var(--c-sim-400) / <alpha-value>)', // = text.muted
+          500: 'rgb(var(--c-sim-500) / <alpha-value>)',
+          600: 'rgb(var(--c-sim-600) / <alpha-value>)', // = primary.600
+          700: 'rgb(var(--c-sim-700) / <alpha-value>)', // = primary.700
+          800: 'rgb(var(--c-sim-800) / <alpha-value>)', // = primary.800
+          900: 'rgb(var(--c-sim-900) / <alpha-value>)', // = primary.900
+          950: 'rgb(var(--c-sim-950) / <alpha-value>)',
         },
         simteal: {
           50: '#E6FAFA',

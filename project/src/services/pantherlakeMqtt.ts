@@ -47,6 +47,30 @@ export interface PantherlakeBag {
   alert: boolean;
 }
 
+/** Latest baggage-feed message from one camera, as received. */
+export interface PantherlakeBagFeedReading {
+  cameraId: string;
+  zoneLabel: string;
+  bagCount: number;
+  bags: PantherlakeBag[];
+  alert: boolean;
+  fps: number | null;
+  receivedAt: number;
+}
+
+/** A bag appearing in a camera's feed — logged the moment it is first seen,
+ *  whether or not it ever becomes an unattended alert. */
+export interface PantherlakeBagDetection {
+  id: string;
+  cameraId: string;
+  zoneLabel: string;
+  bagId: string;
+  label: string;
+  detectedAt: number;
+}
+
+const MAX_DETECTIONS = 20;
+
 export type BaggageAlertStatus = 'open' | 'executing' | 'resolved';
 
 export interface PantherlakeBaggageAlert {
@@ -65,6 +89,10 @@ interface PantherlakeState {
   connected: boolean;
   queues: Record<string, PantherlakeQueueReading>;
   baggageAlerts: PantherlakeBaggageAlert[];
+  /** Raw live-feed output of the baggage cameras, latest message per camera. */
+  bagFeeds: Record<string, PantherlakeBagFeedReading>;
+  /** Bags seen in the feed, newest first. */
+  bagDetections: PantherlakeBagDetection[];
   /** The alert currently shown as the corner popup, if any. */
   toastAlertId: string | null;
   /** Set when an operator follows a popup into the SOP Console. */
@@ -78,6 +106,8 @@ export const usePantherlakeStore = create<PantherlakeState>((set) => ({
   connected: false,
   queues: {},
   baggageAlerts: [],
+  bagFeeds: {},
+  bagDetections: [],
   toastAlertId: null,
   focusAlertId: null,
   dismissToast: () => set({ toastAlertId: null }),
@@ -128,12 +158,46 @@ function parseBags(raw: unknown): PantherlakeBag[] {
   }));
 }
 
+/** Bag ids present in each camera's previous message, to spot new arrivals. */
+const lastBagIds = new Map<string, Set<string>>();
+
+/** Records the raw feed output and logs any bag that wasn't in the camera's
+ *  previous message. Purely additive — the alert logic below is untouched. */
+function recordBagFeed(cameraId: string, bags: PantherlakeBag[], alerting: boolean, fps: number | null, now: number) {
+  const zoneLabel = zoneLabelFor(cameraId);
+  const previous = lastBagIds.get(cameraId) ?? new Set<string>();
+  const current = new Set(bags.map((b) => b.bagId));
+  lastBagIds.set(cameraId, current);
+  const fresh = bags.filter((b) => !previous.has(b.bagId));
+
+  usePantherlakeStore.setState((s) => ({
+    bagFeeds: {
+      ...s.bagFeeds,
+      [cameraId]: { cameraId, zoneLabel, bagCount: bags.length, bags, alert: alerting, fps, receivedAt: now },
+    },
+    bagDetections: fresh.length
+      ? [
+          ...fresh.map((b) => ({
+            id: `${cameraId}-${b.bagId}-${now}`,
+            cameraId,
+            zoneLabel,
+            bagId: b.bagId,
+            label: b.label,
+            detectedAt: now,
+          })),
+          ...s.bagDetections,
+        ].slice(0, MAX_DETECTIONS)
+      : s.bagDetections,
+  }));
+}
+
 function handleBaggage(msg: Record<string, unknown>) {
   if (typeof msg.camera_id !== 'string') return;
   const cameraId = msg.camera_id;
   const alerting = msg.alert === true;
   const bags = parseBags(msg.bags);
   const now = Date.now();
+  recordBagFeed(cameraId, bags, alerting, typeof msg.fps === 'number' ? msg.fps : null, now);
 
   usePantherlakeStore.setState((s) => {
     // One unresolved alert per camera at a time: while one is still open,

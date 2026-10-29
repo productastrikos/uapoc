@@ -12,6 +12,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { AlertTriangle, ChevronRight, X } from 'lucide-react';
 import { usePantherlakeStore } from '../../services/pantherlakeMqtt';
 import { useNavStore } from '../../store/useNavStore';
+import { useSettingsStore } from '../../store/useSettingsStore';
 
 export const capitalizeFirst = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
@@ -23,6 +24,9 @@ export function formatUnattended(seconds: number): string {
 
 const PantherlakeAlertPopup: React.FC = () => {
   const alert = usePantherlakeStore((s) => s.baggageAlerts.find((a) => a.id === s.toastAlertId) ?? null);
+  // Settings → "Live alert popups". Off hides only the corner popup; the alert
+  // itself still lands in the SOP Console.
+  const popupsOn = useSettingsStore((s) => s.showAlertPopups);
   const dismissToast = usePantherlakeStore((s) => s.dismissToast);
   const focusAlert = usePantherlakeStore((s) => s.focusAlert);
   const go = useNavStore((s) => s.go);
@@ -40,7 +44,7 @@ const PantherlakeAlertPopup: React.FC = () => {
 
   return (
     <AnimatePresence>
-      {alert && (
+      {alert && popupsOn && (
         <motion.div
           key={alert.id}
           initial={{ opacity: 0, x: 40, scale: 0.96 }}

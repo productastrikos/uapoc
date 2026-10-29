@@ -1,0 +1,86 @@
+/* ---------------------------------------------------------------------------
+ * Version 2 — "Daylight glass" (palette; the layout is in light.css).
+ *
+ * Frosted white panels floating over a soft, slowly drifting blue aurora. One
+ * hue (blue) in a handful of shades plus white; colour beyond that is reserved
+ * for real alerts. Everything here is scoped under [data-theme="v2"], so
+ * Version 1 is exactly what it was — it never loads a rule from this file.
+ *
+ * It works in two layers:
+ *   1. The colour tokens (see tokens.css / tailwind.config.js) are redefined, so
+ *      every `bg-primary-800`, `text-text-primary`, `border-primary-600/40`…
+ *      already in the app turns light with no call-site changes.
+ *   2. Surfaces, controls and chrome that carry their own literal colours are
+ *      overridden below, and the header/sidebar float instead of docking.
+ * ------------------------------------------------------------------------- */
+
+[data-theme="v2"] {
+  /* surfaces: page → panel → tint → edge */
+  --c-primary-900: 205 222 246;
+  --c-primary-800: 255 255 255;
+  --c-primary-700: 228 238 251;
+  --c-primary-600: 196 215 242;
+  --c-primary-500: 160 190 232;
+  --c-primary: 33 115 224;
+
+  --c-accent-blue: 33 115 224;
+  --c-accent-blueHover: 22 90 190;
+  --c-accent-glow: 12 44 96;
+  --c-accent-teal: 58 140 232;
+  --c-accent-purple: 84 110 230;
+  --c-accent-gold: 214 160 60;
+
+  /* ink */
+  --c-text-primary: 11 31 63;
+  --c-text-secondary: 52 78 118;
+  --c-text-muted: 98 122 158;
+
+  /* simulation scenes: the same dark→light ramp, flipped */
+  --c-sim-50: 11 31 63;
+  --c-sim-100: 18 45 90;
+  --c-sim-200: 52 78 118;
+  --c-sim-300: 70 96 136;
+  --c-sim-400: 98 122 158;
+  --c-sim-500: 120 160 215;
+  --c-sim-600: 196 215 242;
+  --c-sim-700: 222 234 249;
+  --c-sim-800: 240 246 253;
+  --c-sim-900: 248 251 255;
+  --c-sim-950: 255 255 255;
+
+  /* the AI ramp, folded into blue */
+  --c-ai-200: 20 58 128;
+  --c-ai-300: 28 78 160;
+  --c-ai-400: 40 104 196;
+  --c-ai-500: 33 115 224;
+  --c-ai-600: 24 94 200;
+  --c-ai-700: 196 215 242;
+  --c-ai-900: 226 238 252;
+
+  --v2-glass: rgba(255, 255, 255, 0.52);
+  --v2-glass-strong: rgba(255, 255, 255, 0.72);
+  --v2-edge: rgba(255, 255, 255, 0.85);
+  --v2-line: rgba(33, 115, 224, 0.14);
+  --v2-shadow: 0 10px 36px rgba(32, 80, 160, 0.10), 0 1px 3px rgba(32, 80, 160, 0.06);
+  --v2-shadow-lift: 0 16px 44px rgba(32, 80, 160, 0.16), 0 2px 6px rgba(32, 80, 160, 0.08);
+  color-scheme: light;
+
+  /* variables the shared light-glass rules (light.css) read, as "r, g, b" */
+  --ac-c: 33, 115, 224;
+  --deep1-c: 14, 44, 98;
+  --deep2-c: 8, 28, 68;
+  --shadow-c: 32, 80, 160;
+  --aur1-c: 70, 130, 235;
+  --aur2-c: 120, 170, 250;
+  --aur3-c: 24, 80, 190;
+  --wash-c: 120, 164, 226;
+  --page-c: 205, 222, 246;
+  --glint-c: 160, 205, 255;
+  --rail-ink-c: 160, 196, 245;
+  --modal-c: 250, 253, 255;
+  --mute-c: 98, 122, 158;
+  --btn-1: #1a4fa8; --btn-2: #0b2f6b; --btn-1h: #2160c4; --btn-2h: #0e3a82;
+  --nav-ink: #1456b8;
+  /* the dark "monitor" the simulation scenes sit in */
+  --sc-0: #06142c; --sc-1: #0a2048; --sc-2: #123a78; --sc-3: #2a62b8; --sc-ac: #5aa2ff;
+}

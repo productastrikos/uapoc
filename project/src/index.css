@@ -6,6 +6,13 @@
  * utilities and a dozen other rules. */
 @import './styles/gradients.css';
 @import './styles/animations.css';
+@import './theme/tokens.css';
+@import './theme/v2.css';
+@import './theme/v3.css';
+@import './theme/v4.css';
+@import './theme/light.css';
+@import './theme/sim-themes.css';
+@import './theme/contrast.css';
 
 @tailwind base;
 @tailwind components;
@@ -147,23 +154,28 @@
  *   .fs-ai   1.2    advisory text, which is prose and is the thing being read
  * ------------------------------------------------------------------------- */
 :root {
+  /* The user's text-size choice from Settings (Small / Default / Large).
+   * Every region's own scale below is multiplied by it, so the regions keep
+   * their relative sizes. 1 = Default, which leaves everything as designed. */
+  --fs-scale: 1;
+
   /* Nudged below 1 on top of the earlier full rescale — still "normal
    * desktop" sized, just a notch tighter so cards and numbers read as
    * refined rather than oversized. */
-  --fs: 0.92;
+  --fs: calc(0.92 * var(--fs-scale));
 }
 
 /* Sidebar, tab bars, button rows. These are targets, not reading material —
    at the body scale they crowded out the content they navigate to. */
 .fs-chrome {
-  --fs: 1;
+  --fs: var(--fs-scale);
 }
 
 /* AI advisory surfaces. The opposite case: full sentences an operator has to
    actually read and weigh before pressing a button, so they get more than the
    body scale rather than less. */
 .fs-ai {
-  --fs: 1.2;
+  --fs: calc(1.2 * var(--fs-scale));
 }
 
 /* The airfield lighting console. Its dock, rollups and alarm strip are all
@@ -172,7 +184,7 @@
    the app to read across a control room. Its own tab bar carries `.fs-chrome`
    and stays put. */
 .agl-root {
-  --fs: 1;
+  --fs: var(--fs-scale);
 }
 
 /* ---------------------------------------------------------------------------
@@ -222,7 +234,7 @@
    first thing anyone looks at, so they carry the largest scale in the console
    rather than the smallest. */
 .fs-subsystem-cards {
-  --fs: 1;
+  --fs: var(--fs-scale);
 }
 
 /* The KPI tiles, equipment charts and side panels on the subsystem pages.
@@ -347,3 +359,26 @@ iframe.goog-te-banner-frame,
 /* Google pushes the page down to make room for its banner — undo that */
 body { top: 0 !important; margin-top: 0 !important; padding-top: 0 !important; }
 html { margin-top: 0 !important; padding-top: 0 !important; }
+
+/* ---------------------------------------------------------------------------
+ * Themes.
+ *
+ * `<html data-theme="…">` is set from Settings (see src/theme/themes.ts).
+ * "v1" is the platform's original look and is the baseline — nothing above is
+ * scoped to it, so it needs no rules. A later theme must put ALL of its changes
+ * under `[data-theme="<id>"] …`, otherwise it would overwrite Version 1 instead
+ * of sitting beside it.
+ * ------------------------------------------------------------------------- */
+
+/* Settings → "Reduce animations". Covers CSS animations and transitions;
+   Framer Motion is switched off separately (MotionConfig in App.tsx). */
+:root[data-reduce-motion="true"] *,
+:root[data-reduce-motion="true"] *::before,
+:root[data-reduce-motion="true"] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  animation-delay: 0ms !important;
+  transition-duration: 0.001ms !important;
+  transition-delay: 0ms !important;
+  scroll-behavior: auto !important;
+}

@@ -26,7 +26,7 @@
    * viewing, but this override was never re-tuned with it, so this whole
    * console ended up rendering at ~1.6x the rest of the app instead of the
    * intended 1.2x. Keeping the same 1.2x ratio off the new base. */
-  --fs: 1.1;
+  --fs: calc(1.1 * var(--fs-scale, 1));
 
   /* Surfaces — translucent so the app's mesh gradient reads through, the
      same way the native TAMS consoles are built. */
