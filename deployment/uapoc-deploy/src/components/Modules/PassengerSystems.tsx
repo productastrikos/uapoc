@@ -1,0 +1,1212 @@
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { createPortal } from "react-dom";
+import { 
+  Server, 
+  Database, 
+  Wifi, 
+  Shield, 
+  Activity, 
+  AlertTriangle,
+  CheckCircle,
+  XCircle,
+  X,
+  TrendingUp,
+  TrendingDown,
+  Minus,
+  Info,
+  Brain,
+  Zap,
+  BarChart3,
+  Clock,
+  Users,
+  Globe,
+  Cpu,
+  Eye,
+  Target,
+  Lightbulb
+} from "lucide-react";
+import InfoButton from "../UI/InfoButton";
+import DetailModal from '../UI/DetailModal';
+import { useToast } from "../../hooks/useToast";
+
+// Trend Arrow Component for Data Visualization
+const TrendArrow: React.FC<{ trend: 'up' | 'down' | 'stable'; value?: number }> = ({ trend, value }) => {
+  if (trend === 'up') {
+    return <TrendingUp className="w-4 h-4 text-status-neutral inline ml-1" />;
+  } else if (trend === 'down') {
+    return <TrendingDown className="w-4 h-4 text-status-error inline ml-1" />;
+  }
+  return <Minus className="w-4 h-4 text-text-muted inline ml-1" />;
+};
+
+// Enhanced InfoButton with Portal
+const InfoButtonWithPortal: React.FC<{ description: string }> = ({ description }) => {
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+
+  const handleMouseEnter = (e: React.MouseEvent) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setPosition({
+      x: rect.left + rect.width / 2,
+      y: rect.top - 10
+    });
+    setShowTooltip(true);
+  };
+
+  return (
+    <>
+      <button
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={() => setShowTooltip(false)}
+        className="text-text-muted hover:text-text-primary transition-colors p-1"
+      >
+        <Info className="w-4 h-4" />
+      </button>
+
+      {showTooltip && createPortal(
+        <div
+          className="glass-panel-strong fixed z-[99999] text-text-primary text-sm px-3 py-2 rounded-lg shadow-2xl pointer-events-none transform -translate-x-1/2 -translate-y-full max-w-xs"
+          style={{
+            left: position.x,
+            top: position.y,
+          }}
+        >
+          {description}
+          <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-primary-800"></div>
+        </div>,
+        document.body
+      )}
+    </>
+  );
+};
+
+interface SystemHealth {
+  id: string;
+  name: string;
+  status: 'online' | 'offline' | 'warning';
+  uptime: number;
+  responseTime: number;
+  throughput: string;
+  lastUpdate: string;
+  description: string;
+  passengersProcessed: number;
+  transactionsCompleted: number;
+  errorRate: number;
+  cpuUsage: number;
+  memoryUsage: number;
+  diskUsage: number;
+  networkLatency: number;
+  securityLevel: 'High' | 'Medium' | 'Low';
+  alerts: Array<{ id: string; severity: 'critical' | 'warning' | 'info'; message: string; time: string }>;
+  performance: {
+    trend: 'up' | 'down' | 'stable';
+    changePercent: number;
+  };
+}
+
+interface SystemComponent {
+  id: string;
+  name: string;
+  layer: string;
+  description: string;
+  status: 'operational' | 'warning' | 'critical';
+  metrics?: {
+    dataFlow?: string;
+    apiCalls?: string;
+  };
+  detailedMetrics: {
+    processedItems: number;
+    successRate: number;
+    avgProcessingTime: number;
+    queueLength: number;
+    throughputTrend: 'up' | 'down' | 'stable';
+    errorCount: number;
+    lastMaintenance: string;
+  };
+}
+
+const PassengerSystems: React.FC = () => {
+  const { addToast } = useToast();
+  const [selectedSystem, setSelectedSystem] = useState<SystemHealth | null>(null);
+  const [selectedComponent, setSelectedComponent] = useState<SystemComponent | null>(null);
+  const [showModal, setShowModal] = useState(false);
+  const [showComponentModal, setShowComponentModal] = useState(false);
+  const [showAIAdvisoryModal, setShowAIAdvisoryModal] = useState(false);
+  const [activeTab, setActiveTab] = useState('overview');
+  const [systemRestarting, setSystemRestarting] = useState(false);
+  const [backupActive, setBackupActive] = useState(false);
+  const [healthCheckActive, setHealthCheckActive] = useState(false);
+  const [executedSOPs, setExecutedSOPs] = useState<{[key: string]: boolean}>({});
+  const [aiRecommendationExecuted, setAiRecommendationExecuted] = useState(false);
+
+  // Enhanced System Architecture Components
+  const systemComponents: SystemComponent[] = [
+    { 
+      id: 'cupps', 
+      name: 'CUPPS', 
+      layer: 'processing', 
+      description: 'Common Use Passenger Processing System - Centralized check-in and processing', 
+      status: 'operational',
+      detailedMetrics: {
+        processedItems: 3247,
+        successRate: 99.2,
+        avgProcessingTime: 145,
+        queueLength: 12,
+        throughputTrend: 'up',
+        errorCount: 3,
+        lastMaintenance: '2024-08-15'
+      }
+    },
+    { 
+      id: 'cuss', 
+      name: 'CUSS', 
+      layer: 'processing', 
+      description: 'Common Use Self Service - Self-service kiosks for passenger check-in', 
+      status: 'operational',
+      detailedMetrics: {
+        processedItems: 2156,
+        successRate: 97.8,
+        avgProcessingTime: 89,
+        queueLength: 8,
+        throughputTrend: 'stable',
+        errorCount: 7,
+        lastMaintenance: '2024-08-18'
+      }
+    },
+    { 
+      id: 'pts', 
+      name: 'PTS', 
+      layer: 'processing', 
+      description: 'Passenger Tracking System - Real-time passenger flow monitoring', 
+      status: 'warning',
+      detailedMetrics: {
+        processedItems: 1892,
+        successRate: 94.5,
+        avgProcessingTime: 234,
+        queueLength: 23,
+        throughputTrend: 'down',
+        errorCount: 15,
+        lastMaintenance: '2024-08-10'
+      }
+    },
+    { 
+      id: 'bhs', 
+      name: 'BHS', 
+      layer: 'processing', 
+      description: 'Baggage Handling System - Automated baggage processing', 
+      status: 'operational',
+      detailedMetrics: {
+        processedItems: 2847,
+        successRate: 98.7,
+        avgProcessingTime: 198,
+        queueLength: 15,
+        throughputTrend: 'up',
+        errorCount: 2,
+        lastMaintenance: '2024-08-16'
+      }
+    },
+    { 
+      id: 'sacs', 
+      name: 'SACS', 
+      layer: 'security', 
+      description: 'Security Access Control System - Access management and control', 
+      status: 'operational',
+      detailedMetrics: {
+        processedItems: 4521,
+        successRate: 99.9,
+        avgProcessingTime: 76,
+        queueLength: 3,
+        throughputTrend: 'stable',
+        errorCount: 1,
+        lastMaintenance: '2024-08-19'
+      }
+    },
+    { 
+      id: 'pcds', 
+      name: 'PCDS', 
+      layer: 'security', 
+      description: 'Passport Control Display System - Immigration processing', 
+      status: 'critical',
+      detailedMetrics: {
+        processedItems: 0,
+        successRate: 0,
+        avgProcessingTime: 0,
+        queueLength: 47,
+        throughputTrend: 'down',
+        errorCount: 23,
+        lastMaintenance: '2024-08-05'
+      }
+    },
+    { 
+      id: 'dataflow', 
+      name: 'Data Flow Rate', 
+      layer: 'integration', 
+      description: 'Real-time data processing and flow management', 
+      status: 'operational', 
+      metrics: { dataFlow: '2.4 GB/hr' },
+      detailedMetrics: {
+        processedItems: 45200,
+        successRate: 99.8,
+        avgProcessingTime: 12,
+        queueLength: 156,
+        throughputTrend: 'up',
+        errorCount: 5,
+        lastMaintenance: '2024-08-17'
+      }
+    },
+    { 
+      id: 'apicalls', 
+      name: 'API Calls', 
+      layer: 'integration', 
+      description: 'API gateway and service integration management', 
+      status: 'operational', 
+      metrics: { apiCalls: '45.2K/min' },
+      detailedMetrics: {
+        processedItems: 271200,
+        successRate: 99.5,
+        avgProcessingTime: 25,
+        queueLength: 89,
+        throughputTrend: 'stable',
+        errorCount: 12,
+        lastMaintenance: '2024-08-18'
+      }
+    },
+  ];
+
+  // Enhanced Systems with Comprehensive Data
+  const systems: SystemHealth[] = [
+    {
+      id: 'cupps',
+      name: 'Common Use Passenger Processing System (CUPPS)',
+      status: systemRestarting ? 'warning' : 'online',
+      uptime: systemRestarting ? 87.3 : 99.8,
+      responseTime: systemRestarting ? 245 : 145,
+      throughput: systemRestarting ? '1.8k req/min' : '2.4k req/min',
+      lastUpdate: '2 seconds ago',
+      description: 'Centralized passenger processing system enabling multiple airlines to use common check-in counters and gates',
+      passengersProcessed: 3247,
+      transactionsCompleted: 4521,
+      errorRate: 0.8,
+      cpuUsage: 67,
+      memoryUsage: 78,
+      diskUsage: 45,
+      networkLatency: 23,
+      securityLevel: 'High',
+      alerts: [
+        { id: 'a1', severity: 'warning', message: 'High memory usage detected', time: '5 min ago' },
+        { id: 'a2', severity: 'info', message: 'System optimization completed', time: '15 min ago' }
+      ],
+      performance: { trend: 'up', changePercent: 8.5 }
+    },
+    {
+      id: 'cuss',
+      name: 'Common Use Self Service (CUSS)',
+      status: backupActive ? 'warning' : 'online',
+      uptime: backupActive ? 94.2 : 99.5,
+      responseTime: backupActive ? 156 : 89,
+      throughput: backupActive ? '1.4k req/min' : '1.8k req/min',
+      lastUpdate: '5 seconds ago',
+      description: 'Self-service kiosks allowing passengers to check-in, print boarding passes, and manage baggage tags',
+      passengersProcessed: 2156,
+      transactionsCompleted: 3248,
+      errorRate: 2.2,
+      cpuUsage: 52,
+      memoryUsage: 61,
+      diskUsage: 38,
+      networkLatency: 18,
+      securityLevel: 'High',
+      alerts: [
+        { id: 'a3', severity: 'info', message: 'Kiosk maintenance scheduled', time: '1 hour ago' }
+      ],
+      performance: { trend: 'stable', changePercent: 1.2 }
+    },
+    {
+      id: 'pts',
+      name: 'Passenger Tracking System (PTS)',
+      status: healthCheckActive ? 'online' : 'warning',
+      uptime: healthCheckActive ? 99.1 : 97.2,
+      responseTime: healthCheckActive ? 156 : 234,
+      throughput: healthCheckActive ? '1.1k req/min' : '850 req/min',
+      lastUpdate: '12 seconds ago',
+      description: 'Real-time passenger flow monitoring and tracking system for security and operational efficiency',
+      passengersProcessed: 1892,
+      transactionsCompleted: 2456,
+      errorRate: 5.5,
+      cpuUsage: 84,
+      memoryUsage: 89,
+      diskUsage: 67,
+      networkLatency: 45,
+      securityLevel: 'Medium',
+      alerts: [
+        { id: 'a4', severity: 'warning', message: 'Performance degradation detected', time: '8 min ago' },
+        { id: 'a5', severity: 'critical', message: 'Queue length exceeding threshold', time: '12 min ago' }
+      ],
+      performance: { trend: 'down', changePercent: -12.3 }
+    },
+    {
+      id: 'sacs',
+      name: 'Security Access Control System (SACS)',
+      status: 'online',
+      uptime: 99.9,
+      responseTime: 76,
+      throughput: '3.2k req/min',
+      lastUpdate: '1 second ago',
+      description: 'Advanced security access control managing passenger and staff access to restricted areas',
+      passengersProcessed: 4521,
+      transactionsCompleted: 6847,
+      errorRate: 0.1,
+      cpuUsage: 34,
+      memoryUsage: 42,
+      diskUsage: 29,
+      networkLatency: 12,
+      securityLevel: 'High',
+      alerts: [
+        { id: 'a6', severity: 'info', message: 'Security scan completed successfully', time: '30 min ago' }
+      ],
+      performance: { trend: 'stable', changePercent: 0.8 }
+    },
+    {
+      id: 'bhs',
+      name: 'Baggage Handling System (BHS)',
+      status: 'online',
+      uptime: 98.7,
+      responseTime: 198,
+      throughput: '1.2k req/min',
+      lastUpdate: '8 seconds ago',
+      description: 'Automated baggage sorting, tracking, and delivery system from check-in to aircraft',
+      passengersProcessed: 2847,
+      transactionsCompleted: 3921,
+      errorRate: 1.3,
+      cpuUsage: 58,
+      memoryUsage: 65,
+      diskUsage: 52,
+      networkLatency: 28,
+      securityLevel: 'High',
+      alerts: [
+        { id: 'a7', severity: 'info', message: 'Conveyor belt maintenance completed', time: '2 hours ago' }
+      ],
+      performance: { trend: 'up', changePercent: 5.7 }
+    },
+    {
+      id: 'pcds',
+      name: 'Passport Control Display System (PCDS)',
+      status: 'offline',
+      uptime: 0,
+      responseTime: 0,
+      throughput: '0 req/min',
+      lastUpdate: '2 minutes ago',
+      description: 'Immigration and passport control display system for passenger processing at border control',
+      passengersProcessed: 0,
+      transactionsCompleted: 0,
+      errorRate: 100,
+      cpuUsage: 0,
+      memoryUsage: 0,
+      diskUsage: 95,
+      networkLatency: 999,
+      securityLevel: 'Low',
+      alerts: [
+        { id: 'a8', severity: 'critical', message: 'System offline - requires immediate attention', time: '2 min ago' },
+        { id: 'a9', severity: 'critical', message: 'Connection to immigration database lost', time: '5 min ago' }
+      ],
+      performance: { trend: 'down', changePercent: -100 }
+    }
+  ];
+
+  // AI Advisory Data with detailed metrics
+  const aiAdvisoryData = {
+    apiSuccessRate: aiRecommendationExecuted ? 99.9 : 99.8,
+    apiSuccessRateTrend: aiRecommendationExecuted ? 'up' : 'stable' as 'up' | 'down' | 'stable',
+    avgResponseTime: aiRecommendationExecuted ? 132 : 145,
+    responseTimeTrend: aiRecommendationExecuted ? 'down' : 'stable' as 'up' | 'down' | 'stable',
+    activeConnections: aiRecommendationExecuted ? '9.2k' : '8.7k',
+    connectionsTrend: aiRecommendationExecuted ? 'up' : 'stable' as 'up' | 'down' | 'stable',
+    dataProcessed: aiRecommendationExecuted ? '2.8GB' : '2.4GB',
+    dataProcessedTrend: aiRecommendationExecuted ? 'up' : 'stable' as 'up' | 'down' | 'stable',
+    cpuUsage: aiRecommendationExecuted ? '58%' : '67%',
+    cpuUsageTrend: aiRecommendationExecuted ? 'down' : 'stable' as 'up' | 'down' | 'stable',
+    recommendations: [
+      'Optimize PTS queue processing algorithms for 15% performance improvement',
+      'Scale up CUPPS instances during peak hours (8-11 AM)',
+      'Implement proactive maintenance for PCDS system recovery',
+      'Deploy ML-based predictive analytics for baggage flow optimization',
+      'Enhance security protocols with behavioral analysis integration'
+    ]
+  };
+
+  // Button handlers
+  const handleSystemRestart = () => {
+    setSystemRestarting(!systemRestarting);
+    addToast({
+      type: systemRestarting ? 'info' : 'warning',
+      title: systemRestarting ? 'System Restart Cancelled' : 'System Restart Initiated',
+      message: systemRestarting ? 
+        'System restart procedure cancelled. All systems returning to normal operation.' : 
+        'CUPPS system restart initiated. Performance temporarily degraded during restart sequence.',
+      duration: 5000
+    });
+
+    if (!systemRestarting) {
+      setTimeout(() => {
+        setSystemRestarting(false);
+        addToast({
+          type: 'success',
+          title: 'System Restart Complete',
+          message: 'CUPPS system restart completed successfully. All systems operational.',
+          duration: 4000
+        });
+      }, 15000);
+    }
+  };
+
+  const handleActivateBackup = () => {
+    setBackupActive(!backupActive);
+    addToast({
+      type: backupActive ? 'info' : 'success',
+      title: backupActive ? 'Backup Systems Deactivated' : 'Backup Systems Activated',
+      message: backupActive ? 
+        'Primary systems restored. Backup systems returned to standby mode.' : 
+        'CUSS backup systems activated. Redundant processing enabled for increased reliability.',
+      duration: 4000
+    });
+  };
+
+  const handleHealthCheck = () => {
+    setHealthCheckActive(!healthCheckActive);
+    addToast({
+      type: healthCheckActive ? 'info' : 'success',
+      title: healthCheckActive ? 'Health Check Complete' : 'Health Check Started',
+      message: healthCheckActive ? 
+        'System health check completed. All diagnostics returned to normal monitoring.' : 
+        'Comprehensive system health check initiated. PTS performance optimization in progress.',
+      duration: 4000
+    });
+
+    if (!healthCheckActive) {
+      setTimeout(() => {
+        setHealthCheckActive(false);
+        addToast({
+          type: 'success',
+          title: 'Health Check Complete',
+          message: 'System health check completed. PTS performance optimized successfully.',
+          duration: 3000
+        });
+      }, 12000);
+    }
+  };
+
+  // AI Advisory Click Handler
+  const handleAIAdvisoryClick = () => {
+    setShowAIAdvisoryModal(true);
+    setActiveTab('overview');
+  };
+
+  const handleAIRecommendationExecute = () => {
+    setAiRecommendationExecuted(!aiRecommendationExecuted);
+    addToast({
+      type: aiRecommendationExecuted ? 'info' : 'success',
+      title: aiRecommendationExecuted ? 'AI Optimization Disabled' : 'AI Recommendations Executed',
+      message: aiRecommendationExecuted ? 
+        'AI optimization disabled. Systems returned to baseline performance.' : 
+        'AI-powered optimization applied. System performance enhanced across all components.',
+      duration: 5000
+    });
+  };
+
+  const handleSystemClick = (system: SystemHealth) => {
+    setSelectedSystem(system);
+    setActiveTab('overview');
+    setShowModal(true);
+  };
+
+  const handleComponentClick = (component: SystemComponent) => {
+    setSelectedComponent(component);
+    setActiveTab('overview');
+    setShowComponentModal(true);
+  };
+
+  const handleExecuteSOP = (componentId: string, componentName: string) => {
+    setExecutedSOPs(prev => ({
+      ...prev,
+      [componentId]: true
+    }));
+
+    setShowComponentModal(false);
+    setSelectedComponent(null);
+
+    addToast({
+      type: 'success',
+      title: 'SOP Executed Successfully',
+      message: `Standard Operating Procedure executed for ${componentName}. System optimization in progress.`,
+      duration: 5000
+    });
+
+    setTimeout(() => {
+      setExecutedSOPs(prev => ({
+        ...prev,
+        [componentId]: false
+      }));
+      
+      addToast({
+        type: 'info',
+        title: 'SOP Execution Complete',
+        message: `${componentName} optimization completed. System returned to normal monitoring.`,
+        duration: 3000
+      });
+    }, 30000);
+  };
+
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case 'online':
+        return <CheckCircle className="w-4 h-4 text-status-neutral" />;
+      case 'warning':
+        return <AlertTriangle className="w-4 h-4 text-status-warning" />;
+      case 'offline':
+        return <XCircle className="w-4 h-4 text-status-error" />;
+      default:
+        return <Activity className="w-4 h-4 text-text-muted" />;
+    }
+  };
+
+  const getStatusTextColor = (status: string) => {
+    switch (status) {
+      case 'online':
+        return 'text-status-neutral';
+      case 'warning':
+        return 'text-status-warning';
+      case 'offline':
+        return 'text-status-error';
+      default:
+        return 'text-text-muted';
+    }
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'online':
+        return 'bg-status-neutral/10 text-status-neutral border-status-neutral/30';
+      case 'warning':
+        return 'bg-status-warning/10 text-status-warning border-status-warning/30';
+      case 'offline':
+        return 'bg-status-error/10 text-status-error border-status-error/30';
+      default:
+        return 'bg-primary-600/30 text-text-muted border-primary-600/50';
+    }
+  };
+
+  const getComponentStatusColor = (status: string) => {
+    switch (status) {
+      case 'operational':
+        return 'bg-status-neutral';
+      case 'warning':
+        return 'bg-status-warning';
+      case 'critical':
+        return 'bg-status-error';
+      default:
+        return 'bg-primary-500';
+    }
+  };
+
+  // Component Modal
+  const ComponentModal = () => (
+    <AnimatePresence>
+      {showComponentModal && selectedComponent && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[9998]"
+          onClick={() => setShowComponentModal(false)}
+        >
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.9, opacity: 0 }}
+            className="glass-panel-strong rounded-xl p-5 max-w-4xl w-full max-h-[90vh] overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-bold text-text-primary">{selectedComponent.name}</h2>
+              <button
+                onClick={() => setShowComponentModal(false)}
+                className="text-text-muted hover:text-text-primary transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="flex space-x-1 mb-4 bg-primary-700/30 p-1 rounded-lg">
+              {['overview', 'trends', 'insights', 'actions', 'evidence'].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`flex-1 py-2 px-4 text-sm font-medium rounded-lg transition-all ${
+                    activeTab === tab
+                      ? 'bg-accent-blue text-white'
+                      : 'text-text-muted hover:text-text-primary'
+                  }`}
+                >
+                  {tab === 'actions' ? 'Action Items' : tab.charAt(0).toUpperCase() + tab.slice(1)}
+                </button>
+              ))}
+            </div>
+
+            <div className="h-96 overflow-y-auto">
+              {activeTab === 'overview' && (
+                <div className="space-y-3">
+                  <div className="grid grid-cols-3 gap-3">
+                    <div className="glass-pill glass-pill-blue p-3">
+                      <h4 className="text-sm font-semibold text-text-muted mb-2">Status</h4>
+                      <div className="flex items-center space-x-2">
+                        <div className={`w-3 h-3 rounded-full ${getComponentStatusColor(selectedComponent.status)}`}></div>
+                        <span className={`font-medium ${getStatusTextColor(selectedComponent.status)}`}>
+                          {selectedComponent.status.toUpperCase()}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="glass-pill glass-pill-teal p-3">
+                      <h4 className="text-sm font-semibold text-text-muted mb-2">Success Rate</h4>
+                      <span className="text-text-primary font-medium flex items-center">
+                        {selectedComponent.detailedMetrics.successRate}%
+                      </span>
+                    </div>
+                    <div className="glass-pill glass-pill-violet p-3">
+                      <h4 className="text-sm font-semibold text-text-muted mb-2">Queue Length</h4>
+                      <span className="text-text-primary font-medium flex items-center">
+                        {selectedComponent.detailedMetrics.queueLength}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {activeTab === 'actions' && (
+                <div className="space-y-4">
+                  <div className="glass-panel rounded-lg p-4">
+                    <h4 className="text-base font-semibold text-text-primary mb-3">Primary Actions</h4>
+                    <div className="space-y-3">
+                      <div className="border-b border-accent-blue/15 pb-3">
+                        <div className="flex items-center justify-between mb-2">
+                          <h5 className="text-text-primary font-medium">Execute Optimization SOP</h5>
+                          <div className="flex items-center space-x-2">
+                            <span className="text-xs text-accent-blue">Confidence: 99%</span>
+                            <span className="text-xs text-status-neutral">Routine</span>
+                          </div>
+                        </div>
+                        <p className="text-sm text-text-muted mb-3">
+                          Implement AI-recommended optimization with expected {selectedComponent.status === 'warning' ? '25%' : '8%'} performance improvement
+                        </p>
+                        <div className="flex space-x-3">
+                          <button
+                            onClick={() => handleExecuteSOP(selectedComponent.id, selectedComponent.name)}
+                            disabled={executedSOPs[selectedComponent.id]}
+                            className={`btn min-w-[9rem] ${
+                              executedSOPs[selectedComponent.id]
+                                ? 'btn-secondary opacity-60 cursor-not-allowed'
+                                : 'btn-primary'
+                            }`}
+                          >
+                            {executedSOPs[selectedComponent.id] ? '✓ SOP Executed' : 'Execute SOP'}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {activeTab !== 'overview' && activeTab !== 'actions' && (
+                <div className="flex items-center justify-center h-full">
+                  <div className="text-center">
+                    <TrendingUp className="w-10 h-10 text-text-muted mx-auto mb-3" />
+                    <p className="text-text-muted">Content for {activeTab} tab will be displayed here.</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+
+  // AI Advisory Modal (Similar to other system modals)
+  const AIAdvisoryModal = () => (
+    <AnimatePresence>
+      {showAIAdvisoryModal && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[9998]"
+          onClick={() => setShowAIAdvisoryModal(false)}
+        >
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.9, opacity: 0 }}
+            className="glass-panel-strong rounded-xl p-5 max-w-4xl w-full max-h-[90vh] overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-bold text-text-primary">AI Advisory & Recommendations</h2>
+              <button
+                onClick={() => setShowAIAdvisoryModal(false)}
+                className="text-text-muted hover:text-text-primary transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="flex space-x-1 mb-4 bg-primary-700/30 p-1 rounded-lg">
+              {['overview', 'analytics', 'predictions', 'actions', 'execution'].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`flex-1 py-2 px-4 text-sm font-medium rounded-lg transition-all ${
+                    activeTab === tab
+                      ? 'bg-accent-blue text-white'
+                      : 'text-text-muted hover:text-text-primary'
+                  }`}
+                >
+                  {tab === 'actions' ? 'Action Items' : tab.charAt(0).toUpperCase() + tab.slice(1)}
+                </button>
+              ))}
+            </div>
+
+            <div className="h-96 overflow-y-auto">
+              {activeTab === 'overview' && (
+                <div className="space-y-4">
+                  {/* AI Status Display */}
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="glass-pill glass-pill-blue p-3">
+                      <h4 className="text-sm font-semibold text-text-muted mb-2">AI Status</h4>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-3 h-3 rounded-full bg-status-neutral"></div>
+                        <span className="text-status-neutral font-medium">OPERATIONAL</span>
+                      </div>
+                    </div>
+                    <div className="glass-pill glass-pill-teal p-3">
+                      <h4 className="text-sm font-semibold text-text-muted mb-2">Confidence Level</h4>
+                      <span className="text-text-primary font-medium">97.5%</span>
+                    </div>
+                  </div>
+
+                  {/* Key Metrics Grid - NOW 5 COLUMNS */}
+                  <div className="grid grid-cols-5 gap-3">
+                    {[
+                      { value: `${aiAdvisoryData.apiSuccessRate}%`, trend: aiAdvisoryData.apiSuccessRateTrend, label: 'API Success', tint: 'glass-pill-blue' },
+                      { value: `${aiAdvisoryData.avgResponseTime}ms`, trend: aiAdvisoryData.responseTimeTrend, label: 'Response Time', tint: 'glass-pill-teal' },
+                      { value: aiAdvisoryData.activeConnections, trend: aiAdvisoryData.connectionsTrend, label: 'Connections', tint: 'glass-pill-violet' },
+                      { value: aiAdvisoryData.dataProcessed, trend: aiAdvisoryData.dataProcessedTrend, label: 'Data/hr', tint: 'glass-pill-neutral' },
+                      { value: aiAdvisoryData.cpuUsage, trend: aiAdvisoryData.cpuUsageTrend, label: 'CPU Usage', tint: 'glass-pill-blue' },
+                    ].map((tile) => (
+                      <div key={tile.label} className={`glass-pill ${tile.tint} p-3`}>
+                        <div className="text-xl font-bold text-text-primary flex items-center">
+                          {tile.value}
+                          <TrendArrow trend={tile.trend} />
+                        </div>
+                        <div className="text-xs text-text-muted">{tile.label}</div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* AI Analysis Summary */}
+                  <div className="glass-panel rounded-lg p-3">
+                    <h4 className="text-sm font-semibold text-text-muted mb-2">AI Analysis Summary</h4>
+                    <p className="text-text-secondary">
+                      AI-powered analysis of passenger system performance indicates optimal operational efficiency across most components.
+                      PCDS system requires immediate attention. PTS performance can be improved through algorithm optimization.
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {activeTab === 'actions' && (
+                <div className="space-y-4">
+                  <div className="glass-panel rounded-lg p-4">
+                    <h4 className="text-base font-semibold text-text-primary mb-3">AI Recommendations</h4>
+
+                    <div className="space-y-3">
+                      {aiAdvisoryData.recommendations.map((recommendation, index) => (
+                        <div key={index} className="border-b border-accent-blue/15 pb-3 last:border-b-0">
+                          <div className="flex items-center justify-between mb-2">
+                            <h5 className="text-text-primary font-medium">Recommendation #{index + 1}</h5>
+                            <div className="flex items-center space-x-2">
+                              <span className="text-xs text-accent-blue">High Priority</span>
+                              <span className="text-xs text-accent-blue">AI Generated</span>
+                            </div>
+                          </div>
+                          <p className="text-sm text-text-muted mb-1">
+                            {recommendation}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {activeTab === 'execution' && (
+                <div className="space-y-4">
+                  <div className="glass-panel rounded-lg p-4">
+                    <h4 className="text-base font-semibold text-text-primary mb-3">Execute AI Recommendations</h4>
+
+                    <div className="space-y-3">
+                      <div className="border-b border-accent-blue/15 pb-3">
+                        <div className="flex items-center justify-between mb-2">
+                          <h5 className="text-text-primary font-medium">System-wide AI Optimization</h5>
+                          <div className="flex items-center space-x-2">
+                            <span className="text-xs text-accent-blue">Confidence: 97.5%</span>
+                            <span className="text-xs text-status-neutral">Safe</span>
+                          </div>
+                        </div>
+                        <p className="text-sm text-text-muted mb-3">
+                          Apply AI-powered optimizations across all passenger systems with expected 23% overall performance improvement
+                        </p>
+
+                        <div className="flex space-x-3">
+                          <button
+                            onClick={handleAIRecommendationExecute}
+                            className={`btn min-w-[13rem] ${aiRecommendationExecuted ? 'btn-secondary' : 'btn-primary'}`}
+                          >
+                            <Zap className="w-4 h-4" />
+                            <span>{aiRecommendationExecuted ? '✓ AI Optimization Active' : 'Execute AI Optimization'}</span>
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Execution Status */}
+                      {aiRecommendationExecuted && (
+                        <div className="glass-panel rounded-lg p-3 border border-status-neutral/30 bg-status-neutral/10">
+                          <div className="flex items-center space-x-3">
+                            <CheckCircle className="w-5 h-5 text-status-neutral" />
+                            <div>
+                              <h6 className="text-status-neutral font-medium">AI Optimization Executed Successfully</h6>
+                              <p className="text-status-neutral/80 text-sm">System performance enhanced across all components</p>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {activeTab !== 'overview' && activeTab !== 'actions' && activeTab !== 'execution' && (
+                <div className="flex items-center justify-center h-full">
+                  <div className="text-center">
+                    <Brain className="w-10 h-10 text-accent-blue mx-auto mb-3" />
+                    <p className="text-text-muted">AI {activeTab} content will be displayed here.</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="relative min-h-screen overflow-hidden"
+    >
+      <div className="relative z-10 space-y-4 p-4">
+        {/* FULL WIDTH AI Advisory - Now Clickable with 5 KPI Cards */}
+        <motion.div 
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          onClick={handleAIAdvisoryClick}
+          whileHover={{ y: -2 }}
+          className="relative overflow-hidden glass-panel-strong rounded-xl p-4 cursor-pointer transition-colors duration-200 group w-full"
+        >
+          <div className="relative z-10">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center space-x-3">
+                <Brain className="w-5 h-5 text-accent-blue" />
+                <h3 className="text-base font-semibold text-text-primary">AI Advisory & Recommendations</h3>
+                <InfoButtonWithPortal description="AI-powered analysis providing real-time recommendations for system optimization. Click to view detailed insights and execute recommendations." />
+              </div>
+            </div>
+            
+            {/* Compact Metrics Display - NOW 5 COLUMNS */}
+            <div className="grid grid-cols-5 gap-3">
+              {[
+                { value: `${aiAdvisoryData.apiSuccessRate}%`, trend: aiAdvisoryData.apiSuccessRateTrend, label: 'API Success', tint: 'glass-pill-blue' },
+                { value: `${aiAdvisoryData.avgResponseTime}ms`, trend: aiAdvisoryData.responseTimeTrend, label: 'Response Time', tint: 'glass-pill-teal' },
+                { value: aiAdvisoryData.activeConnections, trend: aiAdvisoryData.connectionsTrend, label: 'Connections', tint: 'glass-pill-violet' },
+                { value: aiAdvisoryData.dataProcessed, trend: aiAdvisoryData.dataProcessedTrend, label: 'Data/hr', tint: 'glass-pill-neutral' },
+                { value: aiAdvisoryData.cpuUsage, trend: aiAdvisoryData.cpuUsageTrend, label: 'CPU Usage', tint: 'glass-pill-blue' },
+              ].map((tile) => (
+                <div key={tile.label} className={`text-center glass-pill ${tile.tint} p-3`}>
+                  <div className={`text-xl font-bold flex items-center justify-center ${
+                    tile.label === 'API Success' || tile.label === 'Response Time' ? 'glow-text' : 'text-text-primary'
+                  }`}>
+                    {tile.value}
+                    <TrendArrow trend={tile.trend} />
+                  </div>
+                  <div className="text-xs text-text-muted">{tile.label}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* Click to view hint */}
+            <div className="mt-3 text-center">
+             {/*} <div className="inline-flex items-center space-x-2 text-accent-blue text-sm bg-accent-blue/10 px-3 py-1 rounded-full border border-accent-blue/50">
+                 <Eye className="w-3 h-3" />
+                <span>Click to view detailed AI insights and execute recommendations</span>
+              </div>*/}
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Enhanced Header - MOVED AFTER AI Advisory */}
+        <motion.div 
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          className="flex items-center justify-between"
+        >
+          <div className="flex items-center space-x-4">
+            <div className="p-2 bg-accent-blue/15 rounded-lg">
+              <Server className="w-5 h-5 text-accent-blue" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-text-primary">Passenger Systems</h1>
+              <p className="text-text-muted text-sm">Technical System Monitoring & Integration Health</p>
+            </div>
+            <InfoButtonWithPortal description="Monitor and manage all passenger processing systems including CUPPS, CUSS, PTS, SACS, BHS, and PCDS. Track system health, performance metrics, and integration status in real-time." />
+          </div>
+          
+          {/* Enhanced Emergency Actions */}
+          <div className="flex space-x-2">
+            <button
+              onClick={handleSystemRestart}
+              className={`btn min-w-[9rem] ${systemRestarting ? 'btn-danger-active' : 'btn-danger'}`}
+            >
+              <span>{systemRestarting ? 'Restarting...' : 'System Restart'}</span>
+            </button>
+
+            <button
+              onClick={handleActivateBackup}
+              className={`btn min-w-[9rem] ${backupActive ? 'btn-primary' : 'btn-secondary'}`}
+            >
+              <span>{backupActive ? 'Backup Active' : 'Activate Backup'}</span>
+            </button>
+
+            <button
+              onClick={handleHealthCheck}
+              className={`btn min-w-[8rem] ${healthCheckActive ? 'btn-primary' : 'btn-secondary'}`}
+            >
+              <span>{healthCheckActive ? 'Checking...' : 'Health Check'}</span>
+            </button>
+          </div>
+        </motion.div>
+
+        {/* System Health Grid */}
+        <motion.div 
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          className="relative"
+        >
+          <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {systems.map((system, index) => (
+              <motion.div
+                key={system.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="relative overflow-hidden p-4 rounded-xl border cursor-pointer transition-colors duration-200 group bg-primary-800/60 border-primary-600/40 hover:border-accent-blue/40"
+                whileHover={{ y: -2 }}
+                onClick={() => handleSystemClick(system)}
+              >
+                <div className="relative z-10">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center space-x-2">
+                      {getStatusIcon(system.status)}
+                      <span className="text-sm font-medium text-text-primary uppercase">{system.id}</span>
+                      <InfoButtonWithPortal description={`${system.name} - Monitor performance, uptime, and integration status. Click for detailed metrics and controls.`} />
+                    </div>
+                    <span className={`px-2 py-0.5 rounded-full text-xs font-semibold border ${getStatusColor(system.status)}`}>
+                      {system.status.toUpperCase()}
+                    </span>
+                  </div>
+
+                  <h3 className="text-base font-semibold text-text-primary mb-2 group-hover:text-accent-blue transition-colors duration-200">{system.name}</h3>
+                  
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-text-muted">Uptime</span>
+                      <span className="text-text-primary font-medium flex items-center">
+                        {system.uptime}%
+                        <TrendArrow trend={system.performance.trend} />
+                      </span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-text-muted">Response Time</span>
+                      <span className="text-text-primary font-medium">{system.responseTime}ms</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-text-muted">Throughput</span>
+                      <span className="text-text-primary font-medium">{system.throughput}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-text-muted">Passengers Processed</span>
+                      <span className="text-text-primary font-medium">{system.passengersProcessed.toLocaleString()}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-text-muted">Error Rate</span>
+                      <span className={`font-medium ${
+                        system.errorRate < 2 ? 'text-status-neutral' :
+                        system.errorRate < 5 ? 'text-status-warning' : 'text-status-error'
+                      }`}>{system.errorRate}%</span>
+                    </div>
+                  </div>
+
+                  <div className="mt-3">
+                    <div className="w-full bg-primary-700/50 rounded-full h-2 shadow-inner overflow-hidden">
+                      <div 
+                        className={`h-2 rounded-full transition-all duration-500 shadow-sm relative ${
+                          system.uptime >= 99 ? 'bg-status-neutral' :
+                          system.uptime >= 95 ? 'bg-status-warning' :
+                          'bg-status-error'
+                        }`}
+                        style={{ width: `${system.uptime}%` }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* System Architecture Diagram */}
+        <motion.div 
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          className="relative overflow-hidden glass-panel rounded-xl p-4"
+        >
+          <div className="relative z-10">
+            <div className="flex items-center space-x-3 mb-4">
+              <Database className="w-5 h-5 text-accent-blue" />
+              <h3 className="text-base font-semibold text-text-primary">System Architecture</h3>
+              <InfoButtonWithPortal description="Visual representation of passenger system architecture showing data flow between CUPPS, CUSS, PTS, SACS, BHS, and PCDS components. Click on any component for detailed information and actions." />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="space-y-3">
+                <h4 className="text-sm font-semibold text-text-muted mb-2">Passenger Processing Layer</h4>
+                <div className="space-y-2">
+                  {systemComponents.filter(comp => comp.layer === 'processing').map((component) => (
+                    <motion.div
+                      key={component.id}
+                      whileHover={{ y: -2 }}
+                      className="flex items-center justify-between p-3 bg-primary-800/60 rounded-lg cursor-pointer transition-colors duration-200 group border border-primary-600/40 hover:border-accent-blue/40"
+                      onClick={() => handleComponentClick(component)}
+                    >
+                      <span className="text-sm text-text-secondary font-medium group-hover:text-text-primary transition-colors">{component.name}</span>
+                      <div className="flex items-center space-x-2">
+                        {executedSOPs[component.id] && (
+                          <CheckCircle className="w-3 h-3 text-status-neutral" />
+                        )}
+                        <span className={`w-3 h-3 ${getComponentStatusColor(component.status)} rounded-full`}></span>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <h4 className="text-sm font-semibold text-text-muted mb-2">Security & Control Layer</h4>
+                <div className="space-y-2">
+                  {systemComponents.filter(comp => comp.layer === 'security').map((component) => (
+                    <motion.div
+                      key={component.id}
+                      whileHover={{ y: -2 }}
+                      className="flex items-center justify-between p-3 bg-primary-800/60 rounded-lg cursor-pointer transition-colors duration-200 group border border-primary-600/40 hover:border-accent-blue/40"
+                      onClick={() => handleComponentClick(component)}
+                    >
+                      <span className="text-sm text-text-secondary font-medium group-hover:text-text-primary transition-colors">{component.name}</span>
+                      <div className="flex items-center space-x-2">
+                        {executedSOPs[component.id] && (
+                          <CheckCircle className="w-3 h-3 text-status-neutral" />
+                        )}
+                        <span className={`w-3 h-3 ${getComponentStatusColor(component.status)} rounded-full`}></span>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <h4 className="text-sm font-semibold text-text-muted mb-2">Integration Layer</h4>
+                <div className="space-y-2">
+                  {systemComponents.filter(comp => comp.layer === 'integration').map((component) => (
+                    <motion.div
+                      key={component.id}
+                      whileHover={{ y: -2 }}
+                      className="p-3 bg-primary-800/60 rounded-lg text-center cursor-pointer transition-colors duration-200 group border border-primary-600/40 hover:border-accent-blue/40"
+                      onClick={() => handleComponentClick(component)}
+                    >
+                      <span className="text-sm text-text-secondary group-hover:text-text-primary transition-colors block mb-1">{component.name.replace(' Rate', '').replace(' Calls', '')}</span>
+                      <div className="text-lg font-bold text-text-primary group-hover:text-accent-blue transition-colors">
+                        {component.metrics?.dataFlow || component.metrics?.apiCalls || 'N/A'}
+                      </div>
+                      {executedSOPs[component.id] && (
+                        <CheckCircle className="w-3 h-3 text-status-neutral mx-auto mt-1" />
+                      )}
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Enhanced System Detail Modal */}
+        <DetailModal
+          isOpen={showModal}
+          onClose={() => setShowModal(false)}
+          title={selectedSystem?.name || 'System Details'}
+          data={{
+            Overview: {
+              title: selectedSystem?.name || '',
+              status: selectedSystem?.status || 'normal',
+              currentValue: selectedSystem?.uptime || 0,
+              unit: '%',
+              lastUpdated: new Date().toISOString(),
+              description: selectedSystem?.description || 'System monitoring and performance analytics',
+              keyMetrics: [
+                { id: '1', name: 'Uptime', value: selectedSystem?.uptime || 0, unit: '%', trend: selectedSystem?.performance.trend || 'stable', changePercent: selectedSystem?.performance.changePercent || 0 },
+                { id: '2', name: 'Response Time', value: selectedSystem?.responseTime || 0, unit: 'ms', trend: 'down', changePercent: -5.2 },
+                { id: '3', name: 'Throughput', value: parseFloat(selectedSystem?.throughput?.replace(/[^\d.]/g, '') || '0'), unit: 'req/min', trend: 'up', changePercent: 8.4 },
+                { id: '4', name: 'Passengers Processed', value: selectedSystem?.passengersProcessed || 0, unit: '', trend: 'up', changePercent: 15.7 },
+                { id: '5', name: 'Error Rate', value: selectedSystem?.errorRate || 0, unit: '%', trend: selectedSystem?.errorRate && selectedSystem.errorRate > 5 ? 'up' : 'down', changePercent: -2.1 },
+                { id: '6', name: 'CPU Usage', value: selectedSystem?.cpuUsage || 0, unit: '%', trend: 'stable', changePercent: 1.2 },
+              ],
+              relatedAssets: [
+                { id: '1', name: 'Primary Server', type: 'Hardware', status: selectedSystem?.status === 'online' ? 'operational' : 'degraded', location: 'Data Center A' },
+                { id: '2', name: 'Backup Server', type: 'Hardware', status: backupActive ? 'active' : 'standby', location: 'Data Center B' },
+                { id: '3', name: 'Load Balancer', type: 'Network', status: 'operational', location: 'Edge Network' },
+                { id: '4', name: 'Security Module', type: 'Security', status: selectedSystem?.securityLevel === 'High' ? 'operational' : 'warning', location: 'Security Zone' },
+              ],
+              alerts: selectedSystem?.alerts || []
+            }
+          }}
+        />
+
+        {/* Component Modal with Enhanced Data */}
+        <ComponentModal />
+
+        {/* AI Advisory Modal */}
+        <AIAdvisoryModal />
+      </div>
+    </motion.div>
+  );
+};
+
+export default PassengerSystems;

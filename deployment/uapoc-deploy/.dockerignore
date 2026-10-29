@@ -1,0 +1,31 @@
+# Keep the build context small and the image reproducible.
+
+# Installed fresh inside the image by `npm ci`; a Windows node_modules would
+# be wrong for the Linux container anyway.
+node_modules
+dist
+dist-ssr
+
+# Local settings. The image gets its broker settings from build args instead
+# (see the Dockerfile), so a developer's own .env never leaks into a build.
+.env
+.env.*
+!.env.example
+
+# Not used by the app — documents and reference material (~50 MB).
+*.docx
+research documents
+aveva dashboard referrence
+_osm
+
+# Tooling / local-only.
+.git
+.gitignore
+.bolt
+.vscode
+.idea
+_*.mjs
+_shots
+*.log
+docker-compose.yml
+.dockerignore

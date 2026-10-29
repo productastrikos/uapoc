@@ -1,0 +1,24 @@
+# docker compose up --build        → http://localhost:8080
+#
+# Compose reads the `.env` file next to this one for the ${...} values below,
+# so the same file that configures `npm run dev` also configures the image.
+# Without a .env, the defaults after `:-` apply (the public test broker).
+#
+# Remember: VITE_* values are fixed into the app at BUILD time. Change them in
+# .env and run `docker compose up --build` again for them to take effect.
+
+services:
+  uapoc:
+    build:
+      context: .
+      args:
+        VITE_MQTT_URL: ${VITE_MQTT_URL:-wss://broker.hivemq.com:8884/mqtt}
+        VITE_MQTT_TOPIC_PREFIX: ${VITE_MQTT_TOPIC_PREFIX:-astrikedge}
+        VITE_MQTT_NODE_ID: ${VITE_MQTT_NODE_ID:-pantherlake01}
+        VITE_MQTT_USERNAME: ${VITE_MQTT_USERNAME:-}
+        VITE_MQTT_PASSWORD: ${VITE_MQTT_PASSWORD:-}
+    image: uapoc:latest
+    container_name: uapoc
+    ports:
+      - "${PORT:-8080}:80"
+    restart: unless-stopped

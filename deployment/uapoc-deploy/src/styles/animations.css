@@ -1,0 +1,231 @@
+/* Shimmer Animation */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Pulse Glow Animation */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 5px rgba(59, 130, 246, 0.5); }
+  50% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.8), 0 0 30px rgba(59, 130, 246, 0.6); }
+}
+
+/* KPI Card Gradient Animation */
+@keyframes kpi-gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Floating Animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Fade In Up Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 40px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Slide In Right Animation */
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translate3d(30px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Utility Classes */
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+.glow-card {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.animate-kpi-gradient {
+  background: linear-gradient(-45deg, transparent, rgba(20, 184, 166, 0.1), rgba(234, 179, 8, 0.1), transparent);
+  background-size: 400% 400%;
+  animation: kpi-gradient 6s ease infinite;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.animate-slideInRight {
+  animation: slideInRight 0.4s ease-out;
+}
+
+/* Hide Scrollbars */
+.no-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+/* Animated Border */
+.animated-border {
+  position: relative;
+  overflow: hidden;
+}
+
+.animated-border::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #14b8a6, transparent);
+  animation: shimmer 2s infinite;
+}
+
+/* Interactive Hover Effects */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Loading Spinner */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin-slow {
+  animation: spin 3s linear infinite;
+}
+
+/* Gradient Backgrounds */
+.bg-gradient-mesh-1 {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.8) 50%, rgba(51, 65, 85, 0.8) 100%);
+}
+
+.bg-gradient-mesh-2 {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(51, 65, 85, 0.9) 50%, rgba(71, 85, 105, 0.9) 100%);
+}
+
+/* Status Indicators */
+.status-online {
+  background: linear-gradient(45deg, #10b981, #34d399);
+  animation: pulse 2s infinite;
+}
+
+.status-warning {
+  background: linear-gradient(45deg, #f59e0b, #fbbf24);
+  animation: pulse 2s infinite;
+}
+
+.status-critical {
+  background: linear-gradient(45deg, #ef4444, #f87171);
+  animation: pulse 2s infinite;
+}
+
+/* Modal Animations */
+.modal-backdrop {
+  backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+/* Progress Bars */
+.progress-bar {
+  background: linear-gradient(90deg, #14b8a6, #06b6d4, #3b82f6);
+  background-size: 200% 100%;
+  animation: kpi-gradient 3s ease infinite;
+}
+
+/* Emergency Button Styles */
+.emergency-button {
+  background: linear-gradient(45deg, #dc2626, #ef4444);
+  animation: pulse 2s infinite;
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+}
+
+.emergency-button:hover {
+  animation: none;
+  background: linear-gradient(45deg, #b91c1c, #dc2626);
+  box-shadow: 0 0 30px rgba(239, 68, 68, 0.5);
+}
+
+/* Glassmorphism — used sparingly, for chrome that should read as floating
+ * above the page (header, banners, modal surfaces) rather than every panel.
+ * `.glass-panel-strong` is the same treatment with a touch more opacity for
+ * surfaces that sit directly over busy/colorful content (e.g. a map). */
+.glass-panel {
+  /* Low enough alpha that the page's own glow-blob background (see
+   * `gradient-mesh` in tailwind.config.js) actually reads through the panel
+   * — that bleed-through is the whole effect in the reference boards. The
+   * backdrop-filter is doing the legibility work, not the fill color. */
+  /* Near-black (the palette's own #000521, not a blue navy) rather than a
+   * blue-tinted fill — against the now-vivid glow background, a blue card
+   * on a blue background reads as one soup; a dark card reads as a
+   * deliberate surface floating over the light. */
+  background: rgba(0, 5, 33, 0.4);
+  backdrop-filter: blur(20px) saturate(1.5);
+  -webkit-backdrop-filter: blur(20px) saturate(1.6);
+  border: 1px solid rgba(32, 120, 207, 0.22);
+  box-shadow: inset 0 1px 0 rgba(125, 160, 202, 0.12);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+.glass-panel:hover {
+  border-color: rgba(32, 120, 207, 0.45);
+  box-shadow: inset 0 1px 0 rgba(125, 160, 202, 0.16), 0 8px 32px rgba(2, 16, 36, 0.4), 0 0 24px rgba(32, 120, 207, 0.12);
+}
+
+.glass-panel-strong {
+  background: rgba(0, 3, 20, 0.62);
+  backdrop-filter: blur(24px) saturate(1.5);
+  -webkit-backdrop-filter: blur(24px) saturate(1.7);
+  border: 1px solid rgba(32, 120, 207, 0.26);
+  box-shadow: inset 0 1px 0 rgba(125, 160, 202, 0.14), 0 8px 40px rgba(0, 5, 33, 0.5);
+}
+
+/* The glow halo from the reference boards (the "Design System" card with a
+ * blue bloom around its edges) — a deliberate accent for the one or two
+ * hero elements per screen, not a default on every card. Stack on top of
+ * `.glass-panel`/`.glass-panel-strong`. */
+.glass-glow {
+  box-shadow: 0 0 60px rgba(32, 120, 207, 0.25), 0 0 1px rgba(32, 120, 207, 0.4), inset 0 1px 0 rgba(125, 160, 202, 0.15);
+}
+
+/* True overlay surfaces — a modal, drawer or fullscreen panel sitting on top
+ * of the whole page. Unlike the two above, this can never be left reading as
+ * see-through: the alpha alone (not the blur) carries full opacity, so the
+ * page behind is hidden even where backdrop-filter isn't rendered (older
+ * GPUs, some browser/OS combinations, or a transformed ancestor breaking the
+ * backdrop sample). Blur is layered on top only as a finishing touch. */
+.modal-surface {
+  background: #021024;
+  backdrop-filter: blur(22px) saturate(1.3);
+  -webkit-backdrop-filter: blur(22px) saturate(1.3);
+  border: 1px solid rgba(32, 120, 207, 0.25);
+  box-shadow: 0 20px 60px rgba(0, 5, 33, 0.6);
+}

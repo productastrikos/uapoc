@@ -1,0 +1,391 @@
+/* ---------------------------------------------------------------------------
+ * Light glass — the structure shared by Version 2 (blue) and Version 4 (mocha).
+ *
+ * Frosted panels floating over a slowly drifting aurora, a floating header, a
+ * deep-toned rail. Every colour comes from the variables each theme defines
+ * (--ac-c, --deep1-c, --page-c … in v2.css / v4.css), so the two themes share
+ * the layout and differ only in palette. Scoped to those themes: Version 1 and
+ * Version 3 never load a rule from this file.
+ * ------------------------------------------------------------------------- */
+
+
+/* ---- Type ---------------------------------------------------------------- */
+:is([data-theme="v2"], [data-theme="v4"]) body,
+:is([data-theme="v2"], [data-theme="v4"]) button,
+:is([data-theme="v2"], [data-theme="v4"]) input,
+:is([data-theme="v2"], [data-theme="v4"]) select,
+:is([data-theme="v2"], [data-theme="v4"]) textarea {
+  font-family: 'Manrope', 'Segoe UI', system-ui, sans-serif;
+  font-feature-settings: 'tnum' 1, 'cv11' 1;
+}
+:is([data-theme="v2"], [data-theme="v4"]) h1,
+:is([data-theme="v2"], [data-theme="v4"]) h2,
+:is([data-theme="v2"], [data-theme="v4"]) h3 {
+  letter-spacing: -0.02em;
+}
+
+/* ---- Page: pale blue field with a drifting aurora ------------------------- */
+:is([data-theme="v2"], [data-theme="v4"]) body {
+  background: rgb(var(--page-c));
+  color: rgb(var(--c-text-primary));
+}
+:is([data-theme="v2"], [data-theme="v4"]) .bg-gradient-mesh {
+  background-image:
+    radial-gradient(ellipse 55% 40% at 8% 0%, rgba(255, 255, 255, 0.55), transparent 70%),
+    linear-gradient(160deg, rgba(var(--page-c), 0) 0%, rgba(var(--wash-c), 0.55) 100%);
+  isolation: isolate;
+}
+:is([data-theme="v2"], [data-theme="v4"]) .bg-gradient-mesh::before {
+  content: '';
+  position: absolute;
+  inset: -10%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(38% 42% at 18% 22%, rgba(var(--aur1-c), 0.45), transparent 70%),
+    radial-gradient(34% 40% at 82% 18%, rgba(var(--aur2-c), 0.45), transparent 70%),
+    radial-gradient(40% 44% at 70% 88%, rgba(var(--aur3-c), 0.38), transparent 70%);
+  filter: blur(30px);
+  animation: v2-aurora 38s ease-in-out infinite alternate;
+}
+@keyframes v2-aurora {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  50%  { transform: translate3d(3%, 4%, 0) scale(1.06); }
+  100% { transform: translate3d(-4%, 2%, 0) scale(1.02); }
+}
+:is([data-theme="v2"], [data-theme="v4"]) .grain-overlay::after { display: none; }
+
+/* ---- Glass ---------------------------------------------------------------- */
+:is([data-theme="v2"], [data-theme="v4"]) .glass-panel,
+:is([data-theme="v2"], [data-theme="v4"]) .glass-panel-strong {
+  background: var(--v2-glass);
+  backdrop-filter: blur(26px) saturate(1.8);
+  -webkit-backdrop-filter: blur(26px) saturate(1.8);
+  border: 1px solid var(--v2-edge);
+  box-shadow: var(--v2-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+:is([data-theme="v2"], [data-theme="v4"]) .glass-panel-strong { background: var(--v2-glass-strong); }
+:is([data-theme="v2"], [data-theme="v4"]) .glass-panel:hover {
+  border-color: #fff;
+  box-shadow: var(--v2-shadow-lift), inset 0 1px 0 #fff;
+}
+:is([data-theme="v2"], [data-theme="v4"]) .glass-glow { box-shadow: 0 0 50px rgba(var(--ac-c), 0.18), var(--v2-shadow); }
+:is([data-theme="v2"], [data-theme="v4"]) .modal-surface {
+  background: rgba(var(--modal-c), 0.92);
+  backdrop-filter: blur(30px) saturate(1.6);
+  -webkit-backdrop-filter: blur(30px) saturate(1.6);
+  border: 1px solid #fff;
+  box-shadow: 0 28px 80px rgba(var(--shadow-c), 0.22);
+}
+/* cards written as `bg-primary-800/xx` get the same frost */
+:is([data-theme="v2"], [data-theme="v4"]) [class*="bg-primary-800/"],
+:is([data-theme="v2"], [data-theme="v4"]) [class*="bg-primary-900/"] {
+  backdrop-filter: blur(16px) saturate(1.5);
+  -webkit-backdrop-filter: blur(16px) saturate(1.5);
+}
+:is([data-theme="v2"], [data-theme="v4"]) [class*="bg-primary-800/"] { box-shadow: var(--v2-shadow); }
+:is([data-theme="v2"], [data-theme="v4"]) .glass-pill {
+  background: rgba(255, 255, 255, 0.62);
+  border: 1px solid var(--v2-edge);
+  box-shadow: var(--v2-shadow);
+}
+:is([data-theme="v2"], [data-theme="v4"]) .glass-pill:hover { box-shadow: var(--v2-shadow-lift); border-color: #fff; }
+:is([data-theme="v2"], [data-theme="v4"]) .glass-pill-blue,
+:is([data-theme="v2"], [data-theme="v4"]) .glass-pill-teal,
+:is([data-theme="v2"], [data-theme="v4"]) .glass-pill-violet,
+:is([data-theme="v2"], [data-theme="v4"]) .glass-pill-neutral {
+  background: linear-gradient(135deg, rgba(var(--ac-c), 0.10), rgba(255, 255, 255, 0.55) 60%), rgba(255, 255, 255, 0.5);
+}
+:is([data-theme="v2"], [data-theme="v4"]) .glow-text { color: rgb(var(--c-accent-glow)); text-shadow: none; }
+
+/* ---- Roundness ------------------------------------------------------------ */
+:is([data-theme="v2"], [data-theme="v4"]) .rounded-xl { border-radius: 1.25rem; }
+:is([data-theme="v2"], [data-theme="v4"]) .rounded-2xl { border-radius: 1.5rem; }
+:is([data-theme="v2"], [data-theme="v4"]) .rounded-lg { border-radius: 0.9rem; }
+
+/* ---- Controls ------------------------------------------------------------- */
+:is([data-theme="v2"], [data-theme="v4"]) .btn-secondary {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(var(--ac-c), 0.28);
+  color: rgb(var(--c-accent-blue));
+}
+:is([data-theme="v2"], [data-theme="v4"]) .btn-secondary:hover {
+  background: #fff;
+  border-color: rgba(var(--ac-c), 0.5);
+  box-shadow: 0 8px 22px rgba(var(--ac-c), 0.18);
+}
+:is([data-theme="v2"], [data-theme="v4"]) .btn-primary {
+  background: linear-gradient(180deg, var(--btn-1), var(--btn-2));
+  border-color: var(--btn-2);
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(var(--ac-c), 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+:is([data-theme="v2"], [data-theme="v4"]) .btn-primary:hover {
+  background: linear-gradient(180deg, var(--btn-1h), var(--btn-2h));
+  box-shadow: 0 10px 26px rgba(var(--ac-c), 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+:is([data-theme="v2"], [data-theme="v4"]) .btn-danger { background: rgba(255, 255, 255, 0.6); }
+:is([data-theme="v2"], [data-theme="v4"]) .chip {
+  background: rgba(var(--ac-c), 0.07);
+  color: rgb(var(--c-text-secondary));
+}
+:is([data-theme="v2"], [data-theme="v4"]) .chip:hover { background: rgba(var(--ac-c), 0.13); color: rgb(var(--c-text-primary)); }
+:is([data-theme="v2"], [data-theme="v4"]) .chip-active,
+:is([data-theme="v2"], [data-theme="v4"]) .chip-active:hover {
+  background: #fff;
+  color: rgb(var(--c-accent-blue));
+  box-shadow: 0 4px 14px rgba(var(--ac-c), 0.22);
+}
+:is([data-theme="v2"], [data-theme="v4"]) input,
+:is([data-theme="v2"], [data-theme="v4"]) select,
+:is([data-theme="v2"], [data-theme="v4"]) textarea {
+  color: rgb(var(--c-text-primary));
+}
+:is([data-theme="v2"], [data-theme="v4"]) input::placeholder,
+:is([data-theme="v2"], [data-theme="v4"]) textarea::placeholder { color: rgb(var(--c-text-muted)); }
+
+/* ---- Text that was hard-coded for a dark page ----------------------------- */
+:is([data-theme="v2"], [data-theme="v4"]) .text-white { color: rgb(var(--c-text-primary)); }
+:is([data-theme="v2"], [data-theme="v4"]) .btn-primary,
+:is([data-theme="v2"], [data-theme="v4"]) .btn-danger-active,
+:is([data-theme="v2"], [data-theme="v4"]) :is(.bg-accent-blue, .bg-status-errorBright, .bg-status-error, .bg-status-success, .bg-status-successDark) .text-white,
+:is([data-theme="v2"], [data-theme="v4"]) :is(.bg-accent-blue, .bg-status-errorBright, .bg-status-error).text-white { color: #fff; }
+:is([data-theme="v2"], [data-theme="v4"]) .text-gray-300,
+:is([data-theme="v2"], [data-theme="v4"]) .text-slate-300,
+:is([data-theme="v2"], [data-theme="v4"]) .text-slate-200,
+:is([data-theme="v2"], [data-theme="v4"]) .text-slate-100 { color: rgb(var(--c-text-secondary)); }
+:is([data-theme="v2"], [data-theme="v4"]) .text-gray-400,
+:is([data-theme="v2"], [data-theme="v4"]) .text-gray-500,
+:is([data-theme="v2"], [data-theme="v4"]) .text-slate-400,
+:is([data-theme="v2"], [data-theme="v4"]) .text-slate-500 { color: rgb(var(--c-text-muted)); }
+:is([data-theme="v2"], [data-theme="v4"]) .text-blue-200,
+:is([data-theme="v2"], [data-theme="v4"]) .text-blue-300,
+:is([data-theme="v2"], [data-theme="v4"]) .text-blue-400,
+:is([data-theme="v2"], [data-theme="v4"]) .text-teal-400,
+:is([data-theme="v2"], [data-theme="v4"]) .text-teal-500,
+:is([data-theme="v2"], [data-theme="v4"]) .text-teal-100 { color: rgb(var(--c-accent-blue)); }
+:is([data-theme="v2"], [data-theme="v4"]) .group:hover .group-hover\:text-teal-100 { color: rgb(var(--c-accent-blue)); }
+
+/* ---- Chrome: header and sidebar float ------------------------------------- */
+:is([data-theme="v2"], [data-theme="v4"]) header.fs-chrome {
+  margin: 12px 12px 0;
+  border-radius: 1.4rem;
+  background: var(--v2-glass-strong);
+  backdrop-filter: blur(26px) saturate(1.8);
+  -webkit-backdrop-filter: blur(26px) saturate(1.8);
+  border: 1px solid var(--v2-edge);
+  box-shadow: var(--v2-shadow);
+}
+/* the logos are white artwork — tint them ink so they read on a light bar */
+:is([data-theme="v2"], [data-theme="v4"]) img[src*="strikos"]:not([src*="solo"]):not([src*="Astrikos_solo"]),
+:is([data-theme="v2"], [data-theme="v4"]) header img[src*="astrikos"] {
+  filter: brightness(0) invert(13%) sepia(55%) saturate(2400%) hue-rotate(196deg) brightness(0.95) !important;
+}
+:is([data-theme="v2"], [data-theme="v4"]) header .bg-status-neutral\/80 {
+  background: #fff;
+  border-color: rgba(var(--ac-c), 0.25);
+}
+:is([data-theme="v2"], [data-theme="v4"]) header .bg-status-neutral\/80 svg { color: rgb(var(--c-accent-blue)); }
+:is([data-theme="v2"], [data-theme="v4"]) header [class*="border-accent-blue/"] { border-color: var(--v2-line); }
+
+:is([data-theme="v2"], [data-theme="v4"]) .fs-chrome.w-16 {
+  margin: 12px 0 12px 12px;
+  height: calc(100% - 24px);
+  border-radius: 1.4rem;
+  background: linear-gradient(180deg, rgba(var(--deep1-c), 0.96), rgba(var(--deep2-c), 0.96));
+  backdrop-filter: blur(26px) saturate(1.6);
+  -webkit-backdrop-filter: blur(26px) saturate(1.6);
+  border: 1px solid rgba(var(--rail-ink-c), 0.25);
+  box-shadow: 0 14px 40px rgba(var(--deep2-c), 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+:is([data-theme="v2"], [data-theme="v4"]) .fs-chrome.w-16 nav button {
+  color: rgba(var(--rail-ink-c), 0.72);
+  transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.25s ease, transform 0.2s ease;
+}
+:is([data-theme="v2"], [data-theme="v4"]) .fs-chrome.w-16 nav button:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+:is([data-theme="v2"], [data-theme="v4"]) .fs-chrome.w-16 nav button[class*="bg-accent-blue/20"] {
+  background: #fff;
+  color: var(--nav-ink);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+:is([data-theme="v2"], [data-theme="v4"]) .fs-chrome.w-16 img { filter: brightness(0) invert(1) !important; opacity: 0.85; }
+
+/* ---- Small things --------------------------------------------------------- */
+:is([data-theme="v2"], [data-theme="v4"]) ::selection { background: rgba(var(--ac-c), 0.22); }
+:is([data-theme="v2"], [data-theme="v4"]) hr,
+:is([data-theme="v2"], [data-theme="v4"]) .divide-y > * { border-color: var(--v2-line); }
+
+/* Charts bring their own hues; calm them so blue stays the page's one colour. */
+:is([data-theme="v2"], [data-theme="v4"]) .recharts-wrapper { filter: saturate(0.55); }
+
+/* Greys that were picked for a dark page become soft blue tints. */
+:is([data-theme="v2"], [data-theme="v4"]) .bg-gray-700,
+:is([data-theme="v2"], [data-theme="v4"]) .bg-gray-800,
+:is([data-theme="v2"], [data-theme="v4"]) .bg-slate-600 { background-color: rgba(var(--ac-c), 0.10); }
+:is([data-theme="v2"], [data-theme="v4"]) .bg-gray-700\/50 { background-color: rgba(var(--ac-c), 0.07); }
+:is([data-theme="v2"], [data-theme="v4"]) .bg-gray-500 { background-color: rgba(var(--mute-c), 0.45); }
+
+
+/* ===========================================================================
+ * Light glass — motion and depth (second pass)
+ * One orchestrated entrance, one ambient drift, and light that follows the
+ * pointer across glass. Nothing here changes layout or behaviour.
+ * ======================================================================== */
+
+/* -- Entrance: each module's blocks rise into place in sequence. Uses the
+ *    individual `translate`/`scale` properties and a backwards fill, so it
+ *    composes with Framer Motion's own transform/opacity and never overrides
+ *    them once it has finished. -------------------------------------------- */
+@keyframes v2-rise {
+  from { opacity: 0; translate: 0 10px; }
+  to   { opacity: 1; translate: 0 0; scale: 1; }
+}
+:is([data-theme="v2"], [data-theme="v4"]) main > div > div > *,
+:is([data-theme="v2"], [data-theme="v4"]) main > div > div > div > * {
+  animation: v2-rise 0.5s cubic-bezier(0.2, 0.75, 0.2, 1) backwards;
+}
+:is([data-theme="v2"], [data-theme="v4"]) main > div > div > :nth-child(1),
+:is([data-theme="v2"], [data-theme="v4"]) main > div > div > div > :nth-child(1) { animation-delay: 65ms; }
+:is([data-theme="v2"], [data-theme="v4"]) main > div > div > :nth-child(2),
+:is([data-theme="v2"], [data-theme="v4"]) main > div > div > div > :nth-child(2) { animation-delay: 100ms; }
+:is([data-theme="v2"], [data-theme="v4"]) main > div > div > :nth-child(3),
+:is([data-theme="v2"], [data-theme="v4"]) main > div > div > div > :nth-child(3) { animation-delay: 135ms; }
+:is([data-theme="v2"], [data-theme="v4"]) main > div > div > :nth-child(4),
+:is([data-theme="v2"], [data-theme="v4"]) main > div > div > div > :nth-child(4) { animation-delay: 170ms; }
+:is([data-theme="v2"], [data-theme="v4"]) main > div > div > :nth-child(5),
+:is([data-theme="v2"], [data-theme="v4"]) main > div > div > div > :nth-child(5) { animation-delay: 205ms; }
+:is([data-theme="v2"], [data-theme="v4"]) main > div > div > :nth-child(6),
+:is([data-theme="v2"], [data-theme="v4"]) main > div > div > div > :nth-child(6) { animation-delay: 240ms; }
+:is([data-theme="v2"], [data-theme="v4"]) main > div > div > :nth-child(7),
+:is([data-theme="v2"], [data-theme="v4"]) main > div > div > div > :nth-child(7) { animation-delay: 275ms; }
+:is([data-theme="v2"], [data-theme="v4"]) main > div > div > :nth-child(8),
+:is([data-theme="v2"], [data-theme="v4"]) main > div > div > div > :nth-child(8) { animation-delay: 310ms; }
+
+/* -- Glass: the one place with a gloss — stat pills catch the light. ------- */
+:is([data-theme="v2"], [data-theme="v4"]) .glass-pill {
+  background-image: linear-gradient(115deg, transparent 38%, rgba(255, 255, 255, 0.5) 50%, transparent 62%);
+  background-size: 260% 100%;
+  background-position: 130% 0;
+  background-repeat: no-repeat;
+  transition: background-position 0.9s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.35s ease, border-color 0.35s ease, transform 0.35s ease;
+}
+:is([data-theme="v2"], [data-theme="v4"]) .glass-pill:hover { background-position: -30% 0; transform: translateY(-2px); }
+:is([data-theme="v2"], [data-theme="v4"]) .glass-pill-blue,
+:is([data-theme="v2"], [data-theme="v4"]) .glass-pill-teal,
+:is([data-theme="v2"], [data-theme="v4"]) .glass-pill-violet,
+:is([data-theme="v2"], [data-theme="v4"]) .glass-pill-neutral {
+  background-image: linear-gradient(115deg, transparent 38%, rgba(255, 255, 255, 0.5) 50%, transparent 62%), linear-gradient(135deg, rgba(var(--ac-c), 0.12), rgba(255, 255, 255, 0.5) 60%);
+  background-size: 260% 100%, 100% 100%;
+  background-position: 130% 0, 0 0;
+}
+:is([data-theme="v2"], [data-theme="v4"]) .glass-pill-blue:hover,
+:is([data-theme="v2"], [data-theme="v4"]) .glass-pill-teal:hover,
+:is([data-theme="v2"], [data-theme="v4"]) .glass-pill-violet:hover,
+:is([data-theme="v2"], [data-theme="v4"]) .glass-pill-neutral:hover { background-position: -30% 0, 0 0; }
+
+/* -- Header: a thin light that travels along its lower edge. --------------- */
+:is([data-theme="v2"], [data-theme="v4"]) header.fs-chrome::after {
+  content: '';
+  position: absolute;
+  left: 1.6rem;
+  right: 1.6rem;
+  bottom: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, rgba(var(--ac-c), 0.85), rgba(var(--glint-c), 0.9), transparent);
+  background-size: 220% 100%;
+  animation: v2-sweep 7s linear infinite;
+  pointer-events: none;
+}
+@keyframes v2-sweep {
+  from { background-position: 220% 0; }
+  to   { background-position: -120% 0; }
+}
+
+/* -- Controls: a press you can feel. --------------------------------------- */
+:is([data-theme="v2"], [data-theme="v4"]) .btn:active,
+:is([data-theme="v2"], [data-theme="v4"]) .chip:active { transform: scale(0.96); transition-duration: 0.08s; }
+:is([data-theme="v2"], [data-theme="v4"]) .btn-primary { background-size: 100% 100%; }
+
+/* -- Overlays: navy-tinted frosted backdrop instead of black. -------------- */
+:is([data-theme="v2"], [data-theme="v4"]) .fixed.inset-0[class*="bg-black"] {
+  background-color: rgba(var(--deep2-c), 0.38);
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+}
+@keyframes v2-modal-in {
+  from { opacity: 0; scale: 0.96; translate: 0 14px; }
+  to   { opacity: 1; scale: 1; translate: 0 0; }
+}
+:is([data-theme="v2"], [data-theme="v4"]) .modal-surface { animation: v2-modal-in 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) backwards; }
+
+/* -- Login: the mark floats; the card is glass. ---------------------------- */
+@keyframes v2-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-9px); }
+}
+:is([data-theme="v2"], [data-theme="v4"]) img[src*="astrikos-icon"].h-24 { animation: v2-float 7s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  :is([data-theme="v2"], [data-theme="v4"]) *, :is([data-theme="v2"], [data-theme="v4"]) *::before, :is([data-theme="v2"], [data-theme="v4"]) *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Text on the navy primary button stays white, including nested spans/icons. */
+:is([data-theme="v2"], [data-theme="v4"]) .btn-primary,
+:is([data-theme="v2"], [data-theme="v4"]) .btn-primary *,
+:is([data-theme="v2"], [data-theme="v4"]) .btn-danger-active,
+:is([data-theme="v2"], [data-theme="v4"]) .btn-danger-active * { color: #fff; }
+
+
+/* ---- Navigation, aligned ---------------------------------------------------
+ * Console tab bars (Airside Overview / Airfield Ground Lighting …) are portalled
+ * into the header. In v1 they straddle its lower edge; on v2's floating header
+ * that read as hanging off it, so here they sit inside the bar, centred on its
+ * midline between the title and the logos. */
+:is([data-theme="v2"], [data-theme="v4"]) header.fs-chrome { z-index: 50; }
+:is([data-theme="v2"], [data-theme="v4"]) #console-tabs {
+  top: 50%;
+  bottom: auto;
+  transform: translate(-50%, -50%);
+}
+
+/* The rail floats above the page's glass, so its hover labels are never covered,
+ * and the labels get the navy of the rail rather than the pale panel tint. */
+:is([data-theme="v2"], [data-theme="v4"]) .fs-chrome.w-16 { position: relative; z-index: 60; }
+:is([data-theme="v2"], [data-theme="v4"]) .fs-chrome.w-16 > .fixed.left-16 {
+  margin-left: 1.15rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.7rem;
+  background: rgba(var(--deep2-c), 0.97);
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  box-shadow: 0 10px 28px rgba(var(--deep2-c), 0.35);
+}
+/* inside the header the tab bar is a quiet tinted track, not a second glass slab */
+:is([data-theme="v2"], [data-theme="v4"]) #console-tabs nav {
+  background: rgba(var(--ac-c), 0.08);
+  border: 1px solid var(--v2-line);
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+:is([data-theme="v2"], [data-theme="v4"]) #console-tabs nav button { line-height: 1.25; }
+:is([data-theme="v2"], [data-theme="v4"]) #console-tabs nav button.text-white { color: #fff; }
+
+/* A backdrop-filter on the rail makes it the containing block for its `fixed`
+ * hover label, which pushed every label away from its icon by the rail's own
+ * offset. The rail is opaque navy anyway, so it needs no blur — and without it
+ * the label positions against the viewport again, level with its icon. */
+:is([data-theme="v2"], [data-theme="v4"]) .fs-chrome.w-16 {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}

@@ -1,0 +1,159 @@
+/* ---------------------------------------------------------------------------
+ * Version 3 — "Dusk".
+ *
+ * A dark theme built on three colours from a twilight palette: deep indigo
+ * (#1D1A39) for the page, plum (#451952) for raised surfaces and a warm amber
+ * (#F39F5A) for everything interactive, with soft rose-beige (#E8BCB9) as the
+ * ink. It keeps Version 1's structure — docked header and rail, glass panels —
+ * and changes only colour, so it is scoped under [data-theme="v3"] and
+ * Version 1 never loads a rule from this file.
+ * ------------------------------------------------------------------------- */
+
+[data-theme="v3"] {
+  --c-primary-900: 22 19 44;
+  --c-primary-800: 29 26 57;
+  --c-primary-700: 69 25 82;
+  --c-primary-600: 108 44 110;
+  --c-primary-500: 150 66 120;
+  --c-primary: 243 159 90;
+
+  --c-accent-blue: 243 159 90;
+  --c-accent-blueHover: 255 184 124;
+  --c-accent-glow: 247 232 229;
+  --c-accent-teal: 232 140 150;
+  --c-accent-purple: 190 110 170;
+  --c-accent-gold: 243 159 90;
+
+  --c-ai-200: 247 226 223;
+  --c-ai-300: 232 188 185;
+  --c-ai-400: 214 140 150;
+  --c-ai-500: 174 68 90;
+  --c-ai-600: 140 50 80;
+  --c-ai-700: 90 30 90;
+  --c-ai-900: 40 15 55;
+
+  --c-text-primary: 247 232 229;
+  --c-text-secondary: 232 188 185;
+  --c-text-muted: 178 134 150;
+
+  --c-sim-50: 250 240 238;
+  --c-sim-100: 247 232 229;
+  --c-sim-200: 232 188 185;
+  --c-sim-300: 232 188 185;
+  --c-sim-400: 178 134 150;
+  --c-sim-500: 108 44 110;
+  --c-sim-600: 108 44 110;
+  --c-sim-700: 69 25 82;
+  --c-sim-800: 29 26 57;
+  --c-sim-900: 22 19 44;
+  --c-sim-950: 15 13 32;
+
+  /* "r, g, b" forms for the hand-written rules below */
+  --d-ac-c: 243, 159, 90;
+  --d-ink-c: 232, 188, 185;
+  --d-deep-c: 22, 19, 44;
+  --d-plum-c: 69, 25, 82;
+
+  /* the simulation scene palette (see sim-themes.css) */
+  --sc-0: #120f26; --sc-1: #1d1a39; --sc-2: #451952; --sc-3: #6c2c6e; --sc-ac: #f39f5a;
+  color-scheme: dark;
+}
+
+[data-theme="v3"] body { background: #16132c; }
+
+/* the page glow: plum and a little amber, instead of blue */
+[data-theme="v3"] .bg-gradient-mesh {
+  background-image:
+    radial-gradient(ellipse 60% 50% at 12% 8%, rgba(120, 44, 120, 0.45), transparent 70%),
+    radial-gradient(ellipse 50% 45% at 88% 92%, rgba(243, 159, 90, 0.14), transparent 70%),
+    radial-gradient(ellipse 45% 40% at 85% 12%, rgba(174, 68, 90, 0.2), transparent 70%);
+}
+
+/* ---- Surfaces ------------------------------------------------------------- */
+[data-theme="v3"] .glass-panel {
+  background: rgba(29, 26, 57, 0.55);
+  border: 1px solid rgba(var(--d-ink-c), 0.13);
+  box-shadow: inset 0 1px 0 rgba(var(--d-ink-c), 0.08);
+}
+[data-theme="v3"] .glass-panel:hover {
+  border-color: rgba(var(--d-ac-c), 0.4);
+  box-shadow: inset 0 1px 0 rgba(var(--d-ink-c), 0.12), 0 8px 32px rgba(var(--d-deep-c), 0.5), 0 0 24px rgba(var(--d-ac-c), 0.1);
+}
+[data-theme="v3"] .glass-panel-strong {
+  background: rgba(22, 19, 44, 0.72);
+  border: 1px solid rgba(var(--d-ink-c), 0.16);
+  box-shadow: inset 0 1px 0 rgba(var(--d-ink-c), 0.1), 0 8px 40px rgba(10, 8, 24, 0.5);
+}
+[data-theme="v3"] .glass-glow {
+  box-shadow: 0 0 60px rgba(var(--d-ac-c), 0.16), 0 0 1px rgba(var(--d-ac-c), 0.4), inset 0 1px 0 rgba(var(--d-ink-c), 0.12);
+}
+[data-theme="v3"] .modal-surface {
+  background: #181530;
+  border: 1px solid rgba(var(--d-ink-c), 0.16);
+  box-shadow: 0 20px 60px rgba(8, 6, 20, 0.65);
+}
+[data-theme="v3"] .glow-text { color: rgb(var(--c-accent-glow)); }
+
+/* ---- Controls ------------------------------------------------------------- */
+[data-theme="v3"] .btn-secondary {
+  background: rgba(var(--d-ac-c), 0.1);
+  border-color: rgba(var(--d-ac-c), 0.32);
+  color: #f9cfa8;
+}
+[data-theme="v3"] .btn-secondary:hover {
+  background: rgba(var(--d-ac-c), 0.2);
+  border-color: rgba(var(--d-ac-c), 0.55);
+  box-shadow: 0 4px 20px rgba(var(--d-ac-c), 0.22);
+}
+[data-theme="v3"] .btn-primary {
+  background: #f39f5a;
+  border-color: #f39f5a;
+  color: #1d1a39;
+}
+[data-theme="v3"] .btn-primary:hover {
+  background: #ffb87c;
+  border-color: #ffb87c;
+  box-shadow: 0 4px 24px rgba(var(--d-ac-c), 0.4);
+}
+[data-theme="v3"] .btn-primary,
+[data-theme="v3"] .btn-primary * { color: #1d1a39; }
+[data-theme="v3"] .chip-active,
+[data-theme="v3"] .chip-active:hover {
+  background: rgba(var(--d-ac-c), 0.22);
+  color: #f9cfa8;
+  box-shadow: 0 0 16px rgba(var(--d-ac-c), 0.25);
+}
+
+/* ---- Hard-coded blues and teals become the amber accent -------------------- */
+[data-theme="v3"] .text-blue-200,
+[data-theme="v3"] .text-blue-300,
+[data-theme="v3"] .text-blue-400,
+[data-theme="v3"] .text-teal-100,
+[data-theme="v3"] .text-teal-400,
+[data-theme="v3"] .text-teal-500 { color: #f9cfa8; }
+[data-theme="v3"] .text-gray-300,
+[data-theme="v3"] .text-slate-200,
+[data-theme="v3"] .text-slate-300 { color: rgb(var(--c-text-secondary)); }
+[data-theme="v3"] .text-gray-400,
+[data-theme="v3"] .text-gray-500,
+[data-theme="v3"] .text-slate-400,
+[data-theme="v3"] .text-slate-500 { color: rgb(var(--c-text-muted)); }
+[data-theme="v3"] .bg-gray-700,
+[data-theme="v3"] .bg-gray-800,
+[data-theme="v3"] .bg-slate-600 { background-color: rgba(var(--d-plum-c), 0.55); }
+[data-theme="v3"] .recharts-wrapper { filter: hue-rotate(38deg) saturate(0.8); }
+[data-theme="v3"] ::selection { background: rgba(var(--d-ac-c), 0.3); }
+[data-theme="v3"] .fixed.inset-0[class*="bg-black"] { background-color: rgba(10, 8, 24, 0.6); }
+
+[data-theme="v3"] .text-status-neutral { color: #f9cfa8; }
+
+/* stat pills carry their own blue gradients — recolour them to plum */
+[data-theme="v3"] .glass-pill,
+[data-theme="v3"] .glass-pill-blue,
+[data-theme="v3"] .glass-pill-teal,
+[data-theme="v3"] .glass-pill-violet,
+[data-theme="v3"] .glass-pill-neutral {
+  background: linear-gradient(150deg, rgba(108, 44, 110, 0.38), rgba(29, 26, 57, 0.75));
+  border-color: rgba(var(--d-ink-c), 0.14);
+}
+[data-theme="v3"] .glass-pill:hover { border-color: rgba(var(--d-ac-c), 0.4); }
